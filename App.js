@@ -1,9 +1,10 @@
+//import 'react-native-gesture-handler'; //docs say to import this or smth might crash.
+
 import React, { useEffect } from 'react';
 import { SafeAreaView, View, Text, ScrollView, FlatList } from 'react-native';
 import Signin from './src/screens/auth/Signin';
 import Splash from './src/screens/auth/Splash';
 import Signup from './src/screens/auth/Signup';
-import 'react-native-gesture-handler'; //docs say to import this or smth might crash.
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';

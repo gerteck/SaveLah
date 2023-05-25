@@ -16,7 +16,7 @@ const Splash = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Image resizeMode='contain' style={styles.image} source={require('../../../assets/splash_image.png')} />
+            <Image resizeMode='contain' style={styles.image} source={require('../../../assets/splash_image.jpg')} />
 
             <View style={styles.titleContainer}>
                 <Text style={styles.title}>You'll Find all your</Text>

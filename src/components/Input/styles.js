@@ -32,6 +32,7 @@ export const styles = StyleSheet.create({
     input: {
         paddingHorizontal: 16,
         paddingVertical: 20,
+        width: '100%',
     },
 
     eye: {

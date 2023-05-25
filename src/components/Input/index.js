@@ -31,6 +31,6 @@ const Input = ({label, placeholder, isPassword}) => {
 
 }
 
-export default Input;
+export default React.memo(Input);
 
 // export default React.memo(Input);

@@ -6,13 +6,14 @@ import Input from '../../../components/Input';
 import Separator from '../../../components/Separator';
 import { styles } from './styles';
 
-const Signin = () => {
+const Signin = ({ navigation }) => {
+    
     const onSignUp = () => {
-        console.log('HOLA');
+        navigation.navigate("Signup");
     }
 
     function onBack() {
-        console.log('onBack Pressed 1');
+        navigation.goBack();
     }
 
     return (

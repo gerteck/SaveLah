@@ -8,16 +8,21 @@ import Input from '../../../components/Input';
 import Separator from '../../../components/Separator';
 import { styles } from './styles';
 
-const Signup = () => {
+
+const Signup = ({ navigation }) => {
     const [checked, setChecked] = useState(false);
 
     const onSignIn = () => {
-        console.log('HELLO')
+        navigation.navigate("Signin");
+    }
+
+    const onBack = () => {
+        navigation.goBack();
     }
 
     return (
         <ScrollView style={styles.container}>
-            <AuthHeader title="Sign Up" />
+            <AuthHeader title="Sign Up" onBackPress={onBack}/>
 
             <Input label="Name" placeholder="John Doe" />
             <Input label="E-mail" placeholder="example@gmail.com" />

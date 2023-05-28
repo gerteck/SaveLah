@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Text, View, TextInput, Pressable, Image} from "react-native";
 import { styles } from './styles';
 
-const Input = ({label, placeholder, isPassword}) => {
+const Input = ({label, placeholder, isPassword, onChangeText, value}) => {
 
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -16,7 +16,8 @@ const Input = ({label, placeholder, isPassword}) => {
 
             <View style={styles.inputContainer}>
                 <TextInput secureTextEntry={isPassword && !isPasswordVisible} 
-                    placeholder={placeholder} style={styles.input}/>
+                    placeholder={placeholder} style={styles.input}
+                    value={value} onChangeText={onChangeText} />
                 
                 { isPassword ? (
                 <Pressable onPress={onEyePress}> 
@@ -25,6 +26,7 @@ const Input = ({label, placeholder, isPassword}) => {
                             : require('../../assets/eye_closed.png')}/>
                 </Pressable>
                 ) : null }
+
             </View>
         </View>
     )
@@ -32,5 +34,3 @@ const Input = ({label, placeholder, isPassword}) => {
 }
 
 export default React.memo(Input);
-
-// export default React.memo(Input);

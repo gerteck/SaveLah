@@ -4,8 +4,6 @@ import { styles } from './styles';
 
 const Button = ({title, onPress, style}) => {
 
-    console.log("Inside Button Rerender")
-
     return (
         // hitSlop={20}
         <TouchableOpacity activeOpacity={0.6} onPress={onPress} 

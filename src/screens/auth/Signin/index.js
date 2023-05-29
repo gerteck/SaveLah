@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { ScrollView, Text } from 'react-native';
+import { ScrollView, Text, Alert } from 'react-native';
 import AuthHeader from '../../../components/AuthHeader';
 import Button from '../../../components/Button';
 import Input from '../../../components/Input';
@@ -29,13 +29,18 @@ const Signin = ({ navigation }) => {
     const onLogin = async () => {
         try {
             if (!values?.email || !values?.password ) {
-                Alert.alert('All fields are required');
+                Alert.alert('Please fill up all fields!');
                 return;
             }
 
             console.log("Attempt Sign in")
             const token = await signin(values);
             setUser({token});
+
+            {
+                token ? console.log('success') : null;
+            }
+            
 
         } catch (error) {
             console.log('error logging in :>> ', error);

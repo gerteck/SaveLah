@@ -5,6 +5,7 @@ export const styles = StyleSheet.create({
     container: {
         padding: 24,
         marginTop: 20,
+        backgroundColor: colors.white,
     },
     agreeRow: {
         flexDirection: 'row',

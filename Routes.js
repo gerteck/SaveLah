@@ -26,7 +26,7 @@ const Tab = createBottomTabNavigator();
 const Tabs = () => {
 
   const TabScreenOptions = ({ route }) => ({
-    headerShown: true, //set to false
+    headerShown: false, 
     tabBarShowLabel: true, //set to false for aesthetics after finalizing
     tabBarHideOnKeyboard: true,
     

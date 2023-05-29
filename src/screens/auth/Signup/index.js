@@ -7,8 +7,8 @@ import Checkbox from '../../../components/Checkbox';
 import Input from '../../../components/Input';
 import Separator from '../../../components/Separator';
 import { styles } from './styles';
-import { UserContext } from '../../../../App';
 import { signup } from '../../../utils/backendCalls';
+import { UserContext } from '../../../../AppContext';
 
 
 const Signup = ({ navigation }) => {

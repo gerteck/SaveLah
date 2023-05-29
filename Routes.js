@@ -1,11 +1,9 @@
 //import 'react-native-gesture-handler'; //docs say to import this or smth might crash.
-
-import React, { useContext, useEffect, useState } from 'react';
-import { SafeAreaView, View, Text, ScrollView, FlatList } from 'react-native';
+import React, { useContext } from 'react';
 import { colors } from './src/utils/colors';
 
 //Global States
-import { UserContext } from './App';
+import { UserContext } from './AppContext';
 
 //For Routing and Navigation
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';

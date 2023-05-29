@@ -5,8 +5,9 @@ import Button from '../../../components/Button';
 import Input from '../../../components/Input';
 import Separator from '../../../components/Separator';
 import { styles } from './styles';
-import { UserContext } from '../../../../App';
 import { signin } from '../../../utils/backendCalls';
+import { UserContext } from '../../../../AppContext';
+
 
 const Signin = ({ navigation }) => {
     const {user, setUser} = useContext(UserContext);

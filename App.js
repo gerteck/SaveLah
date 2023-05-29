@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Routes from './Routes';
-export const UserContext = React.createContext({});
+import { UserContext } from './AppContext';
 
 const App = () => {
 

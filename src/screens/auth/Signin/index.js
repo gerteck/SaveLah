@@ -12,6 +12,7 @@ import { UserContext } from '../../../../AppContext';
 const Signin = ({ navigation }) => {
     const {user, setUser} = useContext(UserContext);
     const [values, setValues] = useState({});
+    const [loading, setLoading] = useState(false);
 
     const onSignUp = () => {
         navigation.navigate("Signup");
@@ -32,15 +33,19 @@ const Signin = ({ navigation }) => {
                 Alert.alert('Please fill up all fields!');
                 return;
             }
-
+            
+            setLoading(true);
             console.log("Attempt Sign in")
             const token = await signin(values);
-            setUser({token});
 
-            {
-                token ? console.log('success') : null;
+            if (token) {
+                console.log('success'); 
+                setUser({token});
+                return;                
+            } else {
+                Alert.alert('Log in failed :( Please check username or password');
+                setLoading(false);
             }
-            
 
         } catch (error) {
             console.log('error logging in :>> ', error);
@@ -54,7 +59,7 @@ const Signin = ({ navigation }) => {
             <Input label="E-mail" placeholder="example@gmail.com" onChangeText={(v) => onChange('email', v)}/>
             <Input label="Password" placeholder="********" isPassword onChangeText={(v) => onChange('password', v)} />
         
-            <Button onPress={onLogin} style={styles.button} title="Sign In"  />
+            <Button disabled={loading} onPress={onLogin} style={styles.button} title="Sign In"  />
 
             <Separator title="For Aesthetics" />
 

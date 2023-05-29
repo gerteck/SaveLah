@@ -15,6 +15,7 @@ const Signup = ({ navigation }) => {
     const [checked, setChecked] = useState(false);
     const [values, setValues] = useState({});
     const {user, setUser} = useContext(UserContext);
+    const [loading, setLoading] = useState(false);
 
 
     const onSignIn = () => {
@@ -42,9 +43,18 @@ const Signup = ({ navigation }) => {
                 return;
             }
             
+            setLoading(true);
+            console.log("Attempt Sign up")
             const token = await signup(values);
-            // console.log(token);
-            setUser({token});
+
+            if (token) {
+                console.log('success'); 
+                setUser({token});
+                return;                
+            } else {
+                Alert.alert('Sign up failed :( ');
+                setLoading(false);
+            }
             
         } catch(error) {
             console.log('Signup error :>> ', error);
@@ -64,7 +74,7 @@ const Signup = ({ navigation }) => {
                 <Text style={styles.agreeText}>I agree with <Text style={styles.agreeTextBold}>Terms</Text> & <Text style={styles.agreeTextBold}>Privacy</Text></Text>
             </View>
 
-            <Button onPress={onSubmit} style={styles.button} title="Sign Up"  />
+            <Button disabled={loading} onPress={onSubmit} style={styles.button} title="Sign Up"  />
 
             <Separator title="Aesthetic Purposes" />
 

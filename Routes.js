@@ -38,7 +38,7 @@ const Tabs = () => {
 };
 
 const Routes = () => {
-    const { user } = useAuthContext();
+    const { user, authIsReady } = useAuthContext();
 
     const MyTheme = {
         ...DefaultTheme,
@@ -50,36 +50,38 @@ const Routes = () => {
 
     return (
         <NavigationContainer theme={MyTheme}>
-            <Stack.Navigator>
-                {user && (
-                    <>
-                        <Stack.Screen
-                            name="Tabs"
-                            component={Tabs}
-                            options={{ headerShown: false }}
-                        />
-                    </>
-                )}
-                {!user && (
-                    <>
-                        <Stack.Screen
-                            name="Splash"
-                            component={Splash}
-                            options={{ headerShown: false }}
-                        />
-                        <Stack.Screen
-                            name="Signin"
-                            component={Signin}
-                            options={{ headerShown: false }}
-                        />
-                        <Stack.Screen
-                            name="Signup"
-                            component={Signup}
-                            options={{ headerShown: false }}
-                        />
-                    </>
-                )}
-            </Stack.Navigator>
+            {authIsReady && (
+                <Stack.Navigator>
+                    {user && (
+                        <>
+                            <Stack.Screen
+                                name="Tabs"
+                                component={Tabs}
+                                options={{ headerShown: false }}
+                            />
+                        </>
+                    )}
+                    {!user && (
+                        <>
+                            <Stack.Screen
+                                name="Splash"
+                                component={Splash}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="Signin"
+                                component={Signin}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="Signup"
+                                component={Signup}
+                                options={{ headerShown: false }}
+                            />
+                        </>
+                    )}
+                </Stack.Navigator>
+            )}
         </NavigationContainer>
     );
 };

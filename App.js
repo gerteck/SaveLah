@@ -17,12 +17,9 @@ const Stack = createStackNavigator();
 
 const App = () => {
 
-  // const [user, setUser] = useState();
-  
-
   return (
-    <AuthContextProvider>     
-      <Routes />
+    <AuthContextProvider>
+        <Routes />
     </AuthContextProvider>
 
   );

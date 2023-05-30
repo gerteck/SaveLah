@@ -8,7 +8,6 @@ export const signin = async (values) => {
             data: values,
         });
 
-        console.log(response);
         // Got Token, store in async storage.
         if (response?.data?.token) {
             // await AsyncStorage.setItem('auth_token', response?.data?.token); (For local storage)

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { ScrollView, Text } from 'react-native';
+import { ScrollView, Text, Alert } from 'react-native';
 import AuthHeader from '../../../components/AuthHeader';
 import Button from '../../../components/Button';
 import Input from '../../../components/Input';

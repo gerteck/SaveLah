@@ -12,7 +12,6 @@ import { styles } from './styles';
 // import { UserContext } from '../../../../App';
 // import { signup } from '../../../utils/backendCalls';
 
-
 const Signup = ({ navigation }) => {
     const [checked, setChecked] = useState(false);
     const [values, setValues] = useState({});

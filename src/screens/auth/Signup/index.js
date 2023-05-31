@@ -76,7 +76,7 @@ const Signup = ({ navigation }) => {
                 Already have an account?
                 <Text onPress={onSignIn} style={styles.footerLink}> Sign In</Text>
             </Text>
-            {error && <p>{error}</p>}
+            {error && <Text>{error}</Text>}
         </ScrollView>
     )
 }

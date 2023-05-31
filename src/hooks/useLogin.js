@@ -6,6 +6,7 @@ import {
     signInWithEmailAndPassword,
 } from "firebase/auth";
 import { useAuthContext } from "./useAuthContext";
+import { mapAuthCode } from "../firebase/mapAuthCode";
 
 export const useLogin = () => {
     const [isCancelled, setIsCancelled] = useState(false);
@@ -34,7 +35,8 @@ export const useLogin = () => {
             .catch((err) => {
                 if (!isCancelled) {
                     console.log(err.message);
-                    setError(err.message);
+                    console.log(err.code);
+                    setError(mapAuthCode(err.code));
                     setIsPending(false);
                 }
             });

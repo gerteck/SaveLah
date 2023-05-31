@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { projectAuth } from "../firebase/firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useAuthContext } from './useAuthContext';
+import { mapAuthCode } from "../firebase/mapAuthCode";
 
 export const useSignup = () => {
     const [isCancelled, setIsCancelled] = useState(false);
@@ -41,8 +42,10 @@ export const useSignup = () => {
 
             .catch((err) => {
                 console.log(err.message);
+                console.log(err.code);
+                console.log(mapAuthCode(err.code));
                 if(!isCancelled) {
-                    setError(err.message);
+                    setError(mapAuthCode(err.code));
                     setIsPending(false);
                 }
             });

@@ -1,12 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { ScrollView, Text, Alert } from 'react-native';
 import AuthHeader from '../../../components/AuthHeader';
 import Button from '../../../components/Button';
 import Input from '../../../components/Input';
 import Separator from '../../../components/Separator';
 import { styles } from './styles';
-// import { UserContext } from '../../../../App';
-// import { signin } from '../../../utils/backendCalls';
+
 import { useLogin } from '../../../hooks/useLogin';
 
 const Signin = ({ navigation }) => {

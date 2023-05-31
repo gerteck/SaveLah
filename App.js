@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
+//import 'react-native-gesture-handler'; //docs say to import this or smth might crash.
+
+import React, { useContext, useEffect, useState } from 'react';
+import { AuthContextProvider } from './src/context/AuthContext';
 import Routes from './Routes';
-import { UserContext } from './AppContext';
 
 const App = () => {
-
-  const [user, setUser] = useState();
-
   return (
-    <UserContext.Provider value={{user, setUser}}>
-      <Routes/>
-    </UserContext.Provider>
-
+    <AuthContextProvider>
+        <Routes />
+    </AuthContextProvider>
   );
 };
 

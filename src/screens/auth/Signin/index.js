@@ -5,13 +5,14 @@ import Button from '../../../components/Button';
 import Input from '../../../components/Input';
 import Separator from '../../../components/Separator';
 import { styles } from './styles';
-import { signin } from '../../../utils/backendCalls';
-import { UserContext } from '../../../../AppContext';
-
+// import { UserContext } from '../../../../App';
+// import { signin } from '../../../utils/backendCalls';
+import { useLogin } from '../../../hooks/useLogin';
 
 const Signin = ({ navigation }) => {
-    const {user, setUser} = useContext(UserContext);
+    // const {user, setUser} = useContext(UserContext);
     const [values, setValues] = useState({});
+    const { login, error, isPending } = useLogin();
 
     const onSignUp = () => {
         navigation.navigate("Signup");
@@ -34,8 +35,9 @@ const Signin = ({ navigation }) => {
             }
 
             console.log("Attempt Sign in")
-            const token = await signin(values);
-            setUser({token});
+            // const token = await 
+            login(values.email, values.password);
+            // setUser({token});
 
         } catch (error) {
             console.log('error logging in :>> ', error);
@@ -49,7 +51,8 @@ const Signin = ({ navigation }) => {
             <Input label="E-mail" placeholder="example@gmail.com" onChangeText={(v) => onChange('email', v)}/>
             <Input label="Password" placeholder="********" isPassword onChangeText={(v) => onChange('password', v)} />
         
-            <Button onPress={onLogin} style={styles.button} title="Sign In"  />
+            {!isPending && <Button onPress={onLogin} style={styles.button} title="Sign In"  />}
+            {isPending && <Button style={styles.button} disabled={true} title="loading" />}
 
             <Separator title="For Aesthetics" />
 
@@ -57,6 +60,7 @@ const Signin = ({ navigation }) => {
                 Don't have an account?
                 <Text onPress={onSignUp} style={styles.footerLink}> Sign Up</Text>
             </Text>
+            { error && <p>{ error }</p> }
         </ScrollView>
     )
 }

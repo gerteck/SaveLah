@@ -1,3 +1,5 @@
+import { useSignup } from '../../../hooks/useSignup';
+
 import React, { useContext, useState } from 'react';
 import { Alert, ScrollView, Text, View } from 'react-native';
 
@@ -7,15 +9,14 @@ import Checkbox from '../../../components/Checkbox';
 import Input from '../../../components/Input';
 import Separator from '../../../components/Separator';
 import { styles } from './styles';
-import { signup } from '../../../utils/backendCalls';
-import { UserContext } from '../../../../AppContext';
-
+// import { UserContext } from '../../../../App';
+// import { signup } from '../../../utils/backendCalls';
 
 const Signup = ({ navigation }) => {
     const [checked, setChecked] = useState(false);
     const [values, setValues] = useState({});
-    const {user, setUser} = useContext(UserContext);
-
+    // const {user, setUser} = useContext(UserContext);
+    const { signup, isPending, error} = useSignup();
 
     const onSignIn = () => {
         navigation.navigate("Signin");
@@ -42,9 +43,11 @@ const Signup = ({ navigation }) => {
                 return;
             }
             
-            const token = await signup(values);
+            // const token = await 
+            console.log('here')
+            signup(values.name, values.email, values.password);
             // console.log(token);
-            setUser({token});
+            // setUser({token});
             
         } catch(error) {
             console.log('Signup error :>> ', error);
@@ -64,7 +67,8 @@ const Signup = ({ navigation }) => {
                 <Text style={styles.agreeText}>I agree with <Text style={styles.agreeTextBold}>Terms</Text> & <Text style={styles.agreeTextBold}>Privacy</Text></Text>
             </View>
 
-            <Button onPress={onSubmit} style={styles.button} title="Sign Up"  />
+            {!isPending && <Button onPress={onSubmit} style={styles.button} title="Sign Up"  />}
+            {isPending && <Button style={styles.button} disabled={true} title="loading" />}
 
             <Separator title="Aesthetic Purposes" />
 
@@ -72,6 +76,7 @@ const Signup = ({ navigation }) => {
                 Already have an account?
                 <Text onPress={onSignIn} style={styles.footerLink}> Sign In</Text>
             </Text>
+            {error && <p>{error}</p>}
         </ScrollView>
     )
 }

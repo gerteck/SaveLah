@@ -21,16 +21,23 @@ export const styles = StyleSheet.create({
     },
 
     title: {
-        fontSize: 40, 
+        fontSize: 32, 
         fontWeight: 'bold',
         textAlign: "center",
         color: colors.black,
         fontFamily: 'Roboto',
     },
 
+    titleContainer: {
+        paddingBottom: 30,
+    },
+
     innerTitle: {
-        color: colors.orange,
-        textDecorationLine: 'underline',
+        color: colors.middleGrey,
+    },
+
+    footerContainer: {
+        paddingVertical: 8,
     },
 
     footerText: {

@@ -30,9 +30,8 @@ export const signup = async (values) => {
 
         if (response) {
             const { email, password } = values;
-            const signinResponse = await signin({email, password});
-            console.log("Signin After Signup :", signinResponse);
-            return signinResponse;
+            const token = await signin({email, password});
+            return token;
         }
 
     } catch (e) {

@@ -79,7 +79,7 @@ const Routes = () => {
     ...DefaultTheme,
     colors: {
         ...DefaultTheme.colors,
-        background: colors.white,  
+        background: colors.backgroundGrey,  
     
     },
   }

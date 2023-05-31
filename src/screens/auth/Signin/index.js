@@ -36,22 +36,7 @@ const Signin = ({ navigation }) => {
                 Alert.alert('Please fill up all fields!');
                 return;
             }
-            
-            setLoading(true);
-            console.log("Attempt Sign in")
-
-//             const token = await signin(values);
-
-//             if (token) {
-//                 console.log('success'); 
-//                 setUser({token});
-//                 return;                
-//             } else {
-//                 Alert.alert('Log in failed :( Please check username or password');
-//                 setLoading(false);
-//             }
-
-            // const token = await 
+        
             login(values.email, values.password);
             // setUser({token});
 

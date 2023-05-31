@@ -6,8 +6,8 @@ const Button = ({title, onPress, style, disabled}) => {
 
     return (
         // hitSlop={20}
-        <TouchableOpacity disabled={disabled} activeOpacity={0.6} onPress={onPress} 
-            style={ [styles.container, style]}>
+        <TouchableOpacity activeOpacity={0.6} onPress={onPress} 
+            style={ [styles.container, style]} disabled={disabled}>
             <Text style={styles.text}>{title}</Text>
         </TouchableOpacity>
     

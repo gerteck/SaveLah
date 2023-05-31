@@ -4,7 +4,8 @@ import { colors } from './src/utils/colors';
 import { Text, Image } from 'react-native';
 
 //Global States
-import { UserContext } from './AppContext';
+// import { UserContext } from './AppContext'; Now using a different context
+import { useAuthContext } from "./src/hooks/useAuthContext";
 
 //For Routing and Navigation
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
@@ -72,7 +73,7 @@ const Tabs = () => {
 
 const Routes = () => {
 
-  const {user} = useContext(UserContext);
+  const { user, authIsReady } = useAuthContext();
 
   const MyTheme = {
     ...DefaultTheme,
@@ -85,24 +86,40 @@ const Routes = () => {
 
   return (
     <NavigationContainer theme={MyTheme}>
-        <Stack.Navigator>
-          {user?.token ? (
-            <>
-              <Stack.Screen name="Tabs" component={Tabs} options={{headerShown: false}}/>
-            </>
-          ) : (
-            <>
-              <Stack.Screen name="Splash" component={Splash} options={{headerShown: false}}/>
-              <Stack.Screen name="Signin" component={Signin} options={{headerShown: false}}/>
-              <Stack.Screen name="Signup" component={Signup} options={{headerShown: false}}/>
-            </>
-          )}  
-
-
-      </Stack.Navigator>
+        {authIsReady && (
+            <Stack.Navigator>
+                {user && (
+                    <>
+                        <Stack.Screen
+                            name="Tabs"
+                            component={Tabs}
+                            options={{ headerShown: false }}
+                        />
+                    </>
+                )}
+                {!user && (
+                    <>
+                        <Stack.Screen
+                            name="Splash"
+                            component={Splash}
+                            options={{ headerShown: false }}
+                        />
+                        <Stack.Screen
+                            name="Signin"
+                            component={Signin}
+                            options={{ headerShown: false }}
+                        />
+                        <Stack.Screen
+                            name="Signup"
+                            component={Signup}
+                            options={{ headerShown: false }}
+                        />
+                    </>
+                )}
+            </Stack.Navigator>
+        )}
     </NavigationContainer>
-      
-  );
+);
 };
   
 export default React.memo(Routes);

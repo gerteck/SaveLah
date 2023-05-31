@@ -15,6 +15,10 @@ import { styles } from './styles';
 const Signup = ({ navigation }) => {
     const [checked, setChecked] = useState(false);
     const [values, setValues] = useState({});
+
+//     const {user, setUser} = useContext(UserContext); Used in past
+//     const [loading, setLoading] = useState(false);
+
     // const {user, setUser} = useContext(UserContext);
     const { signup, isPending, error} = useSignup();
 
@@ -43,6 +47,20 @@ const Signup = ({ navigation }) => {
                 return;
             }
             
+
+//             setLoading(true);
+//             console.log("Attempt Sign up")
+//             const token = await signup(values);
+
+//             if (token) {
+//                 console.log('success'); 
+//                 setUser({token});
+//                 return;                
+//             } else {
+//                 Alert.alert('Sign up failed :( ');
+//                 setLoading(false);
+//             }
+
             // const token = await 
             console.log('here')
             signup(values.name, values.email, values.password);

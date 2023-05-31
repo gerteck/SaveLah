@@ -4,7 +4,9 @@ import { styles } from './styles';
 
 const ComponentTemplate = ({title, onPress}) => {
     return (
-        <View>ComponentTemplate</View>
+        <View>
+            <Text>ComponentTemplate</Text>
+        </View>
     )
 }
 

@@ -8,9 +8,11 @@ import { NativeBaseProvider, Box } from "native-base";
 
 const App = () => {
   return (
-    <AuthContextProvider>
-        <Routes />
-    </AuthContextProvider>
+    <NativeBaseProvider>
+      <AuthContextProvider>
+          <Routes />
+      </AuthContextProvider>
+    </NativeBaseProvider>
   );
 };
 

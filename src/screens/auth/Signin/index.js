@@ -60,7 +60,7 @@ const Signin = ({ navigation }) => {
                 Don't have an account?
                 <Text onPress={onSignUp} style={styles.footerLink}> Sign Up</Text>
             </Text>
-            { error && <p>{ error }</p> }
+            { error && <Text>{ error }</Text> }
         </ScrollView>
     )
 }

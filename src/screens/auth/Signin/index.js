@@ -12,7 +12,10 @@ import { useLogin } from '../../../hooks/useLogin';
 const Signin = ({ navigation }) => {
     // const {user, setUser} = useContext(UserContext);
     const [values, setValues] = useState({});
+
+    //const [loading, setLoading] = useState(false); used in past
     const { login, error, isPending } = useLogin();
+
 
     const onSignUp = () => {
         navigation.navigate("Signup");
@@ -30,14 +33,28 @@ const Signin = ({ navigation }) => {
     const onLogin = async () => {
         try {
             if (!values?.email || !values?.password ) {
-                Alert.alert('All fields are required');
+                Alert.alert('Please fill up all fields!');
                 return;
             }
-
+            
+            setLoading(true);
             console.log("Attempt Sign in")
+
+//             const token = await signin(values);
+
+//             if (token) {
+//                 console.log('success'); 
+//                 setUser({token});
+//                 return;                
+//             } else {
+//                 Alert.alert('Log in failed :( Please check username or password');
+//                 setLoading(false);
+//             }
+
             // const token = await 
             login(values.email, values.password);
             // setUser({token});
+
 
         } catch (error) {
             console.log('error logging in :>> ', error);

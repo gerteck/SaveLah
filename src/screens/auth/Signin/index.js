@@ -37,7 +37,7 @@ const Signin = ({ navigation }) => {
                 return;
             }
             
-            setLoading(true);
+            // setLoading(true);
             console.log("Attempt Sign in")
 
 //             const token = await signin(values);

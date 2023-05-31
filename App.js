@@ -6,11 +6,10 @@ import Routes from './Routes';
 
 const App = () => {
   return (
-    <AuthContextProvider>
-        <Routes />
-    </AuthContextProvider>
+        <AuthContextProvider>
+            <Routes />
+        </AuthContextProvider>
   );
 };
 
 export default App;
-

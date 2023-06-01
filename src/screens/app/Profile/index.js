@@ -5,12 +5,23 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import AppHeader from "../../../components/AppHeader";
 
+import { useLogout } from "../../../hooks/useLogout";
+import Button from "../../../components/Button";
+
 
 const Profile = ( ) => {
-    
+    const { logout, error, isPending } = useLogout();
+
+    const onLogout = async () => {
+        logout();
+    }
+
     return (
         <SafeAreaView>
-            <AppHeader title="Profile" />
+            <AppHeader title="Profile" showBack />
+            {!isPending && <Button onPress={onLogout} style={styles.button} title="Log out"  />}
+            {isPending && <Button onPress={onLogout} style={styles.button} disabled={true} title="loading"  />}
+            { error && <p>{ error }</p> }
         </SafeAreaView>
     )
 }

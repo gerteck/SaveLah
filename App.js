@@ -4,6 +4,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AuthContextProvider } from './src/context/AuthContext';
 import Routes from './Routes';
 
+import { NativeBaseProvider, Box } from "native-base";
+
 const App = () => {
   return (
         <AuthContextProvider>

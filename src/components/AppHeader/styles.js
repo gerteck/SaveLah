@@ -15,7 +15,15 @@ export const styles = StyleSheet.create({
     title: {
         color: colors.black,
         fontSize: 16,
-        fontWeight: 'bold',
+        fontWeight: '800',
+    },
+
+    rightIcons: {
+        paddingRight: 8,
+    },
+
+    leftIcons: {
+        paddingLeft: 8,
     },
 
     icon: {

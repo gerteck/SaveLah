@@ -1,12 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { ScrollView, Text, Alert } from 'react-native';
 import AuthHeader from '../../../components/AuthHeader';
 import Button from '../../../components/Button';
 import Input from '../../../components/Input';
 import Separator from '../../../components/Separator';
 import { styles } from './styles';
-// import { UserContext } from '../../../../App';
-// import { signin } from '../../../utils/backendCalls';
+
 import { useLogin } from '../../../hooks/useLogin';
 
 const Signin = ({ navigation }) => {
@@ -36,22 +35,6 @@ const Signin = ({ navigation }) => {
                 Alert.alert('Please fill up all fields!');
                 return;
             }
-            
-            // setLoading(true);
-            console.log("Attempt Sign in")
-
-//             const token = await signin(values);
-
-//             if (token) {
-//                 console.log('success'); 
-//                 setUser({token});
-//                 return;                
-//             } else {
-//                 Alert.alert('Log in failed :( Please check username or password');
-//                 setLoading(false);
-//             }
-
-            // const token = await 
             login(values.email, values.password);
             // setUser({token});
 

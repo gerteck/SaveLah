@@ -9,27 +9,17 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@chakra-ui/react": "^2.7.0",
-    "@emotion/react": "^11.11.0",
-    "@emotion/styled": "^11.11.0",
     "@expo/webpack-config": "^18.0.1",
-    "@mantine/core": "^6.0.13",
-    "@mantine/dates": "^6.0.13",
-    "@mantine/form": "^6.0.13",
-    "@mantine/hooks": "^6.0.13",
-    "@mantine/notifications": "^6.0.13",
-    "@mantine/spotlight": "^6.0.13",
     "@react-native-async-storage/async-storage": "1.17.11",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/bottom-tabs": "^6.5.7",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/stack": "^6.3.16",
     "axios": "^1.4.0",
-    "dayjs": "^1.11.7",
     "expo": "~48.0.15",
     "expo-status-bar": "~1.4.4",
     "firebase": "^9.22.1",
-    "framer-motion": "^10.12.16",
+    "native-base": "^3.4.28",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.71.8",
@@ -37,7 +27,8 @@
     "react-native-reanimated": "~2.14.4",
     "react-native-safe-area-context": "4.5.0",
     "react-native-screens": "~3.20.0",
-    "react-native-web": "~0.18.10"
+    "react-native-web": "~0.18.10",
+    "react-native-svg": "13.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

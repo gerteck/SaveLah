@@ -4,10 +4,12 @@ import { styles } from './styles';
 
 import Input from "../Input";
 
-const AppHeader = ({   showBack, onBackPress, showCross, // Left Side Options
+const AppHeader = ({   
+                    // Left Side Options
+                    showBack, onBackPress, showCross, 
                     // Right Side Options:
                     showSearch, keyword, onSearch,
-                    showNotif, onNotif, 
+                    showBell, onBell, 
                     showChat, onChat,
                     title,
                 }) => {
@@ -23,21 +25,34 @@ const AppHeader = ({   showBack, onBackPress, showCross, // Left Side Options
             <View style={styles.container}>
                 
                 {/*Left Icons go Here*/}
+                <View style={styles.leftIcons}> 
                 {showBack ? (
-                    <Pressable onPress={onBackPress}> 
-                        <Image style={styles.icon} />
+                    <Pressable onPress={onBackPress} style={{height: 40, width: 40, elevation: 35}}> 
+                        <Image style={[styles.icon, {height: 40, width: 40}]} source={require('../../assets/appHeader/back.png')} />
                     </Pressable>
                 ) : showSearch ? (
                     <Pressable onPress={onSearchClick}> 
                         <Image style={styles.icon} />
                     </Pressable>
                 ) : <View style={styles.space}/> } 
+                </View> 
                 
                 {/*Title:*/}
+                <View> 
                 <Text style={styles.title}>{title}</Text>   
+                </View>
                 
                 {/*Right Icons go Here*/}
-                <View style={styles.space}/>
+                <View style={styles.rightIcons}> 
+                { showBell ? (
+                    <Pressable onPress={onBell}> 
+                        <Image source={require('../../assets/appHeader/bell.png')} style={styles.icon}  />
+                    </Pressable>
+                ) : (
+                    <View style={styles.space}/>
+                ) }
+                </View>
+                
 
             </View>
             {showSearchInput ? ( 

@@ -35,7 +35,6 @@ const Signin = ({ navigation }) => {
                 Alert.alert('Please fill up all fields!');
                 return;
             }
-        
             login(values.email, values.password);
             // setUser({token});
 

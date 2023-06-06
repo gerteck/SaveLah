@@ -54,6 +54,10 @@ const AppHeader = ({
                         {/* Add a container with save instead */}
                         <Image source={require('../../assets/appHeader/saveIcon.png')} style={[styles.icon, {height:28, width: 50}]}  />
                     </Pressable>
+                ) : showChat ? (
+                    <Pressable onPress={onChat}> 
+                        <Image source={require('../../assets/appHeader/chat.png')} style={styles.icon}  />
+                    </Pressable>
                 ) : (
                     <View style={styles.space}/>
                 ) }

@@ -9,8 +9,8 @@ import AppHeader from "../../../components/AppHeader";
 const ForumHome = ( ) => {
 
     return (
-        <SafeAreaView>
-            <AppHeader title="Forum" />
+        <SafeAreaView style={styles.mainContainer}>
+            <AppHeader title="Forum" showChat/>
         </SafeAreaView>
     )
 }

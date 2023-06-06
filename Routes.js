@@ -1,7 +1,7 @@
 //import 'react-native-gesture-handler'; //docs say to import this or smth might crash.
 import React, { useContext } from 'react';
 import { colors } from './src/utils/colors';
-import { Text, Image } from 'react-native';
+import { Text, View, Image } from 'react-native';
 
 //Global States
 // import { UserContext } from './AppContext'; Now using a different context
@@ -17,12 +17,27 @@ import Signup from './src/screens/auth/Signup';
 import Home from './src/screens/app/Home';
 import TransactionHistory from './src/screens/app/TransactionHistory';
 import AddTransaction from './src/screens/app/AddTransaction';
-import ForumHome from './src/screens/app/ForumHome';
 import Profile from './src/screens/app/Profile';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+//Forum Related
+import ForumHome from './src/screens/app/ForumHome';
 
 
-const Stack = createStackNavigator();
+
+const AuthStack = createStackNavigator();
+const ForumStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
+
+const Forum = () => {
+
+  return (
+    <ForumStack.Navigator>
+      <ForumStack.Screen name="ForumHome" component={ForumHome} options={{ headerShown: false }} />
+    </ForumStack.Navigator>
+  )
+}
 
 const Tabs = () => {
 
@@ -42,7 +57,7 @@ const Tabs = () => {
           icon = focused //if it is active
             ? require('./src/assets/tabBar/wallet_active.png')
             : require('./src/assets/tabBar/wallet.png')
-        } else if (route.name === 'ForumHome') {
+        } else if (route.name === 'Forum') {
           icon = focused //if it is active
             ? require('./src/assets/tabBar/forum_active.png')
             : require('./src/assets/tabBar/forum.png')
@@ -64,7 +79,7 @@ const Tabs = () => {
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="TransactionHistory" component={TransactionHistory} />
       <Tab.Screen name="AddTransaction" component={AddTransaction} />
-      <Tab.Screen name="ForumHome" component={ForumHome} />
+      <Tab.Screen name="Forum" component={Forum} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   )
@@ -87,36 +102,20 @@ const Routes = () => {
   return (
     <NavigationContainer theme={MyTheme}>
         {authIsReady && (
-            <Stack.Navigator>
+            <AuthStack.Navigator>
                 {user && (
                     <>
-                        <Stack.Screen
-                            name="Tabs"
-                            component={Tabs}
-                            options={{ headerShown: false }}
-                        />
+                        <AuthStack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
                     </>
                 )}
                 {!user && (
                     <>
-                        <Stack.Screen
-                            name="Splash"
-                            component={Splash}
-                            options={{ headerShown: false }}
-                        />
-                        <Stack.Screen
-                            name="Signin"
-                            component={Signin}
-                            options={{ headerShown: false }}
-                        />
-                        <Stack.Screen
-                            name="Signup"
-                            component={Signup}
-                            options={{ headerShown: false }}
-                        />
+                        <AuthStack.Screen name="Splash" component={Splash} options={{ headerShown: false }} />
+                        <AuthStack.Screen name="Signin" component={Signin} options={{ headerShown: false }} />
+                        <AuthStack.Screen name="Signup" component={Signup} options={{ headerShown: false }} />
                     </>
                 )}
-            </Stack.Navigator>
+            </AuthStack.Navigator>
         )}
     </NavigationContainer>
 );

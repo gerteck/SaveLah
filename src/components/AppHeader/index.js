@@ -51,6 +51,7 @@ const AppHeader = ({
                     </Pressable>
                 ) : showSave ? (
                     <Pressable onPress={onSave}> 
+                        {/* Add a container with save instead */}
                         <Image source={require('../../assets/appHeader/saveIcon.png')} style={[styles.icon, {height:28, width: 50}]}  />
                     </Pressable>
                 ) : (

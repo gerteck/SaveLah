@@ -4,7 +4,7 @@ import { colors } from '../../../utils/colors';
 
 export const styles = StyleSheet.create({
     mainContainer: {
-        padding: 18,
+        paddingHorizontal: 18,
     },
 
     welcome: {

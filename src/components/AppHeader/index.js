@@ -4,9 +4,9 @@ import { styles } from './styles';
 
 import Input from "../Input";
 
-const AppHeader = ({   
+const AppHeader = ({  style, 
                     // Left Side Options
-                    showBack, onBackPress, showCross, 
+                    showBack, onBack, showCross, 
                     // Right Side Options:
                     showSearch, keyword, onSearch,
                     showSave, onSave,
@@ -22,17 +22,17 @@ const AppHeader = ({
     }
 
     return (
-        <View style={styles.mainContainer}>
+        <View style={[styles.mainContainer, style]}>
             <View style={styles.container}>
                 
                 {/*Left Icons go Here*/}
                 <View style={styles.leftIcons}> 
                 {showBack ? (
-                    <Pressable onPress={onBackPress} style={{height: 40, width: 40, elevation: 35}}> 
+                    <Pressable onPress={onBack} style={{height: 40, width: 40, elevation: 35}}> 
                         <Image style={[styles.icon, {height: 40, width: 40}]} source={require('../../assets/appHeader/back.png')} />
                     </Pressable>
                 ) : showCross ? (
-                    <Pressable onPress={onBackPress}> 
+                    <Pressable onPress={onBack}> 
                         <Image style={styles.icon} source={require('../../assets/appHeader/crossIcon.png')} />
                     </Pressable>
                 ) : <View style={styles.space}/> } 

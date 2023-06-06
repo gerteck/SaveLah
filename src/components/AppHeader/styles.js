@@ -3,7 +3,7 @@ import { colors } from '../../utils/colors';
 
 export const styles = StyleSheet.create({
     mainContainer: {
-
+        
     },
     container: {
         flexDirection: 'row',

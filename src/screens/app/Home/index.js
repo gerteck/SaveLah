@@ -58,17 +58,15 @@ const Home = ( ) => {
 
 
     return (
-        <ScrollView style={styles.mainContainer}>
-            <AppHeader title="SaveLah" showBell/>
-            <Box content={Welcome}/>
-            <TouchableOpacity><Text style={styles.report}>See full report</Text></TouchableOpacity>
-            <Box content={PieChart}/>
-            <Box content={TopSpendings}/>
-
-
-
-
-        </ScrollView>
+        <SafeAreaView>
+            <ScrollView style={styles.mainContainer}>
+                <AppHeader title="SaveLah" showBell/>
+                <Box content={Welcome}/>
+                <TouchableOpacity><Text style={styles.report}>See full report</Text></TouchableOpacity>
+                <Box content={PieChart}/>
+                <Box content={TopSpendings}/>
+            </ScrollView>
+        </SafeAreaView>
     )
 }
 

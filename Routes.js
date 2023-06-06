@@ -22,7 +22,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 //Forum Related
 import ForumHome from './src/screens/app/ForumHome';
-
+import ForumAllChats from './src/screens/app/ForumAllChats';
+import ForumChat from './src/screens/app/ForumChat';
 
 
 const AuthStack = createStackNavigator();
@@ -35,6 +36,8 @@ const Forum = () => {
   return (
     <ForumStack.Navigator>
       <ForumStack.Screen name="ForumHome" component={ForumHome} options={{ headerShown: false }} />
+      <ForumStack.Screen name="ForumAllChats" component={ForumAllChats} options={{ headerShown: false }} />
+      <ForumStack.Screen name="ForumChat" component={ForumChat} options={{ headerShown: false }} />
     </ForumStack.Navigator>
   )
 }

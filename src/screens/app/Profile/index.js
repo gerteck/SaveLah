@@ -18,7 +18,7 @@ const Profile = ( ) => {
 
     return (
         <SafeAreaView>
-            <AppHeader title="Profile" showBack />
+            <AppHeader title="Profile" />
             {!isPending && <Button onPress={onLogout} style={styles.button} title="Log out"  />}
             {isPending && <Button onPress={onLogout} style={styles.button} disabled={true} title="loading"  />}
             { error && <p>{ error }</p> }

@@ -1,5 +1,5 @@
 import React from "react";
-import {FlatList, Text, View, Image } from "react-native";
+import {FlatList, Text, View, Image, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles }  from './styles';
 import AppHeader from "../../../components/AppHeader";
@@ -58,6 +58,15 @@ const Messages = [
         messageText:
           'Hey there, Im Christy this is my test for a post of my social app in React Native.',
       },
+
+      {
+        id: '8',
+        userName: 'Christy Alex',
+        userImg: require('../../../assets/DummyProfile.png'),
+        messageTime: '2 days ago',
+        messageText:
+          'Hey there, Im Christy this is my test for a post of my social app in React Native.',
+      },
   ];
 
 // key extractor is used to extract unique key for tracking item reordering
@@ -72,7 +81,9 @@ const ForumChats = ({ navigation }) => {
     const renderChats = ({item}) => {
         return (
             <>
-            <View style={styles.chatContainer}>
+            <Pressable style={styles.chatContainer} onPress={() => navigation.navigate('ForumChat', 
+                {name: item.userName})}>
+
                 <View style={styles.iconBubble}>
                     <Image style={styles.icon} source={item.userImg} />
                 </View>
@@ -82,8 +93,8 @@ const ForumChats = ({ navigation }) => {
                 </View>
                 <View style={{flex: 1}} />
                 <Text style={styles.time}>{item.messageTime}</Text>
+            </Pressable>
 
-            </View>
             <View style={styles.divider} />
             </>
         )

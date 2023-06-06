@@ -3,6 +3,9 @@ import { colors } from '../../../utils/colors';
 
 
 export const styles = StyleSheet.create({
+    mainContainer: {
+        padding: 18,
+    },
 
 
 })

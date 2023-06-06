@@ -9,6 +9,7 @@ const AppHeader = ({
                     showBack, onBackPress, showCross, 
                     // Right Side Options:
                     showSearch, keyword, onSearch,
+                    showSave, onSave,
                     showBell, onBell, 
                     showChat, onChat,
                     title,
@@ -30,9 +31,9 @@ const AppHeader = ({
                     <Pressable onPress={onBackPress} style={{height: 40, width: 40, elevation: 35}}> 
                         <Image style={[styles.icon, {height: 40, width: 40}]} source={require('../../assets/appHeader/back.png')} />
                     </Pressable>
-                ) : showSearch ? (
-                    <Pressable onPress={onSearchClick}> 
-                        <Image style={styles.icon} />
+                ) : showCross ? (
+                    <Pressable onPress={onBackPress}> 
+                        <Image style={styles.icon} source={require('../../assets/appHeader/crossIcon.png')} />
                     </Pressable>
                 ) : <View style={styles.space}/> } 
                 </View> 
@@ -46,7 +47,11 @@ const AppHeader = ({
                 <View style={styles.rightIcons}> 
                 { showBell ? (
                     <Pressable onPress={onBell}> 
-                        <Image source={require('../../assets/appHeader/bell.png')} style={styles.icon}  />
+                        <Image source={require('../../assets/appHeader/bell.png')} style={[styles.icon, {height:24, width: 24}]}  />
+                    </Pressable>
+                ) : showSave ? (
+                    <Pressable onPress={onSave}> 
+                        <Image source={require('../../assets/appHeader/saveIcon.png')} style={[styles.icon, {height:28, width: 50}]}  />
                     </Pressable>
                 ) : (
                     <View style={styles.space}/>

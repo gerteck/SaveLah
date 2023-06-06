@@ -17,7 +17,7 @@ const Input = ({label, placeholder, isPassword, onChangeText, value}) => {
             <View style={styles.inputContainer}>
                 <TextInput secureTextEntry={isPassword && !isPasswordVisible} 
                     placeholder={placeholder} style={styles.input}
-                    value={value} onChangeText={onChangeText}/>
+                    value={value} onChangeText={onChangeText} />
                 
                 { isPassword ? (
                 <Pressable onPress={onEyePress}> 

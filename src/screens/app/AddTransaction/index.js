@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { createRef, useState } from "react";
 import {Text, View, Alert, TouchableOpacity} from "react-native";
 import { styles }  from './styles';
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -17,8 +17,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 
 
-const AddTransaction = ( ) => {
-    const titleInput = useRef();
+const AddTransaction = ( {navigation} ) => {
     const amountInput = useRef();
 
     const { user } = useAuthContext();
@@ -52,7 +51,14 @@ const AddTransaction = ( ) => {
     useEffect(() => {
         if(response.success) {
             console.log('success');
+
+            onChangeStuff('title', "");
+            onChangeStuff('amount', "");
+            
+            navigation.navigate('TransactionHistory');
+
         }
+
     }, [response.success]);
 
     // Date Stuff
@@ -77,18 +83,6 @@ const AddTransaction = ( ) => {
       };
 
     const TransactionRecord = (<>
-        <TouchableOpacity>
-            <Text style={styles.cost}>S$0.00</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity>
-            <Text style={styles.cost}>Select Category</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity>
-            <Text style={styles.cost}>Description</Text>
-        </TouchableOpacity>
-
         <Button onPress={showDatepicker} title="Show date picker" />
         <Text>Date selected: {date.toLocaleDateString()}</Text> 
 
@@ -101,8 +95,8 @@ const AddTransaction = ( ) => {
             <Box content={TransactionRecord}/>
 
             <AppHeader title="Add Transaction" />
-            <Input label="Transaction title" placeholder="example" onChangeText={(v) => onChangeStuff('title', v)}/>
-            <Input label="Amount ($)" placeholder="100" onChangeText={(v) => onChangeStuff('amount', v)}/>
+            <Input label="Transaction title" placeholder="example" value={values.title} onChangeText={(x) => onChangeStuff('title', x)}/>
+            <Input label="Amount ($)" placeholder="100" value={values.amount} onChangeText={(x) => onChangeStuff('amount', x)}/>
             <Button onPress={onSend} style={styles.button} title="Add transaction"  />
             {/* {isPending && <Button style={styles.button} disabled={true} title="loading" />} */}
 

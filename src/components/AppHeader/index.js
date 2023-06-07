@@ -20,11 +20,11 @@ const AppHeader = ({  style,
             {/*Left Icons go Here*/}
             <View style={styles.leftIcons}> 
             {showBack ? (
-                <Pressable onPress={onBack} style={{height: 40, width: 40, elevation: 35}}> 
-                    <Image style={[styles.icon, {height: 40, width: 40}]} source={require('../../assets/appHeader/back.png')} />
+                <Pressable onPress={onBack} > 
+                    <Image style={styles.icon} source={require('../../assets/appHeader/back.png')} />
                 </Pressable>
             ) : showCross ? (
-                <Pressable onPress={onBack}> 
+                <Pressable onPress={onBack} style={{elevation: 35}}> 
                     <Image style={styles.icon} source={require('../../assets/appHeader/crossIcon.png')} />
                 </Pressable>
             ) : <View style={styles.space}/> } 

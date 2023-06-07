@@ -6,14 +6,21 @@ import AppHeader from "../../../components/AppHeader";
 
 // By Default, We use SafeAreaView to wrap. If displaying Image, might wnat to use normal view.
 
-const ScreenTemplate = ( ) => {
+const NewPost = ( { navigation } ) => {
     
+    const onBack = () => {
+        navigation.goBack();
+    };
+
+
     return (
         <SafeAreaView style={styles.mainContainer}>
-            <AppHeader style={styles.appHeader} title={"Screen Template"}/>
-            <Text> ScreenTemplate </Text>
+            <AppHeader style={styles.appHeader} title={"New Post"} showCross onBack={onBack} showSave/>
+            <View style={styles.container}>
+                <Text> NewPost </Text>
+            </View>
         </SafeAreaView>
     )
 }
 
-export default React.memo(ScreenTemplate);
+export default React.memo(NewPost);

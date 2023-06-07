@@ -4,10 +4,15 @@ import { colors } from '../../../utils/colors';
 
 export const styles = StyleSheet.create({
     mainContainer: {
-        paddingHorizontal: 18,
+        
     },
+
+    container: {
+        paddingHorizontal: 16,
+    },
+
     appHeader: {
-        marginTop: 8,
+        marginTop: 16,
         backgroundColor: colors.white,
         borderRadius: 16,
     },  

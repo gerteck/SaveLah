@@ -60,9 +60,9 @@ const Home = ( { navigation } ) => {
     </>);
 
     return (
-        <SafeAreaView>
-            <ScrollView style={styles.mainContainer}>
-                <AppHeader title="SaveLah" showBell onBell={onBell}/>
+        <SafeAreaView style={styles.mainContainer}>
+            <AppHeader title="SaveLah" showBell onBell={onBell}/>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <Box content={Welcome}/>
                 <TouchableOpacity><Text style={styles.report}>See full report</Text></TouchableOpacity>
                 <Box content={PieChart}/>

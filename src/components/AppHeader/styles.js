@@ -3,13 +3,13 @@ import { colors } from '../../utils/colors';
 
 export const styles = StyleSheet.create({
     mainContainer: {
-        
+        marginTop: 8,
     },
     container: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginVertical: 8,
+        marginVertical: 4,
     },
 
     title: {

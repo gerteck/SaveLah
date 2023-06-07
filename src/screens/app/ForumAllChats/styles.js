@@ -6,6 +6,7 @@ export const styles = StyleSheet.create({
 
     mainContainer: {
         paddingHorizontal: 18,
+        flex: 1,
     },
 
     appHeader: {
@@ -13,9 +14,13 @@ export const styles = StyleSheet.create({
         borderRadius: 16,
     },  
 
+    chatBox: {
+        //borderWidth: 2,
+        flex: 1,
+    },
+
     chatContainer: {
         flexDirection: 'row',
-        width: '100%',
         marginVertical: 15,
     },
 

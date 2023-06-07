@@ -67,6 +67,14 @@ const Messages = [
         messageText:
           'Hey there, Im Christy this is my test for a post of my social app in React Native.',
       },
+      {
+        id: '9',
+        userName: 'Alex Man',
+        userImg: require('../../../assets/DummyProfile.png'),
+        messageTime: '2 days ago',
+        messageText:
+          'Hey there, Im Christy this is my test for a post of my social app in React Native.',
+      },
   ];
 
 // key extractor is used to extract unique key for tracking item reordering
@@ -108,7 +116,7 @@ const ForumChats = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.mainContainer}>
             <AppHeader style={styles.appHeader} title="Chats" showBack onBack={onBack}/>
-            <Box content={Chats}/>
+            <Box style={styles.chatBox} content={Chats}/>
 
         </SafeAreaView>
     )

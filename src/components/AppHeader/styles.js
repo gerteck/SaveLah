@@ -1,15 +1,17 @@
 import { StyleSheet } from 'react-native';
 import { colors } from '../../utils/colors';
 
+const showBorder = 0;
+
 export const styles = StyleSheet.create({
     mainContainer: {
-        
-    },
-    container: {
+        marginTop: 8,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginVertical: 8,
+        marginVertical: 4,
+
+        borderWidth: showBorder,
     },
 
     title: {
@@ -18,12 +20,21 @@ export const styles = StyleSheet.create({
         fontWeight: '800',
     },
 
-    rightIcons: {
-        paddingRight: 8,
-    },
-
     leftIcons: {
         paddingLeft: 8,
+        width: '30%',
+        
+        borderWidth: showBorder,
+    },
+
+    rightIcons: {
+        paddingRight: 8,
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: '30%',
+        justifyContent: 'flex-end',
+
+        borderWidth: showBorder,
     },
 
     icon: {

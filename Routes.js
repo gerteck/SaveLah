@@ -18,32 +18,45 @@ import Home from './src/screens/app/Home';
 import TransactionHistory from './src/screens/app/TransactionHistory';
 import AddTransaction from './src/screens/app/AddTransaction';
 import Profile from './src/screens/app/Profile';
+import Settings from './src/screens/app/Settings';
+
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 //Forum Related
 import ForumHome from './src/screens/app/ForumHome';
 import ForumAllChats from './src/screens/app/ForumAllChats';
 import ForumChat from './src/screens/app/ForumChat';
+import Notifications from './src/screens/app/Notifications';
+
+// Note: ForumChat is not under a tab
 
 
 const AuthStack = createStackNavigator();
 const ForumStack = createStackNavigator();
+const ProfileStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-
+//Forum Stack
 const Forum = () => {
-
   return (
     <ForumStack.Navigator>
       <ForumStack.Screen name="ForumHome" component={ForumHome} options={{ headerShown: false }} />
       <ForumStack.Screen name="ForumAllChats" component={ForumAllChats} options={{ headerShown: false }} />
-      <ForumStack.Screen name="ForumChat" component={ForumChat} options={{ headerShown: false }} />
     </ForumStack.Navigator>
   )
 }
 
-const Tabs = () => {
+// Profile Settings Stack
+const ProfileSettings = () => {
+  return (
+    <ProfileStack.Navigator>
+      <ProfileStack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
+      <ProfileStack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
+    </ProfileStack.Navigator>
+  )
+}
 
+const Tabs = () => {
   const TabScreenOptions = ({ route }) => ({
     headerShown: false, 
     tabBarShowLabel: true, //set to false for aesthetics after finalizing
@@ -64,7 +77,7 @@ const Tabs = () => {
           icon = focused //if it is active
             ? require('./src/assets/tabBar/forum_active.png')
             : require('./src/assets/tabBar/forum.png')
-        } else if (route.name === 'Profile') {
+        } else if (route.name === 'ProfileSettings') {
           icon = focused //if it is active
             ? require('./src/assets/tabBar/profile_active.png')
             : require('./src/assets/tabBar/profile.png')
@@ -83,7 +96,7 @@ const Tabs = () => {
       <Tab.Screen name="TransactionHistory" component={TransactionHistory} />
       <Tab.Screen name="AddTransaction" component={AddTransaction} />
       <Tab.Screen name="Forum" component={Forum} />
-      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen name="ProfileSettings" component={ProfileSettings} />
     </Tab.Navigator>
   )
 };
@@ -109,6 +122,8 @@ const Routes = () => {
                 {user && (
                     <>
                         <AuthStack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
+                        <AuthStack.Screen name="ForumChat" component={ForumChat} options={{ headerShown: false }} />
+                        <AuthStack.Screen name="Notifications" component={Notifications} options={{ headerShown: false }} />
                     </>
                 )}
                 {!user && (

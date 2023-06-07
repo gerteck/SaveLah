@@ -4,7 +4,6 @@ import { styles }  from './styles';
 import AppHeader from "../../../components/AppHeader";
 import { colors } from '../../../utils/colors';
 
-
 //Gifted Chat
 import { Bubble, GiftedChat, Send } from 'react-native-gifted-chat';
 import { SafeAreaView } from "react-native-safe-area-context";

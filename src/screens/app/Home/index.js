@@ -7,7 +7,11 @@ import AppHeader from "../../../components/AppHeader";
 import Box from "../../../components/Box";
 import { ScrollView } from "react-native-gesture-handler";
 
-const Home = ( ) => {
+const Home = ( { navigation } ) => {
+
+    const onBell = () => {
+        navigation.navigate('Notifications');
+    };
 
     const Welcome = (<> 
         <Text style={styles.welcome}>Welcome Back,</Text>
@@ -55,12 +59,10 @@ const Home = ( ) => {
         {SampleTransaction}
     </>);
 
-
-
     return (
         <SafeAreaView>
             <ScrollView style={styles.mainContainer}>
-                <AppHeader title="SaveLah" showBell/>
+                <AppHeader title="SaveLah" showBell onBell={onBell}/>
                 <Box content={Welcome}/>
                 <TouchableOpacity><Text style={styles.report}>See full report</Text></TouchableOpacity>
                 <Box content={PieChart}/>

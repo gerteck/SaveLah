@@ -26,6 +26,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import ForumHome from './src/screens/app/ForumHome';
 import ForumAllChats from './src/screens/app/ForumAllChats';
 import ForumChat from './src/screens/app/ForumChat';
+import Notifications from './src/screens/app/Notifications';
+
+// Note: ForumChat is not under a tab
 
 
 const AuthStack = createStackNavigator();
@@ -120,6 +123,7 @@ const Routes = () => {
                     <>
                         <AuthStack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
                         <AuthStack.Screen name="ForumChat" component={ForumChat} options={{ headerShown: false }} />
+                        <AuthStack.Screen name="Notifications" component={Notifications} options={{ headerShown: false }} />
                     </>
                 )}
                 {!user && (

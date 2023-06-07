@@ -13,9 +13,13 @@ const Profile = ( {navigation} ) => {
         navigation.navigate('Settings');
     }
 
+    const onBell = () => {
+        navigation.navigate('Notifications');
+    };
+
     return (
         <SafeAreaView style={styles.mainContainer}>
-            <AppHeader title="Profile" />
+            <AppHeader title="Profile" showBell onBell={onBell} />
 
             <ScrollView showsVerticalScrollIndicator={false}> 
                 <View style={styles.whiteBox}>

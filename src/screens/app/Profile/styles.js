@@ -51,10 +51,10 @@ export const styles = StyleSheet.create({
     },
 
     name: {
-        fontSize: 24,
+        fontSize: 20,
         color: colors.black,
         fontWeight: 500,
-        marginBottom: 15,
+        marginBottom: 10,
     },
     
     bioContainer: {
@@ -91,7 +91,7 @@ export const styles = StyleSheet.create({
     },
 
     followText: {
-        fontSize: 18,
+        fontSize: 14,
         fontWeight: 500,
     },
 
@@ -106,11 +106,20 @@ export const styles = StyleSheet.create({
     settingsBox: {
         flexDirection: 'row',
         width: '40%',
+        height: 35,
         paddingVertical: 8,
         backgroundColor: colors.grey,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 4,
+
+        borderWidth: seeBorder,
+    },
+
+    opacityBox: {
+        flexDirection: 'row',
+        justifyContent: 'center', 
+        alignItems: 'center',
     },
 
     icon: {

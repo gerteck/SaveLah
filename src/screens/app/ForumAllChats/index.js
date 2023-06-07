@@ -79,47 +79,46 @@ const Messages = [
 
 // key extractor is used to extract unique key for tracking item reordering
 
-
 const ForumChats = ({ navigation }) => {
 
-    const onBack = () => {
-        navigation.goBack();
-    };
+  const onBack = () => {
+      navigation.goBack();
+  };
 
-    const renderChats = ({item}) => {
-        return (
-            <>
-            <Pressable style={styles.chatContainer} onPress={() => navigation.navigate('ForumChat', 
-                {name: item.userName})}>
+  const renderChats = ({item}) => {
+      return (
+          <>
+          <Pressable style={styles.chatContainer} onPress={() => navigation.navigate('ForumChat', 
+              {name: item.userName})}>
 
-                <View style={styles.iconBubble}>
-                    <Image style={styles.icon} source={item.userImg} />
-                </View>
-                <View style={styles.textContainer}>
-                    <Text style={styles.name}>{item.userName}</Text>
-                    <Text style={styles.message}>{item.messageText}</Text>
-                </View>
-                <View style={{flex: 1}} />
-                <Text style={styles.time}>{item.messageTime}</Text>
-            </Pressable>
+              <View style={styles.iconBubble}>
+                  <Image style={styles.icon} source={item.userImg} />
+              </View>
+              <View style={styles.textContainer}>
+                  <Text style={styles.name}>{item.userName}</Text>
+                  <Text style={styles.message}>{item.messageText}</Text>
+              </View>
+              <View style={{flex: 1}} />
+              <Text style={styles.time}>{item.messageTime}</Text>
+          </Pressable>
 
-            <View style={styles.divider} />
-            </>
-        )
-    };
+          <View style={styles.divider} />
+          </>
+      )
+  };
 
-    const Chats = (
-        <FlatList data={Messages} keyExtractor={item => item.id} renderItem={renderChats} 
-            showsVerticalScrollIndicator={false}/>
-    );
-    
-    return (
-        <SafeAreaView style={styles.mainContainer}>
-            <AppHeader style={styles.appHeader} title="Chats" showBack onBack={onBack}/>
-            <Box style={styles.chatBox} content={Chats}/>
+  const Chats = (
+      <FlatList data={Messages} keyExtractor={item => item.id} renderItem={renderChats} 
+          showsVerticalScrollIndicator={false}/>
+  );
+  
+  return (
+      <SafeAreaView style={styles.mainContainer}>
+          <AppHeader style={styles.appHeader} title="Chats" showBack onBack={onBack}/>
+          <Box style={styles.chatBox} content={Chats}/>
 
-        </SafeAreaView>
-    )
+      </SafeAreaView>
+  )
 }
 
 export default React.memo(ForumChats);

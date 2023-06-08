@@ -36,11 +36,11 @@ const NewPost = ( { navigation } ) => {
         let result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.All,
           allowsEditing: true,
-          aspect: [1, 1],
-          quality: 1,
+          //aspect: [1, 1],
+          quality: 0.2,
         });
 
-        console.log(result.assets[0].uri);
+        //console.log(result.assets[0].uri);
 
         if (result.assets) {
             setImageURI(result.assets[0].uri);
@@ -50,8 +50,8 @@ const NewPost = ( { navigation } ) => {
         setImageURI(null);
     }
     const uploadImage = async () => {
-        await useUploadImage(imageURI);
-        console.log("done uploading");
+        const uploadedURL = await useUploadImage(imageURI);
+        
     }
 
     return (
@@ -79,7 +79,7 @@ const NewPost = ( { navigation } ) => {
 
             {imageURI && 
                     <View style={styles.imageContainer}>
-                        <Image source={{ uri: imageURI }} style={{ width: 200, height: 200 }} />
+                        <Image source={{ uri: imageURI }} style={styles.image} />
                     </View>
             }
 
@@ -96,8 +96,9 @@ const NewPost = ( { navigation } ) => {
                     </TouchableOpacity> 
                 }
 
+                {/* Post Button */}
                 <TouchableOpacity activeOpacity={0.6} onPress={uploadImage} style={styles.post}>
-                        <Text style={styles.deleteImageText}>Post</Text>
+                        <Text style={styles.deleteImageText}>Upload Image</Text>
                 </TouchableOpacity> 
 
             </View>

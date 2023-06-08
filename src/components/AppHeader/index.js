@@ -49,7 +49,7 @@ const AppHeader = ({  style,
                 </Pressable>
             ) : showChat ? (
                 <TouchableOpacity onPress={onChat}> 
-                    <Image source={require('../../assets/appHeader/chat.png')} style={[styles.icon, {marginLeft: 16,}]}  />
+                    <Image source={require('../../assets/appHeader/chat.png')} style={[styles.icon, {height: 30, width: 30, marginLeft: 16,}]}  />
                 </TouchableOpacity>
             ) : null }
             </View>

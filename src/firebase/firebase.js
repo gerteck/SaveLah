@@ -28,4 +28,4 @@ initializeAuth(app, {
 const projectFireStore = getFirestore(fire);
 const projectAuth = getAuth(fire);
 
-export { projectFireStore, projectAuth};
+export { projectFireStore, projectAuth };

@@ -7,6 +7,7 @@ import Button from "../../../components/Button";
 
 import DropDownPicker from 'react-native-dropdown-picker';
 import * as ImagePicker from 'expo-image-picker';
+import { useUploadImage } from "../../../hooks/useUploadImage";
 
 
 const NewPost = ( { navigation } ) => {
@@ -29,7 +30,7 @@ const NewPost = ( { navigation } ) => {
 
     
     //Image Picker:
-    const [image, setImage] = useState(null);
+    const [imageURI, setImageURI] = useState(null);
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -39,14 +40,18 @@ const NewPost = ( { navigation } ) => {
           quality: 1,
         });
 
-        //console.log(result);
+        console.log(result.assets[0].uri);
 
         if (result.assets) {
-            setImage(result.assets[0].uri);
+            setImageURI(result.assets[0].uri);
         }
     }
     const deleteImage = () => {
-        setImage(null);
+        setImageURI(null);
+    }
+    const uploadImage = async () => {
+        await useUploadImage(imageURI);
+        console.log("done uploading");
     }
 
     return (
@@ -72,15 +77,15 @@ const NewPost = ( { navigation } ) => {
                 setOpen={setOpen} onSelectItem={(v) => onChange('category', v.value)} setItems={setItems}
             />
 
-            {image && 
+            {imageURI && 
                     <View style={styles.imageContainer}>
-                        <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
+                        <Image source={{ uri: imageURI }} style={{ width: 200, height: 200 }} />
                     </View>
             }
 
             {/* Buttons Row */}
             <View style={styles.buttonsRow}>
-                {image ? 
+                {imageURI ? 
                     <TouchableOpacity activeOpacity={0.6} onPress={deleteImage} style={styles.deleteImage} >
                         <Text style={styles.deleteImageText}>Delete Image</Text>
                         <Image style={styles.deleteIcon} source={require('../../../assets/icons/delete.png')}/>
@@ -91,7 +96,7 @@ const NewPost = ( { navigation } ) => {
                     </TouchableOpacity> 
                 }
 
-                <TouchableOpacity activeOpacity={0.6} onPress={null} style={styles.post}>
+                <TouchableOpacity activeOpacity={0.6} onPress={uploadImage} style={styles.post}>
                         <Text style={styles.deleteImageText}>Post</Text>
                 </TouchableOpacity> 
 

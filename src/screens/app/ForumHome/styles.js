@@ -56,4 +56,24 @@ export const styles = StyleSheet.create({
         borderWidth: showBorder,
     }, 
 
+    newPost: {
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        backgroundColor: colors.grey,
+        alignItems: 'center',
+        justifyContent: 'center',
+
+        position: 'absolute',
+        right: 16,
+        bottom: 30,
+        //For Shadow Effect:
+        elevation: 3,
+    },
+
+    postIcon: {
+        height: 28,
+        width: 28,
+    },
+
 })

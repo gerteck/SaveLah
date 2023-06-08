@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {Text, View, TextInput, Image, FlatList } from "react-native";
+import {Text, View, TextInput, Image, FlatList, TouchableOpacity } from "react-native";
 import { styles }  from './styles';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../../../utils/colors";
@@ -16,10 +16,13 @@ const ForumHome = ({ navigation }) => {
     //navigations
     const onChat = () => {
         navigation.navigate('ForumAllChats');
-    };
+    }
     const onBell = () => {
         navigation.navigate('Notifications');
-    };
+    }
+    const onNewPost = () => {
+        navigation.navigate('NewPost');
+    }
 
     //Reset the search bar?
     // useEffect(() => {
@@ -73,6 +76,9 @@ const ForumHome = ({ navigation }) => {
             {SearchBar()}
             {SortBar()}
             {Posts()}
+            <TouchableOpacity style={styles.newPost} onPress={onNewPost}>
+                <Image style={styles.postIcon} source={require('../../../assets/icons/post.png')}/>
+            </TouchableOpacity>
 
         </SafeAreaView>
     )

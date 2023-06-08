@@ -38,8 +38,8 @@ export const styles = StyleSheet.create({
     },
 
     icon: {
-        height: 32,
-        width: 32,
+        height: 40,
+        width: 40,
     },
 
     space: {

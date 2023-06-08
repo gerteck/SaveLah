@@ -4,17 +4,15 @@ import { colors } from '../../utils/colors';
 export const styles = StyleSheet.create({
 
     container: {
-        height: 85,
         marginBottom: 20,
+        borderWidth: 0,
     },
 
     label: {
         fontSize: 14,
         fontWeight: '500',
         color: colors.blue,
-        paddingTop: 8,
-        paddingBottom: 8,
-        
+        paddingVertical: 8,
     },
 
     inputContainer: {
@@ -31,7 +29,7 @@ export const styles = StyleSheet.create({
 
     input: {
         paddingHorizontal: 16,
-        paddingVertical: 20,
+        paddingVertical: 8,
         flex: 1,
     },
 

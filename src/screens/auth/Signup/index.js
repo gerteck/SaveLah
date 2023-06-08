@@ -9,6 +9,7 @@ import Checkbox from '../../../components/Checkbox';
 import Input from '../../../components/Input';
 import Separator from '../../../components/Separator';
 import { styles } from './styles';
+import { SafeAreaView } from 'react-native-safe-area-context';
 // import { UserContext } from '../../../../App';
 // import { signup } from '../../../utils/backendCalls';
 
@@ -73,29 +74,31 @@ const Signup = ({ navigation }) => {
     } 
 
     return (
-        <ScrollView style={styles.container}>
-            <AuthHeader title="Sign Up" onBackPress={onBack}/>
+        <View style={styles.background}>
+            <View style={styles.container}>
+                <AuthHeader title="Sign Up" onBackPress={onBack}/>
 
-            <Input value={values.name} onChangeText={(v) => onChange('name', v)} label="Name"  placeholder="John Doe" />
-            <Input value={values.email}  onChangeText={(v) => onChange('email', v)} label="E-mail" placeholder="example@gmail.com" />
-            <Input isPassword value={values.password} onChangeText={(v) => onChange('password', v)} label="Password" placeholder="*******" />
+                <Input value={values.name} onChangeText={(v) => onChange('name', v)} label="Name"  placeholder="John Doe" />
+                <Input value={values.email}  onChangeText={(v) => onChange('email', v)} label="E-mail" placeholder="example@gmail.com" />
+                <Input isPassword value={values.password} onChangeText={(v) => onChange('password', v)} label="Password" placeholder="*******" />
 
-            <View style={styles.agreeRow}>
-                <Checkbox checked={checked} onCheck={setChecked} />
-                <Text style={styles.agreeText}>I agree with <Text style={styles.agreeTextBold}>Terms</Text> & <Text style={styles.agreeTextBold}>Privacy</Text></Text>
+                <View style={styles.agreeRow}>
+                    <Checkbox checked={checked} onCheck={setChecked} />
+                    <Text style={styles.agreeText}>I agree with <Text style={styles.agreeTextBold}>Terms</Text> & <Text style={styles.agreeTextBold}>Privacy</Text></Text>
+                </View>
+
+                {!isPending && <Button onPress={onSubmit} style={styles.button} title="Sign Up"  />}
+                {isPending && <Button style={styles.button} disabled={true} title="loading" />}
+
+                <Separator title="Aesthetic Purposes" />
+
+                <Text style={styles.footerText}>
+                    Already have an account?
+                    <Text onPress={onSignIn} style={styles.footerLink}> Sign In</Text>
+                </Text>
+                {error && <Text>{error}</Text>}
             </View>
-
-            {!isPending && <Button onPress={onSubmit} style={styles.button} title="Sign Up"  />}
-            {isPending && <Button style={styles.button} disabled={true} title="loading" />}
-
-            <Separator title="Aesthetic Purposes" />
-
-            <Text style={styles.footerText}>
-                Already have an account?
-                <Text onPress={onSignIn} style={styles.footerLink}> Sign In</Text>
-            </Text>
-            {error && <Text>{error}</Text>}
-        </ScrollView>
+        </View>
     )
 }
 

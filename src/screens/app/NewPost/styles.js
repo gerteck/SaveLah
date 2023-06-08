@@ -73,9 +73,17 @@ export const styles = StyleSheet.create({
     },
 
     imageContainer: {
+        height: 250,
         alignItems: 'center',
-        padding: 16,
+        margin: 16,
         borderWidth: 0,
+    },
+
+    image: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        resizeMode: 'contain',
     },
 
     addImage: {

@@ -48,15 +48,14 @@ const AddTransaction = ( {navigation} ) => {
         }
     }
 
+    //Reset Transaction after Adding
     useEffect(() => {
         if(response.success) {
             console.log('success');
 
             onChangeStuff('title', "");
             onChangeStuff('amount', "");
-            
-            navigation.navigate('TransactionHistory');
-
+            //navigation.navigate('TransactionHistory');
         }
 
     }, [response.success]);

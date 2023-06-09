@@ -43,8 +43,6 @@ const AddTransaction = ( {navigation} ) => {
                 amount: values.amount,
             });
 
-            navigation.goBack();
-
         } catch (error) {
             console.log('error adding transaction :>> ', error);
         }
@@ -57,7 +55,8 @@ const AddTransaction = ( {navigation} ) => {
 
             onChangeStuff('title', "");
             onChangeStuff('amount', "");
-            navigation.navigate('Home');
+            navigation.goBack();
+
         }
 
     }, [response.success]);

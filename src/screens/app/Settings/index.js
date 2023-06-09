@@ -4,8 +4,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { styles }  from './styles';
 import AppHeader from "../../../components/AppHeader";
 import { useLogout } from "../../../hooks/useLogout";
-
 import Button from "../../../components/Button";
+
+import { reloadAsync } from 'expo-updates';
+import { StackActions } from "@react-navigation/native";
 
 // By Default, We use SafeAreaView to wrap. If displaying Image, might wnat to use normal view.
 
@@ -14,7 +16,7 @@ const Settings = ( { navigation } ) => {
     const { logout, error, isPending } = useLogout();
 
     const onLogout = async () => {
-        logout();
+        logout();     
     }
 
     const onBack = () => {

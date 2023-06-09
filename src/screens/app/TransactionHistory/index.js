@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {Text, View } from "react-native";
 import { styles }  from './styles';
 
@@ -7,16 +7,30 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useCollection } from "../../../hooks/useCollection";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import TransactionList from "../../../components/TransactionList";
+import { useReducer } from "react";
 
 const TransactionHistory = ( { navigation } ) => {
 
     const { user } = useAuthContext();
+    let userId = null;
+
+    if(user) {
+        userId = user.uid;
+    }
+
+    useEffect(() => {
+        if(user) {
+            userId = user.uid;
+        } else {
+            userId = null;
+        }
+    },[user])
 
     const { documents, error } = useCollection(
         'transactions',
-        ["uid", "==", user.uid],
+        ["uid", "==", userId],
         ["createdAt", "desc"]   
-    );
+    );    
 
     const onBell = () => {
         navigation.navigate('Notifications');

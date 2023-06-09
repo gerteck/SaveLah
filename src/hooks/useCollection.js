@@ -2,10 +2,12 @@ import { useEffect, useState } from "react"
 import { projectFireStore } from "../firebase/firebase"
 import { collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { useRef } from "react";
+import { useAuthContext } from "./useAuthContext";
 
 export const useCollection = (collectionName, _appQuery, _appOrderBy) => {
     const [documents, setDocuments] = useState(null);
     const [error, setError] = useState(null);
+    const { user } = useAuthContext(); 
 
     // use this to avoid infinite loop of useEffect on a reference type
     const appQuery = useRef(_appQuery).current;
@@ -39,7 +41,7 @@ export const useCollection = (collectionName, _appQuery, _appOrderBy) => {
         // unsubscribe on unmount
         return () => unsubscribe();
 
-    }, [collectionName, appQuery, appOrderBy]);
+    }, [collectionName, appQuery, appOrderBy,]);
 
     return { documents, error };
     

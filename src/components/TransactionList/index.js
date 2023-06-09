@@ -4,7 +4,7 @@ import { styles } from './styles';
 import { useState } from "react";
 import { colors } from "../../utils/colors";
 
-const TransactionList = ({title, onPress, transactions}) => {
+const TransactionList = ({transactions}) => {
 
     const renderTransactions = ({item}) => {
         return (

@@ -11,12 +11,16 @@ import TransactionList from "../../../components/TransactionList";
 const TransactionHistory = ( { navigation } ) => {
 
     const { user } = useAuthContext();
-
+    
+    // bug caused if no userS
+    
     const { documents, error } = useCollection(
         'transactions',
         ["uid", "==", user.uid],
         ["createdAt", "desc"]   
     );
+
+    //onsole.log(documents);
 
     const onBell = () => {
         navigation.navigate('Notifications');

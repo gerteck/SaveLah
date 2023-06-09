@@ -5,6 +5,11 @@ import { colors } from '../../../utils/colors';
 export const styles = StyleSheet.create({
     mainContainer: {
         paddingHorizontal: 18,
+        flex: 1,
+    },
+    
+    scrollView: {
+        flex: 1,
     },
 
     welcome: {

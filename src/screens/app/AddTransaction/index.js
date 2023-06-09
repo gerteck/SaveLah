@@ -55,7 +55,7 @@ const AddTransaction = ( {navigation} ) => {
 
             onChangeStuff('title', "");
             onChangeStuff('amount', "");
-            //navigation.navigate('TransactionHistory');
+            navigation.navigate('Home');
         }
 
     }, [response.success]);

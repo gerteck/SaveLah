@@ -42,7 +42,7 @@ export const styles = StyleSheet.create({
         borderWidth: showBorder,
     }, 
     sortContainer: {
-        marginVertical: 16,
+        marginVertical: 8,
         flexDirection: 'row',
         alignItems: 'center',
 

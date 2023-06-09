@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { ScrollView, TextInput, Text, View, Image, TouchableOpacity } from "react-native";
+import { ScrollView, TextInput, Text, View, Image, TouchableOpacity, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles }  from './styles';
 import AppHeader from "../../../components/AppHeader";
-import Button from "../../../components/Button";
-
 import DropDownPicker from 'react-native-dropdown-picker';
 import * as ImagePicker from 'expo-image-picker';
 import { useUploadImage } from "../../../hooks/useUploadImage";
@@ -18,14 +16,12 @@ const NewPost = ( { navigation } ) => {
         navigation.goBack();
     };
     
-    const [post, setPost] = useState({});
+    const [post, setPost] = useState({url: null});
     // Adds to post object given a key and value
-    // post Fields: title, body, category, url
+    // post Fields: title, body, category, url, comments, votes
     const onChange = (key, value) => {
         setPost(v => ({...v, [key]: value}))
     } 
-    
-    //console.log(post);
 
     //Drop Down Picker:
     const [open, setOpen] = useState(false);
@@ -34,15 +30,13 @@ const NewPost = ( { navigation } ) => {
     //Image Picker:
     const [imageURI, setImageURI] = useState(null);
     const pickImage = async () => {
-        // No permissions request is necessary for launching the image library
+        // No permissions request is necessary for launching the image library (Android)
         let result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.All,
           allowsEditing: true,
           //aspect: [1, 1],
           quality: 0.2,
         });
-
-        //console.log(result.assets[0].uri);
 
         if (result.assets) {
             setImageURI(result.assets[0].uri);
@@ -61,6 +55,7 @@ const NewPost = ( { navigation } ) => {
     //FireStore Linking:
     const { user } = useAuthContext();
     const { addDocument, response } = useFirestore('posts');
+
     const onSend = async () => {
         if (imageURI) {
             await uploadImage();
@@ -72,15 +67,19 @@ const NewPost = ( { navigation } ) => {
                 return;
             }
 
-            addDocument({
+            await addDocument({
                 uid: user.uid,
                 title: post.title,
                 body: post.body,
                 category: post.category,
                 url: post.url,
-            });
 
-            console.log("Uploaded Post");
+                comments: 0,
+                votes: 0,
+
+            });
+            // console.log("Uploaded Post");
+            // console.log(response);
 
         } catch (error) {
             console.log('error adding transaction :>> ', error);
@@ -137,13 +136,6 @@ const NewPost = ( { navigation } ) => {
                 </TouchableOpacity> 
 
             </View>
-
-            {/* // Preview of post */}
-            {/* <Text style={styles.label}>Developer Mode: Preview of post</Text>
-            <Text>{post.title}</Text>
-            <Text>{post.body}</Text>
-            <Text>{post.category}</Text>
-            <Text>{post.url}</Text> */}
 
             </ScrollView>
         </SafeAreaView>

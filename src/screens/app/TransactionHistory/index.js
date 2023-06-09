@@ -12,6 +12,7 @@ import { useReducer } from "react";
 const TransactionHistory = ( { navigation } ) => {
 
     const { user } = useAuthContext();
+
     let userId = null;
 
     if(user) {
@@ -31,6 +32,8 @@ const TransactionHistory = ( { navigation } ) => {
         ["uid", "==", userId],
         ["createdAt", "desc"]   
     );    
+
+    //onsole.log(documents);
 
     const onBell = () => {
         navigation.navigate('Notifications');

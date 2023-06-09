@@ -16,7 +16,7 @@ const NewPost = ( { navigation } ) => {
         navigation.goBack();
     };
     
-    const [post, setPost] = useState({url: null});
+    const [post, setPost] = useState({url: ""});
     // Adds to post object given a key and value
     // post Fields: title, body, category, url, comments, votes
     const onChange = (key, value) => {
@@ -44,7 +44,7 @@ const NewPost = ( { navigation } ) => {
     }
     const deleteImage = () => {
         setImageURI(null);
-        onChange('url', null);
+        onChange('url', "");
     }
     const uploadImage = async () => {
         const uploadedURL = await useUploadImage(imageURI);
@@ -57,15 +57,15 @@ const NewPost = ( { navigation } ) => {
     const { addDocument, response } = useFirestore('posts');
 
     const onSend = async () => {
-        if (imageURI) {
-            await uploadImage();
-        }
-
         try {
             if (!post?.title || !post?.body || !post?.category) {
                 Alert.alert('Please fill up all fields!');
                 return;
             }
+
+            if (imageURI) {
+                await uploadImage();
+            }    
 
             await addDocument({
                 uid: user.uid,

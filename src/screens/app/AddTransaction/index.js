@@ -37,11 +37,13 @@ const AddTransaction = ( {navigation} ) => {
                 return;
             }
 
-            addDocument({
+            await addDocument({
                 uid: user.uid,
                 title: values.title,
                 amount: values.amount,
             });
+
+            navigation.goBack();
 
         } catch (error) {
             console.log('error adding transaction :>> ', error);

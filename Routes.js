@@ -92,7 +92,7 @@ const Tabs = () => {
   });
 
   return (
-    <Tab.Navigator screenOptions={TabScreenOptions}>
+    <Tab.Navigator screenOptions={TabScreenOptions} backBehavior={"history"} >
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="TransactionHistory" component={TransactionHistory}/>
       <Tab.Screen name="AddTransaction" component={AddTransaction} />

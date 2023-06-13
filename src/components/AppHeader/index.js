@@ -9,7 +9,6 @@ const AppHeader = ({  style,
                     showBack, onBack, showCross, 
                     // Right Side Options:
                     showSearch, keyword, onSearch,
-                    showSave, onSave,
                     showBell, onBell, 
                     showChat, onChat,
                     title,
@@ -42,12 +41,7 @@ const AppHeader = ({  style,
                 </TouchableOpacity>
             ) : null }
             
-            { showSave ? (
-                <Pressable onPress={onSave}> 
-                    {/* Add a container with save instead */}
-                    <Image source={require('../../assets/appHeader/saveIcon.png')} style={[styles.icon, {height:28, width: 50}]}  />
-                </Pressable>
-            ) : showChat ? (
+            { showChat ? (
                 <TouchableOpacity onPress={onChat}> 
                     <Image source={require('../../assets/appHeader/chat.png')} style={[styles.icon, {height: 30, width: 30, marginLeft: 16,}]}  />
                 </TouchableOpacity>

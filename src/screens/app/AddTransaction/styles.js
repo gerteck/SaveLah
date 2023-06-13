@@ -8,10 +8,6 @@ export const styles = StyleSheet.create({
         
     },
 
-    button: {
-        marginVertical: 20,
-    },
-
     label: {
         fontSize: 14,
         fontWeight: '500',
@@ -33,6 +29,11 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
         paddingVertical: 8,
         flex: 1,
+    },
+
+    AddTransactionButton: {
+        marginVertical: 35,
+        backgroundColor: colors.green,
     },
     
 

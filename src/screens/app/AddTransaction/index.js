@@ -106,8 +106,7 @@ const AddTransaction = ( {navigation} ) => {
             </View>
 
 
-            <Button onPress={onSend} style={styles.button} title="Add transaction"  />
-            {/* {isPending && <Button style={styles.button} disabled={true} title="loading" />} */}
+            <Button style={styles.AddTransactionButton} onPress={onSend} title="Add transaction"  />
 
 
         </SafeAreaView> );

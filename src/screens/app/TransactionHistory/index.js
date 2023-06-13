@@ -8,6 +8,7 @@ import { useCollection } from "../../../hooks/useCollection";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import TransactionList from "../../../components/TransactionList";
 import { useReducer } from "react";
+import TransactionTabs from "../../../components/TransactionTabs";
 
 const TransactionHistory = ( { navigation } ) => {
 
@@ -45,7 +46,7 @@ const TransactionHistory = ( { navigation } ) => {
         {/* Tabs Overview Bar */}
 
         {error && <Text>{error}</Text>}
-        {documents && <TransactionList transactions={documents} />}
+        {documents && <TransactionTabs docs={documents} />}
     </SafeAreaView>
       );
 }

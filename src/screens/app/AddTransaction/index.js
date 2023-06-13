@@ -35,6 +35,10 @@ const AddTransaction = ( {navigation} ) => {
                 Alert.alert('Please fill up the amount and category!');
                 return;
             }
+
+            if (!values?.description) {
+                onChangeValue('description', "");
+            }
             
             console.log("submit");
             console.log(values);

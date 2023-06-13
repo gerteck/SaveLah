@@ -6,11 +6,25 @@ import { colors } from "../../utils/colors";
 
 const TransactionList = ({transactions}) => {
 
+    const numOfTransactions = transactions.length;
+
+    if (numOfTransactions <= 0) {
+        return <></>
+    }
+    
+    // sort by date
+    let sortedTransactions = transactions.sort( (a,b) => a.date -b.date );
+    const earliestDate = sortedTransactions[0].date;
+    const latestDate = sortedTransactions[numOfTransactions-1].date;
+
+    
+
     const renderTransactions = ({item}) => {
+        //console.log(item.date.toDate());
         return (
             <>
             <View style={styles.header}>
-                <Text>{item.createdAt.toDate().toDateString()}</Text>
+                <Text>{item.date.toDate().toDateString()}</Text>
             </View>            
             <View style={styles.container}>
                 <Text>{item.title}</Text>                
@@ -22,7 +36,7 @@ const TransactionList = ({transactions}) => {
 
     return (
         <View>
-            <FlatList data={(transactions)} keyExtractor={ item => item.id } renderItem={renderTransactions}/>
+            <FlatList data={(sortedTransactions)} keyExtractor={item => item.id} renderItem={renderTransactions}/>
         </View>
     )
 }

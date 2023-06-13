@@ -27,7 +27,7 @@ const TransactionList = ({transactions}) => {
                 <Text>{item.date.toDate().toDateString()}</Text>
             </View>            
             <View style={styles.container}>
-                <Text>{item.title}</Text>                
+                <Text>{item.category}</Text>                
                 <Text>${item.amount}</Text>
             </View>
             </>

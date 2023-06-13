@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import {Text, View } from "react-native";
+import {Text, View, ScrollView } from "react-native";
 import { styles }  from './styles';
 
 import AppHeader from "../../../components/AppHeader";
@@ -12,7 +12,7 @@ import { useReducer } from "react";
 const TransactionHistory = ( { navigation } ) => {
 
     const { user } = useAuthContext();
-
+ 
     let userId = null;
 
     if(user) {
@@ -28,28 +28,26 @@ const TransactionHistory = ( { navigation } ) => {
     },[user])
 
     const { documents, error } = useCollection(
-        'transactions',
+        'transactions/' + user.uid + '/userTransactions',
         ["uid", "==", userId],
-        ["createdAt", "desc"]   
+        ["date", "desc"]   
     );    
 
     const onBell = () => {
         navigation.navigate('Notifications');
     };
 
+
     return (
         <SafeAreaView style={styles.mainContainer}>
-            <AppHeader title="Transaction History" showBell onBell={onBell} />
-            
-            {/* Tabs Overview Bar */}
+        <AppHeader title="Transaction History" showBell onBell={onBell} />
+        
+        {/* Tabs Overview Bar */}
 
-
-
-
-            {error && <Text>{error}</Text>}
-            {documents && <TransactionList transactions={documents} />}
-        </SafeAreaView>
-    )
+        {error && <Text>{error}</Text>}
+        {documents && <TransactionList transactions={documents} />}
+    </SafeAreaView>
+      );
 }
 
 export default React.memo(TransactionHistory);

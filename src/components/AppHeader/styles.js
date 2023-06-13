@@ -11,6 +11,7 @@ export const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginVertical: 4,
 
+        minHeight: 35,
         borderWidth: showBorder,
     },
 

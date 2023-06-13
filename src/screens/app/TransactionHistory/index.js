@@ -33,8 +33,6 @@ const TransactionHistory = ( { navigation } ) => {
         ["createdAt", "desc"]   
     );    
 
-    //onsole.log(documents);
-
     const onBell = () => {
         navigation.navigate('Notifications');
     };
@@ -42,10 +40,14 @@ const TransactionHistory = ( { navigation } ) => {
     return (
         <SafeAreaView style={styles.mainContainer}>
             <AppHeader title="Transaction History" showBell onBell={onBell} />
-            <View>
-                {error && <Text>{error}</Text>}
-                {documents && <TransactionList transactions={documents} />}
-            </View>
+            
+
+
+
+
+
+            {error && <Text>{error}</Text>}
+            {documents && <TransactionList transactions={documents} />}
         </SafeAreaView>
     )
 }

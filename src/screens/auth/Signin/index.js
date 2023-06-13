@@ -31,13 +31,14 @@ const Signin = ({ navigation }) => {
 
     const onLogin = async () => {
         try {
+
+            //Guard Clause
             if (!values?.email || !values?.password ) {
                 Alert.alert('Please fill up all fields!');
                 return;
             }
+            
             login(values.email, values.password);
-            // setUser({token});
-
 
         } catch (error) {
             console.log('error logging in :>> ', error);

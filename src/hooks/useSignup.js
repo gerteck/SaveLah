@@ -3,6 +3,7 @@ import { projectAuth } from "../firebase/firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useAuthContext } from './useAuthContext';
 import { mapAuthCode } from "../firebase/mapAuthCode";
+import { useFirestore } from "./useFirestore";
 
 export const useSignup = () => {
     const [isCancelled, setIsCancelled] = useState(false);
@@ -13,12 +14,12 @@ export const useSignup = () => {
     const signup = async (displayName, email, password) => {
         setError(null);
         setIsPending(true);
+
         // signup user
         createUserWithEmailAndPassword(projectAuth, email, password)
             .then((userCredential) => {
                 // Signed in
                 const user = userCredential.user;
-                console.log(user);
 
                 updateProfile(user, {
                     // add display name to user
@@ -49,6 +50,7 @@ export const useSignup = () => {
                     setIsPending(false);
                 }
             });
+
     };
 
     // cleaner function

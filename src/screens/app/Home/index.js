@@ -6,6 +6,7 @@ import AppHeader from "../../../components/AppHeader";
 
 import Box from "../../../components/Box";
 import { ScrollView } from "react-native-gesture-handler";
+import Button from "../../../components/Button";
 
 const Home = ( { navigation } ) => {
 
@@ -27,6 +28,10 @@ const Home = ( { navigation } ) => {
             </View>
         </View>
     </>);
+
+    const onRegister = () => {
+        navigation.navigate("RegisterProfile");
+    }
 
     const [weekSelected, setWeekSelected] = useState(true);
     const PieChart = (<>
@@ -63,6 +68,8 @@ const Home = ( { navigation } ) => {
         <SafeAreaView style={styles.mainContainer}>
             <AppHeader title="SaveLah" showBell onBell={onBell}/>
             <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+
+                <Button title="Test -> Go to register" onPress={onRegister} />
                 <Box content={Welcome}/>
                 <TouchableOpacity><Text style={styles.report}>See full report</Text></TouchableOpacity>
                 <Box content={PieChart}/>

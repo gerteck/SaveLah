@@ -8,37 +8,25 @@ const storageRef = ref(storage);
 
 // see https://firebase.google.com/docs/storage/web/start for Documentation
 
-export const useUploadImage = async (uri) => {
+//Hook takes in userID ui, Uri (for local images)
+export const useUploadImage = async (uid, uri) => {
     let uploaded = false;
-    const metadata = {
-        contentType: 'image/jpeg',
-    };
+    let filename = uid;
 
-    // fetch content from arbitary URL
     const response = await fetch(uri);
     const blob = await response.blob();
-    let filename = uri.substring(uri.lastIndexOf('/') + 1);
 
-    // add timestamp to file name.
-    const extension = filename.split('.').pop(); 
-    const name = filename.split('.').slice(0, -1).join('.');
-    filename = name + "-time-" + Date.now() + '-.' + extension;
-
-    const imageRef = ref(storage, `images/${filename}`);
+    const imageRef = ref(storage, `profilePictures/${filename}`);
     await uploadBytes(imageRef, blob).then((snapshot) => {
         uploaded = true;
-        //console.log("Uploaded: ",uploaded)
-        //console.log('Uploaded a blob (Image)!');
     });
     if (uploaded) {
         const downloadURL = await getDownloadURL(imageRef);
-        console.log("Image URL: ", downloadURL);
+        //console.log("Image URL: ", downloadURL);
+        console.log("Image uploaded to Firestore");
         return downloadURL;
     } else {
         console.log("Image not uploaded // Error in hooks/useUploadImage.js")
         return null;
     }
-    
-
-
 }

@@ -65,6 +65,7 @@ const Signin = ({ navigation }) => {
                     <Text onPress={onSignUp} style={styles.footerLink}> Sign Up</Text>
                 </Text>
                 { error && <Text>{ error }</Text> }
+
             </View>
         </View>
     )

@@ -3,17 +3,24 @@ import { Text, View, FlatList } from "react-native";
 import { styles } from './styles';
 import { useState } from "react";
 import { colors } from "../../utils/colors";
+import Box from "../Box";
 
 const TransactionList = ({transactions}) => {
+
+    // For no transactions
+    const noTransactionsYet = (<> 
+        <Text>No transactions yet, </Text>
+        <Text>click + to add transactions</Text>
+    </>);
 
     const numOfTransactions = transactions.length;
 
     if (numOfTransactions <= 0) {
-        return <></>
+        return <Box content={noTransactionsYet} />
     }
     
     // sort by date
-    let sortedTransactions = transactions.sort( (a,b) => a.date -b.date );
+    let sortedTransactions = transactions.sort((a,b) => b.date - a.date);
     const earliestDate = sortedTransactions[0].date;
     const latestDate = sortedTransactions[numOfTransactions-1].date;
 
@@ -35,8 +42,9 @@ const TransactionList = ({transactions}) => {
     }
 
     return (
+        
         <View>
-            <FlatList data={(sortedTransactions)} keyExtractor={item => item.id} renderItem={renderTransactions}/>
+            <FlatList data={(sortedTransactions)} keyExtractor={item => item.id} renderItem={renderTransactions}/>         
         </View>
     )
 }

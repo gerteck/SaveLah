@@ -8,4 +8,39 @@ export const styles = StyleSheet.create({
         flex: 1,
     },
 
+    sectionHeader: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: "space-between",
+    },
+
+    sectionTitle: {
+        textAlignVertical: 'center',
+        marginTop: 16,
+        fontSize: 16,
+    },
+
+    touchable: {
+        alignItems: 'center',
+    },
+
+    icon: {
+        width: 32,
+        height: 32,
+        borderWidth: 1,
+    },
+
+    item: {
+        padding: 8,
+        paddingHorizontal: 16,
+        marginVertical: 8,
+    },
+
+    button: {
+        paddingVertical: 16,
+        marginBottom: 16,
+        marginTop: 16,
+
+    },
+
 })

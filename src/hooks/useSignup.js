@@ -19,7 +19,7 @@ export const useSignup = () => {
     const [isPending, setIsPending] = useState(false);
     const { dispatch } = useAuthContext();
 
-    const [ setUserProfile ] = useContext(UserProfileContext);
+    const [ userProfile, setUserProfile ] = useContext(UserProfileContext);
 
     const signup = async (displayName, email, password) => {
         setError(null);
@@ -31,17 +31,11 @@ export const useSignup = () => {
                 const user = userCredential.user;
 
                 //Initialize Profile Document
-                setDoc( doc(db, 'users', user.uid), {
-                    registered: false,
-                    uid: user.uid,
-                }, { merge: true });
+                setDoc( doc(db, 'users', user.uid), {registered: false, uid: user.uid}, { merge: true });
                 setUserProfile({registered: false, uid: user.uid});
 
-                updateProfile(user, {
-                    // add display name to user
-                    displayName: displayName,
-
-                }).catch((err) => {
+                // add display name to user
+                updateProfile(user, {displayName: displayName,}).catch((err) => {
                     console.log(err.message);
                     setError(err.message);
                     setIsPending(false);

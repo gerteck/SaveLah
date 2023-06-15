@@ -7,9 +7,9 @@ export const styles = StyleSheet.create({
         flex: 1,
     },
 
-    container: {
+    scrollContainer: {
         paddingHorizontal: 36,
-        flex: 1,
+        paddingBottom: 40,
     },
 
     appHeader: {

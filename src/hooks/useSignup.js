@@ -1,9 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { projectAuth } from "../firebase/firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useAuthContext } from './useAuthContext';
 import { mapAuthCode } from "../firebase/mapAuthCode";
 import { useFirestore } from "./useFirestore";
+
+//initalize user profile document
+import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { getApp } from "firebase/app";
+import { UserProfileContext } from "../context/UserProfileContext";
+const app = getApp;
+const db = getFirestore(app);
+
 
 export const useSignup = () => {
     const [isCancelled, setIsCancelled] = useState(false);
@@ -11,15 +19,22 @@ export const useSignup = () => {
     const [isPending, setIsPending] = useState(false);
     const { dispatch } = useAuthContext();
 
+    const [ userProfile, setUserProfile ] = useContext(UserProfileContext);
+
     const signup = async (displayName, email, password) => {
         setError(null);
         setIsPending(true);
 
-        // signup user
         createUserWithEmailAndPassword(projectAuth, email, password)
             .then((userCredential) => {
                 // Signed in
                 const user = userCredential.user;
+
+                //Initialize Profile Document
+                setDoc( doc(db, 'users', user.uid), {
+                    registered: false,
+                }, { merge: true });
+                setUserProfile({registered: false});
 
                 updateProfile(user, {
                     // add display name to user
@@ -40,7 +55,6 @@ export const useSignup = () => {
                     setError(null);
                 }
             })
-
             .catch((err) => {
                 console.log(err.message);
                 console.log(err.code);
@@ -51,6 +65,7 @@ export const useSignup = () => {
                 }
             });
 
+        console.log("Signup Complete");
     };
 
     // cleaner function

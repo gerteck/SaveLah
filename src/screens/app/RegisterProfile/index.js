@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { ScrollView, TextInput, Text, View, Image, TouchableOpacity, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles }  from './styles';
@@ -11,12 +11,15 @@ import Separator from "../../../components/Separator";
 
 import { doc, getFirestore, setDoc, getDoc } from "firebase/firestore";
 import { getApp } from "firebase/app";
+import { UserProfileContext } from "../../../context/UserProfileContext";
 const app = getApp;
 const db = getFirestore(app);
 let customImageUploaded = false;
 
 const RegisterProfile = ( { navigation } ) => {
-    
+
+    const [ userProfile, setUserProfile ] = useContext(UserProfileContext);
+   
     //Get Array of Default Profile Pictures
     const [defaultProfilePictures, setDefaultProfilePictures] = useState({});
     const getDefaultDisplayPictures = async () => {
@@ -31,10 +34,6 @@ const RegisterProfile = ( { navigation } ) => {
             setDefaultProfilePictures(shuffled.slice(0,3));
         })
     }, []);
-
-    const onBack = () => {
-        navigation.goBack();
-    }
     
     const [profile, setProfile] = useState({url: "", bio: ""});
     const onChange = (key, value) => {
@@ -93,7 +92,9 @@ const RegisterProfile = ( { navigation } ) => {
                 username: profile.username,
                 bio: profile.bio,
                 url: profile.url,
-            });
+                registered: true,
+            }, { merge: true });
+            setUserProfile({registered: true});
             console.log("Uploaded Registration");
 
         } catch (error) {
@@ -105,8 +106,8 @@ const RegisterProfile = ( { navigation } ) => {
 
     return (
         <SafeAreaView style={styles.mainContainer}>
-            <AppHeader style={styles.appHeader} title={"Register Profile"} showCross onBack={onBack}/>
-            <ScrollView style={styles.container}> 
+            <AppHeader style={styles.appHeader} title={"Register Profile"} />
+            <ScrollView contentContainerStyle={styles.scrollContainer}> 
 
                 <Text style={styles.label}>Username</Text>
                 <View style={styles.inputContainer}>

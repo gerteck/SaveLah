@@ -37,6 +37,7 @@ export const styles = StyleSheet.create({
         height: 95,
         width: 95, 
         borderRadius: 95/2,
+        resizeMode: 'contain',
     },
 
     nameBioContainer: {

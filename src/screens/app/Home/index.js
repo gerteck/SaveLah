@@ -68,8 +68,6 @@ const Home = ( { navigation } ) => {
         <SafeAreaView style={styles.mainContainer}>
             <AppHeader title="SaveLah" showBell onBell={onBell}/>
             <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-
-                <Button title="Test -> Go to register" onPress={onRegister} />
                 <Box content={Welcome}/>
                 <TouchableOpacity><Text style={styles.report}>See full report</Text></TouchableOpacity>
                 <Box content={PieChart}/>

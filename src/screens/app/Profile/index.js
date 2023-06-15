@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {ScrollView, Text, View, Image, Pressable } from "react-native";
 import { styles }  from './styles';
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -6,8 +6,27 @@ import AppHeader from "../../../components/AppHeader";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Box from "../../../components/Box";
 
+import { getApp } from "firebase/app";
+import { getFirestore, getDoc, doc } from 'firebase/firestore';
+import { useAuthContext } from "../../../hooks/useAuthContext";
+const app = getApp;
+const db = getFirestore(app);
 
 const Profile = ( {navigation} ) => {
+
+    const { user } = useAuthContext();
+    const [userProfile, setUserProfile] = useState({});
+    const getUserProfile = async () => {
+        const userProfileRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(userProfileRef);
+        return docSnap.data();
+    }
+    useEffect(() => {
+      if (user) {
+        getUserProfile().then(data => setUserProfile(data))
+        //console.log(userProfile);
+      }
+    },[user]);
 
     const goSettings = () => {
         navigation.navigate('Settings');
@@ -27,13 +46,12 @@ const Profile = ( {navigation} ) => {
                 <View style={styles.whiteBox}>
                     <View style={styles.profile}>
                         <View style={styles.displayWrapper}>
-                            <Image style={styles.displayPicture} source={require('../../../assets/DummyProfile.jpg')}/>
+                            <Image style={styles.displayPicture} source={{uri: userProfile.url}}/>
                         </View>
-
                         <View style={styles.nameBioContainer}>
-                            <Text style={styles.name}>John Doe</Text>
+                            <Text style={styles.name}>{userProfile.username}</Text>
                             <View style={styles.bioContainer}>
-                                <Text style={styles.bio}>Bio Goes Here</Text>
+                                <Text style={styles.bio}>{userProfile.bio}</Text>
                             </View>
                         </View>
 

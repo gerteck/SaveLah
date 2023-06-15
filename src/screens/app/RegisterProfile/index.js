@@ -101,7 +101,7 @@ const RegisterProfile = ( { navigation } ) => {
             console.log("Uploaded Registration");
 
         } catch (error) {
-            console.log('error adding transaction :>> ', error);
+            console.log('error Registering Profile', error);
         }
         
     }

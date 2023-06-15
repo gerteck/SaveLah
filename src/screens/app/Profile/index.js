@@ -9,10 +9,21 @@ import Box from "../../../components/Box";
 import { getApp } from "firebase/app";
 import { getFirestore, getDoc, doc } from 'firebase/firestore';
 import { useAuthContext } from "../../../hooks/useAuthContext";
+import { useIsFocused } from '@react-navigation/native';
 const app = getApp;
 const db = getFirestore(app);
 
 const Profile = ( {navigation} ) => {
+    
+    // Refresh page on navigation
+    const isFocused = useIsFocused();
+    useEffect(() => {
+      if (user) {
+        getUserProfile().then(data => setUserProfile(data))
+        //console.log("Refresh Profile Page");
+      }
+    },[isFocused]);
+
 
     const { user } = useAuthContext();
     const [userProfile, setUserProfile] = useState({});
@@ -21,12 +32,8 @@ const Profile = ( {navigation} ) => {
         const docSnap = await getDoc(userProfileRef);
         return docSnap.data();
     }
-    useEffect(() => {
-      if (user) {
-        getUserProfile().then(data => setUserProfile(data))
-        //console.log(userProfile);
-      }
-    },[user]);
+
+
 
     const goSettings = () => {
         navigation.navigate('Settings');
@@ -50,6 +57,8 @@ const Profile = ( {navigation} ) => {
                         </View>
                         <View style={styles.nameBioContainer}>
                             <Text style={styles.name}>{userProfile.username}</Text>
+                            {/* For testing purpose */}
+                            <Text style={styles.name}>{userProfile.uid}</Text>
                             <View style={styles.bioContainer}>
                                 <Text style={styles.bio}>{userProfile.bio}</Text>
                             </View>

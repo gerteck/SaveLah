@@ -115,12 +115,12 @@ const Routes = () => {
       const userProfileRef = doc(db, "users", user.uid);
       const docSnap = await getDoc(userProfileRef);
       setUserProfile(docSnap.data());
-      console.log("Call for Profile: ", userProfile);
+      console.log("Call for Profile in Routes: ", userProfile);
   }
 
   // Get User Profile to determine if Registered
   useEffect(() => { user && getSetUserProfile() }, []);
-  useEffect(() => { user && getSetUserProfile() }, [userProfile.registered]);
+  useEffect(() => { user && getSetUserProfile() }, [userProfile?.registered]);
 
   const MyTheme = {
     ...DefaultTheme,
@@ -135,7 +135,7 @@ const Routes = () => {
     <NavigationContainer theme={MyTheme}>
         {authIsReady && (
             <AuthStack.Navigator>
-                {user && userProfile.registered && (
+                {user && userProfile?.registered && (
                       <>
                           <AuthStack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
                           <AuthStack.Screen name="ForumChat" component={ForumChat} options={{ headerShown: false }} />
@@ -144,7 +144,7 @@ const Routes = () => {
                           {/* <AuthStack.Screen name="RegisterProfile" component={RegisterProfile} options={{ headerShown: false }} /> */}
                       </>
                 )}
-                {user && !userProfile.registered && (
+                {user && !userProfile?.registered && (
                     <>
                         <AuthStack.Screen name="RegisterProfile" component={RegisterProfile} options={{ headerShown: false }} />
                     </>

@@ -31,8 +31,8 @@ export const useSignup = () => {
                 const user = userCredential.user;
 
                 //Initialize Profile Document
-                setDoc( doc(db, 'users', user.uid), {registered: false, uid: user.uid}, { merge: true });
-                setUserProfile({registered: false, uid: user.uid});
+                setDoc( doc(db, 'users', user.uid), {registered: false, uid: user.uid, change: true}, { merge: true });
+                setUserProfile({registered: false, uid: user.uid, change: true});
 
                 // add display name to user
                 updateProfile(user, {displayName: displayName,}).catch((err) => {

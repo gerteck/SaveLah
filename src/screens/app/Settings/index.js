@@ -14,7 +14,7 @@ import { useAuthContext } from "../../../hooks/useAuthContext";
 import { getApp } from "firebase/app";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
 import { useIsFocused } from '@react-navigation/native';
-import { getAuth, reauthenticateWithCredential, signInWithEmailAndPassword, updateEmail } from "firebase/auth";
+import { getAuth, reauthenticateWithCredential, signInWithEmailAndPassword, updateEmail, updatePassword } from "firebase/auth";
 import { projectAuth } from "../../../firebase/firebase";
 import { TextInput } from "react-native-gesture-handler";
 import Input from "../../../components/Input";
@@ -27,12 +27,21 @@ const db = getFirestore(app);
 // Settings refers to private information, aka email (And password maybe)
 
 const Settings = ( { navigation } ) => {
-    
-    const { user, authIsReady } = useAuthContext();
+    const auth = getAuth();
+    const user = auth.currentUser;
+    // getting user through auth seems to update better.
+    // const { user, authIsReady } = useAuthContext();
+
     const { logout, error, isPending } = useLogout();
+    
     const [editingPublic, setEditingPublic] = useState(false);
     const [editingEmail, setEditingEmail] = useState(false);
+    const [editingPassword, setEditingPassword] = useState(false);
+
     const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const [emailUpdateSuccess, setEmailUpdateSuccess] = useState(false);
+    const [passwordUpdateSuccess, setPasswordUpdateSuccess] = useState(false);
 
     const [userProfile, setUserProfile] = useContext(UserProfileContext);
     const [tempProfile, setTempProfile] = useState({});
@@ -43,7 +52,7 @@ const Settings = ( { navigation } ) => {
         if (user) {
             setTempSettings({email: user.email});
             setTempProfile({username: userProfile?.username, bio: userProfile?.bio});
-            console.log("Refresh Settings Page")
+            //console.log("Refresh Settings Page")
         }
       },[isFocused]);
 
@@ -58,6 +67,9 @@ const Settings = ( { navigation } ) => {
     }
     const onEditEmailPress = () => {
         setEditingEmail(b => !b);
+    }
+    const onEditPasswordPress = () => {
+        setEditingPassword(b => !b);
     }
 
     const onSavePublicInformation = async () => {
@@ -86,39 +98,63 @@ const Settings = ( { navigation } ) => {
     };
 
     const onSaveEmail = async () => {
+        setPasswordError("");
+        const auth = getAuth();
+        const user = auth.currentUser;
         if (!tempSettings?.email) {
             Alert.alert('Please input an email!');
             return;
-        }
+        };
         if (!tempSettings?.password) {
             Alert.alert('Please input your password!');
             return;
-        } 
-        await reAuthenticateUser();
-        const auth = getAuth();
-        updateEmail(auth.currentUser, tempSettings.email).then(() => {
-            setEditingEmail(false);
-            console.log("Email Updated!");
-        }).catch((error) => {
-            console.log("Error updating email", error);
-            setEmailError("Error updating email: " + error);
+        };
+        await signInWithEmailAndPassword(projectAuth, user.email, tempSettings.password)
+            .then((userCredential) => {
+                //Supposed to call reauthenticate function with credential but ig no need, just sign in
+                updateEmail(auth.currentUser, tempSettings.email).then(() => {
+                    setEditingEmail(false);
+                    setEmailUpdateSuccess(true);
+                    console.log("Email Updated!");
+                }).catch((error) => {
+                    console.log("Error updating email", error);
+                    setEmailError("Error updating email: " + error);
+                });
+            })
+            .catch((err) => {
+                console.log("Error Signing in: " + err);
+                setEmailError("Error Signing in: " + err); 
         });
     };
     
-
-    //ReAuthenticate User (Sign in again) (to update email or password)
-    const reAuthenticateUser = async () => {
+    const onSavePassword = async () => {
+        setPasswordError("");
         const auth = getAuth();
         const user = auth.currentUser;
-        signInWithEmailAndPassword(projectAuth, user.email, tempSettings.password)
+        if (!tempSettings?.newPassword) {
+            Alert.alert('Please input a new Password!');
+            return;
+        };
+        if (!tempSettings?.password) {
+            Alert.alert('Please input your password!');
+            return;
+        };
+        await signInWithEmailAndPassword(projectAuth, user.email, tempSettings.password)
             .then((userCredential) => {
-                //Supposed to reauthenticate with credential but apparently ig no need
+                updatePassword(auth.currentUser, tempSettings.newPassword).then(() => {
+                    setEditingPassword(false);
+                    console.log("Password Updated!");
+                    setPasswordUpdateSuccess(true);
+                }).catch((error) => {
+                    console.log("Error updating password", error);
+                    setPasswordError("Error updating password: " + error);
+                });
             })
             .catch((err) => {
                 console.log("Error Signing in: ", err);
+                setPasswordError("Error Signing in: " + err); 
         });
-    }
-
+    };
 
     const onChangeTempProfile = (key, value) => {
         setTempProfile(v => ( {...v, [key]: value} ));
@@ -135,7 +171,7 @@ const Settings = ( { navigation } ) => {
     return (
         <SafeAreaView style={styles.mainContainer}>
             <AppHeader title="Settings" showBack onBack={onBack}/>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 {/* Public Information */}
                 <View style={styles.sectionHeader}> 
                     <Text style={styles.sectionTitle}>Edit Public Information</Text>
@@ -158,7 +194,22 @@ const Settings = ( { navigation } ) => {
                 {/* <EditableBox label="Bio" value={tempProfile.bio} onChangeText={(v) => onChangeTempProfile('bio', v)} editable={editingEmail} style={styles.EditableBox} /> */}
                 {editingEmail ? ( <Input value={tempSettings.password} onChangeText={(v) => onChangeTempSettings('password', v)} label="Current Password" placeholder="*******" isPassword/> ) : null }
                 {editingEmail && emailError && <Text>{emailError}</Text>}
-                {editingEmail ? ( <Button style={styles.button} onPress={onSaveEmail} title="Save"/> ) : null }
+                {editingEmail ? ( <Button style={styles.button} onPress={onSaveEmail} title="Update Email"/> ) : null }
+                {emailUpdateSuccess && <Text>Email Updated Successfully!</Text>}
+
+                {/* Private Information: Password */}
+                <View style={[styles.sectionHeader, {paddingBottom: 12}]}> 
+                    <Text style={styles.sectionTitle}>Update Password</Text>
+                    <TouchableOpacity onPress={onEditPasswordPress} style={styles.touchable}>
+                        <Image style={styles.icon} source={require('../../../assets/icons/edit.png')}/>
+                    </TouchableOpacity>
+                </View>
+                {editingPassword ?   <Input value={tempSettings.newPassword} onChangeText={(v) => onChangeTempSettings('newPassword', v)} label="New Password" placeholder="*******" isPassword/> : null }
+                {editingPassword ? ( <Input value={tempSettings.password} onChangeText={(v) => onChangeTempSettings('password', v)} label="Current Password" placeholder="*******" isPassword/> ) : null }
+                {editingPassword && passwordError && <Text>{passwordError}</Text>}
+                {editingPassword ? ( <Button style={styles.button} onPress={onSavePassword} title="Update Password"/> ) : null }
+                {passwordUpdateSuccess && <Text>Password Updated Successfully!</Text>}
+                
 
                 {/* Help Centre */}
                 <Text style={styles.sectionTitle}>Help Center</Text>
@@ -166,8 +217,8 @@ const Settings = ( { navigation } ) => {
                 <ListItem onPress={onItemPress} style={styles.item} title="Contact us"/>
                 <ListItem onPress={onItemPress} style={styles.item} title="Privacy & Terms"/>
 
-                {!isPending && <Button onPress={onLogout} style={styles.button} title="Log out"  />}
-                {isPending && <Button onPress={onLogout} style={styles.button} disabled={true} title="loading"  />}
+                {!isPending && <Button onPress={onLogout} style={styles.logoutButton} title="Log out"  />}
+                {isPending && <Button onPress={onLogout} style={styles.logoutButton} disabled={true} title="loading"  />}
                 { error && <p>{ error }</p> }
             
             </ScrollView>

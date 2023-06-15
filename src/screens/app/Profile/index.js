@@ -20,7 +20,7 @@ const Profile = ( {navigation} ) => {
     useEffect(() => {
       if (user) {
         getUserProfile().then(data => setUserProfile(data))
-        console.log("Refresh Profile Page");
+        //console.log("Refresh Profile Page");
       }
     },[isFocused]);
 

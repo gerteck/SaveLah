@@ -19,6 +19,9 @@ import { projectAuth } from "../../../firebase/firebase";
 import { TextInput } from "react-native-gesture-handler";
 import Input from "../../../components/Input";
 
+import * as ImagePicker from 'expo-image-picker';
+import { useUploadImage } from "../../../hooks/useUploadImage";
+
 const app = getApp;
 const db = getFirestore(app);
 
@@ -46,6 +49,33 @@ const Settings = ( { navigation } ) => {
     const [userProfile, setUserProfile] = useContext(UserProfileContext);
     const [tempProfile, setTempProfile] = useState({});
     const [tempSettings, setTempSettings] = useState({});
+    //console.log(userProfile);
+
+    //Image Picker:
+    const [imageURI, setImageURI] = useState(null);
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          aspect: [1, 1],
+          quality: 0.2,
+        });
+        if (result.assets) {
+            setImageURI(result.assets[0].uri);
+        }
+    }
+    const deleteImage = () => {
+        setImageURI(null);
+    }
+    const uploadImage = async () => {
+        const uploadedURL = await useUploadImage(user.uid, imageURI);
+        setUserProfile(v => ({...v, ['url']: uploadedURL}));
+        
+        await setDoc( doc(db, 'users', user.uid), {
+            url: uploadedURL,
+        }, { merge: true });
+        setImageURI(null);
+    }
 
     const isFocused = useIsFocused();
     useEffect(() => {
@@ -179,6 +209,19 @@ const Settings = ( { navigation } ) => {
                         <Image style={styles.icon} source={require('../../../assets/icons/edit.png')}/>
                     </TouchableOpacity>
                 </View>
+
+                {/* Update Profile Picture */}
+                <View style={styles.profilePictureContainer}>
+                    <TouchableOpacity style={styles.displayTouchable} onPress={pickImage}>
+                        { !imageURI ? <Image style={styles.displayPicture} source={{uri: userProfile.url}}/> : null }
+                        { imageURI ? <Image style={styles.displayPicture} source={{uri: imageURI}}/> : null }
+                        <Image style={styles.editCircle} source={require('../../../assets/icons/editCircle.png')}/>
+                    </TouchableOpacity>
+                    {imageURI ? ( <Button style={styles.button} onPress={uploadImage} title="Upload Profile Picture"/> ) : null }
+                </View>
+
+
+                {/* Public Information: Username & Bio */}
                 <EditableBox label="Username" value={tempProfile.username} onChangeText={(v) => onChangeTempProfile('username', v)} editable={editingPublic} style={styles.EditableBox} />
                 <EditableBox label="Bio" value={tempProfile.bio} onChangeText={(v) => onChangeTempProfile('bio', v)} editable={editingPublic} style={styles.EditableBox} />
                 {editingPublic ? ( <Button style={styles.button} onPress={onSavePublicInformation} title="Save"/> ) : null }

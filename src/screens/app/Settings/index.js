@@ -82,7 +82,7 @@ const Settings = ( { navigation } ) => {
         if (user) {
             setTempSettings({email: user.email});
             setTempProfile({username: userProfile?.username, bio: userProfile?.bio});
-            //console.log("Refresh Settings Page")
+            console.log("Refresh Settings Page")
         }
       },[isFocused]);
 

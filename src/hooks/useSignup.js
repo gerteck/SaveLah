@@ -19,7 +19,7 @@ export const useSignup = () => {
     const [isPending, setIsPending] = useState(false);
     const { dispatch } = useAuthContext();
 
-    const [ userProfile, setUserProfile ] = useContext(UserProfileContext);
+    const [ setUserProfile ] = useContext(UserProfileContext);
 
     const signup = async (displayName, email, password) => {
         setError(null);
@@ -33,8 +33,9 @@ export const useSignup = () => {
                 //Initialize Profile Document
                 setDoc( doc(db, 'users', user.uid), {
                     registered: false,
+                    uid: user.uid,
                 }, { merge: true });
-                setUserProfile({registered: false});
+                setUserProfile({registered: false, uid: user.uid});
 
                 updateProfile(user, {
                     // add display name to user

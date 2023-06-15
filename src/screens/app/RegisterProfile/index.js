@@ -19,6 +19,9 @@ let customImageUploaded = false;
 const RegisterProfile = ( { navigation } ) => {
 
     const [ userProfile, setUserProfile ] = useContext(UserProfileContext);
+    useEffect(() => {
+        setUserProfile(v => ({...v, ["registered"]: false}))
+    }, []);
    
     //Get Array of Default Profile Pictures
     const [defaultProfilePictures, setDefaultProfilePictures] = useState({});

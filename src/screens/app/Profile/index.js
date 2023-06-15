@@ -45,7 +45,7 @@ const Profile = ( {navigation} ) => {
                 {/* Profile, Bio, following and setting Buttons */}
                 <View style={styles.whiteBox}>
                     <View style={styles.profile}>
-                        <View style={styles.displayWrapper}>
+                        <View style={styles.displayPictureWrapper}>
                             <Image style={styles.displayPicture} source={{uri: userProfile.url}}/>
                         </View>
                         <View style={styles.nameBioContainer}>

@@ -109,27 +109,18 @@ const db = getFirestore(app);
 const Routes = () => {
 
   const { user, authIsReady } = useAuthContext();
-  
-  // Get User Profile to determine if Registered
   const [ userProfile, setUserProfile ] = useContext(UserProfileContext);
-  console.log(userProfile);
 
-  if (!userProfile.registered) {
-    const getUserProfile = async () => {
-        const userProfileRef = doc(db, "users", user.uid);
-        const docSnap = await getDoc(userProfileRef);
-        return docSnap.data();
-    }
-    
-    useEffect(() => {
-      if (user) {
-        getUserProfile().then(data => setUserProfile(data))
-        //console.log(userProfile);
-      }
-    }, [userProfile]);
+  async function getSetUserProfile() {
+      const userProfileRef = doc(db, "users", user.uid);
+      const docSnap = await getDoc(userProfileRef);
+      setUserProfile(docSnap.data());
+      console.log("Call for Profile: ", userProfile);
   }
 
-  // issue is that it reloads then updates userprofile then reloads loop. 
+  // Get User Profile to determine if Registered
+  useEffect(() => { user && getSetUserProfile() }, []);
+  useEffect(() => { user && getSetUserProfile() }, [userProfile.registered]);
 
   const MyTheme = {
     ...DefaultTheme,

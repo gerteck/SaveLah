@@ -1,13 +1,15 @@
-import React, { useState } from "react";
-import {Text, TouchableOpacity, Pressable, View, Image } from "react-native";
+import React, { useState, useContext } from "react";
+import {Text, TouchableOpacity, View, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles }  from './styles';
 import AppHeader from "../../../components/AppHeader";
-
 import Box from "../../../components/Box";
 import { ScrollView } from "react-native-gesture-handler";
+import { UserProfileContext } from "../../../context/UserProfileContext";
 
 const Home = ( { navigation } ) => {
+    
+    const [ userProfile, setUserProfile ] = useContext(UserProfileContext);
 
     const onBell = () => {
         navigation.navigate('Notifications');
@@ -15,7 +17,7 @@ const Home = ( { navigation } ) => {
 
     const Welcome = (<> 
         <Text style={styles.welcome}>Welcome Back,</Text>
-        <Text style={styles.name}>John Doe</Text>
+        <Text style={styles.name}>{userProfile.username}</Text>
         <View style={styles.budgetOverview}>
             <View> 
                 <Text style={styles.money}>$90,000</Text>
@@ -27,6 +29,10 @@ const Home = ( { navigation } ) => {
             </View>
         </View>
     </>);
+
+    const onRegister = () => {
+        navigation.navigate("RegisterProfile");
+    }
 
     const [weekSelected, setWeekSelected] = useState(true);
     const PieChart = (<>

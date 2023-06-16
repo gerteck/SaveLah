@@ -35,7 +35,7 @@ const TransactionList = ({transactions}) => {
             </View>            
             <View style={styles.container}>
                 <Text>{item.category}</Text>                
-                <Text>${item.amount}</Text>
+                <Text>${item.amount.toLocaleString('en-US')}</Text>
             </View>
             </>
         )

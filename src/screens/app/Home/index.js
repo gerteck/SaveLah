@@ -6,10 +6,51 @@ import AppHeader from "../../../components/AppHeader";
 import Box from "../../../components/Box";
 import { ScrollView } from "react-native-gesture-handler";
 import { UserProfileContext } from "../../../context/UserProfileContext";
+import { projectFireStore } from "../../../firebase/firebase";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { useAuthContext } from "../../../hooks/useAuthContext";
+import { useEffect } from "react";
 
 const Home = ( { navigation } ) => {
     
     const [ userProfile, setUserProfile ] = useContext(UserProfileContext);
+    const { user } = useAuthContext();
+
+    const [ expense, setExpense ] = useState('0');
+    const [ error, setError ] = useState(null);
+    
+    // setting date range
+    var curr = new Date();
+    var y = curr.getFullYear();
+    var m = curr.getMonth();
+    var firstDay = new Date(y, m, 1);
+    var lastDay = new Date(y, m + 1, 0);
+
+    // setting up listener for budget changes
+    const q = query(collection(projectFireStore, 'transactions/' + user.uid + '/userTransactions'), 
+        where('date', '>=', firstDay), 
+            where('date', '<=', lastDay));
+
+    useEffect(() => {
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+                let result = 0;
+                snapshot.forEach(doc => {
+                    result = result + doc.data().amount;
+                })
+
+                // format the result to 2 decimal places and have commas for thousand places
+                result = parseFloat(result.toFixed(2)).toLocaleString('en-US');
+
+                // update state
+                setExpense(result);
+        }, (error) => {
+                console.log(error);
+                setError('could not fetch data');
+        });
+
+        return () => unsubscribe();
+    },[]);
+    
 
     const onBell = () => {
         navigation.navigate('Notifications');
@@ -24,7 +65,7 @@ const Home = ( { navigation } ) => {
                 <Text style={styles.caption}>Budget left</Text>
             </View>
             <View> 
-                <Text style={styles.money} >$800.45</Text>
+                <Text style={styles.money} >${expense}</Text>
                 <Text style={styles.caption} >Amount Spent</Text>
             </View>
         </View>

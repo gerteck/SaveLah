@@ -16,6 +16,19 @@ const Home = ( { navigation } ) => {
     const [ userProfile, setUserProfile ] = useContext(UserProfileContext);
     const { user } = useAuthContext();
 
+    // logout quickfix can fix later
+    if(user) {
+        userId = user.uid;
+    }
+
+    useEffect(() => {
+        if(user) {
+            userId = user.uid;
+        } else {
+            userId = null;
+        }
+    },[user])
+
     const [ expense, setExpense ] = useState('0');
     const [ error, setError ] = useState(null);
     
@@ -27,7 +40,7 @@ const Home = ( { navigation } ) => {
     var lastDay = new Date(y, m + 1, 0);
 
     // setting up listener for budget changes
-    const q = query(collection(projectFireStore, 'transactions/' + user.uid + '/userTransactions'), 
+    const q = query(collection(projectFireStore, 'transactions/' + userId + '/userTransactions'), 
         where('date', '>=', firstDay), 
             where('date', '<=', lastDay));
 

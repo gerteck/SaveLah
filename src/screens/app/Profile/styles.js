@@ -56,20 +56,22 @@ export const styles = StyleSheet.create({
         fontSize: 20,
         color: colors.black,
         fontWeight: 500,
-        marginBottom: 10,
+        marginBottom: 8,
     },
     
     bioContainer: {
-        backgroundColor: colors.grey,
+        backgroundColor: colors.lightGrey,
         borderRadius: 9,
         width: '95%',
-        height: 50,
+        minHeight: 50,
+        paddingHorizontal: 4,
+        paddingVertical: 4,
+        
     },
 
     bio: {
-        marginTop: 4,
-        fontSize: 14,
-        fontWeight: 400,
+        fontSize: 12,
+        fontWeight: '350',
         marginLeft: 8,
     },
 
@@ -78,8 +80,6 @@ export const styles = StyleSheet.create({
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'center',
-
-        //borderWidth: seeBorder,
     },
 
     followerContainer: {
@@ -101,24 +101,22 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         marginTop: 16,
-
-        borderWidth: seeBorder,
     },
 
     settingsBox: {
         flexDirection: 'row',
-        width: '40%',
+        width: '90%',
         height: 35,
         paddingVertical: 8,
         backgroundColor: colors.grey,
         justifyContent: 'center',
+        alignSelf: 'center',
         alignItems: 'center',
         borderRadius: 4,
-
-        borderWidth: seeBorder,
     },
 
     opacityBox: {
+        flex: 1,
         flexDirection: 'row',
         justifyContent: 'center', 
         alignItems: 'center',

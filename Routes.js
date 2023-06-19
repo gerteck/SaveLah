@@ -31,6 +31,8 @@ import RegisterProfile from './src/screens/app/RegisterProfile';
 import { getApp } from "firebase/app";
 import { getFirestore, getDoc, doc } from 'firebase/firestore';
 import { UserProfileContext } from './src/context/UserProfileContext';
+import ProfileSearchUser from './src/screens/app/ProfileSearchUser';
+import ProfileFollow from './src/screens/app/ProfileFollow';
 
 
 const AuthStack = createStackNavigator();
@@ -54,6 +56,8 @@ const ProfileSettings = () => {
     <ProfileStack.Navigator>
       <ProfileStack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
       <ProfileStack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
+      <ProfileStack.Screen name="ProfileSearchUser" component={ProfileSearchUser} options={{ headerShown: false }} /> 
+      <ProfileStack.Screen name="ProfileFollow" component={ProfileFollow} options={{ headerShown: false }} /> 
     </ProfileStack.Navigator>
   )
 }
@@ -141,7 +145,6 @@ const Routes = () => {
                           <AuthStack.Screen name="ForumChat" component={ForumChat} options={{ headerShown: false }} />
                           <AuthStack.Screen name="Notifications" component={Notifications} options={{ headerShown: false }} />
                           <AuthStack.Screen name="NewPost" component={NewPost} options={{ headerShown: false }} />
-                          {/* <AuthStack.Screen name="RegisterProfile" component={RegisterProfile} options={{ headerShown: false }} /> */}
                       </>
                 )}
                 {user && !userProfile?.registered && (

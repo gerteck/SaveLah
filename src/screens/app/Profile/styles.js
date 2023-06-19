@@ -23,13 +23,14 @@ export const styles = StyleSheet.create({
         borderWidth: seeBorder,
     },
 
-    displayWrapper: {
+    displayPictureWrapper: {
         backgroundColor: colors.backgroundGrey,
         height: 105,
         width: 105,
         borderRadius: 105/2,
         justifyContent: 'center',
         alignItems: 'center',
+        marginTop: 8,
         marginLeft: 7,
     },
 
@@ -37,6 +38,7 @@ export const styles = StyleSheet.create({
         height: 95,
         width: 95, 
         borderRadius: 95/2,
+        resizeMode: 'contain',
     },
 
     nameBioContainer: {

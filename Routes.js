@@ -1,10 +1,8 @@
-//import 'react-native-gesture-handler'; //docs say to import this or smth might crash.
-import React, { useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { colors } from './src/utils/colors';
 import { Text, View, Image } from 'react-native';
 
 //Global States
-// import { UserContext } from './AppContext'; Now using a different context
 import { useAuthContext } from "./src/hooks/useAuthContext";
 
 //For Routing and Navigation
@@ -20,17 +18,19 @@ import AddTransaction from './src/screens/app/AddTransaction';
 import Profile from './src/screens/app/Profile';
 import Settings from './src/screens/app/Settings';
 
-import { SafeAreaView } from 'react-native-safe-area-context';
-
 //Forum Related
 import ForumHome from './src/screens/app/ForumHome';
 import ForumAllChats from './src/screens/app/ForumAllChats';
 import ForumChat from './src/screens/app/ForumChat';
 import Notifications from './src/screens/app/Notifications';
 import NewPost from './src/screens/app/NewPost';
-import RegisterProfile from './src/screens/app/RegisterProfile';
-
 // Note: ForumChat is not under a tab
+
+//Register Profile Imports
+import RegisterProfile from './src/screens/app/RegisterProfile';
+import { getApp } from "firebase/app";
+import { getFirestore, getDoc, doc } from 'firebase/firestore';
+import { UserProfileContext } from './src/context/UserProfileContext';
 
 
 const AuthStack = createStackNavigator();
@@ -103,10 +103,24 @@ const Tabs = () => {
   )
 };
 
+const app = getApp;
+const db = getFirestore(app);
 
 const Routes = () => {
 
   const { user, authIsReady } = useAuthContext();
+  const [ userProfile, setUserProfile ] = useContext(UserProfileContext);
+
+  async function getSetUserProfile() {
+      const userProfileRef = doc(db, "users", user.uid);
+      const docSnap = await getDoc(userProfileRef);
+      setUserProfile(docSnap.data());
+      console.log("Call for Profile in Routes: ", userProfile);
+  }
+
+  // Get User Profile to determine if Registered
+  useEffect(() => { user && getSetUserProfile() }, []);
+  useEffect(() => { user && getSetUserProfile() }, [userProfile?.registered]);
 
   const MyTheme = {
     ...DefaultTheme,
@@ -121,12 +135,17 @@ const Routes = () => {
     <NavigationContainer theme={MyTheme}>
         {authIsReady && (
             <AuthStack.Navigator>
-                {user && (
+                {user && userProfile?.registered && (
+                      <>
+                          <AuthStack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
+                          <AuthStack.Screen name="ForumChat" component={ForumChat} options={{ headerShown: false }} />
+                          <AuthStack.Screen name="Notifications" component={Notifications} options={{ headerShown: false }} />
+                          <AuthStack.Screen name="NewPost" component={NewPost} options={{ headerShown: false }} />
+                          {/* <AuthStack.Screen name="RegisterProfile" component={RegisterProfile} options={{ headerShown: false }} /> */}
+                      </>
+                )}
+                {user && !userProfile?.registered && (
                     <>
-                        <AuthStack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
-                        <AuthStack.Screen name="ForumChat" component={ForumChat} options={{ headerShown: false }} />
-                        <AuthStack.Screen name="Notifications" component={Notifications} options={{ headerShown: false }} />
-                        <AuthStack.Screen name="NewPost" component={NewPost} options={{ headerShown: false }} />
                         <AuthStack.Screen name="RegisterProfile" component={RegisterProfile} options={{ headerShown: false }} />
                     </>
                 )}

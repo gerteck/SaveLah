@@ -45,7 +45,7 @@ const AddTransaction = ( {navigation} ) => {
 
             await addDocument({
                 uid: user.uid,
-                amount: values.amount,
+                amount: parseFloat(parseFloat(values.amount).toFixed(2)), // to limit to 2 decimal places
                 date: date,
                 description: values.description,
                 category: values.category,

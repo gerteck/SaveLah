@@ -45,7 +45,6 @@ const Signup = ({ navigation }) => {
             }
 
             signup(values.name, values.email, values.password);
-
             
         } catch(error) {
             console.log('Signup error :>> ', error);

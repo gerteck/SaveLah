@@ -7,9 +7,9 @@ export const styles = StyleSheet.create({
         flex: 1,
     },
 
-    container: {
+    scrollContainer: {
         paddingHorizontal: 36,
-        flex: 1,
+        paddingBottom: 40,
     },
 
     appHeader: {
@@ -56,16 +56,21 @@ export const styles = StyleSheet.create({
     },
 
     starterPicturesRow: {
-        borderWidth: 0.5,
+        borderWidth: 0,
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: '100%',
-        aspectRatio: 3.3,
+        aspectRatio: 3.5,
+    },
+
+    displayTouchable: {
+        height: '100%',
+        width: '30%',
     },
 
     displayPictures: {
         height: '100%',
-        width: '30%',
+        width: '100%',
         resizeMode: 'stretch',
     },
 
@@ -84,15 +89,13 @@ export const styles = StyleSheet.create({
     },
 
     imageContainer: {
-        height: 250,
+        height: 150,
         alignItems: 'center',
         margin: 16,
-        borderWidth: 0,
         zIndex: -1,
     },
 
-    image: {
-        flex: 1,
+    profileImage: {
         width: '100%',
         height: '100%',
         resizeMode: 'contain',
@@ -117,7 +120,7 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingVertical: 15,
         borderRadius: 8,
-        marginTop: 30,
+        marginTop: 8,
 
         flexDirection: 'row',
     },
@@ -135,7 +138,7 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingVertical: 15,
         borderRadius: 8,
-        marginTop: 30,
+        marginTop: 8,
     },
 
 

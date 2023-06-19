@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { ScrollView, TextInput, Text, View, Image, TouchableOpacity, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles }  from './styles';
@@ -6,22 +6,41 @@ import AppHeader from "../../../components/AppHeader";
 
 import * as ImagePicker from 'expo-image-picker';
 import { useUploadImage } from "../../../hooks/useUploadImage";
-import { useFirestore } from "../../../hooks/useFirestore";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import Separator from "../../../components/Separator";
 
+import { doc, getFirestore, setDoc, getDoc } from "firebase/firestore";
+import { getApp } from "firebase/app";
+import { UserProfileContext } from "../../../context/UserProfileContext";
+const app = getApp;
+const db = getFirestore(app);
+let customImageUploaded = false;
 
 const RegisterProfile = ( { navigation } ) => {
+
+    const [ userProfile, setUserProfile ] = useContext(UserProfileContext);
+    useEffect(() => {
+        setUserProfile(v => ({...v, ["registered"]: false}))
+    }, []);
+   
+    //Get Array of Default Profile Pictures
+    const [defaultProfilePictures, setDefaultProfilePictures] = useState({});
+    const getDefaultDisplayPictures = async () => {
+        const ref = doc(db, "assets", "defaultProfilePictures");
+        const docSnap = await getDoc(ref);
+        return docSnap.data();
+    }
+    useEffect(() => {
+        getDefaultDisplayPictures().then(data => {
+            const allPictures = Object.values(data);
+            const shuffled = [...allPictures].sort(() => 0.5 - Math.random());
+            setDefaultProfilePictures(shuffled.slice(0,3));
+        })
+    }, []);
     
-    const onBack = () => {
-        navigation.goBack();
-    };
-    
-    const [post, setPost] = useState({url: ""});
-    // Adds to post object given a key and value
-    // post Fields: title, body, category, url, comments, votes
+    const [profile, setProfile] = useState({url: "", bio: ""});
     const onChange = (key, value) => {
-        setPost(v => ({...v, [key]: value}))
+        setProfile(v => ({...v, [key]: value}))
     } 
 
     //Image Picker:
@@ -31,84 +50,94 @@ const RegisterProfile = ( { navigation } ) => {
         let result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.All,
           allowsEditing: true,
-          //aspect: [1, 1],
+          aspect: [1, 1],
           quality: 0.2,
         });
-
         if (result.assets) {
             setImageURI(result.assets[0].uri);
+            customImageUploaded = true;
         }
     }
     const deleteImage = () => {
         setImageURI(null);
         onChange('url', "");
+        customImageUploaded = false;
+    }
+    const setDefaultPicture = (num) => {
+        setImageURI(defaultProfilePictures[num]);
+        onChange('url', defaultProfilePictures[num]);
     }
     const uploadImage = async () => {
-        const uploadedURL = await useUploadImage(imageURI);
+        const uploadedURL = await useUploadImage(user.uid, imageURI);
         onChange('url', uploadedURL);
+        customImageUploaded = false;
     }
 
     //FireStore Linking:
     const { user } = useAuthContext();
-    const { addDocument, response } = useFirestore('users/' + user.uid);
 
     const onRegister = async () => {
         try {
-            if (!post?.title || !post?.body || !post?.category) {
-                Alert.alert('Please fill up all fields!');
+            if (!profile?.username) {
+                Alert.alert('Please choose a username!');
                 return;
             }
 
-            if (imageURI) {
+            if (!imageURI) {
+                Alert.alert('Please choose a profile picture!');
+                return;
+            }
+            if (customImageUploaded) {
                 await uploadImage();
             }    
 
-            await addDocument({
-                uid: user.uid,
-                title: post.title,
-                body: post.body,
-                category: post.category,
-                url: post.url,
-
-                comments: 0,
-                votes: 0,
-
-            });
-            // console.log("Uploaded Post");
-            // console.log(response);
+            await setDoc( doc(db, 'users', user.uid), {
+                username: profile.username,
+                bio: profile.bio,
+                url: profile.url,
+                registered: true,
+            }, { merge: true });
+            setUserProfile({registered: true});
+            console.log("Uploaded Registration");
 
         } catch (error) {
-            console.log('error adding transaction :>> ', error);
+            console.log('error Registering Profile', error);
         }
+        
     }
-
 
 
     return (
         <SafeAreaView style={styles.mainContainer}>
-            <AppHeader style={styles.appHeader} title={"Register Profile"} showCross onBack={onBack}/>
-            <ScrollView style={styles.container}> 
+            <AppHeader style={styles.appHeader} title={"Register Profile"} />
+            <ScrollView contentContainerStyle={styles.scrollContainer}> 
 
                 <Text style={styles.label}>Username</Text>
                 <View style={styles.inputContainer}>
-                    <TextInput placeholder="choose a username!" style={styles.input} value={post.title} 
+                    <TextInput placeholder="choose a username!" style={styles.input} value={profile.username} 
                         onChangeText={(v) => onChange('username', v)} />
                 </View>
 
                 <Text style={styles.label}>Add a bio!</Text>
                 <View style={[styles.inputContainer, styles.bodyInputContainer]}>
-                    <TextInput placeholder="I love Savelah!" style={styles.input} value={post.body} multiline
+                    <TextInput placeholder="I love Savelah!" style={styles.input} value={profile.bio} multiline
                         onChangeText={(v) => onChange('bio', v)} />
                 </View>
 
-                {/* Add the picture row here */}
+                {/* Default Picture Row */}
                 { !imageURI ?
                     <>
                         <Separator style={styles.separator} title="Choose a starter profile picture" />
                         <View style={styles.starterPicturesRow}>
-                            <Image style={styles.displayPictures} source={require("../../../assets/DummyProfile.jpg")}/>
-                            <Image style={styles.displayPictures} source={require("../../../assets/DummyProfile.jpg")}/>
-                            <Image style={styles.displayPictures} source={require("../../../assets/DummyProfile.jpg")}/>
+                            <TouchableOpacity style={styles.displayTouchable} onPress={() => setDefaultPicture(0)}>
+                                <Image style={styles.displayPictures} source={{uri: defaultProfilePictures[0]}}/>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.displayTouchable} onPress={() => setDefaultPicture(1)}>
+                                <Image style={styles.displayPictures} source={{uri: defaultProfilePictures[1]}}/>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.displayTouchable} onPress={() => setDefaultPicture(2)}>
+                                <Image style={styles.displayPictures} source={{uri: defaultProfilePictures[2]}}/>
+                            </TouchableOpacity>
                         </View>
                     </>
 
@@ -117,7 +146,7 @@ const RegisterProfile = ( { navigation } ) => {
 
                 {imageURI && 
                         <View style={styles.imageContainer}>
-                            <Image source={{ uri: imageURI }} style={styles.image} />
+                            <Image source={{ uri: imageURI }} style={styles.profileImage} />
                         </View>
                 }
                 

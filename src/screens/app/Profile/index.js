@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {ScrollView, Text, View, Image, Pressable } from "react-native";
 import { styles }  from './styles';
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -10,6 +10,7 @@ import { getApp } from "firebase/app";
 import { getFirestore, getDoc, doc } from 'firebase/firestore';
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import { useIsFocused } from '@react-navigation/native';
+import { UserProfileContext } from "../../../context/UserProfileContext";
 const app = getApp;
 const db = getFirestore(app);
 
@@ -26,7 +27,7 @@ const Profile = ( {navigation} ) => {
 
 
     const { user } = useAuthContext();
-    const [userProfile, setUserProfile] = useState({});
+    const [userProfile, setUserProfile] = useContext(UserProfileContext);
     const getUserProfile = async () => {
         const userProfileRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(userProfileRef);
@@ -41,6 +42,10 @@ const Profile = ( {navigation} ) => {
 
     const onBell = () => {
         navigation.navigate('Notifications');
+    };
+
+    const onProfileSearchUser = () => {
+        navigation.navigate('ProfileSearchUser');
     };
 
     return (
@@ -58,14 +63,13 @@ const Profile = ( {navigation} ) => {
                         <View style={styles.nameBioContainer}>
                             <Text style={styles.name}>{userProfile.username}</Text>
                             {/* For testing purpose */}
-                            <Text style={styles.name}>{userProfile.uid}</Text>
+                            {/* <Text style={styles.name}>{userProfile.uid}</Text> */}
                             <View style={styles.bioContainer}>
                                 <Text style={styles.bio}>{userProfile.bio}</Text>
                             </View>
                         </View>
 
                     </View>
-
 
                     <View style={styles.followContainer}>
                         <TouchableOpacity style={styles.followerContainer}>
@@ -79,19 +83,20 @@ const Profile = ( {navigation} ) => {
 
                     {/* Will be dynamic to show either findfriends/Settings or Message/Follow */}
                     <View style={styles.settingsContainer}>
-                        <View style={styles.settingsBox}>
-                            <TouchableOpacity style={styles.opacityBox}>
+                        <TouchableOpacity onPress={onProfileSearchUser} style={styles.settingsBox}>
+                            <View style={styles.opacityBox}>
                                 <Text style={styles.followText}>Find Friends</Text>
-                            </TouchableOpacity>
-                        </View>
+                            </View>
+                        </TouchableOpacity>
                         <View style={{width: '5%'}}/>
-                        <View style={styles.settingsBox}>
-                            <TouchableOpacity onPress={goSettings} style={styles.opacityBox}>
+                        <TouchableOpacity onPress={goSettings} style={styles.settingsBox}>
+                            <View style={styles.opacityBox}>
                                 <Text style={styles.followText}>Settings</Text>
                                 <Image style={styles.icon} source={require('../../../assets/icons/edit.png')}/>
-                            </TouchableOpacity>
-                        </View>
+                            </View>
+                        </TouchableOpacity>
                     </View>
+
                 </View>
 
                 <Text style={styles.postTitle}> Top posts </Text>

@@ -7,9 +7,13 @@ import Box from "../../../components/Box";
 import { ScrollView } from "react-native-gesture-handler";
 import { UserProfileContext } from "../../../context/UserProfileContext";
 import { projectFireStore } from "../../../firebase/firebase";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { getFirestore, getDoc, doc, collection, onSnapshot, query, where } from "firebase/firestore";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import { useEffect } from "react";
+import { getApp } from "firebase/app";
+
+const app = getApp;
+const db = getFirestore(app);
 
 const Home = ( { navigation } ) => {
     
@@ -18,6 +22,21 @@ const Home = ( { navigation } ) => {
 
     const [ expense, setExpense ] = useState('0');
     const [ error, setError ] = useState(null);
+
+    // // Refresh on User Change
+    useEffect(() => {
+      if (user) {
+        getUserProfile().then(data => setUserProfile(data))
+        console.log("Refresh Home Page");
+      }
+    },[user]);
+
+    const getUserProfile = async () => {
+        const userProfileRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(userProfileRef);
+        return docSnap.data();
+    }
+
     
     // setting date range
     var curr = new Date();
@@ -27,7 +46,7 @@ const Home = ( { navigation } ) => {
     var lastDay = new Date(y, m + 1, 0);
 
     // setting up listener for budget changes
-    const q = query(collection(projectFireStore, 'transactions/' + user.uid + '/userTransactions'), 
+    const q = query(collection(projectFireStore, 'transactions/' + user?.uid + '/userTransactions'), 
         where('date', '>=', firstDay), 
             where('date', '<=', lastDay));
 

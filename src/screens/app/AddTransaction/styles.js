@@ -13,6 +13,7 @@ export const styles = StyleSheet.create({
         fontWeight: '500',
         color: colors.blue,
         paddingVertical: 16,
+        zIndex: -1
     },
 
     inputContainer: {
@@ -23,6 +24,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+        zIndex: -1
     },
 
     input: {
@@ -34,6 +36,10 @@ export const styles = StyleSheet.create({
     AddTransactionButton: {
         marginVertical: 35,
         backgroundColor: colors.green,
+    },
+
+    pickerContainer: {
+        borderColor: colors.backgroundBlue,
     },
     
 

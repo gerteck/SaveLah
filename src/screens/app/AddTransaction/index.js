@@ -9,13 +9,22 @@ import { useAuthContext } from "../../../hooks/useAuthContext";
 
 import { useEffect } from "react";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
+import DropDownPicker from "react-native-dropdown-picker";
+import { useIsFocused } from "@react-navigation/native";
 
 
 const AddTransaction = ( {navigation} ) => {
     const { user } = useAuthContext();
     const [values, setValues] = useState({});
+
     const [date, setDate] = useState(new Date());
     const { addDocument, response } = useFirestore('transactions/' + user.uid + '/userTransactions');
+
+    // Drop Down Picker:
+    const [open, setOpen] = useState(false);
+    const [items, setItems] = useState([{label: 'Food & Beverage', value: 'Food & Beverage'},
+                                        {label: 'Transportation', value: 'Transportation'},
+                                        {label: 'Fun Money', value: 'Fun Money'}]);
 
     const goBack = () => {
         navigation.goBack();
@@ -28,6 +37,14 @@ const AddTransaction = ( {navigation} ) => {
         const currentDate = selectedDate;
         setDate(currentDate);
     };
+
+    // to clear data when navigating away
+    const isFocused = useIsFocused();
+    useEffect(() => {
+        setValues({});
+    },[isFocused])
+
+    
 
     const onSend = async () => {
         try {
@@ -89,15 +106,20 @@ const AddTransaction = ( {navigation} ) => {
             
             <Text style={styles.label}>Price</Text>
             <View style={styles.inputContainer}>
-                <TextInput placeholder="$0.00" style={styles.input} value={values.amount} 
+                <TextInput placeholder="$0.00" style={styles.input}  keyboardType='numeric' value={values.amount} 
                     onChangeText={(v) => onChangeValue('amount', v)} />
             </View>
 
             <Text style={styles.label}>Category (will Change to dropdown)</Text>
-            <View style={styles.inputContainer}>
+            {/* <View style={styles.inputContainer}>
                 <TextInput placeholder="Food & Drinks" style={styles.input} value={values.category} 
                     onChangeText={(v) => onChangeValue('category', v)} />
-            </View>
+            </View> */}
+            
+            <DropDownPicker open={open} value={values.category} items={items} listMode="SCROLLVIEW" 
+                placeholder="Select a Category" style={styles.pickerContainer}
+                setOpen={setOpen} onSelectItem={(v) => onChangeValue('category', v.value)} setItems={setItems} zIndex={1000}
+            />
 
             <Text style={styles.label}>Transaction Description</Text>
             <View style={styles.inputContainer}>

@@ -29,7 +29,7 @@ const TransactionHistory = ( { navigation } ) => {
     },[user])
 
     const { documents, error } = useCollection(
-        'transactions/' + user.uid + '/userTransactions',
+        'transactions/' + userId + '/userTransactions',
         ["uid", "==", userId],
         ["date", "desc"]   
     );    

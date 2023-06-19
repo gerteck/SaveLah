@@ -12,8 +12,6 @@ import { useAuthContext } from "../../../hooks/useAuthContext";
 import { useEffect } from "react";
 import { getApp } from "firebase/app";
 
-const app = getApp;
-const db = getFirestore(app);
 
 const Home = ( { navigation } ) => {
     
@@ -32,6 +30,8 @@ const Home = ( { navigation } ) => {
     },[user]);
 
     const getUserProfile = async () => {
+        const app = getApp;
+        const db = getFirestore(app);
         const userProfileRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(userProfileRef);
         return docSnap.data();

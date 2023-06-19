@@ -15,7 +15,7 @@ const AddTransaction = ( {navigation} ) => {
     const { user } = useAuthContext();
     const [values, setValues] = useState({});
     const [date, setDate] = useState(new Date());
-    const { addDocument, response } = useFirestore('transactions/' + user.uid + '/userTransactions');
+    const { addDocument, response } = useFirestore('transactions/' + user?.uid + '/userTransactions');
 
     const goBack = () => {
         navigation.goBack();

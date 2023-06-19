@@ -71,7 +71,7 @@ export const styles = StyleSheet.create({
 
     bio: {
         fontSize: 12,
-        fontWeight: '350',
+        fontWeight: '400',
         marginLeft: 8,
     },
 

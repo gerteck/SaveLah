@@ -11,30 +11,28 @@ import { getFirestore, getDoc, doc } from 'firebase/firestore';
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import { useIsFocused } from '@react-navigation/native';
 import { UserProfileContext } from "../../../context/UserProfileContext";
-const app = getApp;
-const db = getFirestore(app);
 
 const Profile = ( {navigation} ) => {
-    
+
+    const { user } = useAuthContext();
+    const [userProfile, setUserProfile] = useContext(UserProfileContext);
+    const getUserProfile = async () => {
+        const app = getApp;
+        const db = getFirestore(app);
+        const userProfileRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(userProfileRef);
+        return docSnap.data();
+    }
+
     // Refresh page on navigation
     const isFocused = useIsFocused();
     useEffect(() => {
       if (user) {
         getUserProfile().then(data => setUserProfile(data))
         //console.log("Refresh Profile Page");
+        //console.log(userProfile);
       }
     },[isFocused]);
-
-
-    const { user } = useAuthContext();
-    const [userProfile, setUserProfile] = useContext(UserProfileContext);
-    const getUserProfile = async () => {
-        const userProfileRef = doc(db, "users", user.uid);
-        const docSnap = await getDoc(userProfileRef);
-        return docSnap.data();
-    }
-
-
 
     const goSettings = () => {
         navigation.navigate('Settings');
@@ -73,11 +71,11 @@ const Profile = ( {navigation} ) => {
 
                     <View style={styles.followContainer}>
                         <TouchableOpacity style={styles.followerContainer}>
-                            <Text style={styles.followText}>5 Followers </Text>
+                            <Text style={styles.followText}>{userProfile?.followers.length} Followers </Text>
                         </TouchableOpacity>
                         <View style={styles.line}/>
                         <TouchableOpacity style={styles.followerContainer}>
-                            <Text style={styles.followText}>20 Following</Text>
+                            <Text style={styles.followText}>{userProfile?.following.length} Following</Text>
                         </TouchableOpacity>
                     </View>
 

@@ -14,23 +14,23 @@ const TransactionHistory = ( { navigation } ) => {
 
     const { user } = useAuthContext();
  
-    let userId = null;
+    // let userId = null;
 
-    if(user) {
-        userId = user.uid;
-    }
+    // if(user) {
+    //     userId = user.uid;
+    // }
 
-    useEffect(() => {
-        if(user) {
-            userId = user.uid;
-        } else {
-            userId = null;
-        }
-    },[user])
+    // useEffect(() => {
+    //     if(user) {
+    //         userId = user.uid;
+    //     } else {
+    //         userId = null;
+    //     }
+    // },[user])
 
     const { documents, error } = useCollection(
-        'transactions/' + user.uid + '/userTransactions',
-        ["uid", "==", userId],
+        'transactions/' + user?.uid + '/userTransactions',
+        ["uid", "==", user?.uid],
         ["date", "desc"]   
     );    
 

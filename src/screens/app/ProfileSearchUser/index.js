@@ -17,6 +17,7 @@ const db = getFirestore(app);
 const ProfileSearchUser = ( { navigation } ) => {
     
     const [ userProfile, setUserProfile ] = useContext(UserProfileContext);
+    console.log("Refresh ProfileSearch");
 
     // Get List of Users
     const [userArray, setUserArray] = useState([]);
@@ -24,14 +25,15 @@ const ProfileSearchUser = ( { navigation } ) => {
     useEffect(() => {
         async function querySnapshot(){
             const query = await getDocs(collection(db, "users"));
-            setUserArray([])
+            const tempArray = [];
             query.forEach((doc) => {
                 // Prevent showing own profile:
                 if (doc.data().uid != userProfile?.uid) {
-                    setUserArray(oldArray => [...oldArray, doc.data()])
+                    tempArray.push(doc.data())
                 }
             })
-            // console.log(userArray)
+            setUserArray(tempArray);
+            console.log("profile query call")
         }
         querySnapshot();
     },[isFocused]);

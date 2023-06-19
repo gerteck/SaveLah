@@ -33,6 +33,7 @@ import { getFirestore, getDoc, doc } from 'firebase/firestore';
 import { UserProfileContext } from './src/context/UserProfileContext';
 import ProfileSearchUser from './src/screens/app/ProfileSearchUser';
 import ProfileFollow from './src/screens/app/ProfileFollow';
+import ProfileOtherUser from './src/screens/app/ProfileOtherUser';
 
 
 const AuthStack = createStackNavigator();
@@ -57,7 +58,8 @@ const ProfileSettings = () => {
       <ProfileStack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
       <ProfileStack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
       <ProfileStack.Screen name="ProfileSearchUser" component={ProfileSearchUser} options={{ headerShown: false }} /> 
-      <ProfileStack.Screen name="ProfileFollow" component={ProfileFollow} options={{ headerShown: false }} /> 
+      <ProfileStack.Screen name="ProfileFollow" component={ProfileFollow} options={{ headerShown: false }} />
+      <ProfileStack.Screen name="ProfileOtherUser" component={ProfileOtherUser} options={{ headerShown: false }} /> 
     </ProfileStack.Navigator>
   )
 }

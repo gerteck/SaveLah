@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import {Text, View, TextInput, Image, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles }  from './styles';
@@ -9,11 +9,15 @@ import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { collection, getDocs, getFirestore } from "firebase/firestore";
 import { useIsFocused } from "@react-navigation/native";
 import { getApp } from "firebase/app";
+import { UserProfileContext } from "../../../context/UserProfileContext";
+
 const app = getApp;
 const db = getFirestore(app);
 
 const ProfileSearchUser = ( { navigation } ) => {
     
+    const [ userProfile, setUserProfile ] = useContext(UserProfileContext);
+
     // Get List of Users
     const [userArray, setUserArray] = useState([]);
     const isFocused = useIsFocused(); 
@@ -22,7 +26,10 @@ const ProfileSearchUser = ( { navigation } ) => {
             const query = await getDocs(collection(db, "users"));
             setUserArray([])
             query.forEach((doc) => {
-                setUserArray(oldArray => [...oldArray, doc.data()])
+                // Prevent showing own profile:
+                if (doc.data().uid != userProfile?.uid) {
+                    setUserArray(oldArray => [...oldArray, doc.data()])
+                }
             })
             // console.log(userArray)
         }
@@ -58,12 +65,9 @@ const ProfileSearchUser = ( { navigation } ) => {
     
     const renderUser = ( { item }) => {
 
-        // pass in user.
-        //console.log(item);
-
+        // Pass the profile item into the route.params.item
         const onUserPress = () => {
-            // go to profile of user
-            
+            navigation.navigate('ProfileOtherUser', { item });
         };
 
         return (
@@ -79,26 +83,6 @@ const ProfileSearchUser = ( { navigation } ) => {
             <View style={styles.divider} />
             </>
         );
-
-        <>
-        <Pressable style={styles.chatContainer} onPress={() => navigation.navigate('ForumChat', 
-            {name: item.userName})}>
-
-            <View style={styles.iconBubble}>
-                <Image style={styles.icon} source={item.userImg} />
-            </View>
-            <View style={styles.textContainer}>
-                <Text style={styles.name}>{item.userName}</Text>
-                <Text style={styles.message}>{item.messageText}</Text>
-            </View>
-            <View style={{flex: 1}} />
-            <Text style={styles.time}>{item.messageTime}</Text>
-        </Pressable>
-
-        <View style={styles.divider} />
-        </>
-
-        // ...item just pass everything
     };
 
 
@@ -112,6 +96,7 @@ const ProfileSearchUser = ( { navigation } ) => {
                 {SearchBar()}
 
                 <FlatList 
+                showsVerticalScrollIndicator={false}
                 style={styles.userList} 
                 data={filteredUsers} 
                 renderItem={renderUser}

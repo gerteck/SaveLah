@@ -14,16 +14,12 @@ import { UserProfileContext } from "../../../context/UserProfileContext";
 const app = getApp;
 const db = getFirestore(app);
 
-const Profile = ( {navigation} ) => {
+const ProfileOtherUser = ( {navigation, route} ) => {
+
+    console.log("Route.params:", route.params.item );
+    const otherUser = route.params.item;
     
     // Refresh page on navigation
-    const isFocused = useIsFocused();
-    useEffect(() => {
-      if (user) {
-        getUserProfile().then(data => setUserProfile(data))
-        //console.log("Refresh Profile Page");
-      }
-    },[isFocused]);
 
 
     const { user } = useAuthContext();
@@ -40,17 +36,18 @@ const Profile = ( {navigation} ) => {
         navigation.navigate('Settings');
     }
 
-    const onBell = () => {
-        navigation.navigate('Notifications');
-    };
 
     const onProfileSearchUser = () => {
         navigation.navigate('ProfileSearchUser');
     };
 
+    const onBack = () => {
+        navigation.goBack();
+    }
+
     return (
         <SafeAreaView style={styles.mainContainer}>
-            <AppHeader title="Profile" showBell onBell={onBell} />
+            <AppHeader showBack onBack={onBack} title="Profile"/>
 
             <ScrollView showsVerticalScrollIndicator={false}> 
 
@@ -58,14 +55,14 @@ const Profile = ( {navigation} ) => {
                 <View style={styles.whiteBox}>
                     <View style={styles.profile}>
                         <View style={styles.displayPictureWrapper}>
-                            <Image style={styles.displayPicture} source={{uri: userProfile.url}}/>
+                            <Image style={styles.displayPicture} source={{uri: otherUser.url}}/>
                         </View>
                         <View style={styles.nameBioContainer}>
-                            <Text style={styles.name}>{userProfile.username}</Text>
+                            <Text style={styles.name}>{otherUser.username}</Text>
                             {/* For testing purpose */}
                             {/* <Text style={styles.name}>{userProfile.uid}</Text> */}
                             <View style={styles.bioContainer}>
-                                <Text style={styles.bio}>{userProfile.bio}</Text>
+                                <Text style={styles.bio}>{otherUser.bio}</Text>
                             </View>
                         </View>
 
@@ -81,18 +78,18 @@ const Profile = ( {navigation} ) => {
                         </TouchableOpacity>
                     </View>
 
-                    {/* Findfriends /Settings */}
+                    {/* Follow/UnFollow and Message */}
                     <View style={styles.settingsContainer}>
-                        <TouchableOpacity onPress={onProfileSearchUser} style={styles.settingsBox}>
+                        <TouchableOpacity onPress={() => {}} style={styles.settingsBox}>
                             <View style={styles.opacityBox}>
-                                <Text style={styles.followText}>Find Friends</Text>
+                                <Text style={styles.followText}>Follow</Text>
                             </View>
                         </TouchableOpacity>
                         <View style={{width: '5%'}}/>
-                        <TouchableOpacity onPress={goSettings} style={styles.settingsBox}>
+                        <TouchableOpacity onPress={() => {}} style={styles.settingsBox}>
                             <View style={styles.opacityBox}>
-                                <Text style={styles.followText}>Settings</Text>
-                                <Image style={styles.icon} source={require('../../../assets/icons/edit.png')}/>
+                                <Text style={styles.followText}>Message</Text>
+                                <Image style={styles.icon} source={require('../../../assets/icons/chat.png')}/>
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -110,4 +107,4 @@ const Profile = ( {navigation} ) => {
     )
 }
 
-export default React.memo(Profile);
+export default React.memo(ProfileOtherUser);

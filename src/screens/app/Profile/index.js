@@ -46,6 +46,11 @@ const Profile = ( {navigation} ) => {
         navigation.navigate('ProfileSearchUser');
     };
 
+    const onFollowerInfo = (followerSelected) => {
+        const item = userProfile;
+        navigation.navigate('ProfileFollowInfo', { item, followerSelected });
+    };
+
     return (
         <SafeAreaView style={styles.mainContainer}>
             <AppHeader title="Profile" showBell onBell={onBell} />
@@ -70,11 +75,11 @@ const Profile = ( {navigation} ) => {
                     </View>
 
                     <View style={styles.followContainer}>
-                        <TouchableOpacity style={styles.followerContainer}>
+                        <TouchableOpacity style={styles.followerContainer} onPress={() => onFollowerInfo(true)}>
                             <Text style={styles.followText}>{userProfile?.followers.length} Followers </Text>
                         </TouchableOpacity>
                         <View style={styles.line}/>
-                        <TouchableOpacity style={styles.followerContainer}>
+                        <TouchableOpacity style={styles.followerContainer} onPress={() => onFollowerInfo(false)}>
                             <Text style={styles.followText}>{userProfile?.following.length} Following</Text>
                         </TouchableOpacity>
                     </View>

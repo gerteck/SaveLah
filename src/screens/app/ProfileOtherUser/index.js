@@ -16,6 +16,13 @@ const ProfileOtherUser = ( {navigation, route} ) => {
 
     // console.log("Route.params:", route.params.item );
     const otherUser = route.params.item;
+    const { user } = useAuthContext();
+
+    useEffect(() => {
+        if (otherUser.uid == user.uid) {
+            navigation.navigate('Profile');
+        }
+    }, [otherUser])
 
     const [userProfile, setUserProfile] = useContext(UserProfileContext);
     const [otherProfile, setOtherProfile] = useState(route.params.item);
@@ -70,6 +77,11 @@ const ProfileOtherUser = ( {navigation, route} ) => {
 
     }
 
+    const onFollowerInfo = (followerSelected) => {
+        const item = otherUser;
+        navigation.navigate('ProfileFollowInfo', { item, followerSelected });
+    };
+
     return (
         <SafeAreaView style={styles.mainContainer}>
             <AppHeader showBack onBack={onBack} title="Profile"/>
@@ -92,11 +104,11 @@ const ProfileOtherUser = ( {navigation, route} ) => {
                     </View>
 
                     <View style={styles.followContainer}>
-                        <TouchableOpacity style={styles.followerContainer}>
+                        <TouchableOpacity style={styles.followerContainer} onPress={() => onFollowerInfo(true)} >
                             <Text style={styles.followText}>{otherProfile?.followers.length} Followers </Text>
                         </TouchableOpacity>
                         <View style={styles.line}/>
-                        <TouchableOpacity style={styles.followerContainer}>
+                        <TouchableOpacity style={styles.followerContainer} onPress={() => onFollowerInfo(false)}>
                             <Text style={styles.followText}>{otherProfile?.following.length} Following </Text>
                         </TouchableOpacity>
                     </View>

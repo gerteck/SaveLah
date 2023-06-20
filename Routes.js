@@ -32,7 +32,7 @@ import { getApp } from "firebase/app";
 import { getFirestore, getDoc, doc } from 'firebase/firestore';
 import { UserProfileContext } from './src/context/UserProfileContext';
 import ProfileSearchUser from './src/screens/app/ProfileSearchUser';
-import ProfileFollow from './src/screens/app/ProfileFollow';
+import ProfileFollowInfo from './src/screens/app/ProfileFollowInfo';
 import ProfileOtherUser from './src/screens/app/ProfileOtherUser';
 
 
@@ -58,7 +58,7 @@ const ProfileSettings = () => {
       <ProfileStack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
       <ProfileStack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
       <ProfileStack.Screen name="ProfileSearchUser" component={ProfileSearchUser} options={{ headerShown: false }} /> 
-      <ProfileStack.Screen name="ProfileFollow" component={ProfileFollow} options={{ headerShown: false }} />
+      <ProfileStack.Screen name="ProfileFollowInfo" component={ProfileFollowInfo} options={{ headerShown: false }} />
       <ProfileStack.Screen name="ProfileOtherUser" component={ProfileOtherUser} options={{ headerShown: false }} /> 
     </ProfileStack.Navigator>
   )
@@ -121,7 +121,7 @@ const Routes = () => {
       const userProfileRef = doc(db, "users", user.uid);
       const docSnap = await getDoc(userProfileRef);
       setUserProfile(docSnap.data());
-      console.log("Call for Profile in Routes: ", userProfile);
+      console.log("Call for Profile in Routes: ");
   }
 
   // Get User Profile to determine if Registered

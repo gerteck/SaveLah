@@ -7,10 +7,13 @@ import Box from "../../../components/Box";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { UserProfileContext } from "../../../context/UserProfileContext";
 import { projectFireStore } from "../../../firebase/firebase";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { getFirestore, getDoc, doc, collection, onSnapshot, query, where } from "firebase/firestore";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import { useEffect } from "react";
+
+import { getApp } from "firebase/app";
 import TopSpendingTabs from "../../../components/TopSpendingTabs";
+
 
 const Home = ( { navigation } ) => {
     
@@ -21,6 +24,23 @@ const Home = ( { navigation } ) => {
 
     const [ expense, setExpense ] = useState('0');
     const [ error, setError ] = useState(null);
+
+    // // Refresh on User Change
+    useEffect(() => {
+      if (user) {
+        getUserProfile().then(data => setUserProfile(data))
+        console.log("Refresh Home Page");
+      }
+    },[user]);
+
+    const getUserProfile = async () => {
+        const app = getApp;
+        const db = getFirestore(app);
+        const userProfileRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(userProfileRef);
+        return docSnap.data();
+    }
+
     const [ categories, setCategories ] = useState([]);
     
     // setting date range

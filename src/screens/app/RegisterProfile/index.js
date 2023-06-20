@@ -96,6 +96,8 @@ const RegisterProfile = ( { navigation } ) => {
                 bio: profile.bio,
                 url: profile.url,
                 registered: true,
+                following: [],
+                followers: [],
             }, { merge: true });
             setUserProfile({registered: true});
             console.log("Uploaded Registration");

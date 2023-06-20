@@ -31,6 +31,9 @@ import RegisterProfile from './src/screens/app/RegisterProfile';
 import { getApp } from "firebase/app";
 import { getFirestore, getDoc, doc } from 'firebase/firestore';
 import { UserProfileContext } from './src/context/UserProfileContext';
+import ProfileSearchUser from './src/screens/app/ProfileSearchUser';
+import ProfileFollowInfo from './src/screens/app/ProfileFollowInfo';
+import ProfileOtherUser from './src/screens/app/ProfileOtherUser';
 
 
 const AuthStack = createStackNavigator();
@@ -54,6 +57,9 @@ const ProfileSettings = () => {
     <ProfileStack.Navigator>
       <ProfileStack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
       <ProfileStack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
+      <ProfileStack.Screen name="ProfileSearchUser" component={ProfileSearchUser} options={{ headerShown: false }} /> 
+      <ProfileStack.Screen name="ProfileFollowInfo" component={ProfileFollowInfo} options={{ headerShown: false }} />
+      <ProfileStack.Screen name="ProfileOtherUser" component={ProfileOtherUser} options={{ headerShown: false }} /> 
     </ProfileStack.Navigator>
   )
 }
@@ -115,7 +121,7 @@ const Routes = () => {
       const userProfileRef = doc(db, "users", user.uid);
       const docSnap = await getDoc(userProfileRef);
       setUserProfile(docSnap.data());
-      console.log("Call for Profile in Routes: ", userProfile);
+      console.log("Call for Profile in Routes: ");
   }
 
   // Get User Profile to determine if Registered
@@ -141,7 +147,6 @@ const Routes = () => {
                           <AuthStack.Screen name="ForumChat" component={ForumChat} options={{ headerShown: false }} />
                           <AuthStack.Screen name="Notifications" component={Notifications} options={{ headerShown: false }} />
                           <AuthStack.Screen name="NewPost" component={NewPost} options={{ headerShown: false }} />
-                          {/* <AuthStack.Screen name="RegisterProfile" component={RegisterProfile} options={{ headerShown: false }} /> */}
                       </>
                 )}
                 {user && !userProfile?.registered && (

@@ -19,12 +19,13 @@ const AddTransaction = ( {navigation} ) => {
 
     const [date, setDate] = useState(new Date());
     const { addDocument, response } = useFirestore('transactions/' + user?.uid + '/userTransactions');
-
+  
     // Drop Down Picker:
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState([{label: 'Food & Beverage', value: 'Food & Beverage'},
                                         {label: 'Transportation', value: 'Transportation'},
                                         {label: 'Fun Money', value: 'Fun Money'}]);
+
 
     const goBack = () => {
         navigation.goBack();

@@ -223,7 +223,7 @@ const Settings = ( { navigation } ) => {
 
                 {/* Public Information: Username & Bio */}
                 <EditableBox label="Username" value={tempProfile.username} onChangeText={(v) => onChangeTempProfile('username', v)} editable={editingPublic} style={styles.EditableBox} />
-                <EditableBox label="Bio" value={tempProfile.bio} onChangeText={(v) => onChangeTempProfile('bio', v)} editable={editingPublic} style={styles.EditableBox} />
+                <EditableBox label="Bio" value={tempProfile.bio} onChangeText={(v) => onChangeTempProfile('bio', v)} editable={editingPublic} style={styles.EditableBox} multiline />
                 {editingPublic ? ( <Button style={styles.button} onPress={onSavePublicInformation} title="Save"/> ) : null }
 
                 {/* Private Information: Email */}

@@ -11,6 +11,7 @@ const AppHeader = ({  style,
                     showSearch, keyword, onSearch,
                     showBell, onBell, 
                     showChat, onChat,
+                    userPictureURL, onUserPicture,
                     title,
                 }) => {
 
@@ -46,6 +47,13 @@ const AppHeader = ({  style,
                     <Image source={require('../../assets/appHeader/chat.png')} style={[styles.icon, {height: 30, width: 30, marginLeft: 16,}]}  />
                 </TouchableOpacity>
             ) : null }
+
+            { userPictureURL ? (
+                <TouchableOpacity onPress={onUserPicture} style={styles.iconBubble}> 
+                    <Image source={{uri: userPictureURL}} style={styles.userPictureIcon}  />
+                </TouchableOpacity>
+            ) : null }
+
             </View>
 
         </View>

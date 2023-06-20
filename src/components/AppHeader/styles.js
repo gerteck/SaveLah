@@ -38,6 +38,23 @@ export const styles = StyleSheet.create({
         borderWidth: showBorder,
     },
 
+    iconBubble: {
+        height: 45,
+        width: 45,
+        backgroundColor: colors.backgroundGrey,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 22,
+        marginRight: 16,
+        marginVertical: 4,
+    },
+
+    userPictureIcon: {
+        height: 40,
+        width: 40,
+        borderRadius: 20,
+    },
+
     icon: {
         height: 40,
         width: 40,

@@ -13,6 +13,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const ForumChat = ( {navigation, route} ) => {
 
   //console.log("Forum Chat");
+  console.log(route.params);
 
   const onBack = () => {
       navigation.goBack();
@@ -72,7 +73,8 @@ const ForumChat = ( {navigation, route} ) => {
     
   return (
       <SafeAreaView style={styles.mainContainer}>
-          <AppHeader style={styles.appHeader} title={route.params.name} showBack onBack={onBack}/>
+          <AppHeader style={styles.appHeader} title={route.params.name} showBack onBack={onBack} userPictureURL={'https://firebasestorage.googleapis.com/v0/b/savelah-storage.appspot.com/o/assets%2FdefaultProfilePictures%2Feevee.png?alt=media&token=964df1cd-f4f9-4d5a-ba1a-93b079cfa867'}/>
+          
           <View style={styles.chatContainer}>
             <GiftedChat messages={messages} onSend={messages => onSend(messages)} 
               user={{_id: 1,}}

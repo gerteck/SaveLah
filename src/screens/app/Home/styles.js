@@ -90,5 +90,20 @@ export const styles = StyleSheet.create({
     transactionCaption: {
         fontSize: 15,
         fontWeight: '400',
+    },
+
+    categoryContaineer: {
+        justifyContent: "space-between", 
+        flexDirection: "row", 
+        flex: 1, 
+        alignItems: "center"
+    },
+
+    categoryBox: {
+        flex: 1,
+        backgroundColor: colors.lightGrey,
+        flexDirection: "row",
+        padding: 10,
+        borderRadius: 10,
     }
 })

@@ -18,7 +18,7 @@ const AddTransaction = ( {navigation} ) => {
     const [values, setValues] = useState({});
 
     const [date, setDate] = useState(new Date());
-    const { addDocument, response } = useFirestore('transactions/' + user.uid + '/userTransactions');
+    const { addDocument, response } = useFirestore('transactions/' + user?.uid + '/userTransactions');
 
     // Drop Down Picker:
     const [open, setOpen] = useState(false);

@@ -88,8 +88,7 @@ const ForumChats = ({ navigation }) => {
   const renderChats = ({item}) => {
       return (
           <>
-          <Pressable style={styles.chatContainer} onPress={() => navigation.navigate('ForumChat', 
-              {name: item.userName})}>
+          <Pressable style={styles.chatContainer} onPress={() => navigation.navigate('ForumChat', {name: item.userName})}>
 
               <View style={styles.iconBubble}>
                   <Image style={styles.icon} source={item.userImg} />
@@ -114,7 +113,7 @@ const ForumChats = ({ navigation }) => {
   
   return (
       <SafeAreaView style={styles.mainContainer}>
-          <AppHeader style={styles.appHeader} title="Chats" showBack onBack={onBack}/>
+          <AppHeader style={styles.appHeader} title="All Chats" showBack onBack={onBack}/>
           <Box style={styles.chatBox} content={Chats}/>
 
       </SafeAreaView>

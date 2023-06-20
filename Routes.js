@@ -121,7 +121,7 @@ const Routes = () => {
       const userProfileRef = doc(db, "users", user.uid);
       const docSnap = await getDoc(userProfileRef);
       setUserProfile(docSnap.data());
-      console.log("Call for Profile in Routes: ");
+      //console.log("Call for Profile in Routes: ");
   }
 
   // Get User Profile to determine if Registered

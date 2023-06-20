@@ -15,10 +15,13 @@ import { UserProfileContext } from "../../../context/UserProfileContext";
 const ProfileOtherUser = ( {navigation, route} ) => {
 
     // console.log("Route.params:", route.params.item );
+    // otherUser is the inital passed param, while otherProfile is used for holding values
     const otherUser = route.params.item;
     const { user } = useAuthContext();
 
+    // set Other Profile
     useEffect(() => {
+        setOtherProfile(otherUser);
         if (otherUser.uid == user.uid) {
             navigation.navigate('Profile');
         }
@@ -27,7 +30,7 @@ const ProfileOtherUser = ( {navigation, route} ) => {
     const [userProfile, setUserProfile] = useContext(UserProfileContext);
     const [otherProfile, setOtherProfile] = useState(route.params.item);
     
-    // Refresh page on navigation
+    // Refresh following status on navigation
     const [followingUser, setFollowingUser] = useState(false);
     useEffect(() => {
         if (userProfile.following.includes(otherUser.uid)) {
@@ -82,6 +85,11 @@ const ProfileOtherUser = ( {navigation, route} ) => {
         navigation.navigate('ProfileFollowInfo', { item, followerSelected });
     };
 
+    const onMessageUser = () => {
+        navigation.navigate('ForumChat', {name: otherProfile.username});
+
+    };
+
     return (
         <SafeAreaView style={styles.mainContainer}>
             <AppHeader showBack onBack={onBack} title="Profile"/>
@@ -122,7 +130,7 @@ const ProfileOtherUser = ( {navigation, route} ) => {
                             </View>
                         </TouchableOpacity>
                         <View style={{width: '5%'}}/>
-                        <TouchableOpacity onPress={() => {}} style={styles.settingsBox}>
+                        <TouchableOpacity onPress={onMessageUser} style={styles.settingsBox}>
                             <View style={styles.opacityBox}>
                                 <Text style={styles.followText}>Message</Text>
                                 <Image style={styles.icon} source={require('../../../assets/icons/chat.png')}/>

@@ -20,12 +20,14 @@ const ForumChat = ( {navigation, route} ) => {
 
     const [userProfile, setUserProfile] = useContext(UserProfileContext);
     const [otherProfile, setOtherProfile] = useState(route.params?.profile); 
-
+    const emptyArray = [];
     // Your messages
-    const [messages, setMessages] = useState([]);
+    const [messages, setMessages] = useState(emptyArray);
 
     const chatUid1 = userProfile.uid + "_" + otherProfile.uid;
     const chatUid2 = otherProfile.uid + "_" + userProfile.uid;
+    
+    const [chatUidUsed, setChatUidUsed] = useState("");
 
     // Initialize profile
     useEffect( () => {
@@ -38,41 +40,42 @@ const ForumChat = ( {navigation, route} ) => {
         const getChats = async () => {
             const chatRef1 = doc(db, "messages", chatUid1);
             const chatRef2 = doc(db, "messages", chatUid2);
+       
             let chatSnap = await getDoc(chatRef1);
-            if (!chatSnap.exists) {
+            setChatUidUsed(chatUid1);
+
+            if (!chatSnap.exists()) {
+                console.log("Get next ref");
                 chatSnap = await getDoc(chatRef2);
+                setChatUidUsed(chatUid2);
             }
-            
+
             if (chatSnap.exists()) {
-                // console.log(chatSnap.data());
                 const array = chatSnap.data().messages;
-                const updatedArray = array.map(message => {
+                const updatedTimeArray = array.map(message => {
                     const updatedDate = {...message, createdAt: message.createdAt.toDate()}
                     return updatedDate;
-                })
-                setMessages(updatedArray);
-              } else {
-                // if does not exist, we must create four documents: 2 message documents and 2 chat documents
-                await setDoc(doc(db, "messages", chatUid1), {
-                    messages: {}
                 });
-                // await setDoc(doc(db, "messages", chatUid2), {
-                //     messages: {}
-                // });
+                setMessages(updatedTimeArray);
+            } 
+            
+            if (!chatSnap.exists()) {
+                await setDoc(doc(db, "messages", chatUid1), {
+                    messages: []
+                });
                 await setDoc(doc(db, "chats", chatUid1), {
                     chatUid: chatUid1,
                     lastMessage: "",
                     userIds: [userProfile.uid, otherProfile.uid]
                 });
-                // await setDoc(doc(db, "chats", chatUid2), {
-                //     chatUid: chatUid2,
-                //     lastMessage: "",
-                //     userIds: [otherProfile.uid, userProfile.uid]
-                // });
-              }
+                chatUidUsed = chatUid1;
+                console.log("using: " + chatUid1);
+            }
         }
+
         getChats();
-        console.log("Loaded Messages");
+        console.log("Chat id used:" + chatUidUsed);
+        //console.log("Loaded Messages");
     }, [route])
 
     // the messages are an array of objects.
@@ -92,18 +95,36 @@ const ForumChat = ( {navigation, route} ) => {
     //     ])
     // }, [])
 
-    const onSend = useCallback((newMessage = []) => {
+    const updateMessages = useCallback((newMessage = []) => {
         setMessages(previousMessages => GiftedChat.append(previousMessages, newMessage));
-        const saveMessages = async () => {
-            await setDoc(doc(db, "messages", chatUid1), {
-                messages: messages
-            }, { merge: true });
-            await setDoc(doc(db, "messages", chatUid2), {
-                messages: messages
-            }, { merge: true });
-        }
-        saveMessages();
     }, [])
+
+    useEffect(()=>{
+        const uploadMessage = () => {
+            const saveMessages = async () => {
+                await setDoc(doc(db, "messages", chatUidUsed), {
+                    messages: messages
+                }, { merge: true });
+            }
+            saveMessages(); 
+        }
+        if (messages != emptyArray) {
+            uploadMessage();
+            //console.log("Uploaded Messages");
+        } 
+
+
+    }, [messages])
+
+    // const uploadMessage = () => {
+    //     const saveMessages = async () => {
+    //         await setDoc(doc(db, "messages", chatUidUsed), {
+    //             messages: messages
+    //         }, { merge: true });
+    //     }
+    //     saveMessages();
+    //     //console.log("Uploaded Messages");
+    // }
 
     const log = () => {
         console.log(messages);
@@ -134,13 +155,15 @@ const ForumChat = ( {navigation, route} ) => {
     const onBack = () => {
         navigation.goBack();
     };
+
+    // console.log(userProfile.uid);
         
     return (
         <SafeAreaView style={styles.mainContainer}>
             <AppHeader style={styles.appHeader} title={otherProfile?.username} showBack onBack={onBack} userPictureURL={otherProfile.url} onUserPicture={log}/>
             
             <View style={styles.chatContainer}>
-                <GiftedChat messages={messages} onSend={newMessage => {onSend(newMessage)}} 
+                <GiftedChat messages={messages} onSend={newMessage => {updateMessages(newMessage)}} 
                 user={{_id: userProfile?.uid}}
                 renderBubble={renderBubble} 
                 alwaysShowSend renderSend={renderSend}

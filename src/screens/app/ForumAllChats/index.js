@@ -49,7 +49,6 @@ const Messages = [
       messageText:
         'Hey there, Im Christy this is my test for a post of my social app in React Native.',
     },
-
     {
         id: '6',
         userName: 'Christy Alex',

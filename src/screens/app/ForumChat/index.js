@@ -36,8 +36,13 @@ const ForumChat = ( {navigation, route} ) => {
     // Look in database
     useEffect( () => {
         const getChats = async () => {
-            const chatRef = doc(db, "messages", chatUid1);
-            const chatSnap = await getDoc(chatRef);
+            const chatRef1 = doc(db, "messages", chatUid1);
+            const chatRef2 = doc(db, "messages", chatUid2);
+            let chatSnap = await getDoc(chatRef1);
+            if (!chatSnap.exists) {
+                chatSnap = await getDoc(chatRef2);
+            }
+            
             if (chatSnap.exists()) {
                 // console.log(chatSnap.data());
                 const array = chatSnap.data().messages;
@@ -51,19 +56,19 @@ const ForumChat = ( {navigation, route} ) => {
                 await setDoc(doc(db, "messages", chatUid1), {
                     messages: {}
                 });
-                await setDoc(doc(db, "messages", chatUid2), {
-                    messages: {}
-                });
+                // await setDoc(doc(db, "messages", chatUid2), {
+                //     messages: {}
+                // });
                 await setDoc(doc(db, "chats", chatUid1), {
                     chatUid: chatUid1,
                     lastMessage: "",
                     userIds: [userProfile.uid, otherProfile.uid]
                 });
-                await setDoc(doc(db, "chats", chatUid2), {
-                    chatUid: chatUid2,
-                    lastMessage: "",
-                    userIds: [otherProfile.uid, userProfile.uid]
-                });
+                // await setDoc(doc(db, "chats", chatUid2), {
+                //     chatUid: chatUid2,
+                //     lastMessage: "",
+                //     userIds: [otherProfile.uid, userProfile.uid]
+                // });
               }
         }
         getChats();

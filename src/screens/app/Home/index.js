@@ -193,6 +193,25 @@ const Home = ( { navigation } ) => {
 
         return () => unsubscribe();
     },[]);
+
+    // Change in spending calculation
+    let changeInSpending;
+    if (expense == 0 && expenseLastMonth == 0) {
+        changeInSpending = '0';
+    } else if (expense == 0 && expenseLastMonth != 0) {
+        changeInSpending = '-100';
+    } else if (expenseLastMonth == 0 && expense != 0) {
+        changeInSpending = '+100';
+    } else {
+        var change = expense - expenseLastMonth;
+        changeInSpending = (change / expenseLastMonth) * 100;
+        changeInSpending = parseFloat(changeInSpending.toFixed(2)).toLocaleString('en-US');
+        if (change > 0) {
+            changeInSpending = '+' + changeInSpending;
+        }
+    }
+
+    
     
 
     const onBell = () => {
@@ -208,8 +227,8 @@ const Home = ( { navigation } ) => {
         <Text style={styles.name}>{userProfile.username}</Text>
         <View style={styles.budgetOverview}>
             <View> 
-                <Text style={styles.money}>$90,000</Text>
-                <Text style={styles.caption}>Budget left</Text>
+                <Text style={styles.money}>{changeInSpending}%</Text>
+                <Text style={styles.caption}>Change in spending</Text>
             </View>
             <View> 
                 <Text style={styles.money} >${expense}</Text>

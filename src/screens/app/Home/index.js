@@ -7,7 +7,7 @@ import Box from "../../../components/Box";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { UserProfileContext } from "../../../context/UserProfileContext";
 import { projectFireStore } from "../../../firebase/firebase";
-import { getFirestore, getDoc, doc, collection, onSnapshot, query, where } from "firebase/firestore";
+import { getFirestore, getDoc, doc, collection, onSnapshot, query, where, orderBy, limit } from "firebase/firestore";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import { useEffect } from "react";
 
@@ -33,6 +33,8 @@ const Home = ( { navigation } ) => {
     const [ categoriesWeek, setCategoriesWeek ] = useState([]);
     const [ expenseLastWeek, setExpenseLastWeek ] = useState('0');
 
+    const [ recent, setRecent ] = useState([]);
+
     // // Refresh on User Change
     useEffect(() => {
       if (user) {
@@ -56,7 +58,7 @@ const Home = ( { navigation } ) => {
     var firstDay = new Date(y, m, 1);
     var lastDay = new Date(y, m + 1, 0);
     var lastMonthFirstDay = new Date(y, m - 1, 1);
-    var lastMonthLastDay = new Date(y, m + 1, 0);
+    var lastMonthLastDay = new Date(y, m, 0);
 
     // setting up date range for week
     var weekFirstDay
@@ -193,19 +195,57 @@ const Home = ( { navigation } ) => {
 
         return () => unsubscribe();
     },[]);
-    
+
+    // Change in spending calculation
+    let changeInSpending;
+    if (expense == 0 && expenseLastMonth == 0) {
+        changeInSpending = '0';
+    } else if (expense == 0 && expenseLastMonth != 0) {
+        changeInSpending = '-100';
+    } else if (expenseLastMonth == 0 && expense != 0) {
+        changeInSpending = '+100';
+    } else {
+        var change = expense - expenseLastMonth;
+        changeInSpending = (change / expenseLastMonth) * 100;
+        changeInSpending = parseFloat(changeInSpending.toFixed(2)).toLocaleString('en-US');
+        if (change > 0) {
+            changeInSpending = '+' + changeInSpending;
+        }
+    }
+
+    // Setting up listener for recent transactions
+    const qR = query(collection(projectFireStore, 'transactions/' + user?.uid + '/userTransactions'), orderBy("date", "desc"), limit(3));
+    useEffect(() => {
+        const unsubscribe = onSnapshot(qR, (snapshot) => {
+                let results = [];
+                snapshot.forEach(doc => {
+                    results.push({...doc.data()});
+                })
+
+                // update state
+                setRecent(results);
+        }, (error) => {
+                console.log(error);
+                setError('could not fetch data');
+        });
+        return () => unsubscribe();
+    },[]);
 
     const onBell = () => {
         navigation.navigate('Notifications');
     };
+
+    const onReport = () => {
+        navigation.navigate('SpendingReport');
+    }
 
     const Welcome = (<> 
         <Text style={styles.welcome}>Welcome Back,</Text>
         <Text style={styles.name}>{userProfile.username}</Text>
         <View style={styles.budgetOverview}>
             <View> 
-                <Text style={styles.money}>$90,000</Text>
-                <Text style={styles.caption}>Budget left</Text>
+                <Text style={styles.money}>{changeInSpending}%</Text>
+                <Text style={styles.caption}>Change in spending</Text>
             </View>
             <View> 
                 <Text style={styles.money} >${expense}</Text>
@@ -216,6 +256,10 @@ const Home = ( { navigation } ) => {
 
     const onRegister = () => {
         navigation.navigate("RegisterProfile");
+    }
+
+    const onTransactions = () => {
+        navigation.navigate("TransactionHistory");
     }
 
     const [weekSelected, setWeekSelected] = useState(true);
@@ -325,10 +369,42 @@ const Home = ( { navigation } ) => {
     const getHeader = () => {
         return (<>
             <Box content={Welcome}/>
-            <TouchableOpacity><Text style={styles.report}>See full report</Text></TouchableOpacity>
+            <TouchableOpacity onPress={onReport}><Text style={styles.report}>See full report</Text></TouchableOpacity>
             <Box content={PieChart}/>
             { !weekSelected && <Text style={styles.transactionTitle}>Top Spendings for the month</Text> }
             { weekSelected && <Text style={styles.transactionTitle}>Top Spendings for the week</Text> }
+        </>)
+    }
+
+    const renderRecentTransactions = ({item}) => {
+        return (<View style={styles.transactionContainer}>
+            <View style={styles.categoryBox}>
+                <Image style={styles.icon} source={require('../../../assets/DummyIcon.png')}/>
+                <View style={styles.categoryContaineer}> 
+                    <View>
+                        <Text style={styles.transactionCaption}>{item.category}</Text>
+                        <Text style={styles.transactionMinorCaption}>{item.date.toDate().toLocaleDateString('en-GB', {
+                            day: 'numeric', month: 'short', year: 'numeric'
+                            }).replace(/-/g, ' ')}
+                        </Text>  
+                    </View>     
+                    <Text>${item.amount}</Text> 
+                </View>
+            </View>
+        </View>)
+    }
+
+    const getRecentHeader = () => {
+        return (<>
+            <TouchableOpacity onPress={onTransactions}><Text style={styles.report}>See all transactions</Text></TouchableOpacity>
+            <Text style={styles.transactionTitle}>Recent Transactions</Text>
+        </>)
+    }
+
+    const getFooter = () => {
+        return (<>
+            {recent.length != 0 && <FlatList data={recent} keyExtractor={item => item.category} renderItem={renderRecentTransactions} 
+            ListHeaderComponent={getRecentHeader}/>}
         </>)
     }
 
@@ -340,11 +416,11 @@ const Home = ( { navigation } ) => {
             ListHeaderComponent={getHeader} />}
 
             {categories.length != 0 && weekSelected && <FlatList data={categoriesWeek} keyExtractor={item => item.category} renderItem={renderTransactions} 
-            ListHeaderComponent={getHeader} />}
+            ListHeaderComponent={getHeader} ListFooterComponent={getFooter}/>}
 
             {categories.length == 0 && <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}> 
                 <Box content={Welcome}/>
-                <TouchableOpacity><Text style={styles.report}>See full report</Text></TouchableOpacity>
+                <TouchableOpacity onPress={onReport}><Text style={styles.report}>See full report</Text></TouchableOpacity>
                 <Box content={PieChart}/> 
                 <Box content={noTransactionsYet} />
             </ScrollView> }

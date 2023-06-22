@@ -12,11 +12,14 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Signin from './src/screens/auth/Signin';
 import Splash from './src/screens/auth/Splash';
 import Signup from './src/screens/auth/Signup';
-import Home from './src/screens/app/Home';
 import TransactionHistory from './src/screens/app/TransactionHistory';
 import AddTransaction from './src/screens/app/AddTransaction';
 import Profile from './src/screens/app/Profile';
 import Settings from './src/screens/app/Settings';
+
+// Home Related
+import Home from './src/screens/app/Home';
+import SpendingReport from './src/screens/app/SpendingReport';
 
 //Forum Related
 import ForumHome from './src/screens/app/ForumHome';
@@ -37,9 +40,20 @@ import ProfileOtherUser from './src/screens/app/ProfileOtherUser';
 
 
 const AuthStack = createStackNavigator();
+const HomeStack = createStackNavigator();
 const ForumStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
+// Home Stack
+const HomeTabs = () => {
+  return (
+    <HomeStack.Navigator>
+      <HomeStack.Screen name='HomeMain' component={Home} options={{ headerShown: false }} />
+      <HomeStack.Screen name='SpendingReport' component={SpendingReport} options={{ headerShown: false }} />
+    </HomeStack.Navigator>
+  )
+}
 
 //Forum Stack
 const Forum = () => {
@@ -100,7 +114,7 @@ const Tabs = () => {
 
   return (
     <Tab.Navigator screenOptions={TabScreenOptions} backBehavior={"history"} >
-      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Home" component={HomeTabs} />
       <Tab.Screen name="TransactionHistory" component={TransactionHistory}/>
       <Tab.Screen name="AddTransaction" component={AddTransaction} />
       <Tab.Screen name="Forum" component={Forum} />

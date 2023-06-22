@@ -7,7 +7,7 @@ import Box from "../../../components/Box";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { UserProfileContext } from "../../../context/UserProfileContext";
 import { projectFireStore } from "../../../firebase/firebase";
-import { getFirestore, getDoc, doc, collection, onSnapshot, query, where } from "firebase/firestore";
+import { getFirestore, getDoc, doc, collection, onSnapshot, query, where, orderBy, limit } from "firebase/firestore";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import { useEffect } from "react";
 
@@ -32,6 +32,8 @@ const Home = ( { navigation } ) => {
     const [ expenseWeek, setExpenseWeek ] = useState('0');
     const [ categoriesWeek, setCategoriesWeek ] = useState([]);
     const [ expenseLastWeek, setExpenseLastWeek ] = useState('0');
+
+    const [ recent, setRecent ] = useState([]);
 
     // // Refresh on User Change
     useEffect(() => {
@@ -211,8 +213,23 @@ const Home = ( { navigation } ) => {
         }
     }
 
-    
-    
+    // Setting up listener for recent transactions
+    const qR = query(collection(projectFireStore, 'transactions/' + user?.uid + '/userTransactions'), orderBy("date", "desc"), limit(3));
+    useEffect(() => {
+        const unsubscribe = onSnapshot(qR, (snapshot) => {
+                let results = [];
+                snapshot.forEach(doc => {
+                    results.push({...doc.data()});
+                })
+
+                // update state
+                setRecent(results);
+        }, (error) => {
+                console.log(error);
+                setError('could not fetch data');
+        });
+        return () => unsubscribe();
+    },[]);
 
     const onBell = () => {
         navigation.navigate('Notifications');
@@ -239,6 +256,10 @@ const Home = ( { navigation } ) => {
 
     const onRegister = () => {
         navigation.navigate("RegisterProfile");
+    }
+
+    const onTransactions = () => {
+        navigation.navigate("TransactionHistory");
     }
 
     const [weekSelected, setWeekSelected] = useState(true);
@@ -355,6 +376,38 @@ const Home = ( { navigation } ) => {
         </>)
     }
 
+    const renderRecentTransactions = ({item}) => {
+        return (<View style={styles.transactionContainer}>
+            <View style={styles.categoryBox}>
+                <Image style={styles.icon} source={require('../../../assets/DummyIcon.png')}/>
+                <View style={styles.categoryContaineer}> 
+                    <View>
+                        <Text style={styles.transactionCaption}>{item.category}</Text>
+                        <Text style={styles.transactionMinorCaption}>{item.date.toDate().toLocaleDateString('en-GB', {
+                            day: 'numeric', month: 'short', year: 'numeric'
+                            }).replace(/-/g, ' ')}
+                        </Text>  
+                    </View>     
+                    <Text>${item.amount}</Text> 
+                </View>
+            </View>
+        </View>)
+    }
+
+    const getRecentHeader = () => {
+        return (<>
+            <TouchableOpacity onPress={onTransactions}><Text style={styles.report}>See all transactions</Text></TouchableOpacity>
+            <Text style={styles.transactionTitle}>Recent Transactions</Text>
+        </>)
+    }
+
+    const getFooter = () => {
+        return (<>
+            {recent.length != 0 && <FlatList data={recent} keyExtractor={item => item.category} renderItem={renderRecentTransactions} 
+            ListHeaderComponent={getRecentHeader}/>}
+        </>)
+    }
+
     return (
         <SafeAreaView style={styles.mainContainer}>
             <AppHeader title="SaveLah" showBell onBell={onBell}/>
@@ -363,7 +416,7 @@ const Home = ( { navigation } ) => {
             ListHeaderComponent={getHeader} />}
 
             {categories.length != 0 && weekSelected && <FlatList data={categoriesWeek} keyExtractor={item => item.category} renderItem={renderTransactions} 
-            ListHeaderComponent={getHeader} />}
+            ListHeaderComponent={getHeader} ListFooterComponent={getFooter}/>}
 
             {categories.length == 0 && <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}> 
                 <Box content={Welcome}/>

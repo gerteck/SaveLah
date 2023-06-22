@@ -92,6 +92,11 @@ export const styles = StyleSheet.create({
         fontWeight: '400',
     },
 
+    transactionMinorCaption: {
+        fontSize: 12,
+        fontWeight: '400',
+    },
+
     categoryContaineer: {
         justifyContent: "space-between", 
         flexDirection: "row", 

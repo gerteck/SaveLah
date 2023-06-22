@@ -10,7 +10,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 //Firestore
 import { getApp } from "firebase/app";
-import { getFirestore, getDoc, setDoc, doc } from 'firebase/firestore';
+import { getFirestore, getDoc, setDoc, doc, onSnapshot } from 'firebase/firestore';
 import { UserProfileContext } from "../../../context/UserProfileContext";
 
 const app = getApp; 
@@ -20,9 +20,10 @@ const ForumChat = ( {navigation, route} ) => {
 
     const [userProfile, setUserProfile] = useContext(UserProfileContext);
     const [otherProfile, setOtherProfile] = useState(route.params?.profile); 
-    const emptyArray = [];
+
     // Your messages
-    const [messages, setMessages] = useState(emptyArray);
+    const [messages, setMessages] = useState([]);
+    const [lastMessage, setLastMessage] = useState("");
 
     const chatUid1 = userProfile.uid + "_" + otherProfile.uid;
     const chatUid2 = otherProfile.uid + "_" + userProfile.uid;
@@ -35,6 +36,12 @@ const ForumChat = ( {navigation, route} ) => {
         setOtherProfile(route.params?.profile);
     }, [route])
 
+    // function to change date object into readable date object
+    const updatedTimeArray = (array) => array.map(message => {
+        const updatedDate = {...message, createdAt: message.createdAt.toDate()}
+        return updatedDate;
+    });
+
     // Look in database
     useEffect( () => {
         const getChats = async () => {
@@ -44,21 +51,28 @@ const ForumChat = ( {navigation, route} ) => {
             let chatSnap = await getDoc(chatRef1);
             setChatUidUsed(chatUid1);
 
+            // message document is named chatUid1.
+            if (chatSnap.exists()) {
+                
+                // Sets a listener to listen to changes on firestore.
+                const unsub = onSnapshot(doc(db, "messages", chatUid1), (doc) => {
+                    setMessages(updatedTimeArray(doc.data().messages))
+                });
+            }
+            
+            // message document is named chatUid2.
             if (!chatSnap.exists()) {
                 console.log("Get next ref");
                 chatSnap = await getDoc(chatRef2);
                 setChatUidUsed(chatUid2);
+                if (chatSnap.exists()) {
+                    const unsub = onSnapshot(doc(db, "messages", chatUid2), (doc) => {
+                        setMessages(updatedTimeArray(doc.data().messages));
+                    });
+                }
             }
-
-            if (chatSnap.exists()) {
-                const array = chatSnap.data().messages;
-                const updatedTimeArray = array.map(message => {
-                    const updatedDate = {...message, createdAt: message.createdAt.toDate()}
-                    return updatedDate;
-                });
-                setMessages(updatedTimeArray);
-            } 
             
+            // no message document exists.
             if (!chatSnap.exists()) {
                 await setDoc(doc(db, "messages", chatUid1), {
                     messages: []
@@ -68,63 +82,40 @@ const ForumChat = ( {navigation, route} ) => {
                     lastMessage: "",
                     userIds: [userProfile.uid, otherProfile.uid]
                 });
-                chatUidUsed = chatUid1;
-                console.log("using: " + chatUid1);
+                setChatUidUsed(chatUid1);
+                const unsub = onSnapshot(doc(db, "messages", chatUid1), (doc) => {
+                    setMessages(updatedTimeArray(doc.data().messages));
+                });
             }
         }
-
         getChats();
-        console.log("Chat id used:" + chatUidUsed);
-        //console.log("Loaded Messages");
     }, [route])
 
-    // the messages are an array of objects.
-
-    // useEffect(() => {
-    //     setMessages([
-    //     {    _id: 1,
-    //         text: 'Hello developer',
-    //         createdAt: new Date(),
-    //         user: { _id: 2, name: 'React Native', avatar: 'https://placeimg.com/140/140/any'},
-    //     },
-    //     {    _id: 2,
-    //         text: 'Hello World',
-    //         createdAt: new Date(),
-    //         user: {_id: 1, name: 'React Native', avatar: 'https://placeimg.com/140/140/any', },
-    //     },
-    //     ])
+    // Messages are an array of objects
+    // const updateMessages = useCallback((newMessage = []) => {
+    //     setLastMessage(newMessage[0].text)
+    //     setMessages(previousMessages => GiftedChat.append(previousMessages, newMessage));
     // }, [])
 
-    const updateMessages = useCallback((newMessage = []) => {
-        setMessages(previousMessages => GiftedChat.append(previousMessages, newMessage));
-    }, [])
+    const updateMessages = (newMessage = []) => {
+        setLastMessage(newMessage[0].text);
+        newMessageArray = GiftedChat.append(messages, newMessage);
+        uploadMessage(newMessageArray);
+    }
 
-    useEffect(()=>{
-        const uploadMessage = () => {
-            const saveMessages = async () => {
-                await setDoc(doc(db, "messages", chatUidUsed), {
-                    messages: messages
-                }, { merge: true });
-            }
-            saveMessages(); 
+    const uploadMessage = (data) => {
+        const saveMessages = async (data) => {
+            await setDoc(doc(db, "messages", chatUidUsed), {
+                messages: data
+            }, { merge: true });
+            await setDoc(doc(db, "chats", chatUidUsed), {
+                lastMessage: lastMessage,
+                lastSenderId: userProfile.uid,
+                timestamp: new Date(),
+            }, { merge: true });
         }
-        if (messages != emptyArray) {
-            uploadMessage();
-            //console.log("Uploaded Messages");
-        } 
-
-
-    }, [messages])
-
-    // const uploadMessage = () => {
-    //     const saveMessages = async () => {
-    //         await setDoc(doc(db, "messages", chatUidUsed), {
-    //             messages: messages
-    //         }, { merge: true });
-    //     }
-    //     saveMessages();
-    //     //console.log("Uploaded Messages");
-    // }
+        saveMessages(data); 
+    }
 
     const log = () => {
         console.log(messages);
@@ -163,8 +154,8 @@ const ForumChat = ( {navigation, route} ) => {
             <AppHeader style={styles.appHeader} title={otherProfile?.username} showBack onBack={onBack} userPictureURL={otherProfile.url} onUserPicture={log}/>
             
             <View style={styles.chatContainer}>
-                <GiftedChat messages={messages} onSend={newMessage => {updateMessages(newMessage)}} 
-                user={{_id: userProfile?.uid}}
+                <GiftedChat messages={messages} onSend={newMessage => updateMessages(newMessage)} 
+                user={{_id: userProfile?.uid, avatar: userProfile.url}}
                 renderBubble={renderBubble} 
                 alwaysShowSend renderSend={renderSend}
                 scrollToBottom scrollToBottomComponent={scrollToBottomComponent}

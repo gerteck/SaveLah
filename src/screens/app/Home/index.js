@@ -56,7 +56,7 @@ const Home = ( { navigation } ) => {
     var firstDay = new Date(y, m, 1);
     var lastDay = new Date(y, m + 1, 0);
     var lastMonthFirstDay = new Date(y, m - 1, 1);
-    var lastMonthLastDay = new Date(y, m + 1, 0);
+    var lastMonthLastDay = new Date(y, m, 0);
 
     // setting up date range for week
     var weekFirstDay
@@ -199,6 +199,10 @@ const Home = ( { navigation } ) => {
         navigation.navigate('Notifications');
     };
 
+    const onReport = () => {
+        navigation.navigate('SpendingReport');
+    }
+
     const Welcome = (<> 
         <Text style={styles.welcome}>Welcome Back,</Text>
         <Text style={styles.name}>{userProfile.username}</Text>
@@ -325,7 +329,7 @@ const Home = ( { navigation } ) => {
     const getHeader = () => {
         return (<>
             <Box content={Welcome}/>
-            <TouchableOpacity><Text style={styles.report}>See full report</Text></TouchableOpacity>
+            <TouchableOpacity onPress={onReport}><Text style={styles.report}>See full report</Text></TouchableOpacity>
             <Box content={PieChart}/>
             { !weekSelected && <Text style={styles.transactionTitle}>Top Spendings for the month</Text> }
             { weekSelected && <Text style={styles.transactionTitle}>Top Spendings for the week</Text> }
@@ -344,7 +348,7 @@ const Home = ( { navigation } ) => {
 
             {categories.length == 0 && <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}> 
                 <Box content={Welcome}/>
-                <TouchableOpacity><Text style={styles.report}>See full report</Text></TouchableOpacity>
+                <TouchableOpacity onPress={onReport}><Text style={styles.report}>See full report</Text></TouchableOpacity>
                 <Box content={PieChart}/> 
                 <Box content={noTransactionsYet} />
             </ScrollView> }

@@ -13,20 +13,6 @@ import TransactionTabs from "../../../components/TransactionTabs";
 const TransactionHistory = ( { navigation } ) => {
 
     const { user } = useAuthContext();
- 
-    // let userId = null;
-
-    // if(user) {
-    //     userId = user.uid;
-    // }
-
-    // useEffect(() => {
-    //     if(user) {
-    //         userId = user.uid;
-    //     } else {
-    //         userId = null;
-    //     }
-    // },[user])
 
     const { documents, error } = useCollection(
         'transactions/' + user?.uid + '/userTransactions',

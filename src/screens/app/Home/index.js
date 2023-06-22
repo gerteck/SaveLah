@@ -223,18 +223,26 @@ const Home = ( { navigation } ) => {
         labels: ['Last month', 'This month'],
         datasets: [
             {
-                data: [expenseLastMonth, expense]
+                data: [expenseLastMonth, expense],
+                colors: [
+                    (opacity = 1) => `#c9c9c9`,
+                    (opacity = 1) => `#78A9FF`,
+                ]
             }
-        ]
+        ]   
     }
 
     const weekData = {
         labels: ['Last week', 'This week'],
         datasets: [
             {
-                data: [expenseLastWeek, expenseWeek]
+                data: [expenseLastWeek, expenseWeek],
+                colors: [
+                    (opacity = 1) => `#c9c9c9`,
+                    (opacity = 1) => `#78A9FF`,
+                ]
             }
-        ]
+        ]    
     }
 
     const chartConfig = {
@@ -249,6 +257,11 @@ const Home = ( { navigation } ) => {
         barPercentage: 2,
         decimalPlaces: 2,
         strokeWidth: 2,
+
+        propsForBackgroundLines: {
+            strokeDasharray: "",
+            strokeWidth: 0,
+          },
     }
 
     const PieChart = (<View style={{alignItems: "center",}}>
@@ -261,8 +274,11 @@ const Home = ( { navigation } ) => {
         </View>
         <View style={{marginTop: 16}}>
             {/* <Image source={require('../../../assets/DummyChart.png')} style={{height: 200, width: 232, alignSelf: 'center'}}/> */}
-            { weekSelected && <BarChart data={weekData} height={220} width={300} chartConfig={chartConfig} showValuesOnTopOfBars={true} fromZero={true} />}
-            { !weekSelected && <BarChart data={monthData} height={220} width={300} chartConfig={chartConfig} showValuesOnTopOfBars={true} fromZero={true} />}
+            { weekSelected && <BarChart data={weekData} height={220} width={300} chartConfig={chartConfig} showValuesOnTopOfBars={true} fromZero={true}  withCustomBarColorFromData={true} 
+            flatColor={true} />}
+            
+            { !weekSelected && <BarChart data={monthData} height={220} width={300} chartConfig={chartConfig} showValuesOnTopOfBars={true} fromZero={true} withCustomBarColorFromData={true} 
+            flatColor={true} />}
         </View>
 
     </View>);

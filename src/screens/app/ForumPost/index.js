@@ -15,18 +15,38 @@ import Comment from "../../../components/Comment";
 const app = getApp;
 const db = getFirestore(app);
 
+const NOVOTE = 0;
+const UPVOTE = 1;
+const DOWNVOTE = 2;
+
 const ForumPost = ( {navigation, route} ) => {
 
-    const postDetails = route.params?.post;
+    const [userProfile, setUserProfile] = useContext(UserProfileContext);
+
+    const [posterProfile, setPosterProfile] = useState({}); 
+    const [postDetails, setPostDetails] = useState(route.params?.post);
     // fields: body, category, comments, createdAt, id, title, uid, url, votes
     // console.log(postDetails);
+    //console.log("refresh");
 
-    const posterUid = postDetails.uid; 
-    const [userProfile, setUserProfile] = useContext(UserProfileContext);
-    const [posterProfile, setPosterProfile] = useState({}); 
     const [allComments, setAllComments] = useState([]);
     const [addingComment, setAddingComment] = useState(false);
     const [commentText, setCommentText] = useState(""); 
+    const [postVote, setPostVote] = useState(0);
+
+    // Set up Listener
+    useEffect(() => {
+        const unsubPost = onSnapshot(doc(db, "posts", postDetails.id), (doc) => {
+            setPostDetails(doc.data());
+        });
+        if (postDetails.upvoters.includes(userProfile.uid)) {
+            setPostVote(UPVOTE);
+        }
+        if (postDetails.downvoters.includes(userProfile.uid)) {
+            if (postVote == UPVOTE) {throw new Error("upvote & downvote at same time")}
+            setPostVote(DOWNVOTE);
+        }
+    }, [route]);
 
     const collectionRoute = 'comments/' + postDetails?.id + '/comments';
     const { addDocument, response } = useFirestore(collectionRoute);
@@ -44,6 +64,7 @@ const ForumPost = ( {navigation, route} ) => {
                 votes: 0,
                 upvoters: [],
                 downvoters: [],
+                id: 1,
             }); 
             await setDoc(doc(db, collectionRoute, comment.id), {
                 id: comment.id,
@@ -69,7 +90,7 @@ const ForumPost = ( {navigation, route} ) => {
     // Get Poster Profile
     useEffect( () => {
         const getProfile = async () => {
-            const userRef = doc(db, "users", posterUid);
+            const userRef = doc(db, "users", postDetails?.uid);
             const docSnap = await getDoc(userRef);
             if (docSnap.exists()) {
                 setPosterProfile(docSnap.data());
@@ -82,7 +103,7 @@ const ForumPost = ( {navigation, route} ) => {
         getProfile(); 
         getAllComments();
     }, [route]);
-
+    
     //Drop Down Picker for Comments:
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState([{label: 'Recent', value: 'recent'}, {label: 'Most upvoted', value: 'mostUpvote'}]);
@@ -92,14 +113,56 @@ const ForumPost = ( {navigation, route} ) => {
         navigation.goBack();
     }
 
+    const onUserPress = () => {
+        navigation.navigate('ProfileOtherUser', { item: posterProfile });
+    };
+
     const posterURL = posterProfile?.url;
     const title = posterProfile.username ? "Posted by " + posterProfile.username : "Posted by Anonymous";
 
+    // Post Voting
+    const onVote = (num) => {
+        const downvoteArray = postDetails.downvoters;
+        const upvoteArray = postDetails.upvoters;
+
+        if (num == UPVOTE) {
+            if (postVote == DOWNVOTE) {
+                removeItemOnce(downvoteArray, userProfile.uid);
+            }
+            upvoteArray.push(userProfile.uid);
+            setPostVote(UPVOTE);
+        }
+        if (num == DOWNVOTE) {
+            if (postVote == UPVOTE) {
+                removeItemOnce(upvoteArray, userProfile.uid);
+            }
+            downvoteArray.push(userProfile.uid);
+            setPostVote(DOWNVOTE);
+        }
+        const sendVote = async () => {
+            await setDoc( doc(db, 'posts', postDetails.id), {
+                upvoters: upvoteArray,
+                downvoters: downvoteArray,
+                votes: upvoteArray.length - downvoteArray.length,
+            }, { merge: true });
+        }
+        sendVote();
+
+    } 
+
+    // remove item from array
+    function removeItemOnce(arr, value) {
+        var index = arr.indexOf(value);
+        if (index > -1) {
+          arr.splice(index, 1);
+        }
+        return arr;
+    }
     
     return (
         <SafeAreaView style={styles.safeContainer}>
         <ScrollView>
-            <AppHeader showBack onBack={onBack} style={styles.appHeader} userPictureURL={posterURL} title={title}/>
+            <AppHeader showBack onBack={onBack} style={styles.appHeader} userPictureURL={posterURL} title={title} onUserPicture={onUserPress}/>
             <View style={styles.whiteView}>
                 
                 <View style={styles.postContainer}>
@@ -117,9 +180,16 @@ const ForumPost = ( {navigation, route} ) => {
 
                     {/* Votes and Comments */}
                     <View style={styles.footer}>
-                        <Image source={require('../../../assets/appIcons/up.png')} style={styles.arrowIcon}/>
+                        <TouchableOpacity disabled={postVote == UPVOTE} onPress={() => onVote(UPVOTE)}>
+                            <Image source={postVote == UPVOTE ? require('../../../assets/appIcons/upFilled.png') 
+                                : require('../../../assets/appIcons/up.png')} style={styles.arrowIcon}/>
+                        </TouchableOpacity>
                         <Text style={styles.votes}>{postDetails.votes}</Text>
-                        <Image source={require('../../../assets/appIcons/down.png')} style={styles.arrowIcon}/>
+                        <TouchableOpacity disabled={postVote == DOWNVOTE}  onPress={() => onVote(DOWNVOTE)}>
+                            <Image source={postVote == DOWNVOTE ? require('../../../assets/appIcons/downFilled.png') 
+                                : require('../../../assets/appIcons/down.png')} style={styles.arrowIcon}/>
+                        </TouchableOpacity>
+                        
                     </View>
                 </View>
                 
@@ -149,7 +219,7 @@ const ForumPost = ( {navigation, route} ) => {
 
                 {/* Comments: */} 
                 <View style={styles.commentsList}>
-                { allComments.map((commentDetails) => <Comment commentDetails={commentDetails} navigation={navigation} />)}
+                { allComments.map((commentDetails) => <Comment commentDetails={commentDetails} navigation={navigation} key={commentDetails.id} />)}
                 </View>
 
 

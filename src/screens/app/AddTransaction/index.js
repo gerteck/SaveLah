@@ -24,7 +24,13 @@ const AddTransaction = ( {navigation} ) => {
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState([{label: 'Food & Beverage', value: 'Food & Beverage'},
                                         {label: 'Transportation', value: 'Transportation'},
-                                        {label: 'Fun Money', value: 'Fun Money'}]);
+                                        {label: 'Rentals', value: 'Rentals'},
+                                        {label: 'Utility bills', value: 'Utility bills'},
+                                        {label: 'Education', value: 'Education'},
+                                        {label: 'Pets', value: 'Pets'},
+                                        {label: 'Home maintenance', value: 'Home maintenance'},
+                                        {label: 'Fun Money', value: 'Fun Money'},
+                                        {label: 'Hobbies', value: 'Hobbies'},]);
 
 
     const goBack = () => {
@@ -111,13 +117,14 @@ const AddTransaction = ( {navigation} ) => {
                     onChangeText={(v) => onChangeValue('amount', v)} />
             </View>
 
-            <Text style={styles.label}>Category (will Change to dropdown)</Text>
+            <Text style={styles.label}>Category</Text>
             {/* <View style={styles.inputContainer}>
                 <TextInput placeholder="Food & Drinks" style={styles.input} value={values.category} 
                     onChangeText={(v) => onChangeValue('category', v)} />
             </View> */}
             
-            <DropDownPicker open={open} value={values.category} items={items} listMode="SCROLLVIEW" 
+            <DropDownPicker open={open} value={values.category} items={items} listMode="MODAL" modalProps={{ animationType: 'slide'}} searchable={true}
+                modalContentContainerStyle={styles.modalContainer}
                 placeholder="Select a Category" style={styles.pickerContainer}
                 setOpen={setOpen} onSelectItem={(v) => onChangeValue('category', v.value)} setItems={setItems} zIndex={1000}
             />
@@ -129,7 +136,7 @@ const AddTransaction = ( {navigation} ) => {
             </View>
 
             <View>
-                <Button onPress={showDatepicker} title={`Date: ${date.toLocaleDateString()}`} />
+                <Button style={styles.DatePickerButton} onPress={showDatepicker} title={`Date: ${date.toLocaleDateString()}`} />
             </View>
 
 

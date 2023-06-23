@@ -5,7 +5,7 @@ import { styles }  from './styles';
 import AppHeader from "../../../components/AppHeader";
 import DropDownPicker from 'react-native-dropdown-picker';
 import * as ImagePicker from 'expo-image-picker';
-import { useUploadImage } from "../../../hooks/useUploadImage";
+import { useUploadPostImage } from "../../../hooks/useUploadImage";
 import { useFirestore } from "../../../hooks/useFirestore";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import { doc, getFirestore, setDoc } from "@firebase/firestore";
@@ -21,7 +21,7 @@ const NewPost = ( { navigation } ) => {
         navigation.goBack();
     };
     
-    const [post, setPost] = useState({url: ""});
+    const [post, setPost] = useState({});
     // Adds to post object given a key and value
     // post Fields: title, body, category, url, comments, votes
     const onChange = (key, value) => {
@@ -49,12 +49,11 @@ const NewPost = ( { navigation } ) => {
     }
     const deleteImage = () => {
         setImageURI(null);
-        onChange('url', "");
     }
-    const uploadImage = async () => {
-        const uploadedURL = await useUploadImage(imageURI);
-        onChange('url', uploadedURL);
-        //console.log(post.url);
+
+    const uploadImage = async (postId) => {
+        const uploadedURL = await useUploadPostImage(postId, imageURI); 
+        return uploadedURL;
     }
 
     //FireStore Linking:
@@ -66,26 +65,27 @@ const NewPost = ( { navigation } ) => {
             if (!post?.title || !post?.body || !post?.category) {
                 Alert.alert('Please fill up all fields!');
                 return;
-            }
-
-            if (imageURI) {
-                await uploadImage();
-            }    
+            } 
 
             const postDoc = await addDocument({
                 uid: user.uid,
                 title: post.title,
                 body: post.body,
                 category: post.category,
-                url: post.url,
                 upvoters: [],
                 downvoters: [],
                 comments: 0,
                 votes: 0,
             }); 
+            
+            let url = "";
+            if (imageURI) {
+                url = await uploadImage(postDoc.id);
+            }   
 
             await setDoc(doc(db, 'posts', postDoc.id), {
                 id: postDoc.id,
+                url: url,
             }, { merge: true });
             
             console.log("Uploaded Post");
@@ -93,7 +93,7 @@ const NewPost = ( { navigation } ) => {
             navigation.goBack();
 
         } catch (error) {
-            console.log('error adding transaction :>> ', error);
+            console.log('error adding post :>> ', error);
         }
     }
 

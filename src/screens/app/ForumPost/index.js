@@ -175,6 +175,13 @@ const ForumPost = ( {navigation, route} ) => {
                     </View>
 
                     <Text style={styles.title} >{postDetails.title}</Text>
+
+                    {postDetails?.url && 
+                        <View style={styles.imageContainer}>
+                            <Image source={{uri: postDetails.url}} style={styles.postImage} />
+                        </View>
+                    }
+
                     <Text style={styles.body} >{postDetails.body}</Text>
 
 

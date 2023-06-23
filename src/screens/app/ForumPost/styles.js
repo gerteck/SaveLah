@@ -66,6 +66,21 @@ export const styles = StyleSheet.create({
         color: colors.darkGrey,
     },
 
+    imageContainer: {
+        height: 200,
+        alignItems: 'center',
+        margin: 16,
+        borderWidth: 0,
+        zIndex: -1,
+    },
+
+    postImage: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        resizeMode: 'contain',
+    },
+
     footer: {
         paddingTop: 8,
         flexDirection: 'row',

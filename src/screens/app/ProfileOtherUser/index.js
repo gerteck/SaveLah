@@ -86,7 +86,7 @@ const ProfileOtherUser = ( {navigation, route} ) => {
     };
 
     const onMessageUser = () => {
-        navigation.navigate('ForumChat', {name: otherProfile.username});
+        navigation.navigate('ForumChat', {profile: otherProfile});
 
     };
 

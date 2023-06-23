@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 import { colors } from '../../../utils/colors';
-
+import { Dimensions } from 'react-native';
+const windowHeight = Dimensions.get('window').height;
 
 export const styles = StyleSheet.create({
 
@@ -9,15 +10,18 @@ export const styles = StyleSheet.create({
         flex: 1,
     },
 
+    whiteView: {
+        backgroundColor: colors.white,
+        minHeight: 0.8* windowHeight,
+        borderRadius: 10,
+        padding: 11,
+        marginVertical: 8,
+    },
+
     appHeader: {
         backgroundColor: colors.white,
         borderRadius: 16,
     },  
-
-    chatBox: {
-        //borderWidth: 2,
-        flex: 1,
-    },
 
     chatContainer: {
         flexDirection: 'row',

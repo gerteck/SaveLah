@@ -8,6 +8,11 @@ import * as ImagePicker from 'expo-image-picker';
 import { useUploadImage } from "../../../hooks/useUploadImage";
 import { useFirestore } from "../../../hooks/useFirestore";
 import { useAuthContext } from "../../../hooks/useAuthContext";
+import { doc, getFirestore, setDoc } from "@firebase/firestore";
+import { getApp } from "@firebase/app";
+
+const app = getApp;
+const db = getFirestore(app);
 
 
 const NewPost = ( { navigation } ) => {
@@ -67,17 +72,22 @@ const NewPost = ( { navigation } ) => {
                 await uploadImage();
             }    
 
-            await addDocument({
+            const postDoc = await addDocument({
                 uid: user.uid,
                 title: post.title,
                 body: post.body,
                 category: post.category,
                 url: post.url,
-
+                upvoters: [],
+                downvoters: [],
                 comments: 0,
                 votes: 0,
+            }); 
 
-            });
+            await setDoc(doc(db, 'posts', postDoc.id), {
+                id: postDoc.id,
+            }, { merge: true });
+            
             console.log("Uploaded Post");
             
             navigation.goBack();

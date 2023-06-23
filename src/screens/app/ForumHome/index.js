@@ -7,6 +7,8 @@ import { colors } from "../../../utils/colors";
 import AppHeader from "../../../components/AppHeader";
 import PostList from "../../../components/PostList";
 import { useCollection } from "../../../hooks/useCollection";
+import { useIsFocused } from "@react-navigation/core";
+
 
 const ForumHome = ({ navigation }) => {
     
@@ -22,9 +24,10 @@ const ForumHome = ({ navigation }) => {
     }
 
     //Reset the search bar?
-    // useEffect(() => {
-    //     onChange('search', "");
-    // }, []);
+    const isFocused = useIsFocused();
+    useEffect(() => {
+        onChange('search', "");
+    },[isFocused]);    
 
     // Adds to the value object
     const [values, setValues] = useState({});
@@ -51,9 +54,7 @@ const ForumHome = ({ navigation }) => {
         )
     }
 
-    const { documents, error } = useCollection(
-        'posts'
-    );
+    const { documents, error } = useCollection('posts');
 
     return (
         <SafeAreaView style={styles.mainContainer}>

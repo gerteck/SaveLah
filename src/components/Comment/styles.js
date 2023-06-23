@@ -12,6 +12,7 @@ export const styles = StyleSheet.create({
     },
 
     commentDetails: {
+        width: '90%',
 
     },
 
@@ -54,6 +55,7 @@ export const styles = StyleSheet.create({
 
     commentText: {
         fontSize: 12,
+        marginLeft: 4,
         color: colors.black,
     },
 

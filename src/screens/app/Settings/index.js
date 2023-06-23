@@ -20,7 +20,7 @@ import { TextInput } from "react-native-gesture-handler";
 import Input from "../../../components/Input";
 
 import * as ImagePicker from 'expo-image-picker';
-import { useUploadImage } from "../../../hooks/useUploadImage";
+import { useUploadProfileImage } from "../../../hooks/useUploadImage";
 
 const app = getApp;
 const db = getFirestore(app);
@@ -68,7 +68,7 @@ const Settings = ( { navigation } ) => {
         setImageURI(null);
     }
     const uploadImage = async () => {
-        const uploadedURL = await useUploadImage(user.uid, imageURI);
+        const uploadedURL = await useUploadProfileImage(user.uid, imageURI);
         setUserProfile(v => ({...v, ['url']: uploadedURL}));
         
         await setDoc( doc(db, 'users', user.uid), {

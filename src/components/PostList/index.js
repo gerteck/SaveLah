@@ -1,18 +1,23 @@
 import React from "react";
-import { Text, View, FlatList, Image } from "react-native";
+import { Text, View, FlatList, Image, Pressable, TouchableOpacity } from "react-native";
 import { styles } from './styles';
-import { useState } from "react";
 import { colors } from "../../utils/colors";
 
-const PostList = ({posts}) => {
+const PostList = ({posts, navigation}) => {
+
 
     const renderPosts = ({item}) => {
-        //console.log(item);
-        // fields: body, category, comments, createdAt, id, title, uid, url, votes
+
+        // console.log(postDetails);
+        // fields: body, category, comments, createdAt, id, title, uid, url, votes, upvoters, downvoters
+
+        const goPost = () => {
+            navigation.navigate('ForumPost', {post: item});
+        };
 
         return (
 
-            <View style={styles.mainContainer}>
+            <Pressable style={styles.mainContainer} onPress={goPost}>
 
                 {/* Category and Date Time */}
                 <View style={styles.header}>
@@ -28,9 +33,13 @@ const PostList = ({posts}) => {
 
                 {/* Votes and Comments */}
                 <View style={styles.footer}>
-                    <Image source={require('../../assets/appIcons/up.png')} style={styles.arrowIcon}/>
+                    <View>
+                        <Image source={require('../../assets/appIcons/up.png')} style={styles.arrowIcon}/>
+                    </View>
                     <Text style={styles.votes}>{item.votes}</Text>
-                    <Image source={require('../../assets/appIcons/down.png')} style={styles.arrowIcon}/>
+                    {/* <TouchableOpacity onPress={() => {}}>
+                        <Image source={require('../../assets/appIcons/down.png')} style={styles.arrowIcon}/>
+                    </TouchableOpacity> */}
 
 
                     <View style={{width: '15%'}} />
@@ -40,7 +49,7 @@ const PostList = ({posts}) => {
                 </View>
             
 
-            </View>
+            </Pressable>
 
         )
     }

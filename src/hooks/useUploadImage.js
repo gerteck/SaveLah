@@ -9,7 +9,7 @@ const storageRef = ref(storage);
 // see https://firebase.google.com/docs/storage/web/start for Documentation
 
 //Hook takes in userID ui, Uri (for local images)
-export const useUploadImage = async (uid, uri) => {
+export const useUploadProfileImage = async (uid, uri) => {
     let uploaded = false;
     let filename = uid;
 
@@ -17,6 +17,28 @@ export const useUploadImage = async (uid, uri) => {
     const blob = await response.blob();
 
     const imageRef = ref(storage, `profilePictures/${filename}`);
+    await uploadBytes(imageRef, blob).then((snapshot) => {
+        uploaded = true;
+    });
+    if (uploaded) {
+        const downloadURL = await getDownloadURL(imageRef);
+        //console.log("Image URL: ", downloadURL);
+        console.log("Image uploaded to Firestore");
+        return downloadURL;
+    } else {
+        console.log("Image not uploaded // Error in hooks/useUploadImage.js")
+        return null;
+    }
+}
+
+export const useUploadPostImage = async (uid, uri) => {
+    let uploaded = false;
+    let filename = uid;
+
+    const response = await fetch(uri);
+    const blob = await response.blob();
+
+    const imageRef = ref(storage, `postPictures/${filename}`);
     await uploadBytes(imageRef, blob).then((snapshot) => {
         uploaded = true;
     });

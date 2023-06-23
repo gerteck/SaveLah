@@ -37,6 +37,7 @@ import { UserProfileContext } from './src/context/UserProfileContext';
 import ProfileSearchUser from './src/screens/app/ProfileSearchUser';
 import ProfileFollowInfo from './src/screens/app/ProfileFollowInfo';
 import ProfileOtherUser from './src/screens/app/ProfileOtherUser';
+import ForumPost from './src/screens/app/ForumPost';
 
 
 const AuthStack = createStackNavigator();
@@ -161,6 +162,7 @@ const Routes = () => {
                           <AuthStack.Screen name="ProfileOtherUser" component={ProfileOtherUser} options={{ headerShown: false }} /> 
                           <AuthStack.Screen name="Notifications" component={Notifications} options={{ headerShown: false }} />
                           <AuthStack.Screen name="NewPost" component={NewPost} options={{ headerShown: false }} />
+                          <AuthStack.Screen name="ForumPost" component={ForumPost} options={{ headerShown: false }} />
                       </>
                 )}
                 {user && !userProfile?.registered && (

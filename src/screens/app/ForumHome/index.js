@@ -7,11 +7,8 @@ import { colors } from "../../../utils/colors";
 import AppHeader from "../../../components/AppHeader";
 import PostList from "../../../components/PostList";
 import { useCollection } from "../../../hooks/useCollection";
+import { useIsFocused } from "@react-navigation/core";
 
-const PostData = [
-    {id: '1'}, {id: '2'}, {id: '3'}, 
-    {id: '4'}, {id: '5'}, {id: '6'}, 
-]
 
 const ForumHome = ({ navigation }) => {
     
@@ -27,9 +24,10 @@ const ForumHome = ({ navigation }) => {
     }
 
     //Reset the search bar?
-    // useEffect(() => {
-    //     onChange('search', "");
-    // }, []);
+    const isFocused = useIsFocused();
+    useEffect(() => {
+        onChange('search', "");
+    },[isFocused]);    
 
     // Adds to the value object
     const [values, setValues] = useState({});
@@ -56,9 +54,7 @@ const ForumHome = ({ navigation }) => {
         )
     }
 
-    const { documents, error } = useCollection(
-        'posts'
-    );
+    const { documents, error } = useCollection('posts');
 
     return (
         <SafeAreaView style={styles.mainContainer}>
@@ -67,7 +63,7 @@ const ForumHome = ({ navigation }) => {
             {SortBar()}
 
             {error && <Text>{error}</Text>}
-            {documents && <PostList posts={documents} />}
+            {documents && <PostList posts={documents} navigation={navigation} />}
 
 
             <TouchableOpacity style={styles.newPost} onPress={onNewPost}>

@@ -23,7 +23,7 @@ const ProfileOtherUser = ( {navigation, route} ) => {
     useEffect(() => {
         setOtherProfile(otherUser);
         if (otherUser.uid == user.uid) {
-            navigation.navigate('Profile');
+            navigation.navigate('Tabs', {screen: 'ProfileSettings'});
         }
     }, [otherUser])
 

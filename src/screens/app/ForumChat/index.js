@@ -23,23 +23,19 @@ const ForumChat = ( {navigation, route} ) => {
 
     // Your messages
     const [messages, setMessages] = useState([]);
-    const [lastMessage, setLastMessage] = useState("");
 
     const chatUid1 = userProfile.uid + "_" + otherProfile.uid;
-    const chatUid2 = otherProfile.uid + "_" + userProfile.uid;
-    
+    const chatUid2 = otherProfile.uid + "_" + userProfile.uid;    
     const [chatUidUsed, setChatUidUsed] = useState("");
 
     // Initialize profile
     useEffect( () => {
-        console.log("Forum Chat refresh.")
         setOtherProfile(route.params?.profile);
     }, [route])
 
     // function to change date object into readable date object
     const updatedTimeArray = (array) => array.map(message => {
-        const updatedDate = {...message, createdAt: message.createdAt.toDate()}
-        return updatedDate;
+        return {...message, createdAt: message.createdAt.toDate()}
     });
 
     // Look in database
@@ -62,7 +58,7 @@ const ForumChat = ( {navigation, route} ) => {
             
             // message document is named chatUid2.
             if (!chatSnap.exists()) {
-                console.log("Get next ref");
+                // console.log("Get next ref");
                 chatSnap = await getDoc(chatRef2);
                 setChatUidUsed(chatUid2);
                 if (chatSnap.exists()) {
@@ -72,17 +68,12 @@ const ForumChat = ( {navigation, route} ) => {
                 }
             }
             
-            // no message document exists.
+            // no message document exists. //setDoc for chat only if we start a chat.
             if (!chatSnap.exists()) {
+                setChatUidUsed(chatUid1);
                 await setDoc(doc(db, "messages", chatUid1), {
                     messages: []
                 });
-                await setDoc(doc(db, "chats", chatUid1), {
-                    chatUid: chatUid1,
-                    lastMessage: "",
-                    userIds: [userProfile.uid, otherProfile.uid]
-                });
-                setChatUidUsed(chatUid1);
                 const unsub = onSnapshot(doc(db, "messages", chatUid1), (doc) => {
                     setMessages(updatedTimeArray(doc.data().messages));
                 });
@@ -91,27 +82,23 @@ const ForumChat = ( {navigation, route} ) => {
         getChats();
     }, [route])
 
-    // Messages are an array of objects
-    // const updateMessages = useCallback((newMessage = []) => {
-    //     setLastMessage(newMessage[0].text)
-    //     setMessages(previousMessages => GiftedChat.append(previousMessages, newMessage));
-    // }, [])
-
     const updateMessages = (newMessage = []) => {
-        setLastMessage(newMessage[0].text);
+        lastMessage = newMessage[0].text;
         newMessageArray = GiftedChat.append(messages, newMessage);
-        uploadMessage(newMessageArray);
+        uploadMessage(newMessageArray, lastMessage);
     }
 
-    const uploadMessage = (data) => {
+    const uploadMessage = (data, lastMessage) => {
         const saveMessages = async (data) => {
             await setDoc(doc(db, "messages", chatUidUsed), {
                 messages: data
             }, { merge: true });
             await setDoc(doc(db, "chats", chatUidUsed), {
+                chatUid: chatUidUsed,
                 lastMessage: lastMessage,
                 lastSenderId: userProfile.uid,
                 timestamp: new Date(),
+                userIds: [userProfile.uid, otherProfile.uid]
             }, { merge: true });
         }
         saveMessages(data); 
@@ -146,9 +133,7 @@ const ForumChat = ( {navigation, route} ) => {
     const onBack = () => {
         navigation.goBack();
     };
-
-    // console.log(userProfile.uid);
-        
+  
     return (
         <SafeAreaView style={styles.mainContainer}>
             <AppHeader style={styles.appHeader} title={otherProfile?.username} showBack onBack={onBack} userPictureURL={otherProfile.url} onUserPicture={log}/>

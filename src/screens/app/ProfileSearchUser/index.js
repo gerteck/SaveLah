@@ -88,8 +88,6 @@ const ProfileSearchUser = ( { navigation } ) => {
     };
 
 
-
-
     return (
         <SafeAreaView style={styles.mainContainer}>
             <AppHeader showBack onBack={onBack} style={styles.appHeader} title={"Search Users"}/>

@@ -44,6 +44,7 @@ export const useFirestore = (collectionName) => {
             const addedDocument = await addDoc(ref, { ...doc, createdAt });
             console.log('Document written with ID: ', addedDocument.id);
             dispatch({ type: 'ADDED_DOCUMENT', payload: addedDocument});
+            return addedDocument;
         } catch (error) {
             dispatch({ type: 'ERROR', payload: error.message });
         }

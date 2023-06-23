@@ -88,5 +88,77 @@ export const styles = StyleSheet.create({
         borderWidth: 0,
     },
 
+    addCommentRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        zIndex: 9,
+    },
+
+    addComment: {
+        backgroundColor: colors.blue,
+        alignSelf: 'flex-start',
+        justifyContent: 'center',
+        paddingVertical: 12,
+        paddingHorizontal: 24,
+        borderRadius: 8,
+    },
+
+    addCommentText: {
+        textAlign: 'center',
+        color: colors.white,
+        fontSize: 16,
+        fontWeight: '900',
+    },
+
+    dropDownPickerContainer: {
+        width: '45%',
+    },
+
+    pickerContainer: {
+        borderColor: colors.backgroundBlue,
+        borderWidth: 0.5,
+    },
+
+    
+    inputContainer: {
+        backgroundColor: colors.white,
+        borderColor: colors.backgroundBlue,
+        borderWidth: 1,
+        borderRadius: 14,
+        marginTop: 16,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+
+    input: {
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        flex: 1,
+    },
+
+    postComment: {
+        backgroundColor: colors.grey,
+        width: '100%',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        paddingVertical: 8,
+        paddingHorizontal: 24,
+        borderRadius: 8,
+    },
+
+    postCommentText: {
+        textAlign: 'center',
+        color: colors.black,
+        fontSize: 16,
+        fontWeight: '900',
+    },
+
+    commentsList:{
+        paddingTop: 4,
+        paddingBottom: 16,
+    },
+
 
 })

@@ -4,6 +4,7 @@ import { styles } from './styles';
 
 import { getApp } from "@firebase/app";
 import { doc, getDoc, getFirestore } from "@firebase/firestore";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const app = getApp;
 const db = getFirestore(app);
@@ -42,7 +43,9 @@ const Comment = ({commentDetails, navigation}) => {
             <View style={styles.commentDetails}>
                 <View style={styles.posterRow}>
                     <View style={styles.iconBubble}>
-                        <Image style={styles.displayPicture} source={{uri: posterProfile?.url}} />
+                        <TouchableOpacity onPress={onUserPress}>
+                            <Image style={styles.displayPicture} source={{uri: posterProfile?.url}} />
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.posterDetails}>
                         <Text style={styles.username}>@{posterProfile?.username ? posterProfile?.username.replace(/\s/g, "") : ""}</Text>

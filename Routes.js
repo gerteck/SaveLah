@@ -73,7 +73,6 @@ const ProfileSettings = () => {
       <ProfileStack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
       <ProfileStack.Screen name="ProfileSearchUser" component={ProfileSearchUser} options={{ headerShown: false }} /> 
       <ProfileStack.Screen name="ProfileFollowInfo" component={ProfileFollowInfo} options={{ headerShown: false }} />
-      <ProfileStack.Screen name="ProfileOtherUser" component={ProfileOtherUser} options={{ headerShown: false }} /> 
     </ProfileStack.Navigator>
   )
 }
@@ -159,6 +158,7 @@ const Routes = () => {
                       <>
                           <AuthStack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
                           <AuthStack.Screen name="ForumChat" component={ForumChat} options={{ headerShown: false }} />
+                          <AuthStack.Screen name="ProfileOtherUser" component={ProfileOtherUser} options={{ headerShown: false }} /> 
                           <AuthStack.Screen name="Notifications" component={Notifications} options={{ headerShown: false }} />
                           <AuthStack.Screen name="NewPost" component={NewPost} options={{ headerShown: false }} />
                       </>

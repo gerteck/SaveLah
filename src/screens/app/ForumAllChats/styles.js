@@ -10,18 +10,25 @@ export const styles = StyleSheet.create({
         flex: 1,
     },
 
+    appHeader: {
+        backgroundColor: colors.white,
+        borderRadius: 16,
+    },  
+
     whiteView: {
         backgroundColor: colors.white,
         minHeight: 0.8* windowHeight,
         borderRadius: 10,
         padding: 11,
-        marginVertical: 8,
+        marginTop: 8,
+        marginBottom: 60,
     },
 
-    appHeader: {
-        backgroundColor: colors.white,
-        borderRadius: 16,
-    },  
+    flatList:{
+        paddingTop: 4,
+        paddingBottom: 30,
+        borderWidth: 0,
+    },
 
     chatContainer: {
         flexDirection: 'row',

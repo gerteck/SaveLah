@@ -126,7 +126,7 @@ const ProfileOtherUser = ( {navigation, route} ) => {
                         <TouchableOpacity onPress={onFollow} style={styles.settingsBox}>
                             <View style={styles.opacityBox}>
                                 { !followingUser &&  <Text style={styles.followText}>Follow</Text>}
-                                { followingUser &&  <Text style={styles.followText}> UnFollow</Text>}
+                                { followingUser &&  <Text style={styles.followText}> Unfollow</Text>}
                             </View>
                         </TouchableOpacity>
                         <View style={{width: '5%'}}/>

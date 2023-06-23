@@ -104,11 +104,6 @@ const ForumChat = ( {navigation, route} ) => {
         saveMessages(data); 
     }
 
-    const log = () => {
-        console.log(messages);
-    }
-
-
     const renderBubble = (props) => {
         return (
         <Bubble {...props} 
@@ -133,10 +128,16 @@ const ForumChat = ( {navigation, route} ) => {
     const onBack = () => {
         navigation.goBack();
     };
+
+    // Pass the profile item into the route.params.item
+    const onUserPress = () => {
+        const item = otherProfile;
+        navigation.navigate('ProfileOtherUser', { item });
+    };
   
     return (
         <SafeAreaView style={styles.mainContainer}>
-            <AppHeader style={styles.appHeader} title={otherProfile?.username} showBack onBack={onBack} userPictureURL={otherProfile.url} onUserPicture={log}/>
+            <AppHeader style={styles.appHeader} title={otherProfile?.username} showBack onBack={onBack} userPictureURL={otherProfile.url} onUserPicture={onUserPress}/>
             
             <View style={styles.chatContainer}>
                 <GiftedChat messages={messages} onSend={newMessage => updateMessages(newMessage)} 

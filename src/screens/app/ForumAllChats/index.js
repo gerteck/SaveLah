@@ -99,8 +99,8 @@ const ForumAllChats = ({ navigation }) => {
             
             <View style={styles.whiteView}>
 
-            {chatsProfilesArray && <FlatList data={chatsProfilesArray} keyExtractor={chatProfile => chatProfile.chat.chatUid} renderItem={renderChats} 
-                    showsVerticalScrollIndicator={false}/> }
+                {chatsProfilesArray && <FlatList contentContainerStyle={styles.flatList} data={chatsProfilesArray} keyExtractor={chatProfile => chatProfile.chat.chatUid} renderItem={renderChats} 
+                        showsVerticalScrollIndicator={false}/> }
                     
             </View>
 

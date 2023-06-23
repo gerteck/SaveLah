@@ -196,7 +196,7 @@ const Home = ( { navigation } ) => {
         return () => unsubscribe();
     },[]);
 
-    // Change in spending calculation
+    // Change in spending calculation month
     let changeInSpending;
     if (expense == 0 && expenseLastMonth == 0) {
         changeInSpending = '0';
@@ -212,6 +212,24 @@ const Home = ( { navigation } ) => {
             changeInSpending = '+' + changeInSpending;
         }
     }
+
+    // Change in spending calculation week
+    let changeInSpendingWeek;
+    if (expenseWeek == 0 && expenseLastWeek == 0) {
+        changeInSpendingWeek = '0';
+    } else if (expenseWeek == 0 && expenseLastWeek != 0) {
+        changeInSpendingWeek = '-100';
+    } else if (expenseLastWeek == 0 && expenseWeek != 0) {
+        changeInSpendingWeek = '+100';
+    } else {
+        var change = expenseWeek - expenseLastWeek;
+        changeInSpendingWeek = (change / expenseLastWeek) * 100;
+        changeInSpendingWeek = parseFloat(changeInSpendingWeek.toFixed(2)).toLocaleString('en-US');
+        if (change > 0) {
+            changeInSpendingWeek = '+' + changeInSpendingWeek;
+        }
+    }
+
 
     // Setting up listener for recent transactions
     const qR = query(collection(projectFireStore, 'transactions/' + user?.uid + '/userTransactions'), orderBy("date", "desc"), limit(3));
@@ -238,21 +256,6 @@ const Home = ( { navigation } ) => {
     const onReport = () => {
         navigation.navigate('SpendingReport');
     }
-
-    const Welcome = (<> 
-        <Text style={styles.welcome}>Welcome Back,</Text>
-        <Text style={styles.name}>{userProfile.username}</Text>
-        <View style={styles.budgetOverview}>
-            <View> 
-                <Text style={styles.money}>{changeInSpending}%</Text>
-                <Text style={styles.caption}>Change in spending</Text>
-            </View>
-            <View> 
-                <Text style={styles.money} >${expense}</Text>
-                <Text style={styles.caption} >Amount Spent</Text>
-            </View>
-        </View>
-    </>);
 
     const onRegister = () => {
         navigation.navigate("RegisterProfile");
@@ -307,6 +310,23 @@ const Home = ( { navigation } ) => {
             strokeWidth: 0,
           },
     }
+
+    const Welcome = (<> 
+        <Text style={styles.welcome}>Welcome Back,</Text>
+        <Text style={styles.name}>{userProfile.username}</Text>
+        <View style={styles.budgetOverview}>
+            <View> 
+                {!weekSelected && <Text style={styles.money}>{changeInSpending}%</Text>}
+                {weekSelected && <Text style={styles.money}>{changeInSpendingWeek}%</Text>}
+                <Text style={styles.caption}>Change in spending</Text>
+            </View>
+            <View> 
+                {!weekSelected && <Text style={styles.money} >${expense}</Text>}
+                {weekSelected && <Text style={styles.money} >${expenseWeek}</Text>}
+                <Text style={styles.caption} >Amount Spent</Text>
+            </View>
+        </View>
+    </>);
 
     const PieChart = (<View style={{alignItems: "center",}}>
         <View style={styles.weekMonthBar}>

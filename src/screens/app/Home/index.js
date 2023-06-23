@@ -413,7 +413,7 @@ const Home = ( { navigation } ) => {
             <AppHeader title="SaveLah" showBell onBell={onBell}/>
 
             {categories.length != 0 && !weekSelected && <FlatList data={categories} keyExtractor={item => item.category} renderItem={renderTransactions} 
-            ListHeaderComponent={getHeader} />}
+            ListHeaderComponent={getHeader} ListFooterComponent={getFooter}/>}
 
             {categories.length != 0 && weekSelected && <FlatList data={categoriesWeek} keyExtractor={item => item.category} renderItem={renderTransactions} 
             ListHeaderComponent={getHeader} ListFooterComponent={getFooter}/>}

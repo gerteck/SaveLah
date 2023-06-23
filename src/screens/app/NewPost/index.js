@@ -78,8 +78,9 @@ const NewPost = ( { navigation } ) => {
                 votes: 0,
 
             });
-            // console.log("Uploaded Post");
-            // console.log(response);
+            console.log("Uploaded Post");
+            
+            navigation.goBack();
 
         } catch (error) {
             console.log('error adding transaction :>> ', error);
@@ -95,7 +96,7 @@ const NewPost = ( { navigation } ) => {
 
             <Text style={styles.label}>Title</Text>
             <View style={styles.inputContainer}>
-                <TextInput placeholder="Title" style={styles.input} value={post.title} 
+                <TextInput placeholder="Title" style={styles.input} value={post.title} multiline
                     onChangeText={(v) => onChange('title', v)} />
             </View>
 

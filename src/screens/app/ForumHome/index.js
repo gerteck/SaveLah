@@ -8,11 +8,6 @@ import AppHeader from "../../../components/AppHeader";
 import PostList from "../../../components/PostList";
 import { useCollection } from "../../../hooks/useCollection";
 
-const PostData = [
-    {id: '1'}, {id: '2'}, {id: '3'}, 
-    {id: '4'}, {id: '5'}, {id: '6'}, 
-]
-
 const ForumHome = ({ navigation }) => {
     
     //navigations
@@ -67,7 +62,7 @@ const ForumHome = ({ navigation }) => {
             {SortBar()}
 
             {error && <Text>{error}</Text>}
-            {documents && <PostList posts={documents} />}
+            {documents && <PostList posts={documents} navigation={navigation} />}
 
 
             <TouchableOpacity style={styles.newPost} onPress={onNewPost}>

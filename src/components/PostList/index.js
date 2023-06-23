@@ -1,18 +1,28 @@
 import React from "react";
-import { Text, View, FlatList, Image } from "react-native";
+import { Text, View, FlatList, Image, Pressable, Touchable } from "react-native";
 import { styles } from './styles';
 import { useState } from "react";
 import { colors } from "../../utils/colors";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-const PostList = ({posts}) => {
+const PostList = ({posts, navigation}) => {
+
 
     const renderPosts = ({item}) => {
         //console.log(item);
         // fields: body, category, comments, createdAt, id, title, uid, url, votes
 
+        const goPost = () => {
+            navigation.navigate('ForumPost', {post: item});
+        };
+
+        // const onMessageUser = (otherProfile) => {
+        //     navigation.navigate('ForumChat', {profile: otherProfile});
+        // };
+
         return (
 
-            <View style={styles.mainContainer}>
+            <Pressable style={styles.mainContainer} onPress={goPost}>
 
                 {/* Category and Date Time */}
                 <View style={styles.header}>
@@ -40,7 +50,7 @@ const PostList = ({posts}) => {
                 </View>
             
 
-            </View>
+            </Pressable>
 
         )
     }

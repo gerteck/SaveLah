@@ -13,6 +13,13 @@ const PostList = ({posts, navigation, onRefresh, refreshing, mapList}) => {
         const goPost = () => {
             navigation.navigate('ForumPost', {post: item});
         };
+        
+        let categoryColor = {};
+        if (item.category == 'Life') {
+            categoryColor = {backgroundColor: '#FFCD92'}
+        } else if (item.category == 'MoneySavingTips') {
+            categoryColor = {backgroundColor: '#92A3FF'}
+        }
 
         return (
 
@@ -20,7 +27,7 @@ const PostList = ({posts, navigation, onRefresh, refreshing, mapList}) => {
 
                 {/* Category and Date Time */}
                 <View style={styles.header}>
-                    <View style={styles.categoryContainer}>
+                    <View style={[styles.categoryContainer, categoryColor]}>
                         <Text style={styles.categoryText}>{item.category}</Text>
                     </View>
                     <Text style={styles.time}>{item.createdAt.toDate().toDateString()}</Text>

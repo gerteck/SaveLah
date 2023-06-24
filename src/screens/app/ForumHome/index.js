@@ -59,9 +59,9 @@ const ForumHome = ({ navigation }) => {
                 postArray.push(doc.data());
             });
             setallPosts(postArray);
+            sortPosts();
         }
         downloadPosts();
-        sortPosts();
         setRefreshing(false);
     }
 

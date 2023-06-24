@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
 
     commentDetails: {
         width: '90%',
-
+        marginVertical: 12,
     },
 
     posterRow: {

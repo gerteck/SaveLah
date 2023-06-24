@@ -112,7 +112,8 @@ const ForumPost = ( {navigation, route} ) => {
     
     //Drop Down Picker for Comments:
     const [open, setOpen] = useState(false);
-    const [items, setItems] = useState([{label: 'Recent', value: 'recent'}, {label: 'Most upvoted', value: 'mostUpvote'}]);
+    // const [items, setItems] = useState([{label: 'Recent', value: 'recent'}, {label: 'Most upvoted', value: 'mostUpvote'}]);
+    const [items, setItems] = useState([{label: 'Recent', value: 'recent'}]);
     const [sort, setSort] = useState('recent');
 
     const onBack = () => {

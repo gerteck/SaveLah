@@ -23,6 +23,7 @@
     "expo-status-bar": "~1.4.4",
     "expo-updates": "^0.16.4",
     "firebase": "^9.22.1",
+    "lodash": "^4.17.21",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.71.8",
@@ -38,7 +39,8 @@
     "react-native-scrollable-tab-view": "^1.0.0",
     "react-native-svg": "13.4.0",
     "react-native-tab-view": "^3.5.1",
-    "react-native-web": "~0.18.10"
+    "react-native-web": "~0.18.10",
+    "underscore": "^1.13.6"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

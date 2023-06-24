@@ -129,5 +129,11 @@ export const styles = StyleSheet.create({
         marginRight: 16,
     },
 
+    transactionTextContainer: {
+        flexDirection: "row", 
+        flex: 1, 
+        justifyContent: "space-between",
+    },
+
 
 })

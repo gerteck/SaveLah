@@ -2,27 +2,13 @@ import { StyleSheet } from 'react-native';
 import { colors } from '../../utils/colors';
 
 export const styles = StyleSheet.create({
-    container: {
-        backgroundColor: colors.white, 
-        height: 100, 
-        marginBottom: 16,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 10,
-    },
-
-    header: {
-        padding: 10,
-        backgroundColor: colors.grey,
-        alignContent: 'flex-start',
-    },
-
-    overViewContainer: {
+    overviewContainer: {
         backgroundColor: colors.white,
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        marginBottom: 8,
 
         flexDirection: 'column',
-        minHeight: 100,
         justifyContent: 'center',
 
     },
@@ -32,10 +18,116 @@ export const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
 
+    flowText: {
+        fontSize: 14,
+        fontWeight: '500',
+    },
+
+    inflowText: {
+        color: colors.textBlue,
+        fontSize: 14,
+        fontWeight: '400',
+        marginVertical: 1,
+    },
+
+    outflowText: {
+        color: colors.textRed,
+        fontSize: 14,
+        fontWeight: '400',
+        marginVertical: 1,
+    },
+
     divider: {
         height: 1,
         backgroundColor: colors.grey,
-        width: '90%',
+        marginVertical: 8,
+        width: '100%',
         alignSelf: 'center',
     },
+
+    totalContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+
+    addComment: {
+        backgroundColor: colors.blue,
+        alignSelf: 'flex-start',
+        justifyContent: 'center',
+        paddingVertical: 6,
+        paddingHorizontal: 16,
+        borderRadius: 8,
+        elevation: 8,
+    },
+
+    addCommentText: {
+        textAlign: 'center',
+        color: colors.white,
+        fontSize: 11,
+        fontWeight: '500',
+    },
+
+
+    // Transactions:
+    transactionWhiteBox:{
+        backgroundColor: colors.white,
+        borderRadius: 10,
+        marginVertical: 4,
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+    },
+
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+
+    dateContainer: {
+        flexDirection: 'row',
+    },
+
+    date: {
+        fontSize: 24,
+        fontWeight: '500',
+        marginLeft: 10,
+        marginRight: 16,
+    },
+
+    day: {
+        fontSize: 12,
+        fontWeight: '500',
+    },
+
+    month: {
+        fontSize: 11,
+        fontWeight: '400',
+    },
+
+    dateDetailsContainer:{
+        flexDirection: 'column',
+    },
+
+    transAmount: {
+        alignSelf: 'center',
+    },
+
+
+    // Transaction details categories
+    transactionDetailsContainer: {
+        marginBottom: 8,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+
+    categoryIcon: {
+        backgroundColor: colors.grey,
+        height: 24,
+        width: 24,
+        borderRadius: 12,
+        marginLeft: 10,
+        marginRight: 16,
+    },
+
+
 })

@@ -21,12 +21,12 @@ const ProfileOtherUser = ( {navigation, route} ) => {
     const otherUser = route.params.item;
     const { user } = useAuthContext();
 
-    // set Other Profile
+    // Navigate out if own Profile and initalize other user Profile
     useEffect(() => {
-        setOtherProfile(otherUser);
         if (otherUser.uid == user.uid) {
-            navigation.navigate('Tabs', {screen: 'ProfileSettings'});
+            navigation.navigate('Tabs', {screen: 'ProfileSettings', params: {screen: 'Profile'}});
         }
+        setOtherProfile(otherUser);
     }, [otherUser])
 
     const [userProfile, setUserProfile] = useContext(UserProfileContext);
@@ -46,7 +46,7 @@ const ProfileOtherUser = ( {navigation, route} ) => {
     useEffect(()=> {
         if (otherProfile) {
             const postsRef = collection(db, "posts")
-            const q = query(postsRef, where("uid", '==', otherProfile.uid), orderBy("votes", "desc"), limit(5));    
+            const q = query(postsRef, where("uid", '==', otherProfile.uid), orderBy("votes", "desc"), limit(3));    
             const getPosts = async () => {
                 const querySnapshot = await getDocs(q);
                 const posts = [];

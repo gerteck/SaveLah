@@ -24,8 +24,6 @@ const TransactionList = ({transactions}) => {
     const earliestDate = sortedTransactions[0].date;
     const latestDate = sortedTransactions[numOfTransactions-1].date;
 
-    
-
     const renderTransactions = ({item}) => {
         //console.log(item.date.toDate());
         return (
@@ -44,7 +42,24 @@ const TransactionList = ({transactions}) => {
     return (
         
         <View>
-            <FlatList data={(sortedTransactions)} keyExtractor={item => item.id} renderItem={renderTransactions}/>         
+            {/* Top View containing Details */}
+            <View style={styles.overViewContainer}> 
+                <View style={styles.flows}>
+                    <Text>Inflow</Text>
+                    <Text>0.00</Text>
+                </View>
+                <View style={styles.flows}>
+                    <Text>Outflow</Text>
+                    <Text>0.00</Text>
+                </View>
+
+                <View style={styles.divider} />
+                <Text> Total</Text>
+            </View>
+
+
+            <FlatList data={(sortedTransactions)} showsVerticalScrollIndicator={false} 
+                keyExtractor={item => item.id} renderItem={renderTransactions}/>         
         </View>
     )
 }

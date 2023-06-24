@@ -81,7 +81,7 @@ const ProfileSettings = () => {
 const Tabs = () => {
   const TabScreenOptions = ({ route }) => ({
     headerShown: false, 
-    tabBarShowLabel: true, //set to false for aesthetics after finalizing
+    tabBarShowLabel: false, //set to false for aesthetics after finalizing
     tabBarHideOnKeyboard: true,
     
     tabBarIcon: ({ focused, color, size}) => {

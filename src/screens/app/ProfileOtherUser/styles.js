@@ -130,10 +130,34 @@ export const styles = StyleSheet.create({
     },
 
     postTitle: {
-        marginTop: 24,
+        marginVertical: 8,
         fontSize: 16, 
         fontWeight: 500,
-    }
+    },
+
+    emptyPostBox: {
+        backgroundColor: colors.white,
+        minHeight: 300,
+        borderRadius: 10,
+        padding: 11,
+        marginVertical: 8,
+
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    emoticon: {
+        fontSize: 40,
+        fontWeight: '300',
+        color: colors.grey,
+    },
+
+    noPostText: {
+        marginTop: 32,
+        fontSize: 13,
+        color: colors.grey,
+    },
+
 
 
 })

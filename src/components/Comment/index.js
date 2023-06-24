@@ -57,11 +57,11 @@ const Comment = ({commentDetails, navigation}) => {
                 </View>
             </View>
 
-            <View style={styles.voteContainer}>
+            {/* <View style={styles.voteContainer}>
                     <Image source={require('../../assets/icons/upvote.png')} style={styles.arrowIcon}/>
                     <Text style={styles.vote}>{commentDetails.votes}</Text>
                     <Image source={require('../../assets/icons/downvote.png')} style={styles.arrowIcon}/>
-            </View>
+            </View> */}
 
         </View>
         <View style={styles.divider} />

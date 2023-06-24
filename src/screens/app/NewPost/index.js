@@ -30,7 +30,8 @@ const NewPost = ( { navigation } ) => {
 
     //Drop Down Picker:
     const [open, setOpen] = useState(false);
-    const [items, setItems] = useState([{label: 'Money Saving Tips', value: 'MoneySavingTips'}, {label: 'Life', value: 'Life'}]);
+    const [items, setItems] = useState([{label: 'Money Saving Tips', value: 'MoneySavingTips'}, 
+                                        {label: 'Life', value: 'Life'}]);
 
     //Image Picker:
     const [imageURI, setImageURI] = useState(null);

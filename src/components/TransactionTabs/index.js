@@ -37,7 +37,8 @@ const TransactionTabs = ({ docs }) => {
 
     for (let i = 0; i < 3; i++) {
         var currDate = new Date(yN, mN - 2 - i, 1);
-        var currName = (currDate.getMonth() + 1).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false}) + "/" + String(currDate.getFullYear());
+        var currName = (currDate.getMonth() + 1).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false}) 
+                            + "/" + String(currDate.getFullYear());
         names[i] = currName;
     }
 

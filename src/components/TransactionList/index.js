@@ -3,6 +3,7 @@ import { Text, View, FlatList, TouchableOpacity } from "react-native";
 import { styles } from './styles';
 import { colors } from "../../utils/colors";
 import Box from "../Box";
+import { groupBy } from "underscore";
 
 const TransactionList = ({transactions}) => {
 
@@ -21,11 +22,17 @@ const TransactionList = ({transactions}) => {
     if (numOfTransactions <= 0) {
         return <Box content={noTransactionsYet} />
     }
-    
+
     // sort by date
     let sortedTransactions = transactions.sort((a,b) => b.date - a.date);
-    const earliestDate = sortedTransactions[0].date;
-    const latestDate = sortedTransactions[numOfTransactions-1].date;
+    sortedTransactions = groupBy(sortedTransactions, item => item.date.toDate().toDateString());
+    sortedTransactions = Object.values(sortedTransactions);
+    sortedTransactions.forEach(arr => {
+        arr.sort((a, b) => b.amount - a.amount);
+    });
+
+    // const earliestDate = sortedTransactions[0].date;
+    // const latestDate = sortedTransactions[numOfTransactions-1].date;
 
     // "amount": 123,
     // "category": "22",
@@ -42,13 +49,15 @@ const TransactionList = ({transactions}) => {
     const renderTransactions = ({item}) => {
         //console.log(item.date.toDate());
 
-        const dateObj = item.date.toDate();
+        const dateObj = item[0].date.toDate();
         const transDate = {
             date: dateObj.getDate(),
             day: dayNames[dateObj.getDay()],
             month: monthNames[dateObj.getMonth()],
             year: dateObj.getFullYear(),
         }
+
+        const total = item.reduce((acc, cur) => acc + cur.amount, 0).toLocaleString('en-US');
 
         return (
             <View style={styles.transactionWhiteBox}>
@@ -62,18 +71,21 @@ const TransactionList = ({transactions}) => {
                             <Text style={styles.month}>{transDate.month} {transDate.year}</Text>
                         </View>
                     </View>
-                    <Text style={styles.transAmount}>-${item.amount.toLocaleString('en-US')}</Text>
+                    <Text style={styles.transAmount}>-${total}</Text>
                 </View>       
 
                 <View style={styles.divider} />
-
+                {item.map((doc) => 
                 <View style={styles.transactionDetailsContainer}>
                     <View style={{flexDirection: 'row'}}>
                         <View style={styles.categoryIcon} />
-                        <Text style={{alignSelf: 'center'}}>{item.category}: {item.description}</Text>
+                        <View style={styles.transactionTextContainer}>
+                            <Text style={{alignSelf: 'center'}}>{doc.category}: {doc.description}</Text>
+                            <Text style={{alignSelf: 'center'}}>${doc.amount}</Text>
+                        </ View>
                     </View>        
-                </View>
-
+                </View>)} 
+                
             </View>
         )
     }

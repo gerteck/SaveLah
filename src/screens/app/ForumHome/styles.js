@@ -41,13 +41,14 @@ export const styles = StyleSheet.create({
         borderColor: colors.orange,
         borderWidth: showBorder,
     }, 
+
     sortContainer: {
-        marginVertical: 8,
         flexDirection: 'row',
         alignItems: 'center',
-
         borderWidth: showBorder,
+        zIndex: 9,
     },
+
     sortIcon: {
         width: 24,
         height: 24,
@@ -55,6 +56,16 @@ export const styles = StyleSheet.create({
 
         borderWidth: showBorder,
     }, 
+
+    dropDownPickerContainer: {
+        width: '40%',
+    },
+
+    pickerContainer: {
+        borderColor: colors.backgroundGrey,
+        backgroundColor: colors.backgroundGrey,
+        borderWidth: 0,
+    },
 
     newPost: {
         width: 50,

@@ -3,7 +3,7 @@ import { Text, View, FlatList, Image, Pressable, TouchableOpacity } from "react-
 import { styles } from './styles';
 import { colors } from "../../utils/colors";
 
-const PostList = ({posts, navigation, mapList}) => {
+const PostList = ({posts, navigation, onRefresh, refreshing, mapList}) => {
 
 
     const renderPosts = ({item}) => {
@@ -42,7 +42,7 @@ const PostList = ({posts, navigation, mapList}) => {
 
 
                     <View style={{width: '15%'}} />
-                    <Text style={styles.commentNum}>0</Text>
+                    <Text style={styles.commentNum}>{item.comments}</Text>
                     <Image source={require('../../assets/appIcons/comments.png')} style={styles.arrowIcon}/>
 
                 </View>
@@ -62,7 +62,8 @@ const PostList = ({posts, navigation, mapList}) => {
         <FlatList contentContainerStyle={styles.flatList} data={posts} 
             showsVerticalScrollIndicator={false}
             keyExtractor={ item => item.id } 
-            renderItem={renderPosts}/>
+            renderItem={renderPosts}
+            onRefresh={onRefresh} refreshing={refreshing}/>
     )
 }
 

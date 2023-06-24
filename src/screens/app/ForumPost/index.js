@@ -71,6 +71,12 @@ const ForumPost = ( {navigation, route} ) => {
             }, { merge: true });
         }
         uploadComment(); 
+        const increaseCommentCount = async () => {
+            await setDoc( doc(db, 'posts', postDetails.id), {
+                comments: postDetails.comments + 1,
+            }, { merge: true });
+        }
+        increaseCommentCount();
         setAddingComment(false);
         setCommentText("");
     }
@@ -183,7 +189,6 @@ const ForumPost = ( {navigation, route} ) => {
                     }
 
                     <Text style={styles.body} >{postDetails.body}</Text>
-
 
                     {/* Votes and Comments */}
                     <View style={styles.footer}>

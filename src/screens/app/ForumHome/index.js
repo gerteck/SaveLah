@@ -15,7 +15,6 @@ import { getApp } from "firebase/app";
 const app = getApp;
 const db = getFirestore(app);
 
-
 const ForumHome = ({ navigation }) => {
     
     //navigations
@@ -32,16 +31,9 @@ const ForumHome = ({ navigation }) => {
     //Reset the search bar
     const isFocused = useIsFocused();
     useEffect(() => {
-        onChange('search', "");
+        setKeyword("");
     },[isFocused]);    
 
-    // Adds to the value object
-    const [values, setValues] = useState({});
-    const onChange = (key, value) => {
-        setValues(v => ({...v, [key]: value}))
-    } 
-
-    const { documents, error } = useCollection('posts');
     const [allPosts, setallPosts] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
 
@@ -59,9 +51,9 @@ const ForumHome = ({ navigation }) => {
                 postArray.push(doc.data());
             });
             setallPosts(postArray);
-            sortPosts();
         }
         downloadPosts();
+        sortPosts();
         setRefreshing(false);
     }
 
@@ -111,6 +103,7 @@ const ForumHome = ({ navigation }) => {
     }, [sort])
 
     const sortPosts = () => {
+        console.log("All Posts", allPosts);
         const sortByDate = (a, b) => {
             return b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime();
         }
@@ -119,6 +112,7 @@ const ForumHome = ({ navigation }) => {
         }
         if (sort == 'recent') {
             const sortedAllPosts = [... allPosts].sort(sortByDate);
+            console.log(" Sorted: ", sortedAllPosts);
             setallPosts(sortedAllPosts);
         }
         if (sort == 'mostUpvote') {
@@ -135,10 +129,8 @@ const ForumHome = ({ navigation }) => {
             {SearchBar()}
             {SortBar()}
 
-            {error && <Text>{error}</Text>}
             {filteredPosts.length == 0 && <PostList onRefresh={getPosts} refreshing={refreshing} posts={allPosts} navigation={navigation} />}
             {filteredPosts.length > 0 && <PostList posts={filteredPosts} navigation={navigation} />}
-
 
             <TouchableOpacity style={styles.newPost} onPress={onNewPost}>
                 <Image style={styles.postIcon} source={require('../../../assets/icons/post.png')}/>

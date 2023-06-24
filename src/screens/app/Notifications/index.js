@@ -15,7 +15,11 @@ const Notifications = ( { navigation } ) => {
     return (
         <SafeAreaView style={styles.mainContainer}>
             <AppHeader style={styles.appHeader} navigation={navigation} title="Notifications" showCross onBack={onBack}/>
-
+            <View style={styles.emptyPostBox}>
+                <Text style={styles.emoticon}>(－_－) zzZ</Text>
+                <Text style={styles.noPostText}>Nothing to see here...</Text>
+                <Text style={styles.emoticon}>…ᘛ⁐̤ᕐᐷ</Text>
+            </View>
         </SafeAreaView>
     )
 }

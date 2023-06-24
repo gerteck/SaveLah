@@ -3,21 +3,20 @@ import { Text, View, FlatList, Image, Pressable, TouchableOpacity } from "react-
 import { styles } from './styles';
 import { colors } from "../../utils/colors";
 
-const PostList = ({posts, navigation}) => {
+const PostList = ({posts, navigation, mapList}) => {
 
 
     const renderPosts = ({item}) => {
-
         // console.log(postDetails);
         // fields: body, category, comments, createdAt, id, title, uid, url, votes, upvoters, downvoters
-
+        
         const goPost = () => {
             navigation.navigate('ForumPost', {post: item});
         };
 
         return (
 
-            <Pressable style={styles.mainContainer} onPress={goPost}>
+            <Pressable key={item.id} style={styles.mainContainer} onPress={goPost}>
 
                 {/* Category and Date Time */}
                 <View style={styles.header}>
@@ -52,6 +51,11 @@ const PostList = ({posts, navigation}) => {
             </Pressable>
 
         )
+    }
+
+    if (mapList) {
+        return posts.map((item) => renderPosts({item}));
+        // { allComments.map((commentDetails) => <Comment commentDetails={commentDetails} navigation={navigation} key={commentDetails.id} />)}
     }
 
     return (

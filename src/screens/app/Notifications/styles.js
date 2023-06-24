@@ -14,5 +14,28 @@ export const styles = StyleSheet.create({
         borderRadius: 16,
     },  
 
+    emptyPostBox: {
+        backgroundColor: colors.white,
+        minHeight: 300,
+        borderRadius: 10,
+        padding: 11,
+        marginVertical: 8,
+
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    emoticon: {
+        fontSize: 40,
+        margin: 32,
+        fontWeight: '300',
+        color: colors.grey,
+    },
+
+    noPostText: {
+        marginTop: 32,
+        fontSize: 13,
+        color: colors.grey,
+    },
 
 })

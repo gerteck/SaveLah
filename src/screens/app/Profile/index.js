@@ -7,22 +7,43 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import Box from "../../../components/Box";
 
 import { getApp } from "firebase/app";
-import { getFirestore, getDoc, doc } from 'firebase/firestore';
+import { getFirestore, getDoc, doc, collection, query, where, orderBy, getDocs, onSnapshot, limit } from 'firebase/firestore';
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import { useIsFocused } from '@react-navigation/native';
 import { UserProfileContext } from "../../../context/UserProfileContext";
+import PostList from "../../../components/PostList";
+const app = getApp;
+const db = getFirestore(app);
+
 
 const Profile = ( {navigation} ) => {
 
     const { user } = useAuthContext();
     const [userProfile, setUserProfile] = useContext(UserProfileContext);
     const getUserProfile = async () => {
-        const app = getApp;
-        const db = getFirestore(app);
-        const userProfileRef = doc(db, "users", user.uid);
+        const userProfileRef = doc(db, "users", user?.uid);
         const docSnap = await getDoc(userProfileRef);
         return docSnap.data();
     }
+
+    // Get Posts:
+    const [userPosts, setUserPosts] = useState([]);
+
+    useEffect(()=> {
+        if (user) {
+            const postsRef = collection(db, "posts")
+            const q = query(postsRef, where("uid", '==', user?.uid), orderBy("votes", "desc"), limit(5));
+            const unsubscribePosts = onSnapshot(q, (querySnapshot) => {
+                const posts = [];
+                querySnapshot.forEach((doc) => {
+                    posts.push(doc.data());
+                });
+                setUserPosts(posts);
+                console.log("Loaded User Posts")
+            });
+        }
+    }, [user]); 
+
 
     // Refresh page on navigation
     const isFocused = useIsFocused();
@@ -103,7 +124,13 @@ const Profile = ( {navigation} ) => {
                 </View>
 
                 <Text style={styles.postTitle}> Top posts </Text>
-                <Box style={{height: 500}} />
+                { userPosts && <PostList posts={userPosts} navigation={navigation} mapList />}
+                { userPosts.length == 0 && 
+                    <View style={styles.emptyPostBox}>
+                        <Text style={styles.emoticon}>٩(⌯꒦ິ̆ᵔ꒦ິ)۶ ᵒᵐᵍᵎᵎᵎ</Text>
+                        <Text style={styles.noPostText}>Start a new post, {userProfile.username}!</Text>
+                    </View>
+                }
                 {/* Add posts FlatList here! */}
 
 

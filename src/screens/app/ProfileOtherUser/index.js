@@ -7,10 +7,12 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import Box from "../../../components/Box";
 
 import { getApp } from "firebase/app";
-import { getFirestore, getDoc, setDoc, doc } from 'firebase/firestore';
+import { getFirestore, getDoc, setDoc, doc, collection, where, orderBy, limit, query, getDocs } from 'firebase/firestore';
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import { UserProfileContext } from "../../../context/UserProfileContext";
-
+import PostList from "../../../components/PostList";
+const app = getApp;
+const db = getFirestore(app);
 
 const ProfileOtherUser = ( {navigation, route} ) => {
 
@@ -29,6 +31,7 @@ const ProfileOtherUser = ( {navigation, route} ) => {
 
     const [userProfile, setUserProfile] = useContext(UserProfileContext);
     const [otherProfile, setOtherProfile] = useState(route.params.item);
+    const [otherUserPost, setOtherUserPost] = useState([]);
     
     // Refresh following status on navigation
     const [followingUser, setFollowingUser] = useState(false);
@@ -37,6 +40,25 @@ const ProfileOtherUser = ( {navigation, route} ) => {
             setFollowingUser(true);
         }
     },[otherProfile]);
+    
+    
+    // Get User Top Posts. 
+    useEffect(()=> {
+        if (otherProfile) {
+            const postsRef = collection(db, "posts")
+            const q = query(postsRef, where("uid", '==', otherProfile.uid), orderBy("votes", "desc"), limit(5));    
+            const getPosts = async () => {
+                const querySnapshot = await getDocs(q);
+                const posts = [];
+                querySnapshot.forEach((doc) => {
+                    posts.push(doc.data());
+                });
+                setOtherUserPost(posts);
+                console.log("Loaded otherUserPost");
+            }
+            getPosts();
+        }
+    }, [otherProfile]); 
 
 
     const onBack = () => {
@@ -141,7 +163,13 @@ const ProfileOtherUser = ( {navigation, route} ) => {
                 </View>
 
                 <Text style={styles.postTitle}> Top posts </Text>
-                <Box style={{height: 500}} />
+                {otherUserPost && <PostList posts={otherUserPost} navigation={navigation} mapList />} 
+                { otherUserPost.length == 0 && 
+                    <View style={styles.emptyPostBox}>
+                        <Text style={styles.emoticon}>ಥ‿ಥ</Text>
+                        <Text style={styles.noPostText}>Looks like {otherProfile.username} has no posts</Text>
+                    </View>
+                }
                 {/* Add posts FlatList here! */}
 
 

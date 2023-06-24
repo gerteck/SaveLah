@@ -9,7 +9,10 @@ export const colors = {
     middleGrey: '#808080',
     backgroundGrey: '#F1F0F0',
     backgroundBlue: '#8D9BB5',
-    red: '#EB7777',
 
+    red: '#EB7777',
     green: '#43B05C',
+
+    textBlue: '#0066FF',
+    textRed: '#FF0000',
 }

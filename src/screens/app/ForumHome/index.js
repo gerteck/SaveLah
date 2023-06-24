@@ -43,6 +43,12 @@ const ForumHome = ({ navigation }) => {
 
     const getPosts = () => {
         setRefreshing(true);
+        const sortByDate = (a, b) => {
+            return b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime();
+        }
+        const sortByVotes = (a, b) => {
+            return b.votes - a.votes;
+        }
         const downloadPosts = async () => {
             const postsRef = collection(db, "posts");
             const querySnapshot = await getDocs(postsRef);
@@ -50,11 +56,34 @@ const ForumHome = ({ navigation }) => {
             querySnapshot.forEach((doc) => { 
                 postArray.push(doc.data());
             });
+            if (sort == 'recent') {
+                postArray.sort(sortByDate);
+            }
+            if (sort == 'mostUpvote') {
+                postArray.sort(sortByVotes);
+            }
             setallPosts(postArray);
         }
         downloadPosts();
-        sortPosts();
         setRefreshing(false);
+    }
+
+    const sortPostsbyData = (data) => {
+        // console.log("All Posts", allPosts);
+        const sortByDate = (a, b) => {
+            return b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime();
+        }
+        const sortByVotes = (a, b) => {
+            return b.votes - a.votes;
+        }
+        if (sort == 'recent') {
+            const sortedAllPosts = [... allPosts].sort(sortByDate);
+            setallPosts(sortedAllPosts);
+        }
+        if (sort == 'mostUpvote') {
+            const sortedAllPosts = [... allPosts].sort(sortByVotes);
+            setallPosts(sortedAllPosts);
+        }
     }
 
     const [keyword, setKeyword] = useState("");
@@ -103,7 +132,7 @@ const ForumHome = ({ navigation }) => {
     }, [sort])
 
     const sortPosts = () => {
-        console.log("All Posts", allPosts);
+        // console.log("All Posts", allPosts);
         const sortByDate = (a, b) => {
             return b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime();
         }
@@ -112,7 +141,6 @@ const ForumHome = ({ navigation }) => {
         }
         if (sort == 'recent') {
             const sortedAllPosts = [... allPosts].sort(sortByDate);
-            console.log(" Sorted: ", sortedAllPosts);
             setallPosts(sortedAllPosts);
         }
         if (sort == 'mostUpvote') {

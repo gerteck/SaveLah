@@ -32,7 +32,7 @@ const Profile = ( {navigation} ) => {
     useEffect(()=> {
         if (user) {
             const postsRef = collection(db, "posts")
-            const q = query(postsRef, where("uid", '==', user?.uid), orderBy("votes", "desc"), limit(5));
+            const q = query(postsRef, where("uid", '==', user?.uid), orderBy("votes", "desc"), limit(3));
             const unsubscribePosts = onSnapshot(q, (querySnapshot) => {
                 const posts = [];
                 querySnapshot.forEach((doc) => {

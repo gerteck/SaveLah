@@ -443,15 +443,29 @@ const Home = ( { navigation } ) => {
             <StatusBar hidden={false} backgroundColor={colors.backgroundGrey} barStyle={"dark-content"}/> 
             <AppHeader title="SaveLah" showBell onBell={onBell}/>
 
-            {categories.length != 0 && !weekSelected && <FlatList data={categories} keyExtractor={item => item.category} renderItem={renderTransactions} 
-            ListHeaderComponent={getHeader} ListFooterComponent={getFooter}/>}
+            {categories.length != 0 && !weekSelected && 
+            
+                <FlatList showsVerticalScrollIndicator={false} data={categories} 
+                keyExtractor={item => item.category} renderItem={renderTransactions} 
+                ListHeaderComponent={getHeader} ListFooterComponent={getFooter}/>}
 
-            {categoriesWeek.length != 0 && weekSelected && <FlatList data={categoriesWeek} keyExtractor={item => item.category} renderItem={renderTransactions} 
-            ListHeaderComponent={getHeader} ListFooterComponent={getFooter}/>}
+            {categoriesWeek.length != 0 && weekSelected && 
+            
+                <FlatList data={categoriesWeek} keyExtractor={item => item.category} 
+                renderItem={renderTransactions} ListHeaderComponent={getHeader} 
+                ListFooterComponent={getFooter}
+                showsVerticalScrollIndicator={false} />}
 
-            {categories.length == 0 && !weekSelected && <FlatList ListHeaderComponent={getHeaderNoTransactions} data={recent} renderItem={renderRecentTransactions} /> }
+            {categories.length == 0 && !weekSelected && 
+                <FlatList ListHeaderComponent={getHeaderNoTransactions} 
+                data={recent} renderItem={renderRecentTransactions} 
+                showsVerticalScrollIndicator={false} /> }
 
-            {categoriesWeek.length == 0 && weekSelected && <FlatList ListHeaderComponent={getHeaderNoTransactions} data={recent} renderItem={renderRecentTransactions} /> }
+            {categoriesWeek.length == 0 && weekSelected && 
+                <FlatList ListHeaderComponent={getHeaderNoTransactions} 
+                data={recent} renderItem={renderRecentTransactions} 
+                showsVerticalScrollIndicator={false} /> }
+            
         </SafeAreaView>
     )
 }

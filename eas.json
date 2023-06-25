@@ -12,7 +12,7 @@
       "distribution": "internal"
     },
 
-    "milestone2-01": {
+    "milestone2-03": {
       "android": {
         "buildType": "apk"
       }

@@ -57,24 +57,26 @@ const Home = ( { navigation } ) => {
     var y = curr.getFullYear();
     var m = curr.getMonth();
     var firstDay = new Date(y, m, 1);
-    var lastDay = new Date(y, m + 1, 0);
+    var lastDay = new Date(y, m + 1, 1);
     var lastMonthFirstDay = new Date(y, m - 1, 1);
-    var lastMonthLastDay = new Date(y, m, 0);
+    var lastMonthLastDay = new Date(y, m, 1);
 
     // setting up date range for week
-    var weekFirstDay
+    var weekFirstDay;
     var weekLastDay;
 
     if (curr.getDay() == 0) {
-        weekFirstDay = new Date(curr.setDate(curr.getDate() - 6));
+        weekFirstDay = new Date(y, m, curr.getDate() - 5);
     } else {
-        weekFirstDay = new Date(curr.setDate(curr.getDate() - curr.getDay()))
+        weekFirstDay = new Date(curr.setDate(curr.getDate() - curr.getDay() + 2));
     }
 
     weekLastDay = new Date(curr.setDate(weekFirstDay.getDate() + 6));
-    var lastWeekFirstDay = new Date(curr.setDate(weekFirstDay.getDate() - 7));
     var lastWeekLastDay = new Date(curr.setDate(weekLastDay.getDate() - 7));
+    var lastWeekFirstDay = new Date(curr.setDate(lastWeekLastDay.getDate() - 6));
 
+    // console.log(firstDay)
+    // console.log(lastDay)
 
     // setting up listener for budget changes
     const q = query(collection(projectFireStore, 'transactions/' + user?.uid + '/userTransactions'), 
@@ -357,15 +359,6 @@ const Home = ( { navigation } ) => {
         </View>
     </View>);
 
-    // Depreciated
-    // const TopSpendings = (<>
-    //     <Text style={styles.transactionTitle}>Top Spendings</Text>
-    //     {/* {SampleTransaction}
-    //     {SampleTransaction}
-    //     {SampleTransaction} */}
-    //     <TopSpendingTabs transactions={categories} />
-    // </>);
-
     // When there have not been any expeneses 
     const noTransactionsYet = (<> 
         <Text>No transactions yet</Text>
@@ -394,6 +387,19 @@ const Home = ( { navigation } ) => {
             <Box content={PieChart}/>
             { !weekSelected && <Text style={styles.transactionTitle}>Top Spendings for the month</Text> }
             { weekSelected && <Text style={styles.transactionTitle}>Top Spendings for the week</Text> }
+        </>)
+    }
+
+    const getHeaderNoTransactions = () => {
+        return (<>
+            <Box content={Welcome}/>
+            <TouchableOpacity onPress={onReport}><Text style={styles.report}>See full report</Text></TouchableOpacity>
+            <Box content={PieChart}/>
+            { !weekSelected && <Text style={styles.transactionTitle}>Top Spendings for the month</Text> }
+            { weekSelected && <Text style={styles.transactionTitle}>Top Spendings for the week</Text> }
+            <Box content={noTransactionsYet} />
+            <TouchableOpacity onPress={onTransactions}><Text style={styles.report}>See all transactions</Text></TouchableOpacity>
+            <Text style={styles.transactionTitle}>Recent Transactions</Text>
         </>)
     }
 
@@ -437,15 +443,12 @@ const Home = ( { navigation } ) => {
             {categories.length != 0 && !weekSelected && <FlatList data={categories} keyExtractor={item => item.category} renderItem={renderTransactions} 
             ListHeaderComponent={getHeader} ListFooterComponent={getFooter}/>}
 
-            {categories.length != 0 && weekSelected && <FlatList data={categoriesWeek} keyExtractor={item => item.category} renderItem={renderTransactions} 
+            {categoriesWeek.length != 0 && weekSelected && <FlatList data={categoriesWeek} keyExtractor={item => item.category} renderItem={renderTransactions} 
             ListHeaderComponent={getHeader} ListFooterComponent={getFooter}/>}
 
-            {categories.length == 0 && <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}> 
-                <Box content={Welcome}/>
-                <TouchableOpacity onPress={onReport}><Text style={styles.report}>See full report</Text></TouchableOpacity>
-                <Box content={PieChart}/> 
-                <Box content={noTransactionsYet} />
-            </ScrollView> }
+            {categories.length == 0 && !weekSelected && <FlatList ListHeaderComponent={getHeaderNoTransactions} data={recent} renderItem={renderRecentTransactions} /> }
+
+            {categoriesWeek.length == 0 && weekSelected && <FlatList ListHeaderComponent={getHeaderNoTransactions} data={recent} renderItem={renderRecentTransactions} /> }
         </SafeAreaView>
     )
 }

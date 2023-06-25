@@ -18,16 +18,16 @@ const TransactionTabs = ({ docs, navigation }) => {
     var m = curr.getMonth();
 
     var firstDay = new Date(y, m, 1);
-    var lastDay = new Date(y, m + 1, 0);
+    var lastDay = new Date(y, m + 1, 1);
 
     const future = docs.filter(({ date }) => date.toDate() > lastDay);
     let monthDocs = [];
-
+    
     for (let i = 0; i < 6; i++) {
         monthDocs[i] = docs.filter(({ date }) => date.toDate() >= firstDay && date.toDate() <= lastDay);
         m--;
         firstDay = new Date(y, m, 1);
-        lastDay = new Date(y, m + 1, 0);
+        lastDay = new Date(y, m + 1, 1);
     }
 
     let names = [];

@@ -433,13 +433,13 @@ const Home = ( { navigation } ) => {
             {!weekSelected && 
             
                 <FlatList showsVerticalScrollIndicator={false} data={categories} 
-                keyExtractor={item => item.category} renderItem={renderTransactions} 
+                keyExtractor={item => item.id} renderItem={renderTransactions} 
                 ListHeaderComponent={getHeader} ListFooterComponent={getFooter} 
                 ListEmptyComponent={<Box content={noTransactionsYet} />} />}
 
             {weekSelected && 
             
-                <FlatList data={categoriesWeek} keyExtractor={item => item.category} 
+                <FlatList data={categoriesWeek} keyExtractor={item => item.id} 
                 renderItem={renderTransactions} ListHeaderComponent={getHeader} 
                 ListFooterComponent={getFooter}
                 showsVerticalScrollIndicator={false} 

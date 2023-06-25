@@ -11,9 +11,13 @@ import { useEffect } from "react";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import DropDownPicker from "react-native-dropdown-picker";
 import { useIsFocused } from "@react-navigation/native";
-
+import { getApp } from "firebase/app";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
 
 const AddTransaction = ( {navigation} ) => {
+    const app = getApp;
+    const db = getFirestore(app);
+
     const { user } = useAuthContext();
     const [values, setValues] = useState({});
 
@@ -67,13 +71,17 @@ const AddTransaction = ( {navigation} ) => {
             console.log("submit");
             console.log(values);
 
-            await addDocument({
+            const transactionDoc = await addDocument({
                 uid: user.uid,
                 amount: parseFloat(parseFloat(values.amount).toFixed(2)), // to limit to 2 decimal places
                 date: date,
                 description: values.description,
                 category: values.category,
             });
+
+            await setDoc(doc(db, 'transactions/' + user?.uid + '/userTransactions', transactionDoc.id), {
+                id: transactionDoc.id,
+            }, { merge: true });
 
             console.log(response);
 

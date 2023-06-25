@@ -57,23 +57,26 @@ const Home = ( { navigation } ) => {
     var y = curr.getFullYear();
     var m = curr.getMonth();
     var firstDay = new Date(y, m, 1);
-    var lastDay = new Date(y, m + 1, 1);
+    var lastDay = new Date(y, m + 1, 0, 23, 59, 59);
     var lastMonthFirstDay = new Date(y, m - 1, 1);
-    var lastMonthLastDay = new Date(y, m, 1);
+    var lastMonthLastDay = new Date(y, m, 0, 23, 59, 59);
 
     // setting up date range for week
     var weekFirstDay;
     var weekLastDay;
 
     if (curr.getDay() == 0) {
-        weekFirstDay = new Date(y, m, curr.getDate() - 5);
+        weekFirstDay = new Date(y, m, curr.getDate() - 6);
     } else {
-        weekFirstDay = new Date(curr.setDate(curr.getDate() - curr.getDay() + 2));
+        weekFirstDay = new Date(y, m, curr.getDate() - curr.getDay() + 1);
     }
 
-    weekLastDay = new Date(curr.setDate(weekFirstDay.getDate() + 6));
-    var lastWeekLastDay = new Date(curr.setDate(weekLastDay.getDate() - 7));
-    var lastWeekFirstDay = new Date(curr.setDate(lastWeekLastDay.getDate() - 6));
+    var weekY = weekFirstDay.getFullYear();
+    var weekM = weekFirstDay.getMonth();
+
+    weekLastDay = new Date(weekY, weekM, weekFirstDay.getDate() + 6, 23, 59, 59);
+    var lastWeekFirstDay = new Date(weekY, weekM, weekFirstDay.getDate() - 7);
+    var lastWeekLastDay = new Date(weekY, weekM, weekFirstDay.getDate() - 1, 23, 59, 59);
 
     // console.log(firstDay)
     // console.log(lastDay)

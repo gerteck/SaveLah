@@ -134,14 +134,14 @@ const ForumPost = ( {navigation, route} ) => {
 
         if (num == UPVOTE) {
             if (postVote == DOWNVOTE) {
-                removeItemOnce(downvoteArray, userProfile.uid);
+                removeItemAll(downvoteArray, userProfile.uid);
             }
             upvoteArray.push(userProfile.uid);
             setPostVote(UPVOTE);
         }
         if (num == DOWNVOTE) {
             if (postVote == UPVOTE) {
-                removeItemOnce(upvoteArray, userProfile.uid);
+                removeItemAll(upvoteArray, userProfile.uid);
             }
             downvoteArray.push(userProfile.uid);
             setPostVote(DOWNVOTE);
@@ -165,6 +165,18 @@ const ForumPost = ( {navigation, route} ) => {
         }
         return arr;
     }
+
+    function removeItemAll(arr, value) {
+        var i = 0;
+        while (i < arr.length) {
+          if (arr[i] === value) {
+            arr.splice(i, 1);
+          } else {
+            ++i;
+          }
+        }
+        return arr;
+      }
     
     return (
         <SafeAreaView style={styles.safeContainer}>

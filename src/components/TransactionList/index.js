@@ -5,7 +5,7 @@ import { colors } from "../../utils/colors";
 import Box from "../Box";
 import { groupBy } from "underscore";
 
-const TransactionList = ({transactions}) => {
+const TransactionList = ({transactions, navigation}) => {
 
     const totalInflow = 0;
     const totalOutflow = transactions.reduce((total, currentDoc) => total + currentDoc.amount, 0);
@@ -16,6 +16,10 @@ const TransactionList = ({transactions}) => {
         <Text>No transactions yet, </Text>
         <Text>click + to add transactions</Text>
     </>);
+
+    const onSpendingReport = () => {
+        navigation.navigate('Home', {screen: 'SpendingReport'});
+    }
 
     const numOfTransactions = transactions.length;
 
@@ -107,7 +111,7 @@ const TransactionList = ({transactions}) => {
                 <View style={styles.divider} />
 
                 <View style={styles.totalContainer}>
-                    <TouchableOpacity activeOpacity={0.6} onPress={() => setAddingComment(b => !b)} style={styles.addComment}>
+                    <TouchableOpacity activeOpacity={0.6} onPress={onSpendingReport} style={styles.addComment}>
                             <Text style={styles.addCommentText}>See Spending Report</Text>
                     </TouchableOpacity>
                     <Text style={styles.flowText}>{totalNet}</Text>

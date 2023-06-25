@@ -11,7 +11,7 @@ const noTransactionsYet = (<>
     <Text >No transactions yet</Text>
 </>);
 
-const TransactionTabs = ({ docs }) => {
+const TransactionTabs = ({ docs, navigation }) => {
 
     var curr = new Date();
     var y = curr.getFullYear();
@@ -44,11 +44,11 @@ const TransactionTabs = ({ docs }) => {
 
     return (
         <Tab.Navigator initialRouteName={"This Month"} screenOptions={{ tabBarScrollEnabled: true, tabBarItemStyle: { width: 100 }, tabBarLabelStyle: { fontSize: 12 }, tabBarBounces: true }} >
-            <Tab.Screen name={names[2]} children={() => <TransactionList transactions={monthDocs[4]}/>} />
-            <Tab.Screen name={names[1]}  children={() => <TransactionList transactions={monthDocs[3]}/>} />
-            <Tab.Screen name={names[0]} children={() => <TransactionList transactions={monthDocs[2]}/>} />
-            <Tab.Screen name="Last Month" children={() => <TransactionList transactions={monthDocs[1]}/>} />
-            <Tab.Screen name="This Month"  children={() => <TransactionList transactions={monthDocs[0]}/>} />
+            <Tab.Screen name={names[2]} children={() => <TransactionList transactions={monthDocs[4]} navigation={navigation}/>} />
+            <Tab.Screen name={names[1]}  children={() => <TransactionList transactions={monthDocs[3]} navigation={navigation}/>} />
+            <Tab.Screen name={names[0]} children={() => <TransactionList transactions={monthDocs[2]} navigation={navigation}/>} />
+            <Tab.Screen name="Last Month" children={() => <TransactionList transactions={monthDocs[1]} navigation={navigation}/>} />
+            <Tab.Screen name="This Month"  children={() => <TransactionList transactions={monthDocs[0]} navigation={navigation}/>} />
             <Tab.Screen name="Future"  children={() => <TransactionList transactions={future}/>} />
         </Tab.Navigator>
       );

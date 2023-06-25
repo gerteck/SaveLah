@@ -15,6 +15,7 @@ import { getApp } from "firebase/app";
 import TopSpendingTabs from "../../../components/TopSpendingTabs";
 import { BarChart } from "react-native-chart-kit";
 import { colors } from "../../../utils/colors";
+import { StatusBar } from "react-native";
 
 
 const Home = ( { navigation } ) => {
@@ -430,6 +431,7 @@ const Home = ( { navigation } ) => {
 
     return (
         <SafeAreaView style={styles.mainContainer}>
+            <StatusBar hidden={false} backgroundColor={colors.backgroundGrey} barStyle={"dark-content"}/> 
             <AppHeader title="SaveLah" showBell onBell={onBell}/>
 
             {categories.length != 0 && !weekSelected && <FlatList data={categories} keyExtractor={item => item.category} renderItem={renderTransactions} 

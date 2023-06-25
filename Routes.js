@@ -62,6 +62,7 @@ const Forum = () => {
     <ForumStack.Navigator>
       <ForumStack.Screen name="ForumHome" component={ForumHome} options={{ headerShown: false }} />
       <ForumStack.Screen name="ForumAllChats" component={ForumAllChats} options={{ headerShown: false }} />
+      <ForumStack.Screen name="NewPost" component={NewPost} options={{ headerShown: false }} />
     </ForumStack.Navigator>
   )
 }
@@ -161,7 +162,6 @@ const Routes = () => {
                           <AuthStack.Screen name="ForumChat" component={ForumChat} options={{ headerShown: false }} />
                           <AuthStack.Screen name="ProfileOtherUser" component={ProfileOtherUser} options={{ headerShown: false }} /> 
                           <AuthStack.Screen name="Notifications" component={Notifications} options={{ headerShown: false }} />
-                          <AuthStack.Screen name="NewPost" component={NewPost} options={{ headerShown: false }} />
                           <AuthStack.Screen name="ForumPost" component={ForumPost} options={{ headerShown: false }} />
                       </>
                 )}

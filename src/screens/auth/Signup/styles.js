@@ -11,6 +11,14 @@ export const styles = StyleSheet.create({
         marginTop: 20,
         marginBottom: 20,
     },
+
+    mainContainer: {
+        backgroundColor: colors.white,
+        flex: 1,
+        padding: 24,
+        paddingVertical: 20,
+    },
+
     agreeRow: {
         flexDirection: 'row',
         alignItems: 'center',

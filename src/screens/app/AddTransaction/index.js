@@ -1,5 +1,5 @@
 import React, { createRef, useState } from "react";
-import {Text, View, Alert, TouchableOpacity, TextInput} from "react-native";
+import {Text, View, Alert, TouchableOpacity, TextInput, Keyboard} from "react-native";
 import { styles }  from './styles';
 import { SafeAreaView } from "react-native-safe-area-context";
 import AppHeader from "../../../components/AppHeader";
@@ -13,6 +13,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { useIsFocused } from "@react-navigation/native";
 import { getApp } from "firebase/app";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { ScrollView, TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 const AddTransaction = ( {navigation} ) => {
     const app = getApp;
@@ -117,39 +118,40 @@ const AddTransaction = ( {navigation} ) => {
 
     return (
         <SafeAreaView style={styles.mainContainer}>
-            <AppHeader title="Add Transaction" showCross onBack={goBack} />
+            <TouchableOpacity onPress={Keyboard.dismiss} activeOpacity={1}>
+                <AppHeader title="Add Transaction" showCross onBack={goBack} />
             
-            <Text style={styles.label}>Price</Text>
-            <View style={styles.inputContainer}>
-                <TextInput placeholder="$0.00" style={styles.input}  keyboardType='numeric' value={values.amount} 
-                    onChangeText={(v) => onChangeValue('amount', v)} />
-            </View>
+                <Text style={styles.label}>Price</Text>
+                <View style={styles.inputContainer}>
+                    <TextInput placeholder="$0.00" style={styles.input}  keyboardType='numeric' value={values.amount} 
+                        onChangeText={(v) => onChangeValue('amount', v)} />
+                </View>
 
-            <Text style={styles.label}>Category</Text>
-            {/* <View style={styles.inputContainer}>
-                <TextInput placeholder="Food & Drinks" style={styles.input} value={values.category} 
-                    onChangeText={(v) => onChangeValue('category', v)} />
-            </View> */}
-            
-            <DropDownPicker open={open} value={values.category} items={items} listMode="MODAL" modalProps={{ animationType: 'slide'}} searchable={true}
-                modalContentContainerStyle={styles.modalContainer}
-                placeholder="Select a Category" style={styles.pickerContainer}
-                setOpen={setOpen} onSelectItem={(v) => onChangeValue('category', v.value)} setItems={setItems} zIndex={1000}
-            />
+                <Text style={styles.label}>Category</Text>
+                {/* <View style={styles.inputContainer}>
+                    <TextInput placeholder="Food & Drinks" style={styles.input} value={values.category} 
+                        onChangeText={(v) => onChangeValue('category', v)} />
+                </View> */}
+                
+                <DropDownPicker open={open} value={values.category} items={items} listMode="MODAL" modalProps={{ animationType: 'slide'}} searchable={true}
+                    modalContentContainerStyle={styles.modalContainer}
+                    placeholder="Select a Category" style={styles.pickerContainer}
+                    setOpen={setOpen} onSelectItem={(v) => onChangeValue('category', v.value)} setItems={setItems} zIndex={1000}
+                />
 
-            <Text style={styles.label}>Transaction Description</Text>
-            <View style={styles.inputContainer}>
-                <TextInput placeholder="Meal at YIH..." style={styles.input} value={values.description} 
-                    onChangeText={(v) => onChangeValue('description', v)} />
-            </View>
+                <Text style={styles.label}>Transaction Description</Text>
+                <View style={styles.inputContainer}>
+                    <TextInput placeholder="Meal at YIH..." style={styles.input} value={values.description} 
+                        onChangeText={(v) => onChangeValue('description', v)} />
+                </View>
 
-            <View>
-                <Button style={styles.DatePickerButton} onPress={showDatepicker} title={`Date: ${date.toLocaleDateString()}`} />
-            </View>
+                <View>
+                    <Button style={styles.DatePickerButton} onPress={showDatepicker} title={`Date: ${date.toLocaleDateString()}`} />
+                </View>
 
 
-            <Button style={styles.AddTransactionButton} onPress={onSend} title="Add transaction"  />
-
+                <Button style={styles.AddTransactionButton} onPress={onSend} title="Add transaction"  />
+            </TouchableOpacity>
 
         </SafeAreaView> );
 

@@ -79,8 +79,9 @@ const TransactionList = ({transactions, navigation}) => {
                 </View>       
 
                 <View style={styles.divider} />
+                
                 {item.map((doc) => 
-                <View style={styles.transactionDetailsContainer}>
+                <View style={styles.transactionDetailsContainer} key={doc.id} >
                     <View style={{flexDirection: 'row'}}>
                         <View style={styles.categoryIcon} />
                         <View style={styles.transactionTextContainer}>

@@ -379,8 +379,8 @@ const Home = ( { navigation } ) => {
             <Box content={Welcome}/>
             <TouchableOpacity onPress={onReport}><Text style={styles.report}>See full report</Text></TouchableOpacity>
             <Box content={PieChart}/>
-            { !weekSelected && <Text style={styles.transactionTitle}>Top Spendings for the month</Text> }
-            { weekSelected && <Text style={styles.transactionTitle}>Top Spendings for the week</Text> }
+            { !weekSelected && <Text style={styles.transactionTitle}>Top Categories for the month</Text> }
+            { weekSelected && <Text style={styles.transactionTitle}>Top Categories for the week</Text> }
         </>)
     }
 
@@ -411,7 +411,7 @@ const Home = ( { navigation } ) => {
 
     const getFooter = () => {
         return (<>
-            {recent.length != 0 && <FlatList data={recent} keyExtractor={item => item.category} renderItem={renderRecentTransactions} 
+            {recent.length != 0 && <FlatList data={recent} keyExtractor={item => item.id} renderItem={renderRecentTransactions} 
             ListHeaderComponent={getRecentHeader}/>}
         </>)
     }
@@ -424,13 +424,13 @@ const Home = ( { navigation } ) => {
             {!weekSelected && 
             
                 <FlatList showsVerticalScrollIndicator={false} data={categories} 
-                keyExtractor={item => item.id} renderItem={renderTransactions} 
+                keyExtractor={item => item.category} renderItem={renderTransactions} 
                 ListHeaderComponent={getHeader} ListFooterComponent={getFooter} 
                 ListEmptyComponent={<Box content={noTransactionsYet} />} />}
 
             {weekSelected && 
             
-                <FlatList data={categoriesWeek} keyExtractor={item => item.id} 
+                <FlatList data={categoriesWeek} keyExtractor={item => item.category} 
                 renderItem={renderTransactions} ListHeaderComponent={getHeader} 
                 ListFooterComponent={getFooter}
                 showsVerticalScrollIndicator={false} 

@@ -4,7 +4,7 @@
     "slug": "SaveLah",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/appIcons/SaveLahIcon.png",
+    "icon": "./src/assets/appIcons/SaveLahIcon2.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./src/assets/appIcons/SaveLahSplash.png",

@@ -25,7 +25,6 @@ const Report = ({ transactions }) => {
         });
     
         // format the expense to 2 decimal places and have commas for thousand places
-        expense = parseFloat(expense.toFixed(2)).toLocaleString('en-US');
         categories = Object.entries(dict).map(([k, v]) => [k, parseFloat(v.toFixed(2)).toLocaleString('en-US'), (parseFloat((v / expense).toFixed(2)) * 100).toLocaleString('en-US')]).
             map(([k, v, p]) => ({ category: k, value: v, percentage: p })).sort((a,b) => b.percentage - a.percentage);
         
@@ -50,7 +49,7 @@ const Report = ({ transactions }) => {
         return (<>
             <View>
                 <Text style={styles.caption}>Expenses this month</Text>
-                <Text style={styles.money}>${expense}</Text>
+                <Text style={styles.money}>${expense = parseFloat(expense.toFixed(2)).toLocaleString('en-US')}</Text>
             </View>
         </>)
     }

@@ -33,7 +33,7 @@ const SpendingReport = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.mainContainer}>
-            <AppHeader showBack onBack={onBack} title="Spending Report"/>
+            <AppHeader showBack onBack={onBack} title="Spending Report" /> 
             {documents && <SpendingReportTabs documents={documents} />}
         </SafeAreaView>
     )

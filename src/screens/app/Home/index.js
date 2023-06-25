@@ -25,14 +25,14 @@ const Home = ( { navigation } ) => {
 
     // logout quickfix can fix later
 
-    const [ expense, setExpense ] = useState('0');
+    const [ expense, setExpense ] = useState(0);
     const [ categories, setCategories ] = useState([]);
-    const [ expenseLastMonth, setExpenseLastMonth ] = useState('0');
+    const [ expenseLastMonth, setExpenseLastMonth ] = useState(0);
     const [ error, setError ] = useState(null);
 
-    const [ expenseWeek, setExpenseWeek ] = useState('0');
+    const [ expenseWeek, setExpenseWeek ] = useState(0);
     const [ categoriesWeek, setCategoriesWeek ] = useState([]);
-    const [ expenseLastWeek, setExpenseLastWeek ] = useState('0');
+    const [ expenseLastWeek, setExpenseLastWeek ] = useState(0);
 
     const [ recent, setRecent ] = useState([]);
 
@@ -102,8 +102,6 @@ const Home = ( { navigation } ) => {
                     }
                 })
 
-                // format the result to 2 decimal places and have commas for thousand places
-                result = parseFloat(result.toFixed(2)).toLocaleString('en-US');
                 let cats = Object.entries(dict).map(([k, v]) => [k, parseFloat(v.toFixed(2)).toLocaleString('en-US'), (parseFloat((v / result).toFixed(2)) * 100).toLocaleString('en-US')]).
                     map(([k, v, p]) => ({ category: k, value: v, percentage: p })).sort((a,b) => b.percentage - a.percentage).slice(0, 3);
 
@@ -128,9 +126,6 @@ const Home = ( { navigation } ) => {
                 snapshot.forEach(doc => {
                     result = result + doc.data().amount;
                 })
-
-                // format the result to 2 decimal places and have commas for thousand places
-                result = parseFloat(result.toFixed(2)).toLocaleString('en-US');
 
                 // update state
                 setExpenseLastMonth(result);
@@ -162,11 +157,10 @@ const Home = ( { navigation } ) => {
                     }
                 })
 
-                // format the result to 2 decimal places and have commas for thousand places
-                result = parseFloat(result.toFixed(2)).toLocaleString('en-US');
+                
                 let cats = Object.entries(dict).map(([k, v]) => [k, parseFloat(v.toFixed(2)).toLocaleString('en-US'), (parseFloat((v / result).toFixed(2)) * 100).toLocaleString('en-US')]).
                     map(([k, v, p]) => ({ category: k, value: v, percentage: p })).sort((a,b) => b.percentage - a.percentage).slice(0, 3);
-
+                
                 // update state
                 setExpenseWeek(result);
                 setCategoriesWeek(cats);
@@ -188,9 +182,6 @@ const Home = ( { navigation } ) => {
                 snapshot.forEach(doc => {
                     result = result + doc.data().amount;
                 })
-
-                // format the result to 2 decimal places and have commas for thousand places
-                result = parseFloat(result.toFixed(2)).toLocaleString('en-US');
 
                 // update state
                 setExpenseLastWeek(result);
@@ -327,8 +318,8 @@ const Home = ( { navigation } ) => {
                 <Text style={styles.caption}>Change in spending</Text>
             </View>
             <View> 
-                {!weekSelected && <Text style={styles.money} >${expense}</Text>}
-                {weekSelected && <Text style={styles.money} >${expenseWeek}</Text>}
+                {!weekSelected && <Text style={styles.money} >${parseFloat(expense.toFixed(2)).toLocaleString('en-US')}</Text>}
+                {weekSelected && <Text style={styles.money} >${parseFloat(expenseWeek.toFixed(2)).toLocaleString('en-US')}</Text>}
                 <Text style={styles.caption} >Amount Spent</Text>
             </View>
         </View>

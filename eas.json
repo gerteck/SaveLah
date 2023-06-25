@@ -7,14 +7,17 @@
       "developmentClient": true,
       "distribution": "internal"
     },
+
     "SaveLahM1": {
       "distribution": "internal"
     },
-    "preview2": {
+
+    "milestone2-01": {
       "android": {
         "buildType": "apk"
       }
     },
+
     "production": {}
   },
   "submit": {

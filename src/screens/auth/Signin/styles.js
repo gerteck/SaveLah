@@ -2,24 +2,32 @@ import { StyleSheet } from "react-native";
 import { colors } from "../../../utils/colors";
 
 export const styles = StyleSheet.create({
-    background: {
+    mainContainer: {
         backgroundColor: colors.white,
         flex: 1,
-    },
-    container: {
         padding: 24,
-        marginTop: 20,
-        backgroundColor: colors.white,
+        paddingTop: 24,
     },
+
+    gap: {
+        paddingVertical: 8,
+    },
+
     button: {
         marginVertical: 20,
     },
+
+    separator:{
+        paddingVertical: 16,
+    },
+
     footerText: {
         color: colors.blue,
         marginBottom: 56,
         textAlign: 'center'
     },
+
     footerLink: {
         fontWeight: 'bold',
-    }
+    },
 })

@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
     },
 
     bodyInputContainer: {
-        minHeight: 200,
+        minHeight: 150,
         alignItems: 'flex-start',
     },
 

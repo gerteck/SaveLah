@@ -1,8 +1,11 @@
 import React from 'react';
 import { Text, Image, View, Pressable } from 'react-native';
+
+import { colors } from "../../../utils/colors";
 import { styles } from './styles';
 
 import Button from '../../../components/Button';
+import { StatusBar } from 'react-native';
 
 const Splash = ({ navigation }) => {
 
@@ -16,6 +19,7 @@ const Splash = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
+            <StatusBar hidden={true} backgroundColor={colors.white} barStyle={"dark-content"}/> 
             <Image resizeMode='contain' style={styles.image} source={require('../../../assets/authPages/splash_image.jpg')} />
 
             <View style={styles.titleContainer}>

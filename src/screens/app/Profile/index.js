@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
-import {ScrollView, Text, View, Image, Pressable } from "react-native";
+import {ScrollView, Text, View, Image, Pressable, StatusBar } from "react-native";
 import { styles }  from './styles';
 import { SafeAreaView } from "react-native-safe-area-context";
 import AppHeader from "../../../components/AppHeader";

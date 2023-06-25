@@ -32,7 +32,7 @@ const TransactionHistory = ( { navigation } ) => {
         {/* Tabs Overview Bar */}
 
         {error && <Text>{error}</Text>}
-        {documents && <TransactionTabs docs={documents} />}
+        {documents && <TransactionTabs docs={documents} navigation={navigation} />}
     </SafeAreaView>
       );
 }

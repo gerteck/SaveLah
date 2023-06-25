@@ -121,7 +121,7 @@ const TransactionList = ({transactions, navigation}) => {
 
 
             <FlatList contentContainerStyle={{paddingBottom: 150}} data={(sortedTransactions)} showsVerticalScrollIndicator={false} 
-                keyExtractor={item => item.id} renderItem={renderTransactions}/>         
+                keyExtractor={item => item[0].id} renderItem={renderTransactions}/>         
         </View>
     )
 }

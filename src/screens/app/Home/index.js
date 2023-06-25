@@ -393,19 +393,6 @@ const Home = ( { navigation } ) => {
         </>)
     }
 
-    const getHeaderNoTransactions = () => {
-        return (<>
-            <Box content={Welcome}/>
-            <TouchableOpacity onPress={onReport}><Text style={styles.report}>See full report</Text></TouchableOpacity>
-            <Box content={PieChart}/>
-            { !weekSelected && <Text style={styles.transactionTitle}>Top Spendings for the month</Text> }
-            { weekSelected && <Text style={styles.transactionTitle}>Top Spendings for the week</Text> }
-            <Box content={noTransactionsYet} />
-            <TouchableOpacity onPress={onTransactions}><Text style={styles.report}>See all transactions</Text></TouchableOpacity>
-            <Text style={styles.transactionTitle}>Recent Transactions</Text>
-        </>)
-    }
-
     const renderRecentTransactions = ({item}) => {
         return (<View style={styles.transactionContainer}>
             <View style={styles.categoryBox}>
@@ -443,28 +430,20 @@ const Home = ( { navigation } ) => {
             <StatusBar hidden={false} backgroundColor={colors.backgroundGrey} barStyle={"dark-content"}/> 
             <AppHeader title="SaveLah" showBell onBell={onBell}/>
 
-            {categories.length != 0 && !weekSelected && 
+            {!weekSelected && 
             
                 <FlatList showsVerticalScrollIndicator={false} data={categories} 
-                keyExtractor={item => item.category} renderItem={renderTransactions} 
-                ListHeaderComponent={getHeader} ListFooterComponent={getFooter}/>}
+                keyExtractor={item => item.id} renderItem={renderTransactions} 
+                ListHeaderComponent={getHeader} ListFooterComponent={getFooter} 
+                ListEmptyComponent={<Box content={noTransactionsYet} />} />}
 
-            {categoriesWeek.length != 0 && weekSelected && 
+            {weekSelected && 
             
-                <FlatList data={categoriesWeek} keyExtractor={item => item.category} 
+                <FlatList data={categoriesWeek} keyExtractor={item => item.id} 
                 renderItem={renderTransactions} ListHeaderComponent={getHeader} 
                 ListFooterComponent={getFooter}
-                showsVerticalScrollIndicator={false} />}
-
-            {categories.length == 0 && !weekSelected && 
-                <FlatList ListHeaderComponent={getHeaderNoTransactions} 
-                data={recent} renderItem={renderRecentTransactions} 
-                showsVerticalScrollIndicator={false} /> }
-
-            {categoriesWeek.length == 0 && weekSelected && 
-                <FlatList ListHeaderComponent={getHeaderNoTransactions} 
-                data={recent} renderItem={renderRecentTransactions} 
-                showsVerticalScrollIndicator={false} /> }
+                showsVerticalScrollIndicator={false} 
+                ListEmptyComponent={<Box content={noTransactionsYet} />} />}
             
         </SafeAreaView>
     )

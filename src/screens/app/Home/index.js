@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import {Text, TouchableOpacity, View, Image } from "react-native";
+import {Text, TouchableOpacity, View, Image, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles }  from './styles';
 import AppHeader from "../../../components/AppHeader";
@@ -385,21 +385,27 @@ const Home = ( { navigation } ) => {
     }
 
     const renderRecentTransactions = ({item}) => {
-        return (<View style={styles.transactionContainer}>
-            <View style={styles.categoryBox}>
-                <Image style={styles.icon} source={require('../../../assets/DummyIcon.png')}/>
-                <View style={styles.categoryContaineer}> 
-                    <View>
-                        <Text style={styles.transactionCaption}>{item.category}</Text>
-                        <Text style={styles.transactionMinorCaption}>{item.date.toDate().toLocaleDateString('en-GB', {
-                            day: 'numeric', month: 'short', year: 'numeric'
-                            }).replace(/-/g, ' ')}
-                        </Text>  
-                    </View>     
-                    <Text>${item.amount}</Text> 
+        const goEditTransaction = () => {
+            navigation.navigate('EditTransaction', {transaction: item});
+        }
+
+        return (<Pressable key={item.id} onPress={goEditTransaction}>
+            <View style={styles.transactionContainer}>
+                <View style={styles.categoryBox}>
+                    <Image style={styles.icon} source={require('../../../assets/DummyIcon.png')}/>
+                    <View style={styles.categoryContaineer}> 
+                        <View>
+                            <Text style={styles.transactionCaption}>{item.category}</Text>
+                            <Text style={styles.transactionMinorCaption}>{item.date.toDate().toLocaleDateString('en-GB', {
+                                day: 'numeric', month: 'short', year: 'numeric'
+                                }).replace(/-/g, ' ')}
+                            </Text>  
+                        </View>     
+                        <Text>${item.amount}</Text> 
+                    </View>
                 </View>
             </View>
-        </View>)
+        </Pressable>)
     }
 
     const getRecentHeader = () => {

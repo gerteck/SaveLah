@@ -64,4 +64,10 @@ export const styles = StyleSheet.create({
         width: 24,
     },
 
+    save: {
+        color: colors.black,
+        fontSize: 14,
+        fontWeight: '500',
+    },
+
 })

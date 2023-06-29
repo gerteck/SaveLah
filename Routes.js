@@ -16,6 +16,7 @@ import TransactionHistory from './src/screens/app/TransactionHistory';
 import AddTransaction from './src/screens/app/AddTransaction';
 import Profile from './src/screens/app/Profile';
 import Settings from './src/screens/app/Settings';
+import EditTransaction from './src/screens/app/EditTransaction';
 
 // Home Related
 import Home from './src/screens/app/Home';
@@ -163,6 +164,7 @@ const Routes = () => {
                           <AuthStack.Screen name="ProfileOtherUser" component={ProfileOtherUser} options={{ headerShown: false }} /> 
                           <AuthStack.Screen name="Notifications" component={Notifications} options={{ headerShown: false }} />
                           <AuthStack.Screen name="ForumPost" component={ForumPost} options={{ headerShown: false }} />
+                          <AuthStack.Screen name="EditTransaction" component={EditTransaction} options={{ headerShown: false }} />
                       </>
                 )}
                 {user && !userProfile?.registered && (

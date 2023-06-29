@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, View, FlatList, TouchableOpacity } from "react-native";
+import { Text, View, FlatList, TouchableOpacity, Pressable } from "react-native";
 import { styles } from './styles';
 import { colors } from "../../utils/colors";
 import Box from "../Box";
@@ -64,34 +64,43 @@ const TransactionList = ({transactions, navigation}) => {
         const total = item.reduce((acc, cur) => acc + cur.amount, 0).toLocaleString('en-US');
 
         return (
-            <View style={styles.transactionWhiteBox}>
+                <View style={styles.transactionWhiteBox}>
 
-                {/* Date Time and price */}
-                <View style={styles.header}>
-                    <View style={styles.dateContainer}>
-                        <Text style={styles.date}>{transDate.date}</Text>
-                        <View style={styles.dateDetailsContainer}>
-                            <Text style={styles.day}>{transDate.day}</Text>
-                            <Text style={styles.month}>{transDate.month} {transDate.year}</Text>
+                    {/* Date Time and price */}
+                    <View style={styles.header}>
+                        <View style={styles.dateContainer}>
+                            <Text style={styles.date}>{transDate.date}</Text>
+                            <View style={styles.dateDetailsContainer}>
+                                <Text style={styles.day}>{transDate.day}</Text>
+                                <Text style={styles.month}>{transDate.month} {transDate.year}</Text>
+                            </View>
                         </View>
-                    </View>
-                    <Text style={styles.transAmount}>-${total}</Text>
-                </View>       
+                        <Text style={styles.transAmount}>-${total}</Text>
+                    </View>       
 
-                <View style={styles.divider} />
-                
-                {item.map((doc) => 
-                <View style={styles.transactionDetailsContainer} key={doc.id} >
-                    <View style={{flexDirection: 'row'}}>
-                        <View style={styles.categoryIcon} />
-                        <View style={styles.transactionTextContainer}>
-                            <Text style={{alignSelf: 'center'}}>{doc.category}: {doc.description}</Text>
-                            <Text style={{alignSelf: 'center'}}>${doc.amount}</Text>
-                        </ View>
-                    </View>        
-                </View>)} 
-                
-            </View>
+                    <View style={styles.divider} />
+                    
+                    {item.map((doc) => {
+                       
+                        const goEditTransaction = () => {
+                            navigation.navigate('EditTransaction', {transaction: doc});
+                        }
+
+                        return (<Pressable key={doc.id} onPress={goEditTransaction}>
+                            <View style={styles.transactionDetailsContainer} key={doc.id} >
+                                <View style={{flexDirection: 'row'}}>
+                                    <View style={styles.categoryIcon} />
+                                    <View style={styles.transactionTextContainer}>
+                                        <Text style={{alignSelf: 'center'}}>{doc.category}: {doc.description}</Text>
+                                        <Text style={{alignSelf: 'center'}}>${doc.amount}</Text>
+                                    </ View>
+                                </View>        
+                            </View>
+                        </Pressable>)                      
+                        }
+                    )} 
+
+                </View>
         )
     }
 

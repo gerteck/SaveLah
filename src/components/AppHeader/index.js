@@ -12,6 +12,8 @@ const AppHeader = ({  style,
                     showBell, onBell, 
                     showChat, onChat,
                     userPictureURL, onUserPicture,
+                    showSave, onSave,
+                    showDelete, onDelete,
                     title,
                 }) => {
 
@@ -51,6 +53,18 @@ const AppHeader = ({  style,
             { userPictureURL ? (
                 <TouchableOpacity onPress={onUserPicture} style={styles.iconBubble}> 
                     <Image source={{uri: userPictureURL}} style={styles.userPictureIcon}  />
+                </TouchableOpacity>
+            ) : null }
+
+            { showSave ? (
+                <TouchableOpacity onPress={onSave}> 
+                    <Text style={styles.save}>SAVE</Text> 
+                </TouchableOpacity>
+            ) : null }
+
+            { showDelete ? (
+                <TouchableOpacity onPress={onDelete}> 
+                    <Image source={require('../../assets/appHeader/deleteIcon.png')} style={[styles.icon, {height: 25, width: 20, marginLeft: 16,}]}  />
                 </TouchableOpacity>
             ) : null }
 

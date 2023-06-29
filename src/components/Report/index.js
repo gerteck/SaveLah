@@ -56,7 +56,7 @@ const Report = ({ transactions }) => {
           
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{marginHorizontal: 16, marginTop: 8}}>
             <FlatList data={categories} keyExtractor={item => item.category} renderItem={renderTransactions} 
             ListHeaderComponent={getHeader}/>
         </SafeAreaView>

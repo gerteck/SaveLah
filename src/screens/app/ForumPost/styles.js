@@ -84,6 +84,16 @@ export const styles = StyleSheet.create({
     footer: {
         paddingTop: 8,
         flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+
+    voteContainer: {
+        flexDirection: 'row',
+    },
+
+    deleteImage: {
+        height: 18,
+        width: 18,
     },
 
     arrowIcon: {

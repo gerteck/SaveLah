@@ -15,7 +15,7 @@ import { getApp } from "firebase/app";
 const app = getApp;
 const db = getFirestore(app);
 
-const ForumHome = ({ navigation }) => {
+const ForumHome = ({ navigation, routes }) => {
     
     //navigations
     const onChat = () => {
@@ -32,14 +32,11 @@ const ForumHome = ({ navigation }) => {
     const isFocused = useIsFocused();
     useEffect(() => {
         setKeyword("");
+        getPosts();
     },[isFocused]);    
 
     const [allPosts, setallPosts] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
-
-    useEffect(()=> {
-        getPosts();
-    }, []); 
 
     const getPosts = () => {
         setRefreshing(true);

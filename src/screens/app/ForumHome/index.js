@@ -16,7 +16,7 @@ const app = getApp;
 const db = getFirestore(app);
 
 const ForumHome = ({ navigation }) => {
-    
+
     //navigations
     const onChat = () => {
         navigation.navigate('ForumAllChats');

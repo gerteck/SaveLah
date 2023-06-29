@@ -65,24 +65,6 @@ const ForumHome = ({ navigation, routes }) => {
         setRefreshing(false);
     }
 
-    const sortPostsbyData = (data) => {
-        // console.log("All Posts", allPosts);
-        const sortByDate = (a, b) => {
-            return b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime();
-        }
-        const sortByVotes = (a, b) => {
-            return b.votes - a.votes;
-        }
-        if (sort == 'recent') {
-            const sortedAllPosts = [... allPosts].sort(sortByDate);
-            setallPosts(sortedAllPosts);
-        }
-        if (sort == 'mostUpvote') {
-            const sortedAllPosts = [... allPosts].sort(sortByVotes);
-            setallPosts(sortedAllPosts);
-        }
-    }
-
     const [keyword, setKeyword] = useState("");
     const [filteredPosts, setFilteredPosts] = useState([]);
 
@@ -96,34 +78,12 @@ const ForumHome = ({ navigation, routes }) => {
         }
     }, [keyword]);
 
-    const SearchBar = () => {
-        return (
-            <View style={styles.inputContainer}>
-                <TextInput placeholder="Search post by title..." style={styles.input}
-                    value={keyword} onChangeText={setKeyword} />
-                <Image style={styles.searchIcon} source={require('../../../assets/icons/search.png')}/>
-            </View>
-        )
-    }
-
     //Drop Down Picker for Comments:
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState([{label: 'Recent', value: 'recent'}, {label: 'Most upvoted', value: 'mostUpvote'}]);
     const [sort, setSort] = useState('recent');
 
-    const SortBar = () => {
-        return ( 
-            <View style={styles.sortContainer}>
-                <Image style={styles.sortIcon} source={require('../../../assets/icons/team.png')}/>
-                <View style={styles.dropDownPickerContainer}>
-                    <DropDownPicker open={open} value={sort} items={items} listMode="SCROLLVIEW"
-                            style={styles.pickerContainer}
-                            setOpen={setOpen} onSelectItem={(v) => setSort(v.value)} setItems={setItems}/>
-                </View>
-            </View>
-        )
-    }
-
+    // Sort Posts
     useEffect(()=>{
         sortPosts();
     }, [sort])
@@ -146,13 +106,47 @@ const ForumHome = ({ navigation, routes }) => {
         }
     }
 
+    const sortPostsbyData = (data) => {
+        // console.log("All Posts", allPosts);
+        const sortByDate = (a, b) => {
+            return b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime();
+        }
+        const sortByVotes = (a, b) => {
+            return b.votes - a.votes;
+        }
+        if (sort == 'recent') {
+            const sortedAllPosts = [... allPosts].sort(sortByDate);
+            setallPosts(sortedAllPosts);
+        }
+        if (sort == 'mostUpvote') {
+            const sortedAllPosts = [... allPosts].sort(sortByVotes);
+            setallPosts(sortedAllPosts);
+        }
+    }
+
 
 
     return (
         <SafeAreaView style={styles.mainContainer}>
             <AppHeader title="Forum" showChat showBell onBell={onBell} onChat={onChat}/>
-            {SearchBar()}
-            {SortBar()}
+
+            {/* Search Bar */}
+            <View style={styles.inputContainer}>
+                <TextInput placeholder="Search post by title..." style={styles.input}
+                    value={keyword} onChangeText={setKeyword} />
+                <Image style={styles.searchIcon} source={require('../../../assets/icons/search.png')}/>
+            </View>
+            
+            {/* SortBar */}
+            <View style={styles.sortContainer}>
+                <Image style={styles.sortIcon} source={sort == 'recent' ? require('../../../assets/icons/recent.png') 
+                    : require('../../../assets/icons/team.png')}/>
+                <View style={styles.dropDownPickerContainer}>
+                    <DropDownPicker open={open} value={sort} items={items} listMode="SCROLLVIEW"
+                            style={styles.pickerContainer}
+                            setOpen={setOpen} onSelectItem={(v) => setSort(v.value)} setItems={setItems}/>
+                </View>
+            </View>
 
             {filteredPosts.length == 0 && <PostList onRefresh={getPosts} refreshing={refreshing} posts={allPosts} navigation={navigation} />}
             {filteredPosts.length > 0 && <PostList posts={filteredPosts} navigation={navigation} />}

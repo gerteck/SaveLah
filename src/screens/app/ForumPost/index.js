@@ -159,7 +159,6 @@ const ForumPost = ( {navigation, route} ) => {
             }, { merge: true });
         }
         sendVote();
-
     } 
 
     // remove item from array
@@ -208,7 +207,7 @@ const ForumPost = ( {navigation, route} ) => {
             navigation.goBack();
             deleteAllComments();
         } catch (error) {
-            console.log('error deleting transaction :>> ', error);
+            console.log('error deleting Post :>> ', error);
         }
     }
     

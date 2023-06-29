@@ -34,6 +34,10 @@ const PostList = ({posts, navigation, onRefresh, refreshing, mapList}) => {
                 </View>
 
                 <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail" >{item.title}</Text>
+                
+                {/* Image if there is */}
+                {item.url && <View style={styles.imageContainer}><Image source={{uri: item.url}} style={styles.postImage}/></View> }
+
                 <Text style={styles.body} numberOfLines={3} ellipsizeMode="tail" >{item.body}</Text>
 
 

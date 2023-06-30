@@ -6,12 +6,12 @@ import AppHeader from "../../../components/AppHeader";
 import DropDownPicker from 'react-native-dropdown-picker';
 
 import { getApp } from "firebase/app";
-import { getFirestore, doc, getDoc, setDoc, collection, getDocs, onSnapshot, QuerySnapshot, query } from "firebase/firestore";
+import { getFirestore, doc, getDoc, setDoc, collection, getDocs, onSnapshot, QuerySnapshot, query, deleteDoc } from "firebase/firestore";
 import { FlatList, ScrollView, TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { useFirestore } from "../../../hooks/useFirestore";
 import { UserProfileContext } from "../../../context/UserProfileContext";
-import { render } from "react-dom";
 import Comment from "../../../components/Comment";
+
 const app = getApp;
 const db = getFirestore(app);
 
@@ -22,23 +22,36 @@ const DOWNVOTE = 2;
 const ForumPost = ( {navigation, route} ) => {
 
     const [userProfile, setUserProfile] = useContext(UserProfileContext);
-
     const [posterProfile, setPosterProfile] = useState({}); 
     const [postDetails, setPostDetails] = useState(route.params?.post);
     // fields: body, category, comments, createdAt, id, title, uid, url, votes
-    // console.log(postDetails);
-    //console.log("refresh");
-
     const [allComments, setAllComments] = useState([]);
     const [addingComment, setAddingComment] = useState(false);
     const [commentText, setCommentText] = useState(""); 
-    const [postVote, setPostVote] = useState(0);
+    const [postVote, setPostVote] = useState(NOVOTE);
+    const userIsAuthor = route.params?.post.uid == userProfile.uid;
 
-    // Set up Listener
+    const postRef = doc(db, "posts", postDetails?.id);
+    const commentRef = doc(db, "comments", postDetails?.id);
+    const [postUnsub, setPostUnsub] = useState(() => () => {console.log("Default")});
+    const [commentUnsub, setCommentUnsub] = useState(() => () => {console.log("Default")});
+
+    //Drop Down Picker for Comments:
+    const [open, setOpen] = useState(false);
+    const [items, setItems] = useState([{label: 'Recent', value: 'recent'}, {label: 'Most upvoted', value: 'mostUpvote'}]);
+    const [sort, setSort] = useState('recent');
+    
+    // Sort Posts
+    useEffect(()=>{
+        sortComments();
+    }, [sort])
+    
+    // Set up Listener for Post
     useEffect(() => {
-        const unsubPost = onSnapshot(doc(db, "posts", postDetails.id), (doc) => {
+        const unsubPost = onSnapshot(postRef, (doc) => {
             setPostDetails(doc.data());
         });
+        setPostUnsub(() => unsubPost);
         if (postDetails.upvoters.includes(userProfile.uid)) {
             setPostVote(UPVOTE);
         }
@@ -46,6 +59,50 @@ const ForumPost = ( {navigation, route} ) => {
             if (postVote == UPVOTE) {throw new Error("upvote & downvote at same time")}
             setPostVote(DOWNVOTE);
         }
+    }, [route]);
+
+    // Set up Listener for Comments
+    // Bug is caused by variable capture of sort as 'recent'... (Stale values..)
+    const getAllComments = () => { 
+        const commentCollectionRef = collection(db, 'comments/' + postDetails?.id + '/comments');
+        const unSubComments = onSnapshot(commentCollectionRef, (querySnapshot) => {
+            const sortByDate = (a, b) => {
+                return b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime();
+            }
+            const sortByVotes = (a, b) => {
+                return b.votes - a.votes;
+            }
+            const comments = [];
+            querySnapshot.forEach((doc) => {
+                comments.push(doc.data());
+            })
+            if (sort == 'recent') {
+                comments.sort(sortByDate);
+            }
+            if (sort == 'mostUpvote') {
+                comments.sort(sortByVotes);
+            }
+            setSort(sort); // As evidenced here sort becomes recent
+            setAllComments(comments);
+        })
+        setCommentUnsub(() => unSubComments);
+    }
+    
+    // Get Poster Profile
+    useEffect( () => {
+        const getProfile = async () => {
+            const userRef = doc(db, "users", postDetails?.uid);
+            const docSnap = await getDoc(userRef);
+            if (docSnap.exists()) {
+                setPosterProfile(docSnap.data());
+                //console.log("Poster: ", posterProfile)
+            } else {
+                setPosterProfile({});
+                console.log("No such document! Error Finding User");
+            } 
+        }
+        getProfile(); 
+        getAllComments();
     }, [route]);
 
     const collectionRoute = 'comments/' + postDetails?.id + '/comments';
@@ -70,62 +127,28 @@ const ForumPost = ( {navigation, route} ) => {
                 id: comment.id,
             }, { merge: true });
         }
-        uploadComment(); 
         const increaseCommentCount = async () => {
             await setDoc( doc(db, 'posts', postDetails.id), {
                 comments: postDetails.comments + 1,
             }, { merge: true });
         }
+        uploadComment(); 
         increaseCommentCount();
         setAddingComment(false);
         setCommentText("");
     }
-
-    const getAllComments = () => { 
-        const commentCollectionRef = collection(db, 'comments/' + postDetails?.id + '/comments');
-        const unSubComments = onSnapshot(commentCollectionRef, (querySnapshot) => {
-            const comments = [];
-            querySnapshot.forEach((doc) => {
-                comments.push(doc.data());
-            })
-            //console.log(comments);
-            setAllComments(comments);
-        })
-    }
     
-    // Get Poster Profile
-    useEffect( () => {
-        const getProfile = async () => {
-            const userRef = doc(db, "users", postDetails?.uid);
-            const docSnap = await getDoc(userRef);
-            if (docSnap.exists()) {
-                setPosterProfile(docSnap.data());
-                //console.log("Poster: ", posterProfile)
-            } else {
-                setPosterProfile({});
-                console.log("No such document! Error Finding User");
-            } 
-        }
-        getProfile(); 
-        getAllComments();
-    }, [route]);
-    
-    //Drop Down Picker for Comments:
-    const [open, setOpen] = useState(false);
-    // const [items, setItems] = useState([{label: 'Recent', value: 'recent'}, {label: 'Most upvoted', value: 'mostUpvote'}]);
-    const [items, setItems] = useState([{label: 'Recent', value: 'recent'}]);
-    const [sort, setSort] = useState('recent');
-
     const onBack = () => {
+        postUnsub();
+        commentUnsub();
         navigation.goBack();
     }
 
     const onUserPress = () => {
+        postUnsub();
+        commentUnsub();
         navigation.navigate('ProfileOtherUser', { item: posterProfile });
     };
-
-    const posterURL = posterProfile?.url;
-    const title = posterProfile.username ? "Posted by " + posterProfile.username : "Posted by Anonymous";
 
     // Post Voting
     const onVote = (num) => {
@@ -154,18 +177,9 @@ const ForumPost = ( {navigation, route} ) => {
             }, { merge: true });
         }
         sendVote();
-
     } 
 
     // remove item from array
-    function removeItemOnce(arr, value) {
-        var index = arr.indexOf(value);
-        if (index > -1) {
-          arr.splice(index, 1);
-        }
-        return arr;
-    }
-
     function removeItemAll(arr, value) {
         var i = 0;
         while (i < arr.length) {
@@ -176,12 +190,69 @@ const ForumPost = ( {navigation, route} ) => {
           }
         }
         return arr;
-      }
-    
+    }
+
+    const onDeletePost = () => {
+        Alert.alert('', 'Delete this post?', [
+            {
+                text: 'NO',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+            },
+            {
+                text: 'YES',
+                onPress: () => onConfirmDeletePost(),
+            }
+        ], { cancelable: true });
+    }
+
+    const deleteAllComments = () => { 
+        allComments.forEach((comment) => {
+            const docRef = doc(db, "comments", postDetails.id, "comments", comment.id);
+            deleteDoc(docRef);
+            //console.log("comment: ", comment.text, "deleted")
+        })
+    }
+ 
+    const onConfirmDeletePost = async () => {
+        try {
+            postUnsub();
+            commentUnsub();
+            deleteAllComments();
+            await deleteDoc(commentRef);
+            await deleteDoc(postRef);
+            console.log('Post deleted');
+            navigation.goBack();
+            deleteAllComments();
+        } catch (error) {
+            console.log('error deleting Post :>> ', error);
+        }
+    }
+
+    const sortComments = () => {
+        const sortByDate = (a, b) => {
+            return b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime();
+        }
+        const sortByVotes = (a, b) => {
+            return b.votes - a.votes;
+        }
+        if (sort == 'recent') {
+            const sortedAllPosts = [... allComments].sort(sortByDate);
+            setAllComments(sortedAllPosts);
+        }
+        if (sort == 'mostUpvote') {
+            const sortedAllPosts = [... allComments].sort(sortByVotes);
+            setAllComments(sortedAllPosts);
+        }
+    }
+   
+    const posterURL = posterProfile?.url;
+    const headerTitle = posterProfile.username ? "Posted by " + posterProfile.username : "Posted by Anonymous";
+
     return (
         <SafeAreaView style={styles.safeContainer}>
         <ScrollView>
-            <AppHeader showBack onBack={onBack} style={styles.appHeader} userPictureURL={posterURL} title={title} onUserPicture={onUserPress}/>
+            <AppHeader showBack onBack={onBack} style={styles.appHeader} userPictureURL={posterURL} title={headerTitle} onUserPicture={onUserPress}/>
             <View style={styles.whiteView}>
                 
                 <View style={styles.postContainer}>
@@ -205,16 +276,24 @@ const ForumPost = ( {navigation, route} ) => {
 
                     {/* Votes and Comments */}
                     <View style={styles.footer}>
-                        <TouchableOpacity disabled={postVote == UPVOTE} onPress={() => onVote(UPVOTE)}>
-                            <Image source={postVote == UPVOTE ? require('../../../assets/appIcons/upFilled.png') 
-                                : require('../../../assets/appIcons/up.png')} style={styles.arrowIcon}/>
-                        </TouchableOpacity>
-                        <Text style={styles.votes}>{postDetails.votes}</Text>
-                        <TouchableOpacity disabled={postVote == DOWNVOTE}  onPress={() => onVote(DOWNVOTE)}>
-                            <Image source={postVote == DOWNVOTE ? require('../../../assets/appIcons/downFilled.png') 
-                                : require('../../../assets/appIcons/down.png')} style={styles.arrowIcon}/>
-                        </TouchableOpacity>
-                        
+                        <View style={styles.voteContainer}>
+                            <TouchableOpacity disabled={postVote == UPVOTE} onPress={() => onVote(UPVOTE)}>
+                                <Image source={postVote == UPVOTE ? require('../../../assets/appIcons/upFilled.png') 
+                                    : require('../../../assets/appIcons/up.png')} style={styles.arrowIcon}/>
+                            </TouchableOpacity>
+                            <Text style={styles.votes}>{postDetails.votes}</Text>
+                            <TouchableOpacity disabled={postVote == DOWNVOTE}  onPress={() => onVote(DOWNVOTE)}>
+                                <Image source={postVote == DOWNVOTE ? require('../../../assets/appIcons/downFilled.png') 
+                                    : require('../../../assets/appIcons/down.png')} style={styles.arrowIcon}/>
+                            </TouchableOpacity>
+                        </View>
+                        {userIsAuthor ? 
+                            <TouchableOpacity onPress={onDeletePost}>
+                                <Image source={require('../../../assets/icons/redDelete.png')} style={styles.deleteImage}/>
+                            </TouchableOpacity>
+                        : 
+                            <View></View>
+                        }
                     </View>
                 </View>
                 

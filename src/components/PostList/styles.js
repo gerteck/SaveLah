@@ -3,7 +3,7 @@ import { colors } from '../../utils/colors';
 
 export const styles = StyleSheet.create({
     flatList:{
-        paddingTop: 4,
+        paddingTop: 0,
         paddingBottom: 16,
     },
 
@@ -40,11 +40,26 @@ export const styles = StyleSheet.create({
         fontSize: 10,
     },
 
+    imageContainer: {
+        height: 150,
+        alignItems: 'center',
+        margin: 16,
+        borderWidth: 0,
+        zIndex: -1,
+    },
+
     title: {
         fontSize: 14,
         fontWeight: 500,
         marginVertical: 6,
         color: colors.black,
+    },
+
+    postImage: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        resizeMode: 'contain',
     },
 
     body: {

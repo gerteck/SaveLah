@@ -3,8 +3,8 @@ import { colors } from '../../utils/colors';
 
 export const styles = StyleSheet.create({
     commentContainer: {
-        paddingHorizontal: 8,
-        paddingVertical: 13,
+        marginHorizontal: 8,
+        marginVertical: 13,
         
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
     },
 
     commentDetails: {
-        width: '90%',
+        width: '80%',
         marginVertical: 12,
     },
 
@@ -53,10 +53,25 @@ export const styles = StyleSheet.create({
 
     },
 
+    voteDeleteRow: {
+        flexDirection: 'row',
+
+    },
+
+    commentDeleteContainer: {
+        alignSelf: 'flex-end',
+        marginRight: 6,
+    },
+
     commentText: {
         fontSize: 12,
         marginLeft: 4,
         color: colors.black,
+    },
+
+    deleteImage: {
+        height: 16,
+        width: 14,
     },
 
     voteContainer: {
@@ -65,13 +80,20 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
     },
 
-    vote:{
-        paddingVertical: 16,
+    votes: {
+        paddingVertical: 12,
+        fontSize: 12,
+        
+        verticalAlign: 'middle',
+        justifyContent:'center',
+        textAlign: 'center',
+        minWidth: 30,
+        borderWidth: 0,
     },
 
     arrowIcon: {
         height: 10,
-        width: 10,
+        width: 13,
     },
 
 

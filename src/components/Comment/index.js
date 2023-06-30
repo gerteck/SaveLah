@@ -116,6 +116,14 @@ const Comment = ({commentDetails, navigation}) => {
         }
     }
 
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const commentDate = commentDetails?.createdAt.toDate();
+    let min = commentDate.getMinutes()
+    if (commentDate.getMinutes() < 10) {
+        min = "0" + commentDate.getMinutes()
+    } 
+    const commentTimestamp = commentDate.getDate() + " " + monthNames[commentDate.getMonth()] + " " 
+        + commentDate.getHours() + ":" + min;
 
     return ( <>
         <View style={styles.commentContainer}>
@@ -131,7 +139,7 @@ const Comment = ({commentDetails, navigation}) => {
                     </View>
                     <View style={styles.posterDetails}>
                         <Text style={styles.username}>@{posterProfile?.username ? posterProfile?.username.replace(/\s/g, "") : ""}</Text>
-                        <Text style={styles.time}>{commentDetails?.createdAt.toDate().toLocaleDateString()}</Text>
+                        <Text style={styles.time}>{commentTimestamp}</Text>
                     </View>
                 </View>
 

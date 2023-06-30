@@ -35,6 +35,16 @@ const ForumPost = ( {navigation, route} ) => {
     const commentRef = doc(db, "comments", postDetails?.id);
     const [postUnsub, setPostUnsub] = useState(() => () => {console.log("Default")});
     const [commentUnsub, setCommentUnsub] = useState(() => () => {console.log("Default")});
+
+    //Drop Down Picker for Comments:
+    const [open, setOpen] = useState(false);
+    const [items, setItems] = useState([{label: 'Recent', value: 'recent'}, {label: 'Most upvoted', value: 'mostUpvote'}]);
+    const [sort, setSort] = useState('recent');
+    
+    // Sort Posts
+    useEffect(()=>{
+        sortComments();
+    }, [sort])
     
     // Set up Listener for Post
     useEffect(() => {
@@ -52,13 +62,27 @@ const ForumPost = ( {navigation, route} ) => {
     }, [route]);
 
     // Set up Listener for Comments
+    // Bug is caused by variable capture of sort as 'recent'... (Stale values..)
     const getAllComments = () => { 
         const commentCollectionRef = collection(db, 'comments/' + postDetails?.id + '/comments');
         const unSubComments = onSnapshot(commentCollectionRef, (querySnapshot) => {
+            const sortByDate = (a, b) => {
+                return b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime();
+            }
+            const sortByVotes = (a, b) => {
+                return b.votes - a.votes;
+            }
             const comments = [];
             querySnapshot.forEach((doc) => {
                 comments.push(doc.data());
             })
+            if (sort == 'recent') {
+                comments.sort(sortByDate);
+            }
+            if (sort == 'mostUpvote') {
+                comments.sort(sortByVotes);
+            }
+            setSort(sort); // As evidenced here sort becomes recent
             setAllComments(comments);
         })
         setCommentUnsub(() => unSubComments);
@@ -103,23 +127,17 @@ const ForumPost = ( {navigation, route} ) => {
                 id: comment.id,
             }, { merge: true });
         }
-        uploadComment(); 
         const increaseCommentCount = async () => {
             await setDoc( doc(db, 'posts', postDetails.id), {
                 comments: postDetails.comments + 1,
             }, { merge: true });
         }
+        uploadComment(); 
         increaseCommentCount();
         setAddingComment(false);
         setCommentText("");
     }
     
-    //Drop Down Picker for Comments:
-    const [open, setOpen] = useState(false);
-    // const [items, setItems] = useState([{label: 'Recent', value: 'recent'}, {label: 'Most upvoted', value: 'mostUpvote'}]);
-    const [items, setItems] = useState([{label: 'Recent', value: 'recent'}]);
-    const [sort, setSort] = useState('recent');
-
     const onBack = () => {
         postUnsub();
         commentUnsub();
@@ -210,14 +228,31 @@ const ForumPost = ( {navigation, route} ) => {
             console.log('error deleting Post :>> ', error);
         }
     }
-    
+
+    const sortComments = () => {
+        const sortByDate = (a, b) => {
+            return b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime();
+        }
+        const sortByVotes = (a, b) => {
+            return b.votes - a.votes;
+        }
+        if (sort == 'recent') {
+            const sortedAllPosts = [... allComments].sort(sortByDate);
+            setAllComments(sortedAllPosts);
+        }
+        if (sort == 'mostUpvote') {
+            const sortedAllPosts = [... allComments].sort(sortByVotes);
+            setAllComments(sortedAllPosts);
+        }
+    }
+   
     const posterURL = posterProfile?.url;
-    const title = posterProfile.username ? "Posted by " + posterProfile.username : "Posted by Anonymous";
+    const headerTitle = posterProfile.username ? "Posted by " + posterProfile.username : "Posted by Anonymous";
 
     return (
         <SafeAreaView style={styles.safeContainer}>
         <ScrollView>
-            <AppHeader showBack onBack={onBack} style={styles.appHeader} userPictureURL={posterURL} title={title} onUserPicture={onUserPress}/>
+            <AppHeader showBack onBack={onBack} style={styles.appHeader} userPictureURL={posterURL} title={headerTitle} onUserPicture={onUserPress}/>
             <View style={styles.whiteView}>
                 
                 <View style={styles.postContainer}>

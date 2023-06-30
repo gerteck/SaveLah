@@ -6,7 +6,7 @@ import { Text, View, Image } from 'react-native';
 import { useAuthContext } from "./src/hooks/useAuthContext";
 
 //For Routing and Navigation
-import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
+import { DefaultTheme, NavigationContainer, StackActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Signin from './src/screens/auth/Signin';
@@ -33,7 +33,7 @@ import NewPost from './src/screens/app/NewPost';
 //Register Profile Imports
 import RegisterProfile from './src/screens/app/RegisterProfile';
 import { getApp } from "firebase/app";
-import { getFirestore, getDoc, doc } from 'firebase/firestore';
+import { getFirestore, getDoc, doc, enableMultiTabIndexedDbPersistence } from 'firebase/firestore';
 import { UserProfileContext } from './src/context/UserProfileContext';
 import ProfileSearchUser from './src/screens/app/ProfileSearchUser';
 import ProfileFollowInfo from './src/screens/app/ProfileFollowInfo';
@@ -52,7 +52,7 @@ const HomeTabs = () => {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen name='HomeMain' component={Home} options={{ headerShown: false }} />
-      <HomeStack.Screen name='SpendingReport' component={SpendingReport} options={{ headerShown: false }} />
+      <HomeStack.Screen name='SpendingReport' component={SpendingReport} options={{ headerShown: false }}/>
     </HomeStack.Navigator>
   )
 }
@@ -116,7 +116,12 @@ const Tabs = () => {
 
   return (
     <Tab.Navigator screenOptions={TabScreenOptions} backBehavior={"history"} >
-      <Tab.Screen name="Home" component={HomeTabs} />
+      <Tab.Screen name="Home" component={HomeTabs} listeners={({ navigation }) => ({
+        tabPress: (e) => {
+          e.preventDefault();
+          navigation.navigate('HomeMain');
+        }
+      })}/>
       <Tab.Screen name="TransactionHistory" component={TransactionHistory}/>
       <Tab.Screen name="AddTransaction" component={AddTransaction} />
       <Tab.Screen name="Forum" component={Forum} />

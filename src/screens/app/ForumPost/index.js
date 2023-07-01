@@ -109,6 +109,7 @@ const ForumPost = ( {navigation, route} ) => {
     const { addDocument, response } = useFirestore(collectionRoute);
 
     const postComment = () => {
+        let commentId;
         if (!commentText) { 
             Alert.alert('Comment can\'t be empty!');
             return;
@@ -123,9 +124,25 @@ const ForumPost = ( {navigation, route} ) => {
                 downvoters: [],
                 id: 1,
             }); 
+
+            // Update with comment Id
             await setDoc(doc(db, collectionRoute, comment.id), {
                 id: comment.id,
             }, { merge: true });
+
+            // Send Notification:
+            if (posterProfile.uid != userProfile?.uid) {
+                message = "@" + userProfile?.username.replace(/\s/g, "") + " commented on your post!";
+                await setDoc( doc(db, 'notifications', posterProfile.uid, 'notifications', comment.id), {
+                    details: message,
+                    isRead: false,
+                    notificationType: "comment",
+                    id: comment.id,
+                    postId: postDetails.id,
+                    uid: userProfile.uid,
+                    createdAt: new Date(),
+                });
+            }
         }
         const increaseCommentCount = async () => {
             await setDoc( doc(db, 'posts', postDetails.id), {
@@ -206,14 +223,6 @@ const ForumPost = ( {navigation, route} ) => {
         ], { cancelable: true });
     }
 
-    const deleteAllComments = () => { 
-        allComments.forEach((comment) => {
-            const docRef = doc(db, "comments", postDetails.id, "comments", comment.id);
-            deleteDoc(docRef);
-            //console.log("comment: ", comment.text, "deleted")
-        })
-    }
- 
     const onConfirmDeletePost = async () => {
         try {
             postUnsub();
@@ -227,6 +236,16 @@ const ForumPost = ( {navigation, route} ) => {
         } catch (error) {
             console.log('error deleting Post :>> ', error);
         }
+    }    
+    
+    const deleteAllComments = () => { 
+        allComments.forEach((comment) => {
+            // delete comments
+            const docRef = doc(db, "comments", postDetails.id, "comments", comment.id);
+            deleteDoc(docRef);
+            // delete notifications
+            deleteDoc(doc(db, 'notifications', postDetails.uid, 'notifications', comment.id));
+        })
     }
 
     const sortComments = () => {
@@ -323,7 +342,7 @@ const ForumPost = ( {navigation, route} ) => {
 
                 {/* Comments: */} 
                 <View style={styles.commentsList}>
-                { allComments.map((commentDetails) => <Comment commentDetails={commentDetails} navigation={navigation} key={commentDetails.id} />)}
+                { allComments.map((commentDetails) => <Comment postDetails={postDetails} commentDetails={commentDetails} navigation={navigation} key={commentDetails.id} />)}
                 </View>
 
 

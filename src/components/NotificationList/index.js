@@ -11,7 +11,7 @@ const db = getFirestore(app);
 
 // 3 things that produces notifications:
 /*
-- New follower
+- New follower (done)
 - New comment on a post
 - New upvote on a post
 */ 
@@ -20,7 +20,8 @@ const db = getFirestore(app);
 const NotificationList = ({notifications, navigation}) => {
 
     // Approach is to put all the profiles needed into a common hashmap
-    // e.g. for followers, comments where profile picture url is needed. 
+    // e.g. for followers, comments where profile picture url is needed.
+    // Unfortunately bc of the variable capture it still does it duplicated times...
 
     const [profilesHashMap, setProfilesHashmap] = useState({}); 
     
@@ -49,8 +50,8 @@ const NotificationList = ({notifications, navigation}) => {
                     } 
                 }
                 getProfile();
-            } 
-        });
+            }
+        })
     } 
 
 
@@ -62,22 +63,37 @@ const NotificationList = ({notifications, navigation}) => {
         const notificationTimestamp = notificationDate.getDate() + " " + monthNames[notificationDate.getMonth()] + " ";
         
         // Follow Notification
-        if (item?.notificationType == "follow") {
+        if (item?.notificationType == "follow" || item?.notificationType == "comment") {
             const profile = profilesHashMap[item.uid];
-            const nameNoSpaces = profile?.username.replace(/\s/g, "");
 
-            const onUserPress = () => {
-                navigation.navigate('ProfileOtherUser', { item: profile });
-            };
+            let onNotificationPress;
+            if (item.notificationType == "comment") {
+                const goPost = () => {
+                    // get Post Data:
+                    const getPost = async () => {
+                        const postRef = doc(db, "posts", item?.postId);
+                        const docSnap = await getDoc(postRef);
+                        const postDetails = docSnap.data();
+                        navigation.navigate('ForumPost', {post: postDetails});
+                    }
+                    getPost();
+                };
+                onNotificationPress = goPost;
+            } else if (item.notificationType == "follow") {
+                const onUserPress = () => {
+                    navigation.navigate('ProfileOtherUser', { item: profile });
+                };
+                onNotificationPress = onUserPress;
+            }
 
             return (
                 <>
-                <Pressable style={styles.followNotificationContainer} onPress={onUserPress}>
+                <Pressable style={styles.followNotificationContainer} onPress={onNotificationPress}>
                     <View style={styles.row}>
                         <View style={styles.iconBubble}>
                             <Image style={styles.displayPicture} source={{ uri: profile?.url}} />
                         </View>
-                        <Text style={styles.notificationText}>@{nameNoSpaces} just followed you!</Text>
+                        <Text style={styles.notificationText}>{item.details}</Text>
                     </View> 
                     <Text style={styles.timestamp}>{notificationTimestamp}</Text>
                 </Pressable>

@@ -10,7 +10,8 @@ module.exports = {
     "overrides": [
         {
             "env": {
-                "node": true
+                "node": true,
+                "jest/globals": true,
             },
             "files": [
                 ".eslintrc.{js,cjs}"
@@ -28,10 +29,12 @@ module.exports = {
     },
     "plugins": [
         "react",
-        "react-native"
+        "react-native",
+        "jest"
     ],
     "rules": {
-        "react/prop-types": ["error", { "ignore": ["navigation", "route"] }],
+        // "react/prop-types": ["error", { "ignore": ["navigation", "route"] }],
+        "react/prop-types": 0,
         "react-native/no-unused-styles": 2,
         "react-native/split-platform-components": 2,
         "react-native/no-inline-styles": 2,

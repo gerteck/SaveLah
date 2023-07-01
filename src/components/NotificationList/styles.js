@@ -7,94 +7,49 @@ export const styles = StyleSheet.create({
         paddingBottom: 16,
     },
 
-    mainContainer: {
-        backgroundColor: colors.white, 
-        marginBottom: 8,
-        paddingHorizontal: 14,
-        paddingVertical: 8,
-        borderRadius: 7,
-
-        flex: 1,
+    followNotificationContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginVertical: 15,
     },
 
-    // header: {
-    //     flexDirection: 'row',
-    //     alignItems: 'center',
-    // },
+    row: {
+        flexDirection: 'row',
+    },
 
-    // categoryContainer: {
-    //     borderRadius: 12,
-    //     backgroundColor: '#92A3FF',
-    //     marginHorizontal: 4,
-    //     paddingHorizontal: 12,
-    //     paddingVertical: 3,
-    // },
+    iconBubble: {
+        height: 45,
+        width: 45,
+        backgroundColor: colors.backgroundGrey,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 21,
+        marginHorizontal: 16,
+    },
+    
+    displayPicture: {
+        height: 39,
+        width: 39,
+        borderRadius: 21,
+    },
 
-    // categoryText: {
-    //     fontSize: 12,
-    //     fontWeight: 500,
-    // },
+    notificationText: {
+        alignSelf: 'center',
+        fontSize: 13,
+        color: colors.darkGrey,
+        fontWeight: '500',
+    },
 
-    // time: {
-    //     marginLeft: 8,
-    //     fontSize: 10,
-    // },
+    timestamp: {
+        marginRight: 16,
+        fontSize: 13,
+        alignSelf: 'flex-end',
+    },
 
-    // imageContainer: {
-    //     height: 150,
-    //     alignItems: 'center',
-    //     margin: 16,
-    //     borderWidth: 0,
-    //     zIndex: -1,
-    // },
-
-    // title: {
-    //     fontSize: 14,
-    //     fontWeight: 500,
-    //     marginVertical: 6,
-    //     color: colors.black,
-    // },
-
-    // postImage: {
-    //     flex: 1,
-    //     width: '100%',
-    //     height: '100%',
-    //     resizeMode: 'contain',
-    // },
-
-    // body: {
-    //     fontSize: 12,
-    //     marginBottom: 8,
-    //     color: colors.darkGrey,
-    // },
-
-    // footer: {
-    //     paddingTop: 8,
-    //     flexDirection: 'row',
-    // },
-
-    // arrowIcon: {
-    //     height: 20,
-    //     width: 20,
-    // },
-
-    // votes: {
-    //     marginHorizontal: 12,
-    //     fontSize: 12,
-        
-    //     verticalAlign: 'middle',
-    //     justifyContent:'center',
-    //     textAlign: 'center',
-    //     minWidth: 30,
-
-    //     borderWidth: 0,
-    // },
-
-    // commentNum: {
-    //     marginHorizontal: 12,
-    //     fontSize: 12,
-        
-    // },
+    divider: {
+        height: 2,
+        backgroundColor: colors.backgroundGrey,
+    },
 
 
 

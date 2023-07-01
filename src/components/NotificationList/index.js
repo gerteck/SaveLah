@@ -4,10 +4,18 @@ import { styles } from './styles';
 import { colors } from "../../utils/colors";
 
 import { getApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
 
 const app = getApp;
 const db = getFirestore(app);
+
+// 3 things that produces notifications:
+/*
+- New follower
+- New comment on a post
+- New upvote on a post
+*/ 
+
 
 const NotificationList = ({notifications, navigation}) => {
 
@@ -15,61 +23,79 @@ const NotificationList = ({notifications, navigation}) => {
     // e.g. for followers, comments where profile picture url is needed. 
 
     const [profilesHashMap, setProfilesHashmap] = useState({}); 
+    
+    const addProfile = (uid, profileObject) => {
+        setProfilesHashmap(profiles => ({...profiles, [uid]: profileObject}))
+    } 
 
     useEffect(()=> {
         getProfiles(notifications);
-    }, [])
+    }, [notifications])
 
     // Get Data of Follow User Profiles
     const getProfiles = async (notifications) => {
-        // const followUserArray = [];
         notifications.forEach( (notification) => {
-
-            
             if (notification?.uid && !profilesHashMap.hasOwnProperty(notification?.uid)) {
-                // const getProfile = async () => {
-                //     const userRef = doc(db, "users", uid);
-                //     const docSnap = await getDoc(userRef);
-                //     if (docSnap.exists()) {
-                //         followUserArray.push(docSnap.data());
-                //     } else {
-                //         followUserArray.push({uid: uid});
-                //         console.log("No such document! Error Finding User");
-                //     } 
-                // }
-                // getProfile();
-                console.log("Need to get uid.")     
-            }
-       
+                const userUid = notification.uid;
+                const getProfile = async () => {
+                    const userRef = doc(db, "users", userUid);
+                    const docSnap = await getDoc(userRef);
+                    if (docSnap.exists()) {
+                        addProfile(userUid, docSnap.data());
+                        console.log("Got profile success");
+                    } else {
+                        addProfile(userUid, {uid: userUid});
+                        console.log("User Profile cannot be found for Notifications!");
+                    } 
+                }
+                getProfile();
+            } 
         });
-    }
-
+    } 
 
 
     const renderNotifications = ({item}) => {
-        // fields: createdAt, details, id, isRead, notificationType
-        
-        const goPost = () => {
-            navigation.navigate('ForumPost', {post: item});
-        };
+        // fields: createdAt, details, id, uid, isRead, notificationType
+
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const notificationDate = item?.createdAt.toDate();
+        const notificationTimestamp = notificationDate.getDate() + " " + monthNames[notificationDate.getMonth()] + " ";
         
         // Follow Notification
         if (item?.notificationType == "follow") {
-            
-      
+            const profile = profilesHashMap[item.uid];
+            const nameNoSpaces = profile?.username.replace(/\s/g, "");
 
+            const onUserPress = () => {
+                navigation.navigate('ProfileOtherUser', { item: profile });
+            };
 
             return (
-                <Pressable key={item.id} style={styles.mainContainer} onPress={()=>{}}>
-                    <Text>Follow Notif</Text>
+                <>
+                <Pressable style={styles.followNotificationContainer} onPress={onUserPress}>
+                    <View style={styles.row}>
+                        <View style={styles.iconBubble}>
+                            <Image style={styles.displayPicture} source={{ uri: profile?.url}} />
+                        </View>
+                        <Text style={styles.notificationText}>@{nameNoSpaces} just followed you!</Text>
+                    </View> 
+                    <Text style={styles.timestamp}>{notificationTimestamp}</Text>
                 </Pressable>
+    
+                <View style={styles.divider} />
+                </>    
 
             )
         }
 
-        return (
+        // Post Notification?
+        // const goPost = () => {
+        //     navigation.navigate('ForumPost', {post: item});
+        // };
 
-            <Pressable key={item.id} style={styles.mainContainer} onPress={()=>{}}>
+        // Default 
+        return (
+            <Pressable key={item.id} onPress={()=>{}}>
                 <Text>One Notification. Unknown Type. Error 404.</Text>
             </Pressable>
 

@@ -79,7 +79,7 @@ const Notifications = ( { navigation } ) => {
                     <Text style={styles.emoticon}>…ᘛ⁐̤ᕐᐷ</Text>
                 </View>
             : 
-                <View style={styles.emptyPostBox}>
+                <View style={styles.notificationListContainer }>
                     <NotificationList notifications={allNotifications} navigation={navigation}/>                    
                 </View>
 

@@ -38,4 +38,12 @@ export const styles = StyleSheet.create({
         color: colors.grey,
     },
 
+    notificationListContainer: {
+        backgroundColor: colors.white,
+        minHeight: 500,
+        borderRadius: 10,
+        padding: 11,
+        marginVertical: 8,
+    },
+
 })

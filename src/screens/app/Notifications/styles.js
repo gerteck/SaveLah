@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
 
     emptyPostBox: {
         backgroundColor: colors.white,
-        minHeight: 300,
+        minHeight: 500,
         borderRadius: 10,
         padding: 11,
         marginVertical: 8,

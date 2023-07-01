@@ -27,12 +27,12 @@ const TransactionHistory = ( { navigation } ) => {
 
     return (
         <SafeAreaView style={styles.mainContainer}>
-        <AppHeader title="Transaction History" showBell onBell={onBell} />
-        
-        {/* Tabs Overview Bar */}
+            <AppHeader title="Transaction History" showBell onBell={onBell} style={styles.appHeader}/>
+            
+            {/* Tabs Overview Bar */}
 
-        {error && <Text>{error}</Text>}
-        {documents && <TransactionTabs docs={documents} navigation={navigation} />}
+            {error && <Text>{error}</Text>}
+            {documents && <TransactionTabs docs={documents} navigation={navigation} />}
     </SafeAreaView>
       );
 }

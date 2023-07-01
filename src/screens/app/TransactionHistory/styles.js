@@ -8,5 +8,9 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 0,
     },
 
+    appHeader: {
+        marginHorizontal: 18,
+    },
+
 
 })

@@ -33,12 +33,13 @@ import NewPost from './src/screens/app/NewPost';
 //Register Profile Imports
 import RegisterProfile from './src/screens/app/RegisterProfile';
 import { getApp } from "firebase/app";
-import { getFirestore, getDoc, doc, enableMultiTabIndexedDbPersistence } from 'firebase/firestore';
+import { getFirestore, getDoc, doc, enableMultiTabIndexedDbPersistence, collection, onSnapshot } from 'firebase/firestore';
 import { UserProfileContext } from './src/context/UserProfileContext';
 import ProfileSearchUser from './src/screens/app/ProfileSearchUser';
 import ProfileFollowInfo from './src/screens/app/ProfileFollowInfo';
 import ProfileOtherUser from './src/screens/app/ProfileOtherUser';
 import ForumPost from './src/screens/app/ForumPost';
+import { NotificationNumberContext } from './src/context/NotificationNumberContext';
 
 
 const AuthStack = createStackNavigator();
@@ -148,6 +149,37 @@ const Routes = () => {
   // Get User Profile to determine if Registered
   useEffect(() => { user && getSetUserProfile() }, []);
   useEffect(() => { user && getSetUserProfile() }, [userProfile?.registered]);
+
+  const [notificationNumber, setNotificationNumber] = useContext(NotificationNumberContext); 
+  // Get notification count:
+
+  const getNotificationCount = () => { 
+    if (user?.uid) {
+      const collectionRef = collection(db, 'notifications',  userProfile?.uid, 'notifications'); 
+      const unSubNotifications = onSnapshot(collectionRef, (querySnapshot) => {
+          let notificationCount = 0;
+          querySnapshot.forEach((doc) => {
+            //console.log(doc.data());
+            if (doc.data()?.isRead == false ) {
+              notificationCount += 1;
+            }
+          })
+          setNotificationNumber(notificationCount); 
+          console.log("notification refresh");
+      })
+    return unSubNotifications;
+    }
+    return () => {};
+} 
+
+useEffect(() => {
+  console.log("Refresh notification listener")
+    const unsub = getNotificationCount();
+    return () => {
+        unsub();
+    };
+}, [userProfile?.uid]);
+
 
   const MyTheme = {
     ...DefaultTheme,

@@ -3,7 +3,7 @@ import { colors } from '../../utils/colors';
 
 export const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#4F63AC',
+        backgroundColor: colors.blue,
         width: '100%',
         alignSelf: 'center',
         textAlign: 'center',

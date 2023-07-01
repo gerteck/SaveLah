@@ -7,7 +7,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import Box from "../../../components/Box";
 
 import { getApp } from "firebase/app";
-import { getFirestore, getDoc, setDoc, doc, collection, where, orderBy, limit, query, getDocs } from 'firebase/firestore';
+import { getFirestore, getDoc, setDoc, doc, collection, where, orderBy, limit, query, getDocs, deleteDoc } from 'firebase/firestore';
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import { UserProfileContext } from "../../../context/UserProfileContext";
 import PostList from "../../../components/PostList";
@@ -69,7 +69,9 @@ const ProfileOtherUser = ( {navigation, route} ) => {
         // Need to update following of user, and update followed of otherUser
         followingArray = userProfile.following;     // Change following to user
         followedArray = otherProfile.followers;        // Change followed of other user
+        sendFollowNotification = !followingUser;
 
+        // Unfollow the user.
         if (followingUser) {
             followingArray = followingArray.filter(id => id != otherProfile.uid);
             followedArray = followedArray.filter(id => id != userProfile.uid);
@@ -77,7 +79,7 @@ const ProfileOtherUser = ( {navigation, route} ) => {
             setOtherProfile(v => ( {...v, followers: followedArray} ));
             setFollowingUser(false);
 
-        } else { // Not following
+        } else { // Follow the user.
             followingArray.push(otherProfile.uid);
             followedArray.push(userProfile.uid)
             setUserProfile(v => ( {...v, following: followingArray} ));
@@ -99,6 +101,22 @@ const ProfileOtherUser = ( {navigation, route} ) => {
         await setDoc( doc(db, 'users', otherProfile.uid), {
             followers: followedArray,
         }, { merge: true });
+
+        // send notification to user:
+        message = "@" + userProfile?.username.replace(/\s/g, "") + " just followed you!"
+        if (sendFollowNotification) {
+            //onsole.log("Send follow notification");
+            await setDoc( doc(db, 'notifications', otherProfile.uid, 'notifications', userProfile.uid), {
+                details: message,
+                isRead: false,
+                notificationType: "follow",
+                id: userProfile.uid,
+                createdAt: new Date(),
+            }, { merge: true });
+        } else {
+            //console.log("delete follow notification");
+            await deleteDoc(doc(db, 'notifications', otherProfile.uid, 'notifications', userProfile.uid));
+        }
 
     }
 

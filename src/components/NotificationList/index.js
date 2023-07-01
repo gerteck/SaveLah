@@ -104,10 +104,6 @@ const NotificationList = ({notifications, navigation}) => {
             )
         }
 
-        // Post Notification?
-        // const goPost = () => {
-        //     navigation.navigate('ForumPost', {post: item});
-        // };
 
         // Default 
         return (

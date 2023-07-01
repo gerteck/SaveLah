@@ -38,6 +38,7 @@ export const styles = StyleSheet.create({
         fontSize: 13,
         color: colors.darkGrey,
         fontWeight: '500',
+        width: '65%',
     },
 
     timestamp: {

@@ -21,6 +21,8 @@ const db = getFirestore(app);
 
 const Notifications = ( { navigation } ) => {
 
+    
+    // eslint-disable-next-line no-unused-vars
     const [userProfile, setUserProfile] = useContext(UserProfileContext);
 
     const [allNotifications, setAllNotifications] = useState([]);

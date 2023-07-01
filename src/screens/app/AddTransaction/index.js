@@ -1,4 +1,4 @@
-import React, { createRef, useState } from "react";
+import React, { useState } from "react";
 import {Text, View, Alert, TouchableOpacity, TextInput, Keyboard} from "react-native";
 import { styles }  from './styles';
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -13,14 +13,13 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { useIsFocused } from "@react-navigation/native";
 import { getApp } from "firebase/app";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
-import { ScrollView, TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 const AddTransaction = ( {navigation} ) => {
     const app = getApp;
     const db = getFirestore(app);
 
     const { user } = useAuthContext();
-    const [values, setValues] = useState({});
+    const [values, setValues] = useState({description: ""});
 
     const [date, setDate] = useState(new Date());
     const { addDocument, response } = useFirestore('transactions/' + user?.uid + '/userTransactions');
@@ -64,13 +63,9 @@ const AddTransaction = ( {navigation} ) => {
                 Alert.alert('Please fill up the amount and category!');
                 return;
             }
-
-            if (!values?.description) {
-                onChangeValue('description', "");
-            }
             
-            console.log("submit");
-            console.log(values);
+            // console.log("submit");
+            // console.log(values);
 
             const transactionDoc = await addDocument({
                 uid: user.uid,
@@ -80,11 +75,13 @@ const AddTransaction = ( {navigation} ) => {
                 category: values.category,
             });
 
+            // console.log(transactionDoc.id);
+
             await setDoc(doc(db, 'transactions/' + user?.uid + '/userTransactions', transactionDoc.id), {
                 id: transactionDoc.id,
             }, { merge: true });
 
-            console.log(response);
+            // console.log(response);
 
         } catch (error) {
             console.log('error adding transaction :>> ', error);

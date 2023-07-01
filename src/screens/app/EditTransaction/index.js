@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { ScrollView, TextInput, Text, View, Image, TouchableOpacity, Alert, Keyboard } from "react-native";
+import { TextInput, Text, View, TouchableOpacity, Alert, Keyboard } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles }  from './styles';
 import AppHeader from "../../../components/AppHeader";
 import DropDownPicker from 'react-native-dropdown-picker';
-import { useFirestore } from "../../../hooks/useFirestore";
+
 import { useAuthContext } from "../../../hooks/useAuthContext";
-import { doc, getFirestore, setDoc, updateDoc, deleteDoc } from "@firebase/firestore";
+import { doc, getFirestore, updateDoc, deleteDoc } from "@firebase/firestore";
 import { getApp } from "@firebase/app";
 import Button from "../../../components/Button";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
@@ -60,7 +60,7 @@ const EditTransaction = ( { navigation, route } ) => {
             } 
 
             if (!transactionDetails?.description) {
-                onChangeValue('description', "");
+                setTransactionDetails('description', "");
             }
 
             await updateDoc(transactionRef, {

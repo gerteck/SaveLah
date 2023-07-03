@@ -150,7 +150,7 @@ const AddTransaction = ( {navigation} ) => {
                     placeholder="Select a Category" style={styles.pickerContainer}
                     setOpen={setOpen} onSelectItem={(v) => {
                         if (v.value == 'Add') {
-                            navigation.navigate('Home')
+                            navigation.navigate('AddCategory')
                         }
 
                         else {

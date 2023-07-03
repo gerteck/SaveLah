@@ -169,14 +169,14 @@ const Routes = () => {
       })
     return unSubNotifications;
     }
-    return () => {};
+    return () => () => {};
 } 
 
 useEffect(() => {
   console.log("Refresh notification listener")
     const unsub = getNotificationCount();
     return () => {
-        unsub();
+          unsub();
     };
 }, [userProfile?.uid]);
 

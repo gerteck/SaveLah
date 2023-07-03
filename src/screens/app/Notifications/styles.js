@@ -6,6 +6,7 @@ export const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
         paddingHorizontal: 18,
+        marginBottom: 8,
     },
 
     appHeader: {
@@ -43,7 +44,8 @@ export const styles = StyleSheet.create({
         minHeight: 500,
         borderRadius: 10,
         padding: 11,
-        marginVertical: 8,
+        marginTop: 8,
+        marginBottom: 50,
     },
 
 })

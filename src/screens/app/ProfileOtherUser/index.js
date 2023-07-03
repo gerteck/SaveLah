@@ -103,15 +103,15 @@ const ProfileOtherUser = ( {navigation, route} ) => {
         }, { merge: true });
 
         // send notification to user:
-        message = "@" + userProfile?.username.replace(/\s/g, "") + " just followed you!"
+        //message = "@" + userProfile?.username.replace(/\s/g, "") + " just followed you!"
         if (sendFollowNotification) {
             //onsole.log("Send follow notification");
             await setDoc( doc(db, 'notifications', otherProfile.uid, 'notifications', userProfile.uid), {
-                details: message,
+                details: "Depreciated Field",
                 isRead: false,
                 notificationType: "follow",
                 uid: userProfile.uid,
-                id: userProfile.uid,
+                 id: userProfile.uid,
                 createdAt: new Date(),
             }, { merge: true });
         } else {

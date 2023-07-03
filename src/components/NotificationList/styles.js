@@ -4,7 +4,7 @@ import { colors } from '../../utils/colors';
 export const styles = StyleSheet.create({
     flatList:{
         paddingTop: 0,
-        paddingBottom: 16,
+        paddingBottom: 8,
     },
 
     followNotificationContainer: {
@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
 
     timestamp: {
         marginRight: 16,
-        fontSize: 13,
+        fontSize: 11,
         alignSelf: 'flex-end',
     },
 

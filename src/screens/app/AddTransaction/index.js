@@ -1,5 +1,7 @@
+
 import React, { createRef, useState } from "react";
 import {Text, View, Alert, TouchableOpacity, TextInput, Keyboard, Image} from "react-native";
+
 import { styles }  from './styles';
 import { SafeAreaView } from "react-native-safe-area-context";
 import AppHeader from "../../../components/AppHeader";
@@ -12,6 +14,7 @@ import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import DropDownPicker from "react-native-dropdown-picker";
 import { useIsFocused } from "@react-navigation/native";
 import { getApp } from "firebase/app";
+
 import { collection, doc, getFirestore, onSnapshot, query, setDoc, where } from "firebase/firestore";
 import { ScrollView, TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { categoryGroups } from "../../../utils/categoryGroups";
@@ -23,7 +26,7 @@ const AddTransaction = ( {navigation} ) => {
     const db = getFirestore(app);
 
     const { user } = useAuthContext();
-    const [values, setValues] = useState({});
+    const [values, setValues] = useState({description: ""});
 
     const [date, setDate] = useState(new Date());
     const { addDocument, response } = useFirestore('transactions/' + user?.uid + '/userTransactions');
@@ -78,11 +81,8 @@ const AddTransaction = ( {navigation} ) => {
                 Alert.alert('Please fill up the amount and category!');
                 return;
             }
-
-            if (!values?.description) {
-                onChangeValue('description', "");
-            }
             
+
             const transactionDoc = await addDocument({
                 uid: user.uid,
                 amount: parseFloat(parseFloat(values.amount).toFixed(2)), // to limit to 2 decimal places
@@ -91,11 +91,12 @@ const AddTransaction = ( {navigation} ) => {
                 category: values.category,
             });
 
+
             await setDoc(transactionDoc, {
                 id: transactionDoc.id,
             }, { merge: true });
 
-            console.log(response);
+            // console.log(response);
 
         } catch (error) {
             console.log('error adding transaction :>> ', error);

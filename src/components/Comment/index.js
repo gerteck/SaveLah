@@ -13,7 +13,7 @@ const NOVOTE = 0;
 const UPVOTE = 1;
 const DOWNVOTE = 2;
 
-const Comment = ({commentDetails, navigation}) => { 
+const Comment = ({commentDetails, postDetails, navigation}) => { 
 
     const posterUid = commentDetails.posterId;
     const [userProfile, setUserProfile] = useContext(UserProfileContext); 
@@ -109,10 +109,17 @@ const Comment = ({commentDetails, navigation}) => {
 
     const onConfirmDeleteComment = async () => {
         try {
+            // delete comment
             await deleteDoc(doc(db, 'comments', commentDetails.postId, "comments", commentDetails.id));
+            // delete notification
+            await deleteDoc(doc(db, 'notifications', postDetails.uid, 'notifications', commentDetails.id));
+            // decrease comment count
+            await setDoc( doc(db, 'posts', postDetails.id), {comments: postDetails.comments - 1,}, { merge: true });
+            
+
             console.log('Comment deleted');
         } catch (error) {
-            console.log('error deleting comment :>> ', error);
+            console.log('error deleting comment / Notification :>> ', error);
         }
     }
 

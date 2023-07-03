@@ -24,8 +24,15 @@ export const styles = StyleSheet.create({
     leftIcons: {
         paddingLeft: 8,
         width: '30%',
-        
+        justifyContent: 'flex-start',
         borderWidth: showBorder,
+    },
+
+    crossContainer: {
+        justifyContent: 'flex-start', 
+        marginLeft: '10%',
+        height: 24, 
+        width: 24,
     },
 
     rightIcons: {
@@ -60,14 +67,22 @@ export const styles = StyleSheet.create({
         width: 40,
     },
 
-    space: {
+    notificationIcon: {
+        height: 24, 
         width: 24,
     },
 
-    save: {
-        color: colors.black,
-        fontSize: 14,
-        fontWeight: '500',
+    notificationContainer: {
+        marginRight: 4,
+        marginLeft: 16,
+    },
+
+    deleteContainer: {
+        marginRight: 16,
+    },
+
+    space: {
+        width: 10,
     },
 
 })

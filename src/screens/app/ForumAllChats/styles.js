@@ -6,7 +6,7 @@ const windowHeight = Dimensions.get('window').height;
 export const styles = StyleSheet.create({
 
     mainContainer: {
-        paddingHorizontal: 18,
+        marginHorizontal: 18,
         flex: 1,
     },
 

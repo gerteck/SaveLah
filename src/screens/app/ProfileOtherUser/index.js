@@ -110,6 +110,7 @@ const ProfileOtherUser = ( {navigation, route} ) => {
                 details: message,
                 isRead: false,
                 notificationType: "follow",
+                uid: userProfile.uid,
                 id: userProfile.uid,
                 createdAt: new Date(),
             }, { merge: true });

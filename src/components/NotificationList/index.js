@@ -104,7 +104,6 @@ const NotificationList = ({notifications, navigation}) => {
             )
         }
 
-
         // Default 
         return (
             <Pressable key={item.id} onPress={()=>{}}>

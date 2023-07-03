@@ -97,8 +97,11 @@ const TransactionList = ({transactions, navigation}) => {
                                     </View>
                                     <View style={styles.transactionTextContainer}>
                                         <View style={styles.row1}>
-                                            <Text style={{alignSelf: 'center'}}>{doc.category}: {doc.description}</Text>
+                                            <Text style={{alignSelf: 'center'}}>{doc.category}</Text>
                                             <Text style={{alignSelf: 'center'}}>${doc.amount}</Text>
+                                        </View>
+                                        <View style={styles.row1}>
+                                            <Text style={{alignSelf: 'center'}}>{doc.description}</Text>
                                         </View>
                                     </ View>
                                 </View>        

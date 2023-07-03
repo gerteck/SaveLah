@@ -125,6 +125,7 @@ export const styles = StyleSheet.create({
         width: 24,
         marginLeft: 10,
         marginRight: 16,
+        alignSelf: 'center',
     },
 
     transactionTextContainer: {

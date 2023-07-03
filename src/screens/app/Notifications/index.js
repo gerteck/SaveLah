@@ -71,7 +71,7 @@ const Notifications = ( { navigation } ) => {
         <SafeAreaView style={styles.mainContainer}>
             <AppHeader style={styles.appHeader} navigation={navigation} title="Notifications" showCross onBack={onBack}/>
             
-            { Notifications.length == 0 ?
+            { allNotifications.length <= 0 ?
             
                 <View style={styles.emptyPostBox}>
                     <Text style={styles.emoticon}>(－_－) zzZ </Text>

@@ -61,7 +61,8 @@ const NotificationList = ({notifications, navigation}) => {
         const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         const notificationDate = item?.createdAt.toDate();
         const notificationTimestamp = notificationDate.getDate() + " " + monthNames[notificationDate.getMonth()] + " ";
-        
+        let message = "Tap to find out more"; // Users should not be seeing this
+
         // Follow Notification
         if (item?.notificationType == "follow" || item?.notificationType == "comment") {
             const profile = profilesHashMap[item.uid];
@@ -79,11 +80,15 @@ const NotificationList = ({notifications, navigation}) => {
                     getPost();
                 };
                 onNotificationPress = goPost;
+                // Set message to comment:
+                message = "@" + profile?.username.replace(/\s/g, "") + " commented on your post! Tap to view!"
+
             } else if (item.notificationType == "follow") {
                 const onUserPress = () => {
                     navigation.navigate('ProfileOtherUser', { item: profile });
                 };
                 onNotificationPress = onUserPress;
+                message = "@" + profile?.username.replace(/\s/g, "") + " just followed you!"
             }
 
             return (
@@ -93,7 +98,7 @@ const NotificationList = ({notifications, navigation}) => {
                         <View style={styles.iconBubble}>
                             <Image style={styles.displayPicture} source={{ uri: profile?.url}} />
                         </View>
-                        <Text style={styles.notificationText}>{item.details}</Text>
+                        <Text style={styles.notificationText}>{message}</Text>
                     </View> 
                     <Text style={styles.timestamp}>{notificationTimestamp}</Text>
                 </Pressable>
@@ -103,7 +108,6 @@ const NotificationList = ({notifications, navigation}) => {
 
             )
         }
-
 
         // Default 
         return (

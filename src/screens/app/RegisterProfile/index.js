@@ -106,7 +106,7 @@ const RegisterProfile = ( { navigation } ) => {
                 categories: defaultCategories,
             });
 
-            setUserProfile({registered: true});
+            setUserProfile(v => ({...v, ["registered"]: true}));
             console.log("Uploaded Registration");
 
         } catch (error) {

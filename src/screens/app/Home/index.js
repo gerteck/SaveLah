@@ -16,6 +16,7 @@ import TopSpendingTabs from "../../../components/TopSpendingTabs";
 import { BarChart } from "react-native-chart-kit";
 import { colors } from "../../../utils/colors";
 import { StatusBar } from "react-native";
+import { getCategoryIcon } from "../../../utils/getCategoryIcon";
 
 
 const Home = ( { navigation } ) => {
@@ -96,14 +97,19 @@ const Home = ( { navigation } ) => {
 
                     // separating amounts based on category
                     if(Object.hasOwn(dict, cat)) {
-                        dict[cat] = dict[cat] + doc.data().amount;
+                        dict[cat][amount] = dict[cat][amount] + doc.data().amount;
                     } else {
-                        dict[cat] = doc.data().amount;
+                        dict[cat] = {
+                            category: cat,
+                            index: doc.data().index,
+                            amount: doc.data().amount,
+                        };
                     }
                 })
 
-                let cats = Object.entries(dict).map(([k, v]) => [k, parseFloat(v.toFixed(2)).toLocaleString('en-US'), (parseFloat((v / result).toFixed(2)) * 100).toLocaleString('en-US')]).
-                    map(([k, v, p]) => ({ category: k, value: v, percentage: p })).sort((a,b) => b.percentage - a.percentage).slice(0, 3);
+                let cats = Object.entries(dict).map(([k, v]) => [k, parseFloat(v.amount.toFixed(2)).toLocaleString('en-US'), (parseFloat((v.amount / result).toFixed(2)) * 100)
+                    .toLocaleString('en-US'), v.index]).
+                    map(([k, v, p, i]) => ({ category: k, value: v, percentage: p, index: i })).sort((a,b) => b.percentage - a.percentage).slice(0, 3);
 
                 // update state
                 setExpense(result);
@@ -151,15 +157,20 @@ const Home = ( { navigation } ) => {
 
                     // separating amounts based on category
                     if(Object.hasOwn(dict, cat)) {
-                        dict[cat] = dict[cat] + doc.data().amount;
+                        dict[cat][amount] = dict[cat][amount] + doc.data().amount;
                     } else {
-                        dict[cat] = doc.data().amount;
+                        dict[cat] = {
+                            category: cat,
+                            index: doc.data().index,
+                            amount: doc.data().amount,
+                        };
                     }
                 })
 
                 
-                let cats = Object.entries(dict).map(([k, v]) => [k, parseFloat(v.toFixed(2)).toLocaleString('en-US'), (parseFloat((v / result).toFixed(2)) * 100).toLocaleString('en-US')]).
-                    map(([k, v, p]) => ({ category: k, value: v, percentage: p })).sort((a,b) => b.percentage - a.percentage).slice(0, 3);
+                let cats = Object.entries(dict).map(([k, v]) => [k, parseFloat(v.amount.toFixed(2)).toLocaleString('en-US'), (parseFloat((v.amount / result).toFixed(2)) * 100)
+                    .toLocaleString('en-US'), v.index]).
+                    map(([k, v, p, i]) => ({ category: k, value: v, percentage: p, index: i })).sort((a,b) => b.percentage - a.percentage).slice(0, 3);
                 
                 // update state
                 setExpenseWeek(result);
@@ -362,7 +373,7 @@ const Home = ( { navigation } ) => {
     const renderTransactions = ({item}) => {
         return (<View style={styles.transactionContainer}>
             <View style={styles.categoryBox}>
-                <Image style={styles.icon} source={require('../../../assets/DummyIcon.png')}/>
+                {getCategoryIcon(item.index, styles.icon)}
                 <View style={styles.categoryContaineer}> 
                     <View>
                         <Text style={styles.transactionCaption}>{item.category}</Text>
@@ -392,7 +403,7 @@ const Home = ( { navigation } ) => {
         return (<Pressable key={item.id} onPress={goEditTransaction}>
             <View style={styles.transactionContainer}>
                 <View style={styles.categoryBox}>
-                    <Image style={styles.icon} source={require('../../../assets/DummyIcon.png')}/>
+                    {getCategoryIcon(item.index, styles.icon)}
                     <View style={styles.categoryContaineer}> 
                         <View>
                             <Text style={styles.transactionCaption}>{item.category}</Text>

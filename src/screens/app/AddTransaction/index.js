@@ -89,6 +89,7 @@ const AddTransaction = ( {navigation} ) => {
                 date: date,
                 description: values.description,
                 category: values.category,
+                index: values.index,
             });
 
 
@@ -150,11 +151,12 @@ const AddTransaction = ( {navigation} ) => {
                     placeholder="Select a Category" style={styles.pickerContainer}
                     setOpen={setOpen} onSelectItem={(v) => {
                         if (v.value == 'Add') {
-                            navigation.navigate('Home')
+                            navigation.navigate('AddCategory')
                         }
 
                         else {
                             onChangeValue('category', v.value)
+                            onChangeValue('index', v.index)
                         }     
                     }} setItems={setItems} zIndex={1000}
                     categorySelectable={false}

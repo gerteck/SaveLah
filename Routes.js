@@ -17,6 +17,7 @@ import AddTransaction from './src/screens/app/AddTransaction';
 import Profile from './src/screens/app/Profile';
 import Settings from './src/screens/app/Settings';
 import EditTransaction from './src/screens/app/EditTransaction';
+import AddCategory from './src/screens/app/AddCategory';
 
 // Home Related
 import Home from './src/screens/app/Home';
@@ -202,6 +203,7 @@ useEffect(() => {
                           <AuthStack.Screen name="Notifications" component={Notifications} options={{ headerShown: false }} />
                           <AuthStack.Screen name="ForumPost" component={ForumPost} options={{ headerShown: false }} />
                           <AuthStack.Screen name="EditTransaction" component={EditTransaction} options={{ headerShown: false }} />
+                          <AuthStack.Screen name="AddCategory" component={AddCategory} options={{ headerShown: false }} />
                       </>
                 )}
                 {user && !userProfile?.registered && (

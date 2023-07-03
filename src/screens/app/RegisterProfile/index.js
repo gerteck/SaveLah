@@ -12,6 +12,7 @@ import Separator from "../../../components/Separator";
 import { doc, getFirestore, setDoc, getDoc } from "firebase/firestore";
 import { getApp } from "firebase/app";
 import { UserProfileContext } from "../../../context/UserProfileContext";
+import { defaultCategories } from "../../../utils/defaultCategories";
 const app = getApp;
 const db = getFirestore(app);
 let customImageUploaded = false;
@@ -99,6 +100,12 @@ const RegisterProfile = ( { navigation } ) => {
                 following: [],
                 followers: [],
             }, { merge: true });
+
+            await setDoc(doc(db, 'categories', user?.uid), {
+                uid: user?.uid,
+                categories: defaultCategories,
+            });
+
             setUserProfile({registered: true});
             console.log("Uploaded Registration");
 

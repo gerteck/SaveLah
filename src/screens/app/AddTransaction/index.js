@@ -1,5 +1,7 @@
-import React, { useState } from "react";
-import {Text, View, Alert, TouchableOpacity, TextInput, Keyboard} from "react-native";
+
+import React, { createRef, useState } from "react";
+import {Text, View, Alert, TouchableOpacity, TextInput, Keyboard, Image} from "react-native";
+
 import { styles }  from './styles';
 import { SafeAreaView } from "react-native-safe-area-context";
 import AppHeader from "../../../components/AppHeader";
@@ -12,7 +14,12 @@ import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import DropDownPicker from "react-native-dropdown-picker";
 import { useIsFocused } from "@react-navigation/native";
 import { getApp } from "firebase/app";
-import { doc, getFirestore, setDoc } from "firebase/firestore";
+
+import { collection, doc, getFirestore, onSnapshot, query, setDoc, where } from "firebase/firestore";
+import { ScrollView, TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { categoryGroups } from "../../../utils/categoryGroups";
+import { getCategoryIcon } from "../../../utils/getCategoryIcon";
+import { defaultCategories } from "../../../utils/defaultCategories";
 
 const AddTransaction = ( {navigation} ) => {
     const app = getApp;
@@ -26,16 +33,7 @@ const AddTransaction = ( {navigation} ) => {
   
     // Drop Down Picker:
     const [open, setOpen] = useState(false);
-    const [items, setItems] = useState([{label: 'Food & Beverage', value: 'Food & Beverage'},
-                                        {label: 'Transportation', value: 'Transportation'},
-                                        {label: 'Rentals', value: 'Rentals'},
-                                        {label: 'Utility bills', value: 'Utility bills'},
-                                        {label: 'Education', value: 'Education'},
-                                        {label: 'Pets', value: 'Pets'},
-                                        {label: 'Home maintenance', value: 'Home maintenance'},
-                                        {label: 'Fun Money', value: 'Fun Money'},
-                                        {label: 'Hobbies', value: 'Hobbies'},]);
-
+    const [items, setItems] = useState([]);
 
     const goBack = () => {
         navigation.goBack();
@@ -55,7 +53,27 @@ const AddTransaction = ( {navigation} ) => {
         setValues({});
     },[isFocused])
 
-    
+    useEffect(() => {
+        const unsubscribe = onSnapshot(doc(db, 'categories', user?.uid), (snapshot) => {
+                let result = snapshot.data().categories;
+
+                let cats = result.map((cat) => {
+                    let image = getCategoryIcon(cat.index, {height: 30, width: 30})
+                    cat.icon = () => image;
+                    return cat;
+                })
+
+                result = categoryGroups.concat(cats);
+                
+                // update state
+                setItems(result);
+        }, (error) => {
+                console.log(error);
+                setError('could not fetch data');
+        });
+
+        return () => unsubscribe();
+    },[]);
 
     const onSend = async () => {
         try {
@@ -64,8 +82,6 @@ const AddTransaction = ( {navigation} ) => {
                 return;
             }
             
-            // console.log("submit");
-            // console.log(values);
 
             const transactionDoc = await addDocument({
                 uid: user.uid,
@@ -75,9 +91,8 @@ const AddTransaction = ( {navigation} ) => {
                 category: values.category,
             });
 
-            // console.log(transactionDoc.id);
 
-            await setDoc(doc(db, 'transactions/' + user?.uid + '/userTransactions', transactionDoc.id), {
+            await setDoc(transactionDoc, {
                 id: transactionDoc.id,
             }, { merge: true });
 
@@ -133,7 +148,16 @@ const AddTransaction = ( {navigation} ) => {
                 <DropDownPicker open={open} value={values.category} items={items} listMode="MODAL" modalProps={{ animationType: 'slide'}} searchable={true}
                     modalContentContainerStyle={styles.modalContainer}
                     placeholder="Select a Category" style={styles.pickerContainer}
-                    setOpen={setOpen} onSelectItem={(v) => onChangeValue('category', v.value)} setItems={setItems} zIndex={1000}
+                    setOpen={setOpen} onSelectItem={(v) => {
+                        if (v.value == 'Add') {
+                            navigation.navigate('Home')
+                        }
+
+                        else {
+                            onChangeValue('category', v.value)
+                        }     
+                    }} setItems={setItems} zIndex={1000}
+                    categorySelectable={false}
                 />
 
                 <Text style={styles.label}>Transaction Description</Text>
@@ -145,7 +169,6 @@ const AddTransaction = ( {navigation} ) => {
                 <View>
                     <Button style={styles.DatePickerButton} onPress={showDatepicker} title={`Date: ${date.toLocaleDateString()}`} />
                 </View>
-
 
                 <Button style={styles.AddTransactionButton} onPress={onSend} title="Add transaction"  />
             </TouchableOpacity>

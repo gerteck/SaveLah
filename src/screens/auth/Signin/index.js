@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, Alert } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Alert, ToastAndroid, StatusBar } from 'react-native';
 import AuthHeader from '../../../components/AuthHeader';
 import Button from '../../../components/Button';
 import Input from '../../../components/Input';
@@ -9,7 +9,6 @@ import { colors } from "../../../utils/colors";
 import { styles } from './styles';
 
 import { useLogin } from '../../../hooks/useLogin';
-import { StatusBar } from 'react-native';
 
 const Signin = ({ navigation }) => {
     // const {user, setUser} = useContext(UserContext);
@@ -34,7 +33,6 @@ const Signin = ({ navigation }) => {
 
     const onLogin = async () => {
         try {
-
             //Guard Clause
             if (!values?.email || !values?.password ) {
                 Alert.alert('Please fill up all fields!');
@@ -47,6 +45,14 @@ const Signin = ({ navigation }) => {
             console.log('error logging in :>> ', error);
         }
     }
+
+
+
+    useEffect(() => {
+        if (error) {
+            ToastAndroid.showWithGravity(error, ToastAndroid.LONG, ToastAndroid.BOTTOM);
+        }
+    },[error])
 
 
     return (
@@ -69,7 +75,7 @@ const Signin = ({ navigation }) => {
                 Don't have an account?
                 <Text onPress={onSignUp} style={styles.footerLink}> Sign Up</Text>
             </Text>
-            { error && <Text>{ error }</Text> }
+            {/* { error && <Text>{ error }</Text> } */}
 
         </View>
     )

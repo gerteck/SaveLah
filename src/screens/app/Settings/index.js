@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import {Linking, ScrollView, Text, View, TouchableOpacity, Image, Alert } from "react-native";
+import {Linking, ScrollView, Text, View, TouchableOpacity, Image, Alert, ToastAndroid } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles }  from './styles';
 import AppHeader from "../../../components/AppHeader";
@@ -10,13 +10,11 @@ import EditableBox from "../../../components/EditableBox";
 
 
 import { UserProfileContext } from "../../../context/UserProfileContext";
-import { useAuthContext } from "../../../hooks/useAuthContext";
 import { getApp } from "firebase/app";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
 import { useIsFocused } from '@react-navigation/native';
 import { getAuth, reauthenticateWithCredential, signInWithEmailAndPassword, updateEmail, updatePassword } from "firebase/auth";
 import { projectAuth } from "../../../firebase/firebase";
-import { TextInput } from "react-native-gesture-handler";
 import Input from "../../../components/Input";
 
 import * as ImagePicker from 'expo-image-picker';
@@ -40,11 +38,6 @@ const Settings = ( { navigation } ) => {
     const [editingPublic, setEditingPublic] = useState(false);
     const [editingEmail, setEditingEmail] = useState(false);
     const [editingPassword, setEditingPassword] = useState(false);
-
-    const [emailError, setEmailError] = useState("");
-    const [passwordError, setPasswordError] = useState("");
-    const [emailUpdateSuccess, setEmailUpdateSuccess] = useState(false);
-    const [passwordUpdateSuccess, setPasswordUpdateSuccess] = useState(false);
 
     const [userProfile, setUserProfile] = useContext(UserProfileContext);
     const [tempProfile, setTempProfile] = useState({});
@@ -128,7 +121,6 @@ const Settings = ( { navigation } ) => {
     };
 
     const onSaveEmail = async () => {
-        setPasswordError("");
         const auth = getAuth();
         const user = auth.currentUser;
         if (!tempSettings?.email) {
@@ -144,21 +136,19 @@ const Settings = ( { navigation } ) => {
                 //Supposed to call reauthenticate function with credential but ig no need, just sign in
                 updateEmail(auth.currentUser, tempSettings.email).then(() => {
                     setEditingEmail(false);
-                    setEmailUpdateSuccess(true);
+                    onToast("Email Updated Successfully!");
                     console.log("Email Updated!");
                 }).catch((error) => {
-                    console.log("Error updating email", error);
-                    setEmailError("Error updating email: " + error);
+                    errorMessage = "Error updating email: " + error;
+                    onToast(errorMessage);
                 });
             })
             .catch((err) => {
-                console.log("Error Signing in: " + err);
-                setEmailError("Error Signing in: " + err); 
+                onToast(String(err));
         });
     };
     
     const onSavePassword = async () => {
-        setPasswordError("");
         const auth = getAuth();
         const user = auth.currentUser;
         if (!tempSettings?.newPassword) {
@@ -173,18 +163,24 @@ const Settings = ( { navigation } ) => {
             .then((userCredential) => {
                 updatePassword(auth.currentUser, tempSettings.newPassword).then(() => {
                     setEditingPassword(false);
+                    onToast("Password Updated Successfully!");
                     console.log("Password Updated!");
-                    setPasswordUpdateSuccess(true);
                 }).catch((error) => {
                     console.log("Error updating password", error);
-                    setPasswordError("Error updating password: " + error);
+                    errorMessage = "Error updating password: " + error;
+                    onToast(errorMessage);
                 });
             })
             .catch((err) => {
-                console.log("Error Signing in: ", err);
-                setPasswordError("Error Signing in: " + err); 
+                errorMessage = "Error Signing in: " + err;
+                    onToast(errorMessage);
         });
     };
+
+    const onToast = (errorMessage) => {
+        console.log("Toast");
+        ToastAndroid.showWithGravity(errorMessage, ToastAndroid.LONG, ToastAndroid.BOTTOM);
+    }
 
     const onChangeTempProfile = (key, value) => {
         setTempProfile(v => ( {...v, [key]: value} ));
@@ -193,11 +189,21 @@ const Settings = ( { navigation } ) => {
         setTempSettings(v => ( {...v, [key]: value} ));
     }
 
-    const onItemPress = () => {
+    const onFAQ = () => {
+        // will link to poster or github readme.
         Linking.openURL('https://google.com');
         //getServices();
     };
-    
+
+    const onContactUs = () => {
+        // or link to orbital page idk
+        Linking.openURL('https://github.com/gerteck');
+    };
+
+    const RickRoll = () => {
+        Linking.openURL('https://www.youtube.com/watch?v=dQw4w9WgXcQ'); 
+    }
+
     return (
         <SafeAreaView style={styles.mainContainer}>
             <AppHeader title="Settings" showBack onBack={onBack}/>
@@ -234,11 +240,10 @@ const Settings = ( { navigation } ) => {
                     </TouchableOpacity>
                 </View>
                 <EditableBox label="Email" value={tempSettings.email} onChangeText={(v) => onChangeTempSettings('email', v)} editable={editingEmail} style={styles.EditableBox} />
+                
                 {/* <EditableBox label="Bio" value={tempProfile.bio} onChangeText={(v) => onChangeTempProfile('bio', v)} editable={editingEmail} style={styles.EditableBox} /> */}
                 {editingEmail ? ( <Input value={tempSettings.password} onChangeText={(v) => onChangeTempSettings('password', v)} label="Current Password" placeholder="*******" isPassword/> ) : null }
-                {editingEmail && emailError && <Text>{emailError}</Text>}
                 {editingEmail ? ( <Button style={styles.button} onPress={onSaveEmail} title="Update Email"/> ) : null }
-                {emailUpdateSuccess && <Text>Email Updated Successfully!</Text>}
 
                 {/* Private Information: Password */}
                 <View style={[styles.sectionHeader, {paddingBottom: 12}]}> 
@@ -249,16 +254,14 @@ const Settings = ( { navigation } ) => {
                 </View>
                 {editingPassword ?   <Input value={tempSettings.newPassword} onChangeText={(v) => onChangeTempSettings('newPassword', v)} label="New Password" placeholder="*******" isPassword/> : null }
                 {editingPassword ? ( <Input value={tempSettings.password} onChangeText={(v) => onChangeTempSettings('password', v)} label="Current Password" placeholder="*******" isPassword/> ) : null }
-                {editingPassword && passwordError && <Text>{passwordError}</Text>}
                 {editingPassword ? ( <Button style={styles.button} onPress={onSavePassword} title="Update Password"/> ) : null }
-                {passwordUpdateSuccess && <Text>Password Updated Successfully!</Text>}
                 
 
                 {/* Help Centre */}
                 <Text style={styles.sectionTitle}>Help Center</Text>
-                <ListItem onPress={onItemPress} style={styles.item} title="FAQ"/>
-                <ListItem onPress={onItemPress} style={styles.item} title="Contact us"/>
-                <ListItem onPress={onItemPress} style={styles.item} title="Privacy & Terms"/>
+                <ListItem onPress={onFAQ} style={styles.item} title="FAQ"/>
+                <ListItem onPress={onContactUs} style={styles.item} title="Contact us"/>
+                <ListItem onPress={RickRoll} style={styles.item} title="Privacy & Terms"/>
 
                 {!isPending && <Button onPress={onLogout} style={styles.logoutButton} title="Log out"  />}
                 {isPending && <Button onPress={onLogout} style={styles.logoutButton} disabled={true} title="loading"  />}

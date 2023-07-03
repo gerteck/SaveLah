@@ -1,6 +1,8 @@
 import { StyleSheet } from "react-native";
 import { colors } from '../../../utils/colors';
+import { Dimensions } from "react-native";
 
+const height = Dimensions.get('window').height;
 
 export const styles = StyleSheet.create({
     mainContainer: {
@@ -17,7 +19,7 @@ export const styles = StyleSheet.create({
 
     emptyPostBox: {
         backgroundColor: colors.white,
-        minHeight: 500,
+        minHeight: height*0.85,
         borderRadius: 10,
         padding: 11,
         marginVertical: 8,
@@ -41,7 +43,7 @@ export const styles = StyleSheet.create({
 
     notificationListContainer: {
         backgroundColor: colors.white,
-        minHeight: 500,
+        minHeight: height*0.85,
         borderRadius: 10,
         padding: 11,
         marginTop: 8,

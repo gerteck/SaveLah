@@ -1,7 +1,5 @@
-import { useSignup } from '../../../hooks/useSignup';
-
-import React, { useContext, useState } from 'react';
-import { Alert, ScrollView, Text, View } from 'react-native';
+import React, {useState, useEffect } from 'react';
+import { Alert, Text, ToastAndroid, View, StatusBar } from 'react-native';
 
 import AuthHeader from '../../../components/AuthHeader';
 import Button from '../../../components/Button';
@@ -9,9 +7,10 @@ import Checkbox from '../../../components/Checkbox';
 import Input from '../../../components/Input';
 import Separator from '../../../components/Separator';
 
+import { useSignup } from '../../../hooks/useSignup';
 import { colors } from "../../../utils/colors";
 import { styles } from './styles';
-import { StatusBar } from 'react-native';
+import { Linking } from 'react-native';
 
 // import { UserContext } from '../../../../App';
 // import { signup } from '../../../utils/backendCalls';
@@ -43,7 +42,7 @@ const Signup = ({ navigation }) => {
             }
 
             if (!checked) {
-                Alert.alert('Please agree to the terms');
+                Alert.alert('Please read and agree to the Terms & Privacy');
                 return;
             }
 
@@ -53,6 +52,16 @@ const Signup = ({ navigation }) => {
             console.log('Signup error :>> ', error);
         }
     } 
+
+    useEffect(() => {
+        if (error) {
+            ToastAndroid.showWithGravity(error, ToastAndroid.LONG, ToastAndroid.BOTTOM);
+        }
+    },[error])
+
+    const RickRoll = () => {
+        Linking.openURL('https://www.youtube.com/watch?v=dQw4w9WgXcQ'); 
+    }
 
     return (
         <View style={styles.mainContainer}>
@@ -65,7 +74,12 @@ const Signup = ({ navigation }) => {
 
             <View style={styles.agreeRow}>
                 <Checkbox checked={checked} onCheck={setChecked} />
-                <Text style={styles.agreeText}>I agree with <Text style={styles.agreeTextBold}>Terms</Text> & <Text style={styles.agreeTextBold}>Privacy</Text></Text>
+                <Text style={styles.agreeText}>
+                    I agree with 
+                    <Text style={styles.agreeTextBold} onPress={RickRoll}> Terms </Text> 
+                    & 
+                    <Text style={styles.agreeTextBold} onPress={RickRoll}> Privacy </Text>
+                </Text>
             </View>
 
             {!isPending && <Button onPress={onSubmit} style={styles.button} title="Sign Up"  />}
@@ -77,7 +91,7 @@ const Signup = ({ navigation }) => {
                 Already have an account?
                 <Text onPress={onSignIn} style={styles.footerLink}> Sign In</Text>
             </Text>
-            {error && <Text>{error}</Text>}
+            {/* {error && <Text>{error}</Text>} */}
         </View>
     )
 }

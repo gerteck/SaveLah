@@ -87,20 +87,25 @@ const TransactionList = ({transactions, navigation}) => {
                             navigation.navigate('EditTransaction', {transaction: doc});
                         }
 
-                        return (<Pressable key={doc.id} onPress={goEditTransaction}>
+                        return (
+                        
+                        <Pressable key={doc.id} onPress={goEditTransaction}>
                             <View style={styles.transactionDetailsContainer} key={doc.id} >
                                 <View style={{flexDirection: 'row'}}>
                                     <View style={styles.categoryIcon}>
                                         {getCategoryIcon(doc.index, styles.icon)}
                                     </View>
                                     <View style={styles.transactionTextContainer}>
-                                        <Text style={{alignSelf: 'center'}}>{doc.category}: {doc.description}</Text>
-                                        <Text style={{alignSelf: 'center'}}>${doc.amount}</Text>
+                                        <View style={styles.row1}>
+                                            <Text style={{alignSelf: 'center'}}>{doc.category}: {doc.description}</Text>
+                                            <Text style={{alignSelf: 'center'}}>${doc.amount}</Text>
+                                        </View>
                                     </ View>
                                 </View>        
                             </View>
-                        </Pressable>)                      
-                        }
+                        </Pressable>
+                        
+                        )}
                     )} 
 
                 </View>

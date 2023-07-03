@@ -97,7 +97,7 @@ const Home = ( { navigation } ) => {
 
                     // separating amounts based on category
                     if(Object.hasOwn(dict, cat)) {
-                        dict[cat][amount] = dict[cat][amount] + doc.data().amount;
+                        dict[cat].amount = dict[cat].amount + doc.data().amount;
                     } else {
                         dict[cat] = {
                             category: cat,
@@ -106,10 +106,11 @@ const Home = ( { navigation } ) => {
                         };
                     }
                 })
-
-                let cats = Object.entries(dict).map(([k, v]) => [k, parseFloat(v.amount.toFixed(2)).toLocaleString('en-US'), (parseFloat((v.amount / result).toFixed(2)) * 100)
-                    .toLocaleString('en-US'), v.index]).
-                    map(([k, v, p, i]) => ({ category: k, value: v, percentage: p, index: i })).sort((a,b) => b.percentage - a.percentage).slice(0, 3);
+                
+                // Set percentages
+                let cats = Object.entries(dict).map(([k, v]) => [k, parseFloat(v.amount.toFixed(2)).toLocaleString('en-US'), 
+                    (parseFloat((v.amount / result).toFixed(2)) * 100).toLocaleString('en-US'), v.index])
+                    .map(([k, v, p, i]) => ({ category: k, value: v, percentage: p, index: i })).sort((a,b) => b.percentage - a.percentage).slice(0, 3);
 
                 // update state
                 setExpense(result);
@@ -157,7 +158,7 @@ const Home = ( { navigation } ) => {
 
                     // separating amounts based on category
                     if(Object.hasOwn(dict, cat)) {
-                        dict[cat][amount] = dict[cat][amount] + doc.data().amount;
+                        dict[cat]["amount"] = dict[cat]["amount"] + doc.data().amount;
                     } else {
                         dict[cat] = {
                             category: cat,

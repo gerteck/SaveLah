@@ -97,7 +97,7 @@ const Home = ( { navigation } ) => {
 
                     // separating amounts based on category
                     if(Object.hasOwn(dict, cat)) {
-                        dict[cat][amount] = dict[cat][amount] + doc.data().amount;
+                        dict[cat].amount = dict[cat].amount + doc.data().amount;
                     } else {
                         dict[cat] = {
                             category: cat,
@@ -106,10 +106,11 @@ const Home = ( { navigation } ) => {
                         };
                     }
                 })
-
-                let cats = Object.entries(dict).map(([k, v]) => [k, parseFloat(v.amount.toFixed(2)).toLocaleString('en-US'), (parseFloat((v.amount / result).toFixed(2)) * 100)
-                    .toLocaleString('en-US'), v.index]).
-                    map(([k, v, p, i]) => ({ category: k, value: v, percentage: p, index: i })).sort((a,b) => b.percentage - a.percentage).slice(0, 3);
+                
+                // Set percentages
+                let cats = Object.entries(dict).map(([k, v]) => [k, parseFloat(v.amount.toFixed(2)).toLocaleString('en-US'), 
+                    (parseFloat((v.amount / result).toFixed(2)) * 100).toLocaleString('en-US'), v.index])
+                    .map(([k, v, p, i]) => ({ category: k, value: v, percentage: p, index: i })).sort((a,b) => b.percentage - a.percentage).slice(0, 3);
 
                 // update state
                 setExpense(result);
@@ -157,7 +158,7 @@ const Home = ( { navigation } ) => {
 
                     // separating amounts based on category
                     if(Object.hasOwn(dict, cat)) {
-                        dict[cat][amount] = dict[cat][amount] + doc.data().amount;
+                        dict[cat]["amount"] = dict[cat]["amount"] + doc.data().amount;
                     } else {
                         dict[cat] = {
                             category: cat,
@@ -355,15 +356,6 @@ const Home = ( { navigation } ) => {
 
     </View>);
 
-    // Note: Needs to be declared in an earlier line
-    const SampleTransaction = (<View style={styles.transactionContainer}>
-        <Image style={styles.icon} source={require('../../../assets/DummyIcon.png')}/>
-        <View> 
-            <Text style={styles.transactionCaption}>Food and Drinks</Text>
-            <Text style={styles.transactionCaption}>$50.00</Text>
-        </View>
-    </View>);
-
     // When there have not been any expeneses 
     const noTransactionsYet = (<> 
         <Text>No transactions yet</Text>
@@ -371,7 +363,7 @@ const Home = ( { navigation } ) => {
 
     // To render category boxes for top spending categories
     const renderTransactions = ({item}) => {
-        return (<View style={styles.transactionContainer}>
+        return (<View style={styles.transactionContainer} key={item.id}>
             <View style={styles.categoryBox}>
                 {getCategoryIcon(item.index, styles.icon)}
                 <View style={styles.categoryContaineer}> 
@@ -399,8 +391,8 @@ const Home = ( { navigation } ) => {
         const goEditTransaction = () => {
             navigation.navigate('EditTransaction', {transaction: item});
         }
-
-        return (<Pressable key={item.id} onPress={goEditTransaction}>
+        return (
+        <Pressable onPress={goEditTransaction}>
             <View style={styles.transactionContainer}>
                 <View style={styles.categoryBox}>
                     {getCategoryIcon(item.index, styles.icon)}
@@ -428,7 +420,7 @@ const Home = ( { navigation } ) => {
 
     const getFooter = () => {
         return (<>
-            {recent.length != 0 && <FlatList data={recent} keyExtractor={item => item.id} renderItem={renderRecentTransactions} 
+            {recent.length != 0 && <FlatList data={recent} keyExtractor={(item, index) => index} renderItem={renderRecentTransactions} 
             ListHeaderComponent={getRecentHeader}/>}
         </>)
     }

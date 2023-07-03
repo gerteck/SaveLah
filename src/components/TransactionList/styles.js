@@ -111,6 +111,11 @@ export const styles = StyleSheet.create({
         alignSelf: 'center',
     },
 
+    // Transaction Container Related stuff
+
+    individualTransactionContainer: {
+        marginVertical: 3,
+    },
 
     // Transaction details categories
     transactionDetailsContainer: {
@@ -125,12 +130,28 @@ export const styles = StyleSheet.create({
         width: 24,
         marginLeft: 10,
         marginRight: 16,
+        alignSelf: 'center',
     },
 
     transactionTextContainer: {
+        flexDirection: "column", 
+        flex: 1, 
+        justifyContent: "center",
+    },
+
+    row1: {
         flexDirection: "row", 
         flex: 1, 
         justifyContent: "space-between",
+    },
+
+    descriptionTextContainer: {
+        flexDirection: "row", 
+        width: '98%', 
+    },
+
+    descriptionText: {
+        color: colors.darkGrey,
     },
 
     icon: {

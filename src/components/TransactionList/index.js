@@ -89,7 +89,7 @@ const TransactionList = ({transactions, navigation}) => {
 
                         return (
                         
-                        <Pressable key={doc.id} onPress={goEditTransaction}>
+                        <Pressable style={styles.individualTransactionContainer} key={doc.id} onPress={goEditTransaction}>
                             <View style={styles.transactionDetailsContainer} key={doc.id} >
                                 <View style={{flexDirection: 'row'}}>
                                     <View style={styles.categoryIcon}>
@@ -97,11 +97,11 @@ const TransactionList = ({transactions, navigation}) => {
                                     </View>
                                     <View style={styles.transactionTextContainer}>
                                         <View style={styles.row1}>
-                                            <Text style={{alignSelf: 'center'}}>{doc.category}</Text>
-                                            <Text style={{alignSelf: 'center'}}>${doc.amount}</Text>
+                                            <Text>{doc.category}</Text>
+                                            <Text>${doc.amount}</Text>
                                         </View>
-                                        <View style={styles.row1}>
-                                            <Text style={{alignSelf: 'center'}}>{doc.description}</Text>
+                                        <View style={styles.descriptionTextContainer}>
+                                            <Text style={styles.descriptionText} numberOfLines={1}>{doc.description}</Text>
                                         </View>
                                     </ View>
                                 </View>        

@@ -4,6 +4,7 @@ import { styles } from './styles';
 import { colors } from "../../utils/colors";
 import Box from "../Box";
 import { groupBy } from "underscore";
+import { getCategoryIcon } from "../../utils/getCategoryIcon";
 
 const TransactionList = ({transactions, navigation}) => {
 
@@ -89,7 +90,9 @@ const TransactionList = ({transactions, navigation}) => {
                         return (<Pressable key={doc.id} onPress={goEditTransaction}>
                             <View style={styles.transactionDetailsContainer} key={doc.id} >
                                 <View style={{flexDirection: 'row'}}>
-                                    <View style={styles.categoryIcon} />
+                                    <View style={styles.categoryIcon}>
+                                        {getCategoryIcon(doc.index, styles.icon)}
+                                    </View>
                                     <View style={styles.transactionTextContainer}>
                                         <Text style={{alignSelf: 'center'}}>{doc.category}: {doc.description}</Text>
                                         <Text style={{alignSelf: 'center'}}>${doc.amount}</Text>

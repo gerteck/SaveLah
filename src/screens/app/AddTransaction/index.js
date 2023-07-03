@@ -89,6 +89,7 @@ const AddTransaction = ( {navigation} ) => {
                 date: date,
                 description: values.description,
                 category: values.category,
+                index: values.index,
             });
 
 
@@ -155,6 +156,7 @@ const AddTransaction = ( {navigation} ) => {
 
                         else {
                             onChangeValue('category', v.value)
+                            onChangeValue('index', v.index)
                         }     
                     }} setItems={setItems} zIndex={1000}
                     categorySelectable={false}

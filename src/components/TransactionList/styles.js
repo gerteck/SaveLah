@@ -121,10 +121,8 @@ export const styles = StyleSheet.create({
     },
 
     categoryIcon: {
-        backgroundColor: colors.grey,
         height: 24,
         width: 24,
-        borderRadius: 12,
         marginLeft: 10,
         marginRight: 16,
     },
@@ -134,6 +132,11 @@ export const styles = StyleSheet.create({
         flex: 1, 
         justifyContent: "space-between",
     },
+
+    icon: {
+        height: 24,
+        width: 24,
+    }
 
 
 })

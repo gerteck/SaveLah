@@ -167,7 +167,7 @@ const EditTransaction = ( { navigation, route } ) => {
                     <Button style={styles.DatePickerButton} onPress={showDatepicker} title={`Date: ${date.toLocaleDateString()}`} />
                 </View>
 
-                <Button style={styles.SaveTransactionButton} onPress={onSave} title="Save transaction"  />
+                <Button style={styles.SaveTransactionButton} onPress={onSave} title="Save changes"  />
 
             </TouchableOpacity>
         </SafeAreaView>

@@ -81,21 +81,37 @@ const AddTransaction = ( {navigation} ) => {
                 Alert.alert('Please fill up the amount and category!');
                 return;
             }
+
+            let transactionDoc;
             
+            // To fix problem with adding transaction with no description
+            if (!values.description) {
+                transactionDoc = await addDocument({
+                    uid: user.uid,
+                    amount: parseFloat(parseFloat(values.amount).toFixed(2)), // to limit to 2 decimal places
+                    date: date,
+                    description: '',
+                    category: values.category,
+                    index: values.index,
+                });
 
-            const transactionDoc = await addDocument({
-                uid: user.uid,
-                amount: parseFloat(parseFloat(values.amount).toFixed(2)), // to limit to 2 decimal places
-                date: date,
-                description: values.description,
-                category: values.category,
-                index: values.index,
-            });
+                await setDoc(transactionDoc, {
+                    id: transactionDoc.id,
+                }, { merge: true });
+            } else {
+                transactionDoc = await addDocument({
+                    uid: user.uid,
+                    amount: parseFloat(parseFloat(values.amount).toFixed(2)), // to limit to 2 decimal places
+                    date: date,
+                    description: values.description,
+                    category: values.category,
+                    index: values.index,
+                });
 
-
-            await setDoc(transactionDoc, {
-                id: transactionDoc.id,
-            }, { merge: true });
+                await setDoc(transactionDoc, {
+                    id: transactionDoc.id,
+                }, { merge: true });
+            }
 
             // console.log(response);
 
@@ -141,10 +157,6 @@ const AddTransaction = ( {navigation} ) => {
                 </View>
 
                 <Text style={styles.label}>Category</Text>
-                {/* <View style={styles.inputContainer}>
-                    <TextInput placeholder="Food & Drinks" style={styles.input} value={values.category} 
-                        onChangeText={(v) => onChangeValue('category', v)} />
-                </View> */}
                 
                 <DropDownPicker open={open} value={values.category} items={items} listMode="MODAL" modalProps={{ animationType: 'slide'}} searchable={true}
                     modalContentContainerStyle={styles.modalContainer}
@@ -164,7 +176,7 @@ const AddTransaction = ( {navigation} ) => {
 
                 <Text style={styles.label}>Transaction Description</Text>
                 <View style={styles.inputContainer}>
-                    <TextInput placeholder="Meal at YIH..." style={styles.input} value={values.description} 
+                    <TextInput placeholder="Meal at YIH... (Optional)" style={styles.input} value={values.description} 
                         onChangeText={(v) => onChangeValue('description', v)} />
                 </View>
 

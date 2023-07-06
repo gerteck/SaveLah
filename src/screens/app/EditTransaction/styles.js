@@ -64,6 +64,12 @@ export const styles = StyleSheet.create({
         borderRadius: 0,
         height: 50,
     }, 
+
+    SaveTransactionButton: {
+        marginVertical: 35,
+        backgroundColor: colors.green,
+        zIndex: -1,
+    },
     
 
 })

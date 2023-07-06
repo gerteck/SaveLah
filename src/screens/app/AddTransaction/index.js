@@ -81,21 +81,36 @@ const AddTransaction = ( {navigation} ) => {
                 Alert.alert('Please fill up the amount and category!');
                 return;
             }
+
+            let transactionDoc;
             
+            if (!values.description) {
+                transactionDoc = await addDocument({
+                    uid: user.uid,
+                    amount: parseFloat(parseFloat(values.amount).toFixed(2)), // to limit to 2 decimal places
+                    date: date,
+                    description: '',
+                    category: values.category,
+                    index: values.index,
+                });
 
-            const transactionDoc = await addDocument({
-                uid: user.uid,
-                amount: parseFloat(parseFloat(values.amount).toFixed(2)), // to limit to 2 decimal places
-                date: date,
-                description: values.description,
-                category: values.category,
-                index: values.index,
-            });
+                await setDoc(transactionDoc, {
+                    id: transactionDoc.id,
+                }, { merge: true });
+            } else {
+                transactionDoc = await addDocument({
+                    uid: user.uid,
+                    amount: parseFloat(parseFloat(values.amount).toFixed(2)), // to limit to 2 decimal places
+                    date: date,
+                    description: values.description,
+                    category: values.category,
+                    index: values.index,
+                });
 
-
-            await setDoc(transactionDoc, {
-                id: transactionDoc.id,
-            }, { merge: true });
+                await setDoc(transactionDoc, {
+                    id: transactionDoc.id,
+                }, { merge: true });
+            }
 
             // console.log(response);
 

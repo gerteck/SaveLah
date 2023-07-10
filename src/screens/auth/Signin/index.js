@@ -11,7 +11,6 @@ import { styles } from './styles';
 import { useLogin } from '../../../hooks/useLogin';
 import { ThemeContext } from '../../../context/ThemeContext';
 import themeColors from '../../../utils/themeColors';
-import { TextInput } from 'react-native-gesture-handler';
 
 const Signin = ({ navigation }) => {
     // const {user, setUser} = useContext(UserContext);
@@ -81,9 +80,9 @@ const Signin = ({ navigation }) => {
             {!isPending && <Button onPress={onLogin} style={styles.button} title="Sign In"  />}
             {isPending && <Button style={styles.button} disabled={true} title="loading" />}
 
-            <Separator style={styles.separator} title="For Aesthetics" />
+            <Separator style={styles.separator} title="For Aesthetics" textStyle={{ color: activeColors.footer }}/>
 
-            <Text style={[styles.footerText, { color: activeColors.footer } ]}>
+            <Text style={[styles.footerText, { color: activeColors.footer }]}>
                 Don't have an account?
                 <Text onPress={onSignUp} style={styles.footerLink}> Sign Up</Text>
             </Text>

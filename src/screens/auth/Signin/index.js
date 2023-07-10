@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, Alert, ToastAndroid, StatusBar } from 'react-native';
 import AuthHeader from '../../../components/AuthHeader';
 import Button from '../../../components/Button';
@@ -9,6 +9,9 @@ import { colors } from "../../../utils/colors";
 import { styles } from './styles';
 
 import { useLogin } from '../../../hooks/useLogin';
+import { ThemeContext } from '../../../context/ThemeContext';
+import themeColors from '../../../utils/themeColors';
+import { TextInput } from 'react-native-gesture-handler';
 
 const Signin = ({ navigation }) => {
     // const {user, setUser} = useContext(UserContext);
@@ -54,24 +57,33 @@ const Signin = ({ navigation }) => {
         }
     },[error])
 
+    const { theme } = useContext(ThemeContext);
+    let activeColors = themeColors[theme.mode];
+    const barColor = theme.mode == 'light' ? 'dark-content' : 'light-content';
 
     return (
-        <View style={styles.mainContainer}>
-            <StatusBar hidden={false} backgroundColor={colors.white} barStyle={"dark-content"}/>
-            <AuthHeader onBackPress={onBack} title="Sign In" />
+        <View style={[styles.mainContainer, { backgroundColor: activeColors.background }]}>
+            <StatusBar hidden={false} backgroundColor={activeColors.background} barStyle={barColor}/>
+            <AuthHeader onBackPress={onBack} title="Sign In" titleColorStyle={{ color: activeColors.title }}/>
             <View style={styles.gap}/>
             <Input label="E-mail" placeholder="example@gmail.com" 
-                onChangeText={(v) => onChange('email', v)}/>
+                onChangeText={(v) => onChange('email', v)} labelStyle={{ color: activeColors.inputLabel }} 
+                inputContainerStyle={{ backgroundColor: activeColors.inputBackground, borderColor: activeColors.inputBorder }} 
+                inputStyle={{ color: activeColors.text }}
+                placeholderColor={activeColors.inputPlaceholder} keyboardType={'email-address'}/>
             <View style={styles.gap}/>
             <Input label="Password" placeholder="********" isPassword 
-                onChangeText={(v) => onChange('password', v)} />
+                onChangeText={(v) => onChange('password', v)} labelStyle={{ color: activeColors.inputLabel }} 
+                inputContainerStyle={{ backgroundColor: activeColors.inputBackground, borderColor: activeColors.inputBorder }} 
+                inputStyle={{ color: activeColors.text }}
+                placeholderColor={activeColors.inputPlaceholder}/>
         
             {!isPending && <Button onPress={onLogin} style={styles.button} title="Sign In"  />}
             {isPending && <Button style={styles.button} disabled={true} title="loading" />}
 
             <Separator style={styles.separator} title="For Aesthetics" />
 
-            <Text style={styles.footerText}>
+            <Text style={[styles.footerText, { color: activeColors.footer } ]}>
                 Don't have an account?
                 <Text onPress={onSignUp} style={styles.footerLink}> Sign Up</Text>
             </Text>

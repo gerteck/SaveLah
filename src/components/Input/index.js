@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Text, View, TextInput, Pressable, Image} from "react-native";
 import { styles } from './styles';
 
-const Input = ({label, placeholder, isPassword, onChangeText, value, inputContainerStyle, labelStyle, multiline, editing}) => {
+const Input = ({label, placeholder, isPassword, onChangeText, value, inputContainerStyle, labelStyle, multiline, editing, placeholderColor, inputStyle, keyboardType }) => {
 
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -16,10 +16,10 @@ const Input = ({label, placeholder, isPassword, onChangeText, value, inputContai
 
             <View style={[styles.inputContainer, inputContainerStyle]}>
                 <TextInput secureTextEntry={isPassword && !isPasswordVisible} 
-                    placeholder={placeholder} style={styles.input}
+                    placeholder={placeholder} style={[styles.input, inputStyle]}
                     value={value} onChangeText={onChangeText} 
                     multiline={multiline} 
-                    editing={editing}/>
+                    editing={editing} placeholderTextColor={placeholderColor} keyboardType={keyboardType}/>
                 
                 { isPassword ? (
                 <Pressable onPress={onEyePress}> 

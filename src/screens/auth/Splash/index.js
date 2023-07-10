@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Text, Image, View, Pressable } from 'react-native';
 
 import { colors } from "../../../utils/colors";
@@ -6,6 +6,9 @@ import { styles } from './styles';
 
 import Button from '../../../components/Button';
 import { StatusBar } from 'react-native';
+
+import themeColors from "../../../utils/themeColors";
+import { ThemeContext } from '../../../context/ThemeContext';
 
 const Splash = ({ navigation }) => {
 
@@ -17,24 +20,29 @@ const Splash = ({ navigation }) => {
         navigation.navigate('Signin');
     };
 
+    const { theme } = useContext(ThemeContext);
+    let activeColors = themeColors[theme.mode];
+
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { backgroundColor: activeColors.background }] }>
             <StatusBar hidden={true} backgroundColor={colors.white} barStyle={"dark-content"}/> 
             <Image resizeMode='contain' style={styles.image} source={require('../../../assets/authPages/splash_image.jpg')} />
 
             <View style={styles.titleContainer}>
-                <Text style={styles.title}>All your</Text>
-                <Text style={[styles.title, styles.innerTitle]}>Budgeting Needs,</Text>
-                <Text style={styles.title}>Here.</Text>
+                <Text style={[styles.title, { color: activeColors.text }]}>All your</Text>
+                <Text style={[styles.title, styles.innerTitle, {color: activeColors.specialTitle }]}>Budgeting Needs,</Text>
+                <Text style={[styles.title, { color: activeColors.text }]}>Here.</Text>
             </View>
 
             <Button onPress={onSignup} title="Sign Up" />
 
             <Pressable style={styles.footerContainer} hitSlop={2} onPress={onSignin}> 
-                <Text style={styles.footerText}>Sign In</Text>
+                <Text style={[styles.footerText, { color: activeColors.footer }]}>Sign In</Text>
             </Pressable>
         </View>
     )
+    
 }
+
 
 export default React.memo(Splash);

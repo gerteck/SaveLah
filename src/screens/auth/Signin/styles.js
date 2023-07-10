@@ -3,7 +3,6 @@ import { colors } from "../../../utils/colors";
 
 export const styles = StyleSheet.create({
     mainContainer: {
-        backgroundColor: colors.white,
         flex: 1,
         padding: 24,
         paddingTop: 24,

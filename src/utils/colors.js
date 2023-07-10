@@ -9,10 +9,15 @@ export const colors = {
     middleGrey: '#808080',
     backgroundGrey: '#F1F0F0',
     backgroundBlue: '#8D9BB5',
+    backgroundDarkGrey: '#121212',
+    inputDarkGrey: 	'#282b30',
+    inputMiddleGrey: '#36393e',
 
     red: '#EB7777',
     green: '#43B05C',
 
     textBlue: '#0066FF',
     textRed: '#FF0000',
+
+    darkTextBlue: '#7fb2ff',
 }

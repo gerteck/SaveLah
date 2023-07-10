@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext } from 'react';
 import { Alert, Text, ToastAndroid, View, StatusBar } from 'react-native';
 
 import AuthHeader from '../../../components/AuthHeader';
@@ -11,9 +11,8 @@ import { useSignup } from '../../../hooks/useSignup';
 import { colors } from "../../../utils/colors";
 import { styles } from './styles';
 import { Linking } from 'react-native';
-
-// import { UserContext } from '../../../../App';
-// import { signup } from '../../../utils/backendCalls';
+import themeColors from '../../../utils/themeColors';
+import { ThemeContext } from '../../../context/ThemeContext';
 
 const Signup = ({ navigation }) => {
     const [checked, setChecked] = useState(false);
@@ -63,18 +62,36 @@ const Signup = ({ navigation }) => {
         Linking.openURL('https://www.youtube.com/watch?v=dQw4w9WgXcQ'); 
     }
 
-    return (
-        <View style={styles.mainContainer}>
-            <StatusBar hidden={false} backgroundColor={colors.white} barStyle={"dark-content"}/>
-            <AuthHeader title="Sign Up" onBackPress={onBack}/>
+    const { theme } = useContext(ThemeContext);
+    let activeColors = themeColors[theme.mode];
+    const barColor = theme.mode == 'light' ? 'dark-content' : 'light-content';
 
-            <Input value={values.name} onChangeText={(v) => onChange('name', v)} label="Name"  placeholder="John Doe" />
-            <Input value={values.email}  onChangeText={(v) => onChange('email', v)} label="E-mail" placeholder="example@gmail.com" />
-            <Input isPassword value={values.password} onChangeText={(v) => onChange('password', v)} label="Password" placeholder="*******" />
+    return (
+        <View style={[styles.mainContainer, { backgroundColor: activeColors.background }]}>
+            <StatusBar hidden={false} backgroundColor={activeColors.background} barStyle={barColor}/>
+            <AuthHeader title="Sign Up" onBackPress={onBack} titleColorStyle={{ color: activeColors.title }}/>
+
+            <Input value={values.name} onChangeText={(v) => onChange('name', v)} label="Name"  placeholder="John Doe"
+                labelStyle={{ color: activeColors.inputLabel }} 
+                inputContainerStyle={{ backgroundColor: activeColors.inputBackground, borderColor: activeColors.inputBorder }} 
+                inputStyle={{ color: activeColors.text }}
+                placeholderColor={activeColors.inputPlaceholder} />
+
+            <Input value={values.email}  onChangeText={(v) => onChange('email', v)} label="E-mail" placeholder="example@gmail.com" 
+                labelStyle={{ color: activeColors.inputLabel }} 
+                inputContainerStyle={{ backgroundColor: activeColors.inputBackground, borderColor: activeColors.inputBorder }} 
+                inputStyle={{ color: activeColors.text }}
+                placeholderColor={activeColors.inputPlaceholder} keyboardType={'email-address'}/>
+
+            <Input isPassword value={values.password} onChangeText={(v) => onChange('password', v)} label="Password" placeholder="*******" 
+                labelStyle={{ color: activeColors.inputLabel }} 
+                inputContainerStyle={{ backgroundColor: activeColors.inputBackground, borderColor: activeColors.inputBorder }} 
+                inputStyle={{ color: activeColors.text }}
+                placeholderColor={activeColors.inputPlaceholder}/>
 
             <View style={styles.agreeRow}>
                 <Checkbox checked={checked} onCheck={setChecked} />
-                <Text style={styles.agreeText}>
+                <Text style={[styles.agreeText, { color: activeColors.footer }]}>
                     I agree with 
                     <Text style={styles.agreeTextBold} onPress={RickRoll}> Terms </Text> 
                     & 
@@ -85,9 +102,9 @@ const Signup = ({ navigation }) => {
             {!isPending && <Button onPress={onSubmit} style={styles.button} title="Sign Up"  />}
             {isPending && <Button style={styles.button} disabled={true} title="loading" />}
 
-            <Separator title="Aesthetic Purposes" />
+            <Separator title="Aesthetic Purposes" textStyle={{ color: activeColors.footer }}/>
 
-            <Text style={styles.footerText}>
+            <Text style={[styles.footerText, { color: activeColors.footer }]}>
                 Already have an account?
                 <Text onPress={onSignIn} style={styles.footerLink}> Sign In</Text>
             </Text>

@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors } from '../../../utils/colors';
-
+import useThemeColors from "../../../utils/themeColors";
 
 export const styles = StyleSheet.create({
 
@@ -10,7 +9,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: colors.white,
+        // backgroundColor: colors.background,
 
     },  
 
@@ -24,7 +23,7 @@ export const styles = StyleSheet.create({
         fontSize: 32, 
         fontWeight: 'bold',
         textAlign: "center",
-        color: colors.black,
+        // color: colors.text,
         fontFamily: 'Roboto',
     },
 
@@ -33,7 +32,7 @@ export const styles = StyleSheet.create({
     },
 
     innerTitle: {
-        color: colors.middleGrey,
+        // color: colors.specialTitle,
     },
 
     footerContainer: {
@@ -41,7 +40,7 @@ export const styles = StyleSheet.create({
     },
 
     footerText: {
-        color: colors.blue,
+        // color: colors.footer,
         textAlign: 'center',
         fontSize: 16,
         fontWeight: 'bold',

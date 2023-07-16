@@ -65,6 +65,8 @@ export const styles = StyleSheet.create({
     icon: {
         height: 40,
         width: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 
     notificationIcon: {

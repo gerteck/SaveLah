@@ -4,7 +4,6 @@ import { styles }  from './styles';
 import { SafeAreaView } from "react-native-safe-area-context";
 import AppHeader from "../../../components/AppHeader";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import Box from "../../../components/Box";
 
 import { getApp } from "firebase/app";
 import { getFirestore, getDoc, doc, collection, query, where, orderBy, getDocs, onSnapshot, limit } from 'firebase/firestore';
@@ -12,6 +11,8 @@ import { useAuthContext } from "../../../hooks/useAuthContext";
 import { useIsFocused } from '@react-navigation/native';
 import { UserProfileContext } from "../../../context/UserProfileContext";
 import PostList from "../../../components/PostList";
+import { ThemeContext } from "../../../context/ThemeContext";
+import themeColors from "../../../utils/themeColors";
 const app = getApp;
 const db = getFirestore(app);
 
@@ -44,7 +45,6 @@ const Profile = ( {navigation} ) => {
         }
     }, [user]); 
 
-
     // Refresh page on navigation
     const isFocused = useIsFocused();
     useEffect(() => {
@@ -71,6 +71,10 @@ const Profile = ( {navigation} ) => {
         const item = userProfile;
         navigation.navigate('ProfileFollowInfo', { item, followerSelected });
     };
+    
+    
+    const { theme } = useContext(ThemeContext);
+    let activeColors = themeColors[theme.mode];
 
     return (
         <SafeAreaView style={styles.mainContainer}>
@@ -79,7 +83,7 @@ const Profile = ( {navigation} ) => {
             <ScrollView showsVerticalScrollIndicator={false}> 
 
                 {/* Profile, Bio, following and setting Buttons */}
-                <View style={styles.whiteBox}>
+                <View style={styles.containerBox}>
                     <View style={styles.profile}>
                         <View style={styles.displayPictureWrapper}>
                             <Image style={styles.displayPicture} source={{uri: userProfile.url}}/>
@@ -131,8 +135,6 @@ const Profile = ( {navigation} ) => {
                         <Text style={styles.noPostText}>Start a new post, {userProfile.username}!</Text>
                     </View>
                 }
-                {/* Add posts FlatList here! */}
-
 
             </ScrollView>
 

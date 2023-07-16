@@ -5,6 +5,8 @@ import { styles } from './styles';
 import Input from "../Input";
 import { Badge, Icon, withBadge } from '@rneui/themed';
 import { NotificationNumberContext } from "../../context/NotificationNumberContext";
+import { ThemeContext } from "../../context/ThemeContext";
+import themeColors from "../../utils/themeColors";
 
 
 const AppHeader = ({  style, 
@@ -18,42 +20,45 @@ const AppHeader = ({  style,
                     title,
                 }) => {
     
-
+                
     const [notificationNumber, setNotificationNumber] = useContext(NotificationNumberContext);
+
+    const { theme }  = useContext(ThemeContext);
+    let activeColors = themeColors[theme.mode];
 
     const NotificationComponent = () => {
         if (notificationNumber <= 0) {
-            return <Icon name='notifications' type='ionicon' size={24}/> 
+            return <Icon name='notifications' type='ionicon' size={24} color={activeColors.iconColor} /> 
         } else {
             const BadgedNotification = withBadge(notificationNumber)(Icon);
-            return <BadgedNotification type="ionicon" name="notifications" style={styles.notificationIcon}/>
+            return <BadgedNotification type="ionicon" name="notifications" style={styles.notificationIcon} color={activeColors.iconColor}/>
         }
     }
-
+    
     return (
         <View style={[styles.mainContainer, style]}>
             {/*Left Icons go Here*/}
             <View style={styles.leftIcons}> 
                 {showBack ? (
                     <Pressable onPress={onBack} > 
-                        <Image style={styles.icon} source={require('../../assets/appHeader/back.png')} />
+                        <Icon name='angle-left' type='font-awesome' style={styles.icon} color={activeColors.iconColor}/> 
                     </Pressable>
                 ) : showCross ? (
                     <Pressable onPress={onBack} style={styles.crossContainer}> 
-                        <Icon name='times' type='font-awesome'/> 
+                        <Icon name='times' type='font-awesome' color={activeColors.iconColor}/> 
                     </Pressable>
                 ) : <View style={styles.space}/> } 
             </View> 
             
             {/*Title:*/}
-            <Text style={styles.title}>{title}</Text>   
+            <Text style={[styles.title, {color: activeColors.text} ]}>{title}</Text>   
             
             {/*Right Icons go Here*/}
             <View style={styles.rightIcons}> 
 
                 { showChat ? (
                     <TouchableOpacity onPress={onChat}> 
-                        <Image source={require('../../assets/appHeader/chat.png')} style={[styles.icon, {height: 30, width: 30, marginLeft: 16,}]}  />
+                        <Icon name='comments' type='font-awesome' style={styles.icon} color={activeColors.iconColor}/>
                     </TouchableOpacity>
                 ) : null }
                 

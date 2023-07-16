@@ -17,6 +17,8 @@ import { BarChart } from "react-native-chart-kit";
 import { colors } from "../../../utils/colors";
 import { StatusBar } from "react-native";
 import { getCategoryIcon } from "../../../utils/getCategoryIcon";
+import themeColors from "../../../utils/themeColors";
+import { ThemeContext } from "../../../context/ThemeContext";
 
 
 const Home = ( { navigation } ) => {
@@ -425,9 +427,13 @@ const Home = ( { navigation } ) => {
         </>)
     }
 
+    const { theme } = useContext(ThemeContext);
+    let activeColors = themeColors[theme.mode];
+    const barColor = theme.mode == 'light' ? 'dark-content' : 'light-content';
+
     return (
         <SafeAreaView style={styles.mainContainer}>
-            <StatusBar hidden={false} backgroundColor={colors.backgroundGrey} barStyle={"dark-content"}/> 
+            <StatusBar hidden={false} backgroundColor={activeColors.appBackground} barStyle={barColor}/> 
             <AppHeader title="SaveLah" showBell onBell={onBell}/>
 
             {!weekSelected && 

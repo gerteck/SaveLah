@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { colors } from './src/utils/colors';
-import { Text, View, Image } from 'react-native';
+import { Text, Image } from 'react-native';
 
 //Global States
 import { useAuthContext } from "./src/hooks/useAuthContext";
@@ -41,6 +41,11 @@ import ProfileFollowInfo from './src/screens/app/ProfileFollowInfo';
 import ProfileOtherUser from './src/screens/app/ProfileOtherUser';
 import ForumPost from './src/screens/app/ForumPost';
 import { NotificationNumberContext } from './src/context/NotificationNumberContext';
+
+
+// Theme Color Related
+import themeColors from './src/utils/themeColors';
+import { ThemeContext } from './src/context/ThemeContext';
 
 
 const AuthStack = createStackNavigator();
@@ -86,6 +91,9 @@ const Tabs = () => {
   const TabScreenOptions = ({ route }) => ({
     headerShown: false, 
     tabBarShowLabel: false, //set to false for aesthetics after finalizing
+    // tabBarLabel: ({ focused }) => {
+    //   return <Text style={{fontSize: 8, fontWeight: '400', color: colors.black}}>{focused ? route.name : ""}</Text>
+    // },
     tabBarHideOnKeyboard: true,
     
     tabBarIcon: ({ focused, color, size}) => {
@@ -144,7 +152,6 @@ const Routes = () => {
       const userProfileRef = doc(db, "users", user.uid);
       const docSnap = await getDoc(userProfileRef);
       setUserProfile(docSnap.data());
-      //console.log("Call for Profile in Routes: ");
   }
 
   // Get User Profile to determine if Registered
@@ -152,7 +159,6 @@ const Routes = () => {
   useEffect(() => { user && getSetUserProfile() }, [userProfile?.registered]);
 
   const [notificationNumber, setNotificationNumber] = useContext(NotificationNumberContext); 
-  // Get notification count:
 
   const getNotificationCount = () => { 
     if (user?.uid) {
@@ -166,28 +172,29 @@ const Routes = () => {
             }
           })
           setNotificationNumber(notificationCount); 
-          console.log("notification refresh");
+          //console.log("notification refresh");
       })
     return unSubNotifications;
     }
     return () => () => {};
-} 
+  } 
 
-useEffect(() => {
-  console.log("Refresh notification listener")
+  useEffect(() => {
+    //console.log("Refresh notification listener")
     const unsub = getNotificationCount();
     return () => {
           unsub();
     };
-}, [userProfile?.uid]);
+  }, [userProfile?.uid]);
 
-
+  const { theme }  = useContext(ThemeContext);
+  let activeColors = themeColors[theme.mode];
   const MyTheme = {
     ...DefaultTheme,
     colors: {
         ...DefaultTheme.colors,
-        background: colors.backgroundGrey,  
-    
+        text: activeColors.text,
+        background: activeColors.appBackground,  
     },
   }
 
@@ -221,7 +228,7 @@ useEffect(() => {
             </AuthStack.Navigator>
         )}
     </NavigationContainer>
-);
+  );
 };
   
 export default React.memo(Routes);

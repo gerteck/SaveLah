@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
         flex: 1,
     },
 
-    whiteBox: {
+    containerBox: {
         backgroundColor: colors.white,
         paddingBottom: 16,
         marginTop: 8,

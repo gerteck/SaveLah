@@ -5,6 +5,7 @@ import { ThemeContext } from "../context/ThemeContext";
 
 const themeColors = {
     light: {
+
         background: colors.white,
         text: colors.black,
         specialTitle: colors.middleGrey,
@@ -15,9 +16,13 @@ const themeColors = {
         inputBorder: colors.grey,
         title: colors.blue,
 
+        appBackground: colors.backgroundGrey,
+        iconColor: colors.darkGrey,
+
     }, 
 
     dark: {
+
         background: colors.backgroundDarkGrey,
         text: colors.white,
         specialTitle: colors.darkTextBlue,
@@ -27,6 +32,11 @@ const themeColors = {
         inputPlaceholder: colors.grey,
         inputBorder: colors.inputMiddleGrey,
         title: colors.darkTextBlue,
+
+        appBackground: colors.backgroundDarkGrey,
+        iconColor: colors.white,
+        
+
         
     }
 }

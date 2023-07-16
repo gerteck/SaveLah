@@ -12,6 +12,10 @@ import { collection, getDocs, getFirestore, limit, query } from "firebase/firest
 import DropDownPicker from "react-native-dropdown-picker";
 import { getApp } from "firebase/app";
 
+import { Icon } from '@rneui/themed';
+import { ThemeContext } from "../../../context/ThemeContext";
+import themeColors from "../../../utils/themeColors";
+
 const app = getApp;
 const db = getFirestore(app);
 

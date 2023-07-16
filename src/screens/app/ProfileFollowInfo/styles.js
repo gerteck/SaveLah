@@ -14,8 +14,7 @@ export const styles = StyleSheet.create({
         borderRadius: 16,
     },  
 
-    whiteView: {
-        backgroundColor: colors.white,
+    secondaryContainer: {
         minHeight: 0.8* windowHeight,
         borderRadius: 10,
         padding: 11,
@@ -32,17 +31,12 @@ export const styles = StyleSheet.create({
     },
 
     selectContainer: {
+        borderRadius: 4,
         width:'50%',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: colors.backgroundGrey,
         margin: 3,
         width: '40%',
-    },
-
-    selected: {
-        backgroundColor: colors.white,
-        borderRadius: 5,
     },
 
     userContainer: {
@@ -75,7 +69,6 @@ export const styles = StyleSheet.create({
 
     divider: {
         height: 2,
-        backgroundColor: colors.backgroundGrey,
     },
 
 })

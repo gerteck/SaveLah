@@ -20,6 +20,9 @@ import Input from "../../../components/Input";
 import * as ImagePicker from 'expo-image-picker';
 import { useUploadProfileImage } from "../../../hooks/useUploadImage";
 
+import { Icon } from '@rneui/themed';
+import { ThemeContext } from "../../../context/ThemeContext";
+import themeColors from "../../../utils/themeColors";
 const app = getApp;
 const db = getFirestore(app);
 
@@ -57,9 +60,7 @@ const Settings = ( { navigation } ) => {
             setImageURI(result.assets[0].uri);
         }
     }
-    const deleteImage = () => {
-        setImageURI(null);
-    }
+
     const uploadImage = async () => {
         const uploadedURL = await useUploadProfileImage(user.uid, imageURI);
         setUserProfile(v => ({...v, ['url']: uploadedURL}));
@@ -204,15 +205,18 @@ const Settings = ( { navigation } ) => {
         Linking.openURL('https://www.youtube.com/watch?v=dQw4w9WgXcQ'); 
     }
 
+    const { theme } = useContext(ThemeContext);
+    let activeColors = themeColors[theme.mode];
+
     return (
         <SafeAreaView style={styles.mainContainer}>
             <AppHeader title="Settings" showBack onBack={onBack}/>
             <ScrollView showsVerticalScrollIndicator={false}>
                 {/* Public Information */}
                 <View style={styles.sectionHeader}> 
-                    <Text style={styles.sectionTitle}>Edit Public Information</Text>
+                    <Text style={[styles.sectionTitle, {color: activeColors.text}]}>Edit Public Information</Text>
                     <TouchableOpacity onPress={onEditPublicPress} style={styles.touchable}>
-                        <Image style={styles.icon} source={require('../../../assets/icons/edit.png')}/>
+                        <Icon name='edit' style={styles.icon} type='font-awesome' color={activeColors.iconColor}/> 
                     </TouchableOpacity>
                 </View>
 
@@ -234,31 +238,45 @@ const Settings = ( { navigation } ) => {
 
                 {/* Private Information: Email */}
                 <View style={styles.sectionHeader}> 
-                    <Text style={styles.sectionTitle}>Update Email Address</Text>
+                    <Text style={[styles.sectionTitle, {color: activeColors.text}]}>Update Email Address</Text>
                     <TouchableOpacity onPress={onEditEmailPress} style={styles.touchable}>
-                        <Image style={styles.icon} source={require('../../../assets/icons/edit.png')}/>
+                        <Icon name='edit' style={styles.icon} type='font-awesome' color={activeColors.iconColor}/> 
                     </TouchableOpacity>
                 </View>
                 <EditableBox label="Email" value={tempSettings.email} onChangeText={(v) => onChangeTempSettings('email', v)} editable={editingEmail} style={styles.EditableBox} />
                 
-                {/* <EditableBox label="Bio" value={tempProfile.bio} onChangeText={(v) => onChangeTempProfile('bio', v)} editable={editingEmail} style={styles.EditableBox} /> */}
-                {editingEmail ? ( <Input value={tempSettings.password} onChangeText={(v) => onChangeTempSettings('password', v)} label="Current Password" placeholder="*******" isPassword/> ) : null }
+                {editingEmail ? 
+                ( <Input value={tempSettings.password} onChangeText={(v) => onChangeTempSettings('password', v)} 
+                    labelStyle={{ color: activeColors.inputLabel }} 
+                    inputContainerStyle={{ backgroundColor: activeColors.inputBackground, borderColor: activeColors.inputBorder }} 
+                    inputStyle={{ color: activeColors.text }}
+                    label="Current Password" placeholder="*******" isPassword/> ) : null }
                 {editingEmail ? ( <Button style={styles.button} onPress={onSaveEmail} title="Update Email"/> ) : null }
 
                 {/* Private Information: Password */}
                 <View style={[styles.sectionHeader, {paddingBottom: 12}]}> 
-                    <Text style={styles.sectionTitle}>Update Password</Text>
+                    <Text style={[styles.sectionTitle, {color: activeColors.text}]}>Update Password</Text>
                     <TouchableOpacity onPress={onEditPasswordPress} style={styles.touchable}>
-                        <Image style={styles.icon} source={require('../../../assets/icons/edit.png')}/>
+                        <Icon name='edit' style={styles.icon} type='font-awesome' color={activeColors.iconColor}/> 
                     </TouchableOpacity>
                 </View>
-                {editingPassword ?   <Input value={tempSettings.newPassword} onChangeText={(v) => onChangeTempSettings('newPassword', v)} label="New Password" placeholder="*******" isPassword/> : null }
-                {editingPassword ? ( <Input value={tempSettings.password} onChangeText={(v) => onChangeTempSettings('password', v)} label="Current Password" placeholder="*******" isPassword/> ) : null }
+                {editingPassword ?   
+                    (<Input value={tempSettings.newPassword} onChangeText={(v) => onChangeTempSettings('newPassword', v)} 
+                    labelStyle={{ color: activeColors.inputLabel }} 
+                    inputContainerStyle={{ backgroundColor: activeColors.inputBackground, borderColor: activeColors.inputBorder }} 
+                    inputStyle={{ color: activeColors.text }}
+                    label="New Password" placeholder="*******" isPassword/>) : null }
+                {editingPassword ? 
+                    ( <Input value={tempSettings.password} onChangeText={(v) => onChangeTempSettings('password', v)} 
+                    labelStyle={{ color: activeColors.inputLabel }} 
+                    inputContainerStyle={{ backgroundColor: activeColors.inputBackground, borderColor: activeColors.inputBorder }} 
+                    inputStyle={{ color: activeColors.text }}
+                    label="Current Password" placeholder="*******" isPassword/> ) : null }
                 {editingPassword ? ( <Button style={styles.button} onPress={onSavePassword} title="Update Password"/> ) : null }
                 
 
                 {/* Help Centre */}
-                <Text style={styles.sectionTitle}>Help Center</Text>
+                <Text style={[styles.sectionTitle, {color: activeColors.text}]}>Help Center</Text>
                 <ListItem onPress={onFAQ} style={styles.item} title="FAQ"/>
                 <ListItem onPress={onContactUs} style={styles.item} title="Contact us"/>
                 <ListItem onPress={RickRoll} style={styles.item} title="Privacy & Terms"/>

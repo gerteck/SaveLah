@@ -16,13 +16,11 @@ export const styles = StyleSheet.create({
         shadowRadius: 3.84,
 
         elevation: 4,
-        backgroundColor: colors.white,
         marginVertical: 12,
         marginHorizontal: 4,
         borderRadius: 4,
     },
     title: {
-        color: colors.blue,
         fontSize: 18,
         fontWeight: 'bold',
     },

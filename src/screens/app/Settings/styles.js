@@ -59,7 +59,7 @@ export const styles = StyleSheet.create({
     icon: {
         width: 32,
         height: 32,
-        borderWidth: 1,
+        justifyContent:'center',
     },
 
     item: {

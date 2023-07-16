@@ -16,9 +16,13 @@ const themeColors = {
         inputBorder: colors.grey,
         title: colors.blue,
 
+        blue: colors.blue,
         appBackground: colors.backgroundGrey,
         iconColor: colors.dark,
         containerBackground: colors.white,
+        secondaryContainerBackground: colors.backgroundGrey,
+
+        editableBoxBackground: colors.white,
         divider: colors.backgroundGrey,
 
     }, 
@@ -34,10 +38,14 @@ const themeColors = {
         inputPlaceholder: colors.grey,
         inputBorder: colors.inputMiddleGrey,
         title: colors.darkTextBlue,
-
+        
+        blue: colors.darkTextBlue,
         appBackground: colors.backgroundDarkGrey,
         iconColor: colors.white,
         containerBackground: colors.darkGrey,
+        secondaryContainerBackground: colors.darkBackgroundGrey,
+
+        editableBoxBackground: colors.darkBackgroundGrey,
         divider: colors.backgroundDarkGrey
         
 

@@ -13,6 +13,7 @@ export const colors = {
     backgroundDarkGrey: '#121212',
     inputDarkGrey: 	'#282b30',
     inputMiddleGrey: '#36393e',
+    darkBackgroundGrey: '#67676b',
 
     backgroundBlue: '#8D9BB5',
 

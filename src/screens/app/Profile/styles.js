@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     },
 
     containerBox: {
-        backgroundColor: colors.white,
+        // backgroundColor: colors.white,
         paddingBottom: 16,
         marginTop: 8,
         borderRadius: 8,
@@ -54,7 +54,6 @@ export const styles = StyleSheet.create({
 
     name: {
         fontSize: 20,
-        color: colors.black,
         fontWeight: 500,
         marginBottom: 8,
     },
@@ -108,7 +107,6 @@ export const styles = StyleSheet.create({
         width: '90%',
         height: 35,
         paddingVertical: 8,
-        backgroundColor: colors.grey,
         justifyContent: 'center',
         alignSelf: 'center',
         alignItems: 'center',

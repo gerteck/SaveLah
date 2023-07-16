@@ -11,18 +11,14 @@ export const styles = StyleSheet.create({
         borderWidth: showBorder,
     },
     inputContainer: {
-        marginTop: 16,
-
+        marginTop: 8,
         width: '98%',
         alignSelf: 'center',
-
         backgroundColor: colors.white,
         borderRadius: 8,
-
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-
         borderWidth: showBorder,
     },
     searchIcon: {

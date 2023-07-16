@@ -17,7 +17,9 @@ const themeColors = {
         title: colors.blue,
 
         appBackground: colors.backgroundGrey,
-        iconColor: colors.darkGrey,
+        iconColor: colors.dark,
+        containerBackground: colors.white,
+        divider: colors.backgroundGrey,
 
     }, 
 
@@ -35,6 +37,8 @@ const themeColors = {
 
         appBackground: colors.backgroundDarkGrey,
         iconColor: colors.white,
+        containerBackground: colors.darkGrey,
+        divider: colors.backgroundDarkGrey
         
 
         

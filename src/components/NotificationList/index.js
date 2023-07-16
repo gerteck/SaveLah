@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Text, View, FlatList, Image, Pressable, TouchableOpacity } from "react-native";
 import { styles } from './styles';
 import { colors } from "../../utils/colors";
 
 import { getApp } from "firebase/app";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
+import { ThemeContext } from "../../context/ThemeContext";
+import themeColors from "../../utils/themeColors";
 
 const app = getApp;
 const db = getFirestore(app);
@@ -12,8 +14,8 @@ const db = getFirestore(app);
 // 3 things that produces notifications:
 /*
 - New follower (done)
-- New comment on a post
-- New upvote on a post
+- New comment on a post (done)
+- New upvote on a post (possible)
 */ 
 
 
@@ -22,6 +24,9 @@ const NotificationList = ({notifications, navigation}) => {
     // Approach is to put all the profiles needed into a common hashmap
     // e.g. for followers, comments where profile picture url is needed.
     // Unfortunately bc of the variable capture it still does it duplicated times...
+
+    const { theme } = useContext(ThemeContext); 
+    let activeColors = themeColors[theme.mode];
 
     const [profilesHashMap, setProfilesHashmap] = useState({}); 
     
@@ -98,12 +103,12 @@ const NotificationList = ({notifications, navigation}) => {
                         <View style={styles.iconBubble}>
                             <Image style={styles.displayPicture} source={{ uri: profile?.url}} />
                         </View>
-                        <Text style={styles.notificationText}>{message}</Text>
+                        <Text style={[styles.notificationText, {color: activeColors.text}]}>{message}</Text>
                     </View> 
-                    <Text style={styles.timestamp}>{notificationTimestamp}</Text>
+                    <Text style={[styles.timestamp, {color: activeColors.text}]}>{notificationTimestamp}</Text>
                 </Pressable>
     
-                <View style={styles.divider} />
+                <View style={[styles.divider, {backgroundColor: activeColors.divider}]} />
                 </>    
 
             )

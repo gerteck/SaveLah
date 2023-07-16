@@ -17,7 +17,6 @@ const db = getFirestore(app);
 
 const ForumHome = ({ navigation, routes }) => {
     
-
     //navigations
     const onChat = () => {
         navigation.navigate('ForumAllChats');
@@ -106,26 +105,6 @@ const ForumHome = ({ navigation, routes }) => {
             setallPosts(sortedAllPosts);
         }
     }
-
-    const sortPostsbyData = (data) => {
-        // console.log("All Posts", allPosts);
-        const sortByDate = (a, b) => {
-            return b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime();
-        }
-        const sortByVotes = (a, b) => {
-            return b.votes - a.votes;
-        }
-        if (sort == 'recent') {
-            const sortedAllPosts = [... allPosts].sort(sortByDate);
-            setallPosts(sortedAllPosts);
-        }
-        if (sort == 'mostUpvote') {
-            const sortedAllPosts = [... allPosts].sort(sortByVotes);
-            setallPosts(sortedAllPosts);
-        }
-    }
-
-
 
     return (
         <SafeAreaView style={styles.mainContainer}>

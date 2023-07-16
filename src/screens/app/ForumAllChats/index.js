@@ -8,6 +8,8 @@ import Box from "../../../components/Box";
 import { collection, getFirestore, getDocs, query, where, onSnapshot, getDoc, doc } from "firebase/firestore";  
 import { getApp } from "firebase/app";
 import { UserProfileContext } from "../../../context/UserProfileContext";
+import { ThemeContext } from "../../../context/ThemeContext";
+import themeColors from "../../../utils/themeColors";
 
 const app = getApp; 
 const db = getFirestore(app);
@@ -92,10 +94,12 @@ const ForumAllChats = ({ navigation }) => {
         )
     };
 
+    const { theme } = useContext(ThemeContext);
+    let activeColors = themeColors[theme.mode];
 
     return (
         <SafeAreaView style={styles.mainContainer}>
-            <AppHeader style={styles.appHeader} title="All Chats" showBack onBack={onBack}/>
+            <AppHeader style={[styles.appHeader, {backgroundColor: activeColors.containerBackground}]} title="All Chats" showBack onBack={onBack}/>
             
             <View style={styles.whiteView}>
 

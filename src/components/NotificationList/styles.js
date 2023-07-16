@@ -49,7 +49,6 @@ export const styles = StyleSheet.create({
 
     divider: {
         height: 2,
-        backgroundColor: colors.backgroundGrey,
     },
 
 

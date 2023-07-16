@@ -127,7 +127,7 @@ const Profile = ( {navigation} ) => {
 
                 </View>
 
-                <Text style={styles.postTitle}> Top posts </Text>
+                <Text style={[styles.postTitle, {color: activeColors.text}]}> Top posts </Text>
                 { userPosts && <PostList posts={userPosts} navigation={navigation} mapList />}
                 { userPosts.length == 0 && 
                     <View style={styles.emptyPostBox}>

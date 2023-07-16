@@ -189,8 +189,11 @@ const Routes = () => {
 
   const { theme }  = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
+  const isDark = theme.mode == 'dark';
+  
   const MyTheme = {
     ...DefaultTheme,
+    dark: isDark,
     colors: {
         ...DefaultTheme.colors,
         text: activeColors.text,

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { TextInput, Text, View, TouchableOpacity, Alert, Keyboard } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles }  from './styles';
@@ -12,6 +12,10 @@ import Button from "../../../components/Button";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { getCategoryIcon } from "../../../utils/getCategoryIcon";
 import { categoryGroups } from "../../../utils/categoryGroups";
+
+import { ThemeContext } from "../../../context/ThemeContext";
+import themeColors from "../../../utils/themeColors";
+import { ToastAndroid } from "react-native";
 
 const app = getApp;
 const db = getFirestore(app);
@@ -71,7 +75,7 @@ const EditTransaction = ( { navigation, route } ) => {
     const onSave = async () => {
         try {
             if (!transactionDetails?.category || !transactionDetails?.amount) {
-                Alert.alert('Please fill up amount and category!');
+                ToastAndroid.showWithGravity('Please fill up the amount and category!', ToastAndroid.LONG, ToastAndroid.BOTTOM);
                 return;
             } 
 
@@ -128,23 +132,33 @@ const EditTransaction = ( { navigation, route } ) => {
         showMode('date');
     };
 
+    const { theme } = useContext(ThemeContext); 
+    let activeColors = themeColors[theme.mode];
+    let themeMode = theme.mode == "dark" ? "DARK" : "LIGHT";
     
     return (
         <SafeAreaView style={styles.mainContainer}>
-            <AppHeader style={styles.appHeader} title={"Edit Transaction"} showCross onBack={onBack} showSave onSave={onSave} showDelete onDelete={onDelete}/>
+            <AppHeader style={[styles.appHeader, {backgroundColor: activeColors.containerBackground}]} 
+                title={"Edit Transaction"} showCross onBack={onBack} showSave onSave={onSave} showDelete onDelete={onDelete}/>
             <TouchableOpacity onPress={Keyboard.dismiss} activeOpacity={1} style={styles.container}>
             
-                <Text style={styles.label}>Price</Text>
-                <View style={styles.inputContainer}>
-                    <TextInput placeholder="$0.00" style={styles.input}  keyboardType='numeric' value={transactionDetails.amount.toString()} 
-                        onChangeText={(v) => onChange('amount', v)} />
-                </View>
+                <Text style={[styles.label, {color: activeColors.blue}]}>Price</Text>
+                <TextInput placeholder="$0.00" 
+                    style={[styles.input, {color: activeColors.text,
+                        backgroundColor: activeColors.inputBackground, 
+                        borderColor: activeColors.inputBorder}]} 
+                    placeholderTextColor={activeColors.secondaryText}
+                    keyboardType='numeric' value={transactionDetails.amount.toString()} 
+                    onChangeText={(v) => onChange('amount', v)} />
 
-                <Text style={styles.label}>Category</Text>
+                <Text style={[styles.label, {color: activeColors.blue}]}>Category</Text>
                 
-                <DropDownPicker open={open} value={transactionDetails.category} items={items} listMode="MODAL" modalProps={{ animationType: 'slide'}} searchable={true}
-                    modalContentContainerStyle={styles.modalContainer}
-                    placeholder="Select a Category" style={styles.pickerContainer}
+                <DropDownPicker open={open} value={transactionDetails.category} items={items} listMode="MODAL" 
+                    modalProps={{ animationType: 'slide'}} searchable={true}
+                    modalContentContainerStyle={[styles.modalContainer, {backgroundColor: activeColors.containerBackground}]}
+                    style={[styles.pickerContainer, {backgroundColor: activeColors.containerBackground}]}
+                    theme={themeMode}
+                    placeholder="Select a Category"
                     setOpen={setOpen} onSelectItem={(v) => {
                         if (v.value == 'Add') {
                             navigation.navigate('AddCategory')
@@ -157,11 +171,14 @@ const EditTransaction = ( { navigation, route } ) => {
                     }} setItems={setItems} zIndex={1000}
                 />
 
-                <Text style={styles.label}>Transaction Description</Text>
-                <View style={styles.inputContainer}>
-                    <TextInput placeholder="Meal at YIH..." style={styles.input} value={transactionDetails.description} 
-                        onChangeText={(v) => onChange('description', v)} />
-                </View>
+                <Text style={[styles.label, {color: activeColors.blue}]}>Transaction Description</Text>
+                <TextInput placeholder="Meal at YIH..." 
+                    style={[styles.input, {color: activeColors.text,
+                        backgroundColor: activeColors.inputBackground, 
+                        borderColor: activeColors.inputBorder}]} 
+                    placeholderTextColor={activeColors.secondaryText} 
+                    value={transactionDetails.description} 
+                    onChangeText={(v) => onChange('description', v)} />
 
                 <View>
                     <Button style={styles.DatePickerButton} onPress={showDatepicker} title={`Date: ${date.toLocaleDateString()}`} />

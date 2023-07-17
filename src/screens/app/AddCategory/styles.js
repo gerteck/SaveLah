@@ -11,7 +11,6 @@ export const styles = StyleSheet.create({
     label: {
         fontSize: 14,
         fontWeight: '500',
-        color: colors.blue,
         paddingVertical: 16,
         zIndex: -1
     },
@@ -19,18 +18,19 @@ export const styles = StyleSheet.create({
     inputContainer: {
         backgroundColor: colors.white,
         borderColor: colors.backgroundBlue,
-        borderWidth: 1,
-        borderRadius: 14,
+
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        zIndex: -1,
+
     },
 
     input: {
         paddingHorizontal: 16,
         paddingVertical: 8,
-        flex: 1,
+        borderWidth: 1,
+        borderRadius: 14,
+        zIndex: -1,
     },
 
     AddTransactionButton: {
@@ -71,6 +71,7 @@ export const styles = StyleSheet.create({
     },
 
     dummyIcon: {
+        marginTop: 48,
         height: 50,
         width: 50,
         alignItems: "center",
@@ -102,7 +103,7 @@ export const styles = StyleSheet.create({
     modalHeader: {
         flexDirection: "row",
         alignItems: "center",
-        marginTop: 4,
+        paddingTop: 4,
     },
 
     titleContainer: {

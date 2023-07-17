@@ -1,4 +1,4 @@
-import React, { createRef, useState } from "react";
+import React, { createRef, useContext, useState } from "react";
 import { Text, View, Alert, TouchableOpacity, TextInput, Keyboard, Image, Modal, Pressable } from "react-native";
 
 import { styles }  from './styles';
@@ -18,7 +18,11 @@ import { FlatList, ScrollView, TouchableWithoutFeedback } from "react-native-ges
 import { getCategoryIcon } from "../../../utils/getCategoryIcon";
 import { defaultCategories } from "../../../utils/defaultCategories";
 import { categoryGroupsAddCategory } from "../../../utils/categoryGroupsAddCategory";
+
 import { Icon } from '@rneui/themed';
+import { ThemeContext } from "../../../context/ThemeContext";
+import themeColors from "../../../utils/themeColors";
+
 
 const AddCategory = ( {navigation} ) => {
     const app = getApp;
@@ -26,6 +30,10 @@ const AddCategory = ( {navigation} ) => {
 
     const { user } = useAuthContext();
     const [values, setValues] = useState({index: 129});
+
+    const { theme } = useContext(ThemeContext); 
+    let activeColors = themeColors[theme.mode];
+    let themeMode = theme.mode == "dark" ? "DARK" : "LIGHT"; 
 
     // Drop Down Picker:
     const [open, setOpen] = useState(false);
@@ -104,43 +112,55 @@ const AddCategory = ( {navigation} ) => {
     return (
         <SafeAreaView style={styles.mainContainer}>
             <TouchableOpacity onPress={Keyboard.dismiss} activeOpacity={1}>
-                <AppHeader title="Add Category" showCross onBack={goBack} />
+                <AppHeader style={{backgroundColor: activeColors.containerBackground, borderRadius: 8,}} 
+                    title="Add Category" showCross onBack={goBack} />
 
-                <Modal visible={modalVisible} animationType="slide" transparent={false} onRequestClose={() => {
-                    setModalVisible(!modalVisible);}}>
+                <Modal visible={modalVisible} 
+                    animationType="slide" 
+                    transparent={false} 
+                    onRequestClose={() => {
+                        setModalVisible(!modalVisible);}}>
 
-                    <View style={styles.modalHeader}>
+                    <View style={[styles.modalHeader, {backgroundColor: activeColors.appBackground}]}>
                         <Pressable onPress={() => setModalVisible(!modalVisible)} style={styles.crossContainer}> 
-                            <Icon name='times' type='font-awesome' size={40}/> 
+                            <Icon name='times' type='font-awesome' size={40} color={activeColors.iconColor}/> 
                         </Pressable>
                         <View style={styles.titleContainer}>
-                            <Text style={styles.modalTitle}>Pick an icon</Text>
+                            <Text style={[styles.modalTitle, {color: activeColors.text}]}>Pick an icon</Text>
                         </View>
                     </View>
 
-                    <View style={styles.flatlistContainer}>
+                    <View style={[styles.flatlistContainer, {backgroundColor: activeColors.containerBackground}]}>
                         <FlatList data={iconIndexArray} renderItem={renderIcon} keyExtractor={item => item.index} numColumns={5} 
                             contentContainerStyle={styles.iconList}/>
                     </View>
                 </Modal>
 
                 <View style={styles.iconNameContainer}>
+
                     <Pressable onPress={() => setModalVisible(true)} style={styles.dummyIcon}>
                         {getCategoryIcon(values.index, iconStyle)}
                     </Pressable>
+
                     <View style={styles.nameContainer}>
-                        <Text style={styles.label}>Category name</Text>
-                        <View style={styles.inputContainer}>
-                            <TextInput placeholder="Category Name" style={styles.input} value={values.name} 
-                                onChangeText={(v) => onChangeValue('name', v)} />
-                        </View>
+                        <Text style={[styles.label, {color: activeColors.blue}]}>Category Name & Icon</Text>
+                        <TextInput placeholder="Type Category Name..." 
+                            style={[styles.input, {color: activeColors.text,
+                                backgroundColor: activeColors.inputBackground, 
+                                borderColor: activeColors.inputBorder}]} 
+                            placeholderTextColor={activeColors.secondaryText}
+                            value={values.name} 
+                            onChangeText={(v) => onChangeValue('name', v)} />
                     </View>
                 </View>
 
-                <Text style={styles.label}>Category group</Text>               
-                <DropDownPicker open={open} value={values.parent} items={items} listMode="MODAL" modalProps={{ animationType: 'slide'}} searchable={false}
-                    modalContentContainerStyle={styles.modalContainer}
-                    placeholder="Select a Category Group" style={styles.pickerContainer}
+                <Text style={[styles.label, {color: activeColors.blue}]}>Category Parent Group</Text>               
+                <DropDownPicker open={open} value={values.parent} items={items} listMode="MODAL" modalProps={{ animationType: 'slide'}} 
+                    searchable={false}
+                    modalContentContainerStyle={[styles.modalContainer, {backgroundColor: activeColors.containerBackground}]}
+                    style={[styles.pickerContainer, {backgroundColor: activeColors.containerBackground}]}
+                    theme={themeMode}
+                    placeholder="Select a Parent Group"
                     setOpen={setOpen} onSelectItem={(v) => {
                             onChangeValue('parent', v.value)                           
                     }} setItems={setItems} zIndex={1000}

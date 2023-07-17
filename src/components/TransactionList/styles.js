@@ -3,7 +3,6 @@ import { colors } from '../../utils/colors';
 
 export const styles = StyleSheet.create({
     overviewContainer: {
-        backgroundColor: colors.white,
         paddingHorizontal: 16,
         paddingVertical: 8,
         marginBottom: 8,
@@ -24,7 +23,6 @@ export const styles = StyleSheet.create({
     },
 
     inflowText: {
-        color: colors.textBlue,
         fontSize: 14,
         fontWeight: '400',
         marginVertical: 1,
@@ -69,7 +67,7 @@ export const styles = StyleSheet.create({
 
 
     // Transactions:
-    transactionWhiteBox:{
+    transactionViewBox:{
         backgroundColor: colors.white,
         borderRadius: 10,
         marginVertical: 4,
@@ -148,10 +146,6 @@ export const styles = StyleSheet.create({
     descriptionTextContainer: {
         flexDirection: "row", 
         width: '98%', 
-    },
-
-    descriptionText: {
-        color: colors.darkGrey,
     },
 
     icon: {

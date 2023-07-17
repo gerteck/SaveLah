@@ -8,6 +8,8 @@ import { UserProfileContext } from "../../../context/UserProfileContext";
 import { getApp } from "firebase/app";
 import { collection, doc, getFirestore, onSnapshot, setDoc } from "firebase/firestore";
 import NotificationList from "../../../components/NotificationList";
+import { ThemeContext } from "../../../context/ThemeContext";
+import themeColors from "../../../utils/themeColors";
 
 // 3 things that produces notifications:
 /*
@@ -65,21 +67,23 @@ const Notifications = ( { navigation } ) => {
         navigation.goBack();
     };
 
-    // console.log(allNotifications);
+    const { theme } = useContext(ThemeContext);
+    let activeColors = themeColors[theme.mode];
 
     return (
         <SafeAreaView style={styles.mainContainer}>
-            <AppHeader style={styles.appHeader} navigation={navigation} title="Notifications" showCross onBack={onBack}/>
+            <AppHeader style={[styles.appHeader, {backgroundColor: activeColors.containerBackground}]} 
+                navigation={navigation} title="Notifications" showCross onBack={onBack}/>
             
             { allNotifications.length <= 0 ?
             
-                <View style={styles.emptyPostBox}>
-                    <Text style={styles.emoticon}>(－_－) zzZ </Text>
-                    <Text style={styles.noPostText}>Nothing to see here...</Text>
-                    <Text style={styles.emoticon}>…ᘛ⁐̤ᕐᐷ</Text>
+                <View style={[styles.emptyPostBox, , {backgroundColor: activeColors.containerBackground}]}>
+                    <Text style={[styles.emoticon, {color: activeColors.text}]}>(－_－) zzZ </Text>
+                    <Text style={[styles.noPostText, {color: activeColors.text}]}>Nothing to see here...</Text>
+                    <Text style={[styles.emoticon, {color: activeColors.text}]}>…ᘛ⁐̤ᕐᐷ</Text>
                 </View>
             : 
-                <View style={styles.notificationListContainer }>
+                <View style={[styles.notificationListContainer, , {backgroundColor: activeColors.containerBackground}] }>
                     <NotificationList notifications={allNotifications} navigation={navigation}/>                    
                 </View>
 

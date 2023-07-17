@@ -11,6 +11,11 @@ import { getFirestore, getDoc, setDoc, doc, collection, where, orderBy, limit, q
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import { UserProfileContext } from "../../../context/UserProfileContext";
 import PostList from "../../../components/PostList";
+
+import { Icon } from '@rneui/themed';
+import { ThemeContext } from "../../../context/ThemeContext";
+import themeColors from "../../../utils/themeColors";
+
 const app = getApp;
 const db = getFirestore(app);
 
@@ -131,6 +136,9 @@ const ProfileOtherUser = ( {navigation, route} ) => {
 
     };
 
+    const { theme } = useContext(ThemeContext); 
+    let activeColors = themeColors[theme.mode];
+
     return (
         <SafeAreaView style={styles.mainContainer}>
             <AppHeader showBack onBack={onBack} title="Profile"/>
@@ -138,15 +146,15 @@ const ProfileOtherUser = ( {navigation, route} ) => {
             <ScrollView showsVerticalScrollIndicator={false}> 
 
                 {/* Profile, Bio, following and setting Buttons */}
-                <View style={styles.whiteBox}>
+                <View style={[styles.containerBox, {backgroundColor: activeColors.containerBackground}]}>
                     <View style={styles.profile}>
                         <View style={styles.displayPictureWrapper}>
                             <Image style={styles.displayPicture} source={{uri: otherProfile.url}}/>
                         </View>
                         <View style={styles.nameBioContainer}>
-                            <Text style={styles.name}>{otherProfile.username}</Text>
-                            <View style={styles.bioContainer}>
-                                <Text style={styles.bio}>{otherProfile.bio}</Text>
+                            <Text style={[styles.name, {color: activeColors.text}]}>{otherProfile.username}</Text>
+                            <View style={[styles.bioContainer, {backgroundColor: activeColors.secondaryContainerBackground}]}>
+                                <Text style={[styles.bio, {color: activeColors.text}]}>{otherProfile.bio}</Text>
                             </View>
                         </View>
 
@@ -154,27 +162,27 @@ const ProfileOtherUser = ( {navigation, route} ) => {
 
                     <View style={styles.followContainer}>
                         <TouchableOpacity style={styles.followerContainer} onPress={() => onFollowerInfo(true)} >
-                            <Text style={styles.followText}>{otherProfile?.followers.length} Followers </Text>
+                            <Text style={[styles.followText, {color: activeColors.text}]}>{otherProfile?.followers.length} Followers </Text>
                         </TouchableOpacity>
-                        <View style={styles.line}/>
+                        <View style={[styles.line, {backgroundColor: activeColors.text}]}/>
                         <TouchableOpacity style={styles.followerContainer} onPress={() => onFollowerInfo(false)}>
-                            <Text style={styles.followText}>{otherProfile?.following.length} Following </Text>
+                            <Text style={[styles.followText, {color: activeColors.text}]}>{otherProfile?.following.length} Following </Text>
                         </TouchableOpacity>
                     </View>
 
                     {/* Follow/UnFollow and Message */}
                     <View style={styles.settingsContainer}>
-                        <TouchableOpacity onPress={onFollow} style={styles.settingsBox}>
+                        <TouchableOpacity onPress={onFollow} style={[styles.settingsBox, {backgroundColor: activeColors.secondaryContainerBackground}]}>
                             <View style={styles.opacityBox}>
-                                { !followingUser &&  <Text style={styles.followText}>Follow</Text>}
-                                { followingUser &&  <Text style={styles.followText}> Unfollow</Text>}
+                                { !followingUser &&  <Text style={[styles.followText, {color: activeColors.text}]}>Follow</Text>}
+                                { followingUser &&  <Text style={[styles.followText, {color: activeColors.text}]}> Unfollow</Text>}
                             </View>
                         </TouchableOpacity>
                         <View style={{width: '5%'}}/>
-                        <TouchableOpacity onPress={onMessageUser} style={styles.settingsBox}>
+                        <TouchableOpacity onPress={onMessageUser} style={[styles.settingsBox, {backgroundColor: activeColors.secondaryContainerBackground}]}>
                             <View style={styles.opacityBox}>
-                                <Text style={styles.followText}>Message</Text>
-                                <Image style={styles.icon} source={require('../../../assets/icons/chat.png')}/>
+                                <Text style={[styles.followText, {color: activeColors.text}]}>Message</Text>
+                                <Icon name='comment-dots' size={20} style={{marginLeft: 16}} type='font-awesome-5' color={activeColors.iconColor}/> 
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -184,7 +192,7 @@ const ProfileOtherUser = ( {navigation, route} ) => {
                 <Text style={styles.postTitle}> Top posts </Text>
                 {otherUserPost && <PostList posts={otherUserPost} navigation={navigation} mapList />} 
                 { otherUserPost.length == 0 && 
-                    <View style={styles.emptyPostBox}>
+                    <View style={[styles.emptyPostBox, {backgroundColor: activeColors.containerBackground}]}>
                         <Text style={styles.emoticon}>ಥ‿ಥ</Text>
                         <Text style={styles.noPostText}>Looks like {otherProfile.username} has no posts</Text>
                     </View>

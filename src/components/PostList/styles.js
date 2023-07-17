@@ -8,7 +8,6 @@ export const styles = StyleSheet.create({
     },
 
     mainContainer: {
-        backgroundColor: colors.white, 
         marginBottom: 8,
         paddingHorizontal: 14,
         paddingVertical: 8,
@@ -52,7 +51,6 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: 500,
         marginVertical: 6,
-        color: colors.black,
     },
 
     postImage: {

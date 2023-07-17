@@ -23,7 +23,6 @@ export const styles = StyleSheet.create({
     label: {
         fontSize: 14,
         fontWeight: '500',
-        color: colors.blue,
         paddingVertical: 16,
     },
     
@@ -38,6 +37,8 @@ export const styles = StyleSheet.create({
     },
 
     input: {
+        borderWidth: 1,
+        borderRadius: 14,
         paddingHorizontal: 16,
         paddingVertical: 8,
         flex: 1,
@@ -45,7 +46,7 @@ export const styles = StyleSheet.create({
 
     bodyInputContainer: {
         minHeight: 200,
-        alignItems: 'flex-start',
+        textAlignVertical: 'top',
     },
 
     pickerContainer: {
@@ -67,7 +68,6 @@ export const styles = StyleSheet.create({
 
     addImageText: {
         textAlign: 'center',
-        color: colors.blue,
         fontSize: 16,
         fontWeight: 'bold',
     },
@@ -113,9 +113,7 @@ export const styles = StyleSheet.create({
     },
 
     deleteIcon: {
-        marginLeft: 8,
-        height: 24,
-        width: 24,
+        marginLeft: 12,
     },
 
     post: {

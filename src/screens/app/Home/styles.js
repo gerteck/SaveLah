@@ -41,7 +41,6 @@ export const styles = StyleSheet.create({
     },
 
     report: {
-        color: '#65663D',
         alignSelf: 'flex-end',
         fontSize: 14,
         fontWeight: 'bold',
@@ -51,7 +50,6 @@ export const styles = StyleSheet.create({
         height: 30,
         alignSelf: 'center',
         borderRadius: 5,
-        backgroundColor: colors.backgroundGrey,
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
@@ -60,7 +58,6 @@ export const styles = StyleSheet.create({
         width:'50%',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: colors.backgroundGrey,
         margin: 3,
         width: '40%',
     },
@@ -97,7 +94,7 @@ export const styles = StyleSheet.create({
         fontWeight: '400',
     },
 
-    categoryContaineer: {
+    categoryContainer: {
         justifyContent: "space-between", 
         flexDirection: "row", 
         flex: 1, 

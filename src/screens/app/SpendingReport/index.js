@@ -16,6 +16,10 @@ import Report from "../../../components/Report";
 import { useCollection } from "../../../hooks/useCollection";
 import SpendingReportTabs from "../../../components/SpendingReportTabs";
 
+import { ThemeContext } from "../../../context/ThemeContext";
+import themeColors from "../../../utils/themeColors";
+
+
 const Tab = createMaterialTopTabNavigator();
 
 const SpendingReport = ({ navigation }) => {
@@ -31,9 +35,15 @@ const SpendingReport = ({ navigation }) => {
         navigation.goBack();
     }
 
+    const { theme } = useContext(ThemeContext); 
+    let activeColors = themeColors[theme.mode]; 
+
     return (
         <SafeAreaView style={styles.mainContainer}>
-            <AppHeader showBack onBack={onBack} title="Spending Report" style={styles.appHeader}/> 
+            <AppHeader style={[styles.appHeader, {backgroundColor: activeColors.containerBackground}]} 
+                showBack onBack={onBack} title="Spending Report"
+            /> 
+
             {documents && <SpendingReportTabs documents={documents} />}
         </SafeAreaView>
     )

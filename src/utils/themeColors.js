@@ -5,6 +5,7 @@ import { ThemeContext } from "../context/ThemeContext";
 
 const themeColors = {
     light: {
+
         background: colors.white,
         text: colors.black,
         specialTitle: colors.middleGrey,
@@ -15,9 +16,23 @@ const themeColors = {
         inputBorder: colors.grey,
         title: colors.blue,
 
+        blue: colors.blue,
+        red: colors.red,
+        green: colors.green,
+        appBackground: colors.backgroundGrey,
+        iconColor: colors.darkGrey,
+        containerBackground: colors.white,
+        secondaryContainerBackground: colors.backgroundGrey,
+
+        editableBoxBackground: colors.white,
+        divider: colors.grey,
+        secondaryText: colors.darkGrey,
+        voteContainer: colors.middleGrey,
+
     }, 
 
     dark: {
+
         background: colors.backgroundDarkGrey,
         text: colors.white,
         specialTitle: colors.darkTextBlue,
@@ -27,6 +42,21 @@ const themeColors = {
         inputPlaceholder: colors.grey,
         inputBorder: colors.inputMiddleGrey,
         title: colors.darkTextBlue,
+        
+        blue: colors.darkTextBlue,
+        red: colors.red,
+        green: colors.green,
+        appBackground: colors.backgroundDarkGrey,
+        iconColor: colors.white,
+        containerBackground: colors.darkGrey,
+        secondaryContainerBackground: colors.darkBackgroundGrey,
+
+        editableBoxBackground: colors.darkBackgroundGrey,
+        divider: colors.backgroundDarkGrey, 
+        secondaryText: colors.offWhite,
+        voteContainer: colors.white,
+        
+
         
     }
 }

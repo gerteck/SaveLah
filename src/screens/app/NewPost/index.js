@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { ScrollView, TextInput, Text, View, Image, TouchableOpacity, Alert } from "react-native";
+import React, { useContext, useState } from "react";
+import { ScrollView, TextInput, Text, View, Image, TouchableOpacity} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles }  from './styles';
 import AppHeader from "../../../components/AppHeader";
@@ -10,6 +10,11 @@ import { useFirestore } from "../../../hooks/useFirestore";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import { doc, getFirestore, setDoc } from "@firebase/firestore";
 import { getApp } from "@firebase/app";
+
+import { Icon } from '@rneui/themed';
+import { ThemeContext } from "../../../context/ThemeContext";
+import themeColors from "../../../utils/themeColors";
+import { ToastAndroid } from "react-native";
 
 const app = getApp;
 const db = getFirestore(app);
@@ -64,7 +69,7 @@ const NewPost = ( { navigation } ) => {
     const onSend = async () => {
         try {
             if (!post?.title || !post?.body || !post?.category) {
-                Alert.alert('Please fill up all fields!');
+                ToastAndroid.showWithGravity('Please fill up all fields!', ToastAndroid.LONG, ToastAndroid.BOTTOM);
                 return;
             } 
 
@@ -98,28 +103,42 @@ const NewPost = ( { navigation } ) => {
         }
     }
 
-
+    const { theme } = useContext(ThemeContext); 
+    let activeColors = themeColors[theme.mode]; 
+    let themeMode = theme.mode == "dark" ? "DARK" : "LIGHT";
 
     return (
         <SafeAreaView style={styles.mainContainer}>
-            <AppHeader style={styles.appHeader} title={"Create Post"} showCross onBack={onBack}/>
+            <AppHeader style={[styles.appHeader, {backgroundColor: activeColors.containerBackground}]}
+                title={"Create Post"} showCross onBack={onBack}/>
             <ScrollView style={styles.container}> 
 
-            <Text style={styles.label}>Title</Text>
-            <View style={styles.inputContainer}>
-                <TextInput placeholder="Title" style={styles.input} value={post.title} multiline
-                    onChangeText={(v) => onChange('title', v)} />
-            </View>
+            <Text style={[styles.label, {color: activeColors.blue}]}>Title</Text>
+            <TextInput placeholder="Title" 
+                style={[styles.input, {color: activeColors.text,
+                    backgroundColor: activeColors.inputBackground, 
+                    borderColor: activeColors.inputBorder}]} 
+                placeholderTextColor={activeColors.text}
+                value={post.title} multiline
+                onChangeText={(v) => onChange('title', v)} 
+            />
 
-            <Text style={styles.label}>Body Text</Text>
-            <View style={[styles.inputContainer, styles.bodyInputContainer]}>
-                <TextInput placeholder="Type away..." style={styles.input} value={post.body} multiline
-                    onChangeText={(v) => onChange('body', v)} />
-            </View>
+            <Text style={[styles.label, {color: activeColors.blue}]}>Body Text</Text>
+            <TextInput placeholder="Type away..." 
+                style={[styles.input, styles.bodyInputContainer, 
+                    {color: activeColors.text,
+                    backgroundColor: activeColors.inputBackground, 
+                    borderColor: activeColors.inputBorder}]} 
+                placeholderTextColor={activeColors.text}
+                value={post.body} multiline
+                onChangeText={(v) => onChange('body', v)} 
+            />
 
-            <Text style={styles.label}>Category</Text>
+            <Text style={[styles.label, {color: activeColors.blue}]}>Category</Text>
             <DropDownPicker open={open} value={post.category} items={items} listMode="SCROLLVIEW"
-                placeholder="Select a Category" style={styles.pickerContainer}
+                style={[styles.pickerContainer, {backgroundColor: activeColors.containerBackground}]}
+                theme={themeMode}
+                placeholder="Select a Category"
                 setOpen={setOpen} onSelectItem={(v) => onChange('category', v.value)} setItems={setItems}
             />
 
@@ -134,11 +153,16 @@ const NewPost = ( { navigation } ) => {
                 {imageURI ? 
                     <TouchableOpacity activeOpacity={0.6} onPress={deleteImage} style={styles.deleteImage} >
                         <Text style={styles.deleteImageText}>Delete Image</Text>
-                        <Image style={styles.deleteIcon} source={require('../../../assets/icons/delete.png')}/>
+                        <Icon name='trash-alt' style={styles.deleteIcon} size={20} type='font-awesome-5' color={activeColors.iconColor}/>
+
                     </TouchableOpacity>
-                :   <TouchableOpacity activeOpacity={0.6} onPress={pickImage} style={styles.addImage}>
-                        <Text style={styles.addImageText}>Add Image</Text>
-                        <Image style={styles.deleteIcon} source={require('../../../assets/icons/addImage.png')}/>
+                :   <TouchableOpacity activeOpacity={0.6} onPress={pickImage} 
+                        style={[styles.addImage, {backgroundColor: activeColors.containerBackground}]}>
+
+                        <Text style={[styles.addImageText, {color: activeColors.blue}]}>Add Image</Text>
+                        <Icon name='image' style={styles.deleteIcon} size={22} type='font-awesome' color={activeColors.iconColor}/>
+                        {/* <Image  source={require('../../../assets/icons/addImage.png')}/> */}
+
                     </TouchableOpacity> 
                 }
 

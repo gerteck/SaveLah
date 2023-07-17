@@ -11,7 +11,6 @@ export const styles = StyleSheet.create({
     },
 
     appHeader: {
-        backgroundColor: colors.white,
         borderRadius: 16,
     },  
 

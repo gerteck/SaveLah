@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { ScrollView, TextInput, Text, View, Image, TouchableOpacity, Alert } from "react-native";
+import { ScrollView, TextInput, Text, View, Image, TouchableOpacity} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles }  from './styles';
 import AppHeader from "../../../components/AppHeader";
@@ -13,6 +13,12 @@ import { doc, getFirestore, setDoc, getDoc } from "firebase/firestore";
 import { getApp } from "firebase/app";
 import { UserProfileContext } from "../../../context/UserProfileContext";
 import { defaultCategories } from "../../../utils/defaultCategories";
+
+import { Icon } from '@rneui/themed';
+import { ThemeContext } from "../../../context/ThemeContext";
+import themeColors from "../../../utils/themeColors";
+import { ToastAndroid } from "react-native";
+
 const app = getApp;
 const db = getFirestore(app);
 let customImageUploaded = false;
@@ -80,12 +86,12 @@ const RegisterProfile = ( { navigation } ) => {
     const onRegister = async () => {
         try {
             if (!profile?.username) {
-                Alert.alert('Please choose a username!');
+                ToastAndroid.showWithGravity('Please choose a username!', ToastAndroid.LONG, ToastAndroid.BOTTOM);
                 return;
             }
 
             if (!imageURI) {
-                Alert.alert('Please choose a profile picture!');
+                ToastAndroid.showWithGravity('Please choose a profile picture!', ToastAndroid.LONG, ToastAndroid.BOTTOM);
                 return;
             }
             if (customImageUploaded) {
@@ -115,28 +121,39 @@ const RegisterProfile = ( { navigation } ) => {
         
     }
 
+    const { theme } = useContext(ThemeContext); 
+    let activeColors = themeColors[theme.mode]; 
 
     return (
         <SafeAreaView style={styles.mainContainer}>
-            <AppHeader style={styles.appHeader} title={"Register Profile"} />
+            <AppHeader style={[styles.appHeader, {backgroundColor: activeColors.containerBackground}]} title={"Register Profile"} />
             <ScrollView contentContainerStyle={styles.scrollContainer}> 
 
-                <Text style={styles.label}>Username</Text>
-                <View style={styles.inputContainer}>
-                    <TextInput placeholder="choose a username!" style={styles.input} value={profile.username} 
-                        onChangeText={(v) => onChange('username', v)} />
-                </View>
+                <Text style={[styles.label, {color: activeColors.blue}]}>Username</Text>
+                <TextInput placeholder="choose a username!" 
+                    style={[styles.input, {color: activeColors.text,
+                        backgroundColor: activeColors.inputBackground, 
+                        borderColor: activeColors.inputBorder}]} 
+                    placeholderTextColor={activeColors.secondaryText}
+                    value={profile.username} 
+                    onChangeText={(v) => onChange('username', v)} />
 
-                <Text style={styles.label}>Add a bio!</Text>
-                <View style={[styles.inputContainer, styles.bodyInputContainer]}>
-                    <TextInput placeholder="I love Savelah!" style={styles.input} value={profile.bio} multiline
-                        onChangeText={(v) => onChange('bio', v)} />
-                </View>
+                <Text style={[styles.label, {color: activeColors.blue}]}>Add a bio!</Text>
+                <TextInput placeholder="I love Savelah!" 
+                    style={[styles.input, styles.bodyInputContainer, 
+                        {color: activeColors.text,
+                        backgroundColor: activeColors.inputBackground, 
+                        borderColor: activeColors.inputBorder}]} 
+                    placeholderTextColor={activeColors.secondaryText}
+                    value={profile.bio} multiline
+                    onChangeText={(v) => onChange('bio', v)} />
 
+                
+                <Text style={[styles.label, {paddingBottom: 0, color: activeColors.blue}]}>Profile Picture</Text>
                 {/* Default Picture Row */}
                 { !imageURI ?
                     <>
-                        <Separator style={styles.separator} title="Choose a starter profile picture" />
+                        <Separator style={styles.separator} textStyle={{color: activeColors.blue}} title="Choose a starter profile picture" />
                         <View style={styles.starterPicturesRow}>
                             <TouchableOpacity style={styles.displayTouchable} onPress={() => setDefaultPicture(0)}>
                                 <Image style={styles.displayPictures} source={{uri: defaultProfilePictures[0]}}/>
@@ -163,14 +180,15 @@ const RegisterProfile = ( { navigation } ) => {
                     <View>
                         <TouchableOpacity activeOpacity={0.6} onPress={deleteImage} style={styles.deleteImage} >
                             <Text style={styles.deleteImageText}>Delete Image</Text>
-                            <Image style={styles.deleteIcon} source={require('../../../assets/icons/delete.png')}/>
+                            <Icon name='trash-alt' style={styles.deleteIcon} size={20} type='font-awesome-5' color={activeColors.iconColor}/>
                         </TouchableOpacity>
                     </View>
                 :   <View> 
-                        <Text style={styles.label}>Or Add your own Profile Picture</Text>
-                        <TouchableOpacity activeOpacity={0.6} onPress={pickImage} style={styles.addImage}>
-                            <Text style={styles.addImageText}>Add Image</Text>
-                            <Image style={styles.deleteIcon} source={require('../../../assets/icons/addImage.png')}/>
+                        <Text style={[styles.label, {color: activeColors.blue}]}>Or Add your own Profile Picture</Text>
+                        <TouchableOpacity activeOpacity={0.6} onPress={pickImage} 
+                            style={[styles.addImage, {backgroundColor: activeColors.containerBackground}]}>
+                            <Text style={[styles.addImageText, {color: activeColors.text}]}>Add Image</Text> 
+                            <Icon name='image' style={styles.deleteIcon} size={22} type='font-awesome' color={activeColors.iconColor}/>
                         </TouchableOpacity> 
                     </View>
                 }

@@ -9,8 +9,8 @@ export const styles = StyleSheet.create({
         flex: 1,
     },
 
-    whiteBox: {
-        backgroundColor: colors.white,
+    containerBox: {
+        // backgroundColor: colors.white,
         paddingBottom: 16,
         marginTop: 8,
         borderRadius: 8,
@@ -54,7 +54,6 @@ export const styles = StyleSheet.create({
 
     name: {
         fontSize: 20,
-        color: colors.black,
         fontWeight: 500,
         marginBottom: 8,
     },
@@ -108,7 +107,6 @@ export const styles = StyleSheet.create({
         width: '90%',
         height: 35,
         paddingVertical: 8,
-        backgroundColor: colors.grey,
         justifyContent: 'center',
         alignSelf: 'center',
         alignItems: 'center',
@@ -136,7 +134,6 @@ export const styles = StyleSheet.create({
     },
 
     emptyPostBox: {
-        backgroundColor: colors.white,
         minHeight: 300,
         borderRadius: 10,
         padding: 11,

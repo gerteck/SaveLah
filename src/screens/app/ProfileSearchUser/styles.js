@@ -10,12 +10,10 @@ export const styles = StyleSheet.create({
     },
     appHeader: {
         marginTop: 8,
-        backgroundColor: colors.white,
         borderRadius: 16,
     },
 
-    whiteView: {
-        backgroundColor: colors.white,
+    mainView: {
         minHeight: 0.8* windowHeight,
         borderRadius: 10,
         padding: 11,
@@ -51,8 +49,6 @@ export const styles = StyleSheet.create({
     }, 
 
     searchIcon: {
-        width: 16,
-        height: 16,
         marginHorizontal: 16,
     }, 
 
@@ -80,13 +76,11 @@ export const styles = StyleSheet.create({
     name: {
         alignSelf: 'center',
         fontSize: 20,
-        color: colors.blue,
         fontWeight: 500,
     },
 
     divider: {
         height: 2,
-        backgroundColor: colors.backgroundGrey,
     },
 
 

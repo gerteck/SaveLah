@@ -14,18 +14,15 @@ export const styles = StyleSheet.create({
         shadowRadius: 3.84,
 
         elevation: 5,
-        backgroundColor: colors.white,
         marginVertical: 10,
         marginHorizontal: 4,
         borderRadius: 4,
     },
     label: {
-        color: colors.black,
         fontSize: 14,
         marginBottom: 6,
     },
     input: {
-        color: colors.blue,
         fontSize: 14,
         fontWeight: '500',
         padding: 1,

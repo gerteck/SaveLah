@@ -11,27 +11,25 @@ export const styles = StyleSheet.create({
         borderWidth: showBorder,
     },
     inputContainer: {
-        marginTop: 16,
-
+        marginTop: 8,
         width: '98%',
         alignSelf: 'center',
-
         backgroundColor: colors.white,
         borderRadius: 8,
-
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
 
+        borderColor: colors.orange,
         borderWidth: showBorder,
     },
-    searchIcon: {
-        width: 16,
-        height: 16,
-        marginHorizontal: 16,
 
+    searchIcon: {
+        marginHorizontal: 16,
+        alignSelf: 'center',
         borderWidth: showBorder,
     }, 
+
     input: {
         paddingHorizontal: 16,
         paddingVertical: 2,
@@ -63,7 +61,6 @@ export const styles = StyleSheet.create({
 
     pickerContainer: {
         borderColor: colors.backgroundGrey,
-        backgroundColor: colors.backgroundGrey,
         borderWidth: 0,
     },
 
@@ -71,7 +68,6 @@ export const styles = StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 25,
-        backgroundColor: colors.grey,
         alignItems: 'center',
         justifyContent: 'center',
 
@@ -83,8 +79,9 @@ export const styles = StyleSheet.create({
     },
 
     postIcon: {
-        height: 28,
-        width: 28,
+        height: 36,
+        width: 36,
+        borderWidth: 1,
     },
 
 })

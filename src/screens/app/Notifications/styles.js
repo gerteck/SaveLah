@@ -18,7 +18,6 @@ export const styles = StyleSheet.create({
     },  
 
     emptyPostBox: {
-        backgroundColor: colors.white,
         minHeight: height*0.85,
         borderRadius: 10,
         padding: 11,
@@ -42,7 +41,6 @@ export const styles = StyleSheet.create({
     },
 
     notificationListContainer: {
-        backgroundColor: colors.white,
         minHeight: height*0.85,
         borderRadius: 10,
         padding: 11,

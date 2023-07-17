@@ -11,6 +11,10 @@ import { useIsFocused } from "@react-navigation/native";
 import { getApp } from "firebase/app";
 import { UserProfileContext } from "../../../context/UserProfileContext";
 
+import { Icon } from '@rneui/themed';
+import { ThemeContext } from "../../../context/ThemeContext";
+import themeColors from "../../../utils/themeColors";
+
 const app = getApp;
 const db = getFirestore(app);
 
@@ -51,15 +55,8 @@ const ProfileSearchUser = ( { navigation } ) => {
         }
     }, [keyword]);
 
-    const SearchBar = () => {
-        return (
-            <View style={styles.inputContainer}>
-                <TextInput placeholder="Search users..." style={styles.input}
-                    value={keyword} onChangeText={setKeyword} />
-                <Image style={styles.searchIcon} source={require('../../../assets/icons/search.png')}/>
-            </View>
-        )
-    }
+    const { theme } = useContext(ThemeContext); 
+    let activeColors = themeColors[theme.mode];
     
     const onBack = () => {
         navigation.goBack();
@@ -75,25 +72,33 @@ const ProfileSearchUser = ( { navigation } ) => {
         return (
             <>
             <Pressable style={styles.userContainer} onPress={onUserPress}>
-                <View style={styles.iconBubble}>
+                <View style={[styles.iconBubble]}>
                     <Image style={styles.icon} source={{ uri: item.url }} />
                 </View>
-                <Text style={styles.name}>{item.username}</Text>
+                <Text style={[styles.name, {color: activeColors.blue}]}>{item.username}</Text>
                 <View style={{flex: 1}} />
             </Pressable>
 
-            <View style={styles.divider} />
+            <View style={[styles.divider, {backgroundColor: activeColors.divider}]} />
             </>
         );
     };
 
-
     return (
         <SafeAreaView style={styles.mainContainer}>
-            <AppHeader showBack onBack={onBack} style={styles.appHeader} title={"Search Users"}/>
+            <AppHeader showBack onBack={onBack} style={[styles.appHeader, {backgroundColor: activeColors.containerBackground}]} 
+                title={"Search Users"}/>
             
-            <View style={styles.whiteView}>
-                {SearchBar()}
+            <View style={[styles.mainView,  {backgroundColor: activeColors.containerBackground}]}>
+
+                {/* Search Bar: */}
+                <View style={[styles.inputContainer, {backgroundColor: activeColors.containerBackground}]}>
+                    <TextInput placeholder="Search users..." 
+                        style={[styles.input, { backgroundColor: activeColors.containerBackground, color: activeColors.text}]}
+                        placeholderTextColor={activeColors.text}
+                        value={keyword} onChangeText={setKeyword} />
+                    <Icon name='search' size={18} style={styles.searchIcon} type='font-awesome' color={activeColors.iconColor}/> 
+                </View>
 
                 <FlatList 
                 showsVerticalScrollIndicator={false}

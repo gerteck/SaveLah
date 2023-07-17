@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {Text, View, TouchableOpacity, Image, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles }  from './styles';
@@ -7,10 +7,11 @@ import { FlatList } from "react-native-gesture-handler";
 
 import { getApp } from "firebase/app";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { ThemeContext } from "../../../context/ThemeContext";
+import themeColors from "../../../utils/themeColors";
 const app = getApp;
 const db = getFirestore(app);
 
-// Needs to be dynamic
 const ProfileFollowInfo = ( { navigation, route } ) => {
 
     const param = route.params;
@@ -56,7 +57,6 @@ const ProfileFollowInfo = ( { navigation, route } ) => {
         return followUserArray;
     }
 
-
     const renderUser = ( { item }) => {
         // Pass the profile item into the route.params.item
         const onUserPress = () => {
@@ -69,29 +69,36 @@ const ProfileFollowInfo = ( { navigation, route } ) => {
                 <View style={styles.iconBubble}>
                     <Image style={styles.icon} source={{ uri: item.url }} />
                 </View>
-                <Text style={styles.name}>{item.username}</Text>
+                <Text style={[styles.name, {color: activeColors.title}]}>{item.username}</Text>
                 <View style={{flex: 1}} />
             </Pressable>
 
-            <View style={styles.divider} />
+            <View style={[styles.divider, {backgroundColor: activeColors.divider}]} />
             </>
         );
     };
 
-    
+    const { theme } = useContext(ThemeContext); 
+    let activeColors = themeColors[theme.mode];
+
     return (
         <SafeAreaView style={styles.mainContainer}>
-            <AppHeader onBack={onBack} showCross style={styles.appHeader} title={user?.username}/>
+            <AppHeader onBack={onBack} showCross style={[styles.appHeader, {backgroundColor: activeColors.containerBackground}]} 
+                title={user?.username}/>
 
-            <View style={styles.whiteView}>
+            <View style={[styles.secondaryContainer, {backgroundColor: activeColors.containerBackground}]}>
                 
                 {/* Toggle Bar */}
-                <View style={styles.toggleBar}>
-                <TouchableOpacity disabled={followerSelected} onPress={() => setFollowerSelected(true)} 
-                    style={[styles.selectContainer, followerSelected ? styles.selected : {}]}><Text>Followers</Text></TouchableOpacity>
+                <View style={[styles.toggleBar, {backgroundColor: activeColors.secondaryContainerBackground}]}>
+                    <TouchableOpacity disabled={followerSelected} onPress={() => setFollowerSelected(true)} 
+                        style={[styles.selectContainer, followerSelected ? {backgroundColor: activeColors.containerBackground} : {}]}>
+                            <Text style={{color: activeColors.text}}>Followers</Text>
+                    </TouchableOpacity>
 
-                <TouchableOpacity disabled={!followerSelected} onPress={() => setFollowerSelected(false)} 
-                    style={[styles.selectContainer, !followerSelected ? styles.selected : {}]}><Text>Following</Text></TouchableOpacity>
+                    <TouchableOpacity disabled={!followerSelected} onPress={() => setFollowerSelected(false)} 
+                        style={[styles.selectContainer, !followerSelected ?  {backgroundColor: activeColors.containerBackground} : {}]}>
+                            <Text style={{color: activeColors.text}}>Following</Text>
+                    </TouchableOpacity>
                 </View>
 
                 {/* Follow List */} 

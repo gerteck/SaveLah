@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { colors } from './src/utils/colors';
-import { Text, View, Image } from 'react-native';
+import { Text, Image } from 'react-native';
 
 //Global States
 import { useAuthContext } from "./src/hooks/useAuthContext";
@@ -43,6 +43,11 @@ import ForumPost from './src/screens/app/ForumPost';
 import { NotificationNumberContext } from './src/context/NotificationNumberContext';
 
 
+// Theme Color Related
+import themeColors from './src/utils/themeColors';
+import { ThemeContext } from './src/context/ThemeContext';
+import { Icon } from '@rneui/themed';
+
 const AuthStack = createStackNavigator();
 const HomeStack = createStackNavigator();
 const ForumStack = createStackNavigator();
@@ -82,38 +87,61 @@ const ProfileSettings = () => {
   )
 }
 
+// Bottom Tab Navigator
 const Tabs = () => {
+  const { theme }  = useContext(ThemeContext);
+  let activeColors = themeColors[theme.mode];
+
   const TabScreenOptions = ({ route }) => ({
     headerShown: false, 
-    tabBarShowLabel: false, //set to false for aesthetics after finalizing
-    tabBarHideOnKeyboard: true,
-    
-    tabBarIcon: ({ focused, color, size}) => {
-      let icon;
+    tabBarShowLabel: true, //set to false for aesthetics after finalizing
+    tabBarHideOnKeyboard: true,   
+    tabBarStyle: {
+      backgroundColor: activeColors.inputBackground,
+    },
 
-        if (route.name === 'Home') {
-          icon = focused //if it is active
-            ? require('./src/assets/tabBar/home_active.png')
-            : require('./src/assets/tabBar/home.png')
-        } else if (route.name === 'TransactionHistory') {
-          icon = focused //if it is active
-            ? require('./src/assets/tabBar/wallet_active.png')
-            : require('./src/assets/tabBar/wallet.png')
-        } else if (route.name === 'Forum') {
-          icon = focused //if it is active
-            ? require('./src/assets/tabBar/forum_active.png')
-            : require('./src/assets/tabBar/forum.png')
-        } else if (route.name === 'ProfileSettings') {
-          icon = focused //if it is active
-            ? require('./src/assets/tabBar/profile_active.png')
-            : require('./src/assets/tabBar/profile.png')
-        } else if (route.name === 'AddTransaction') {
-          return <Image source={require('./src/assets/tabBar/addButton.png')}
-                        style={{width: 32, height: 32,}} />;
-        }
-        // You can return any component that you like here!
-        return <Image style={{width: 24, height:24}} source={icon}/>
+    // To add Text Label of Tab 
+    tabBarLabel: ({ focused }) => {
+      let label;
+      if (route.name === 'Home') {
+        label = "Home";
+      } else if (route.name === 'TransactionHistory') {
+        label = "Transaction History";
+      } else if (route.name === 'Forum') {
+        label = "Community";
+      } else if (route.name === 'ProfileSettings') {
+        label = "Profile";
+      } else if (route.name === 'AddTransaction') {
+        label = "Add Transaction";
+        // return <Text></Text>
       }
+      return <Text style={{fontSize: 8, fontWeight: '400', color: activeColors.text}}>{focused ? label : ""}</Text>
+    },
+
+    tabBarLabelStyle: {zIndex: -1},
+    tabBarIcon: ({ focused, color, size}) => {
+      let iconColor = focused
+      ? activeColors.blue
+      : activeColors.iconColor
+      let name;
+
+      if (route.name === 'Home') {
+        name = "home";
+         //if it is active
+      } else if (route.name === 'TransactionHistory') {
+        name = "wallet";
+      } else if (route.name === 'Forum') {
+        name = "users";
+      } else if (route.name === 'ProfileSettings') {
+        name = "user-alt";
+      } else if (route.name === 'AddTransaction') {
+        name = "plus-circle";
+        iconColor = activeColors.green;
+        return <Icon name="plus-circle" size={34} type='font-awesome-5' color={activeColors.green}/> 
+      }
+      return <Icon name={name} style={{}} size={24} type='font-awesome-5' color={iconColor}/>    
+    }
+    
   });
 
   return (
@@ -121,7 +149,7 @@ const Tabs = () => {
       <Tab.Screen name="Home" component={HomeTabs} listeners={({ navigation }) => ({
         tabPress: (e) => {
           e.preventDefault();
-          navigation.navigate('HomeMain');
+          navigation.navigate('Home', {screen: 'HomeMain'});
         }
       })}/>
       <Tab.Screen name="TransactionHistory" component={TransactionHistory}/>
@@ -144,7 +172,6 @@ const Routes = () => {
       const userProfileRef = doc(db, "users", user.uid);
       const docSnap = await getDoc(userProfileRef);
       setUserProfile(docSnap.data());
-      //console.log("Call for Profile in Routes: ");
   }
 
   // Get User Profile to determine if Registered
@@ -152,7 +179,6 @@ const Routes = () => {
   useEffect(() => { user && getSetUserProfile() }, [userProfile?.registered]);
 
   const [notificationNumber, setNotificationNumber] = useContext(NotificationNumberContext); 
-  // Get notification count:
 
   const getNotificationCount = () => { 
     if (user?.uid) {
@@ -166,28 +192,32 @@ const Routes = () => {
             }
           })
           setNotificationNumber(notificationCount); 
-          console.log("notification refresh");
+          //console.log("notification refresh");
       })
     return unSubNotifications;
     }
     return () => () => {};
-} 
+  } 
 
-useEffect(() => {
-  console.log("Refresh notification listener")
+  useEffect(() => {
+    //console.log("Refresh notification listener")
     const unsub = getNotificationCount();
     return () => {
           unsub();
     };
-}, [userProfile?.uid]);
+  }, [userProfile?.uid]);
 
-
+  const { theme }  = useContext(ThemeContext);
+  let activeColors = themeColors[theme.mode];
+  const isDark = theme.mode == 'dark';
+  
   const MyTheme = {
     ...DefaultTheme,
+    dark: isDark,
     colors: {
         ...DefaultTheme.colors,
-        background: colors.backgroundGrey,  
-    
+        text: activeColors.text,
+        background: activeColors.appBackground,  
     },
   }
 
@@ -221,7 +251,7 @@ useEffect(() => {
             </AuthStack.Navigator>
         )}
     </NavigationContainer>
-);
+  );
 };
   
 export default React.memo(Routes);

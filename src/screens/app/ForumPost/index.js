@@ -12,6 +12,10 @@ import { useFirestore } from "../../../hooks/useFirestore";
 import { UserProfileContext } from "../../../context/UserProfileContext";
 import Comment from "../../../components/Comment";
 
+import { Icon } from '@rneui/themed';
+import { ThemeContext } from "../../../context/ThemeContext";
+import themeColors from "../../../utils/themeColors";
+
 const app = getApp;
 const db = getFirestore(app);
 
@@ -268,22 +272,28 @@ const ForumPost = ( {navigation, route} ) => {
     const posterURL = posterProfile?.url;
     const headerTitle = posterProfile.username ? "Posted by " + posterProfile.username : "Posted by Anonymous";
 
+    const { theme } = useContext(ThemeContext); 
+    let activeColors = themeColors[theme.mode];
+    let themeMode = theme.mode == "dark" ? "DARK" : "LIGHT";
+
     return (
         <SafeAreaView style={styles.safeContainer}>
         <ScrollView>
-            <AppHeader showBack onBack={onBack} style={styles.appHeader} userPictureURL={posterURL} title={headerTitle} onUserPicture={onUserPress}/>
-            <View style={styles.whiteView}>
+            <AppHeader showBack onBack={onBack} style={[styles.appHeader, {backgroundColor: activeColors.containerBackground}]}  
+                userPictureURL={posterURL} title={headerTitle} onUserPicture={onUserPress}/>
+            <View style={[styles.mainView, {backgroundColor: activeColors.containerBackground}]}>
                 
-                <View style={styles.postContainer}>
+                <View style={[styles.postContainer, {backgroundColor: activeColors.secondaryContainerBackground}]}>
+                    
                     {/* Category and Date Time */}
                     <View style={styles.header}>
                         <View style={styles.categoryContainer}>
                             <Text style={styles.categoryText}>{postDetails.category}</Text>
                         </View>
-                        <Text style={styles.time}>{postDetails.createdAt.toDate().toDateString()}</Text>
+                        <Text style={[styles.time, {color: activeColors.text}]}>{postDetails.createdAt.toDate().toDateString()}</Text>
                     </View>
 
-                    <Text style={styles.title} >{postDetails.title}</Text>
+                    <Text style={[styles.title, {color: activeColors.text}]} >{postDetails.title}</Text>
 
                     {postDetails?.url && 
                         <View style={styles.imageContainer}>
@@ -291,24 +301,32 @@ const ForumPost = ( {navigation, route} ) => {
                         </View>
                     }
 
-                    <Text style={styles.body} >{postDetails.body}</Text>
+                    <Text style={[styles.body, {color: activeColors.secondaryText}]} >{postDetails.body}</Text>
 
                     {/* Votes and Comments */}
                     <View style={styles.footer}>
                         <View style={styles.voteContainer}>
                             <TouchableOpacity disabled={postVote == UPVOTE} onPress={() => onVote(UPVOTE)}>
-                                <Image source={postVote == UPVOTE ? require('../../../assets/appIcons/upFilled.png') 
-                                    : require('../../../assets/appIcons/up.png')} style={styles.arrowIcon}/>
+                                { postVote == UPVOTE
+                                    ? <Icon name='chevron-up' size={20} type='font-awesome' color={activeColors.blue}/>
+                                    : <Icon name='chevron-up' size={20} type='font-awesome' color={activeColors.voteContainer}/>
+                                }
+
                             </TouchableOpacity>
-                            <Text style={styles.votes}>{postDetails.votes}</Text>
+                            <Text style={[styles.votes, {color: activeColors.text}]}>{postDetails.votes}</Text>
                             <TouchableOpacity disabled={postVote == DOWNVOTE}  onPress={() => onVote(DOWNVOTE)}>
-                                <Image source={postVote == DOWNVOTE ? require('../../../assets/appIcons/downFilled.png') 
-                                    : require('../../../assets/appIcons/down.png')} style={styles.arrowIcon}/>
+                                { postVote == DOWNVOTE
+                                    ? <Icon name='chevron-down' size={20} type='font-awesome' color={activeColors.red}/>
+                                    : <Icon name='chevron-down' size={20} type='font-awesome' color={activeColors.voteContainer}/>
+                                }
+                                {/* <Image source={postVote == DOWNVOTE ? require('../../../assets/appIcons/downFilled.png') 
+                                    : require('../../../assets/appIcons/down.png')} style={styles.arrowIcon}/> */}
                             </TouchableOpacity>
                         </View>
                         {userIsAuthor ? 
                             <TouchableOpacity onPress={onDeletePost}>
-                                <Image source={require('../../../assets/icons/redDelete.png')} style={styles.deleteImage}/>
+                                <Icon name='trash-alt' size={18} type='font-awesome-5' color={activeColors.red}/>
+                                {/* <Image source={require('../../../assets/icons/redDelete.png')} style={styles.deleteImage}/> */}
                             </TouchableOpacity>
                         : 
                             <View></View>
@@ -323,19 +341,24 @@ const ForumPost = ( {navigation, route} ) => {
 
                     <View style={styles.dropDownPickerContainer}>
                     <DropDownPicker open={open} value={sort} items={items} listMode="SCROLLVIEW"
-                            style={styles.pickerContainer}
+                            style={[styles.pickerContainer, {backgroundColor: activeColors.containerBackground}]}
+                            theme={themeMode}
                             setOpen={setOpen} onSelectItem={(v) => setSort(v.value)} setItems={setItems}/>
                     </View>
                 </View> 
 
                 { addingComment && <>
-                    <View style={styles.inputContainer}>
-                        <TextInput placeholder="What are your thoughts?" style={styles.input} value={commentText} multiline
-                            onChangeText={(v) => setCommentText(v)} />
-                    </View>
+                    <TextInput placeholder="What are your thoughts?" 
+                        style={[styles.input, {color: activeColors.text,
+                            backgroundColor: activeColors.inputBackground, 
+                            borderColor: activeColors.inputBorder}]} 
+                        value={commentText} multiline
+                        placeholderTextColor={activeColors.text}
+                        onChangeText={(v) => setCommentText(v)} />
                     <View style={{paddingVertical: 12}}>
-                        <TouchableOpacity activeOpacity={0.6} onPress={postComment} style={styles.postComment}>
-                                <Text style={styles.postCommentText}>Post Comment</Text>
+                        <TouchableOpacity activeOpacity={0.6} onPress={postComment} 
+                            style={[styles.postComment, {backgroundColor: activeColors.secondaryContainerBackground} ]}>
+                                <Text style={[styles.postCommentText, {color: activeColors.text}]}>Post Comment</Text>
                         </TouchableOpacity> 
                     </View>
                 </>}

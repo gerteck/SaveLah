@@ -17,6 +17,7 @@ import { BarChart } from "react-native-chart-kit";
 import { colors } from "../../../utils/colors";
 import { StatusBar } from "react-native";
 import { getCategoryIcon } from "../../../utils/getCategoryIcon";
+
 import themeColors from "../../../utils/themeColors";
 import { ThemeContext } from "../../../context/ThemeContext";
 
@@ -382,10 +383,17 @@ const Home = ( { navigation } ) => {
     const getHeader = () => {
         return (<>
             <Box content={Welcome}/>
-            <TouchableOpacity onPress={onReport}><Text style={styles.report}>See full report</Text></TouchableOpacity>
+            <TouchableOpacity onPress={onReport}><Text style={[styles.report, {color: activeColors.green}]}>See full report</Text></TouchableOpacity>
             <Box content={PieChart}/>
-            { !weekSelected && <Text style={styles.transactionTitle}>Top Categories for the month</Text> }
-            { weekSelected && <Text style={styles.transactionTitle}>Top Categories for the week</Text> }
+            { !weekSelected && <Text style={[styles.transactionTitle, {color: activeColors.text}]}>Top Categories for the month</Text> }
+            { weekSelected && <Text style={[styles.transactionTitle, {color: activeColors.text}]}>Top Categories for the week</Text> }
+        </>)
+    }
+
+    const getRecentHeader = () => {
+        return (<>
+            <TouchableOpacity onPress={onTransactions}><Text style={styles.report}>See all transactions</Text></TouchableOpacity>
+            <Text style={[styles.transactionTitle, {color: activeColors.text}]}>Recent Transactions</Text>
         </>)
     }
 
@@ -411,13 +419,6 @@ const Home = ( { navigation } ) => {
                 </View>
             </View>
         </Pressable>)
-    }
-
-    const getRecentHeader = () => {
-        return (<>
-            <TouchableOpacity onPress={onTransactions}><Text style={styles.report}>See all transactions</Text></TouchableOpacity>
-            <Text style={styles.transactionTitle}>Recent Transactions</Text>
-        </>)
     }
 
     const getFooter = () => {

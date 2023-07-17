@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Text, View, FlatList, TouchableOpacity, Pressable } from "react-native";
 import { styles } from './styles';
 import { colors } from "../../utils/colors";
@@ -6,17 +6,25 @@ import Box from "../Box";
 import { groupBy } from "underscore";
 import { getCategoryIcon } from "../../utils/getCategoryIcon";
 
+import { ThemeContext } from "../../context/ThemeContext";
+import themeColors from "../../utils/themeColors";
+
 const TransactionList = ({transactions, navigation}) => {
 
     const totalInflow = 0;
     const totalOutflow = transactions.reduce((total, currentDoc) => total + currentDoc.amount, 0);
     const totalNet = totalInflow - totalOutflow;
 
+    const { theme } = useContext(ThemeContext); 
+    let activeColors = themeColors[theme.mode]; 
+
     // For no transactions
-    const noTransactionsYet = (<> 
-        <Text>No transactions yet, </Text>
-        <Text>click + to add transactions</Text>
-    </>);
+    const noTransactionsYet = (
+        <View style={{backgroundColor: activeColors.inputBackground}}> 
+            <Text style={{color: activeColors.text}}>No transactions yet, </Text>
+            <Text style={{color: activeColors.text}}>click + to add transactions</Text>
+        </View>
+    );
 
     const onSpendingReport = () => {
         navigation.navigate('Home', {screen: 'SpendingReport'});
@@ -25,7 +33,7 @@ const TransactionList = ({transactions, navigation}) => {
     const numOfTransactions = transactions.length;
 
     if (numOfTransactions <= 0) {
-        return <Box content={noTransactionsYet} />
+        return <Box style={{backgroundColor: activeColors.inputBackground}} content={noTransactionsYet} />
     }
 
     // sort by date
@@ -65,53 +73,50 @@ const TransactionList = ({transactions, navigation}) => {
         const total = item.reduce((acc, cur) => acc + cur.amount, 0).toLocaleString('en-US');
 
         return (
-                <View style={styles.transactionWhiteBox}>
+            <View style={[styles.transactionViewBox, {backgroundColor: activeColors.inputBackground}]}>
 
-                    {/* Date Time and price */}
-                    <View style={styles.header}>
-                        <View style={styles.dateContainer}>
-                            <Text style={styles.date}>{transDate.date}</Text>
-                            <View style={styles.dateDetailsContainer}>
-                                <Text style={styles.day}>{transDate.day}</Text>
-                                <Text style={styles.month}>{transDate.month} {transDate.year}</Text>
-                            </View>
+                {/* Date Time and price */}
+                <View style={styles.header}>
+                    <View style={styles.dateContainer}>
+                        <Text style={[styles.date, {color: activeColors.text}]}>{transDate.date}</Text>
+                        <View style={styles.dateDetailsContainer}>
+                            <Text style={[styles.day, {color: activeColors.text}]}>{transDate.day}</Text>
+                            <Text style={[styles.month, {color: activeColors.text}]}>{transDate.month} {transDate.year}</Text>
                         </View>
-                        <Text style={styles.transAmount}>-${total}</Text>
-                    </View>       
+                    </View>
+                    <Text style={[styles.transAmount, {color: activeColors.text}]}>-${total}</Text>
+                </View>       
 
-                    <View style={styles.divider} />
-                    
-                    {item.map((doc) => {
-                       
-                        const goEditTransaction = () => {
-                            navigation.navigate('EditTransaction', {transaction: doc});
-                        }
-
-                        return (
-                        
-                        <Pressable style={styles.individualTransactionContainer} key={doc.id} onPress={goEditTransaction}>
-                            <View style={styles.transactionDetailsContainer} key={doc.id} >
-                                <View style={{flexDirection: 'row'}}>
-                                    <View style={styles.categoryIcon}>
-                                        {getCategoryIcon(doc.index, styles.icon)}
+                <View style={styles.divider} />
+                
+                {item.map((doc) => {
+                    const goEditTransaction = () => {
+                        navigation.navigate('EditTransaction', {transaction: doc});
+                    }
+                    return (
+                    <Pressable style={styles.individualTransactionContainer} key={doc.id} onPress={goEditTransaction}>
+                        <View style={styles.transactionDetailsContainer} key={doc.id} >
+                            <View style={{flexDirection: 'row'}}>
+                                <View style={styles.categoryIcon}>
+                                    {getCategoryIcon(doc.index, styles.icon)}
+                                </View>
+                                <View style={styles.transactionTextContainer}>
+                                    <View style={styles.row1}>
+                                        <Text style={{color: activeColors.text}}>{doc.category}</Text>
+                                        <Text style={{color: activeColors.red}}>${doc.amount}</Text>
                                     </View>
-                                    <View style={styles.transactionTextContainer}>
-                                        <View style={styles.row1}>
-                                            <Text>{doc.category}</Text>
-                                            <Text>${doc.amount}</Text>
-                                        </View>
-                                        <View style={styles.descriptionTextContainer}>
-                                            <Text style={styles.descriptionText} numberOfLines={1}>{doc.description}</Text>
-                                        </View>
-                                    </ View>
-                                </View>        
-                            </View>
-                        </Pressable>
-                        
-                        )}
-                    )} 
+                                    <View style={styles.descriptionTextContainer}>
+                                        <Text style={{color: activeColors.secondaryText}} numberOfLines={1}>{doc.description}</Text>
+                                    </View>
+                                </ View>
+                            </View>        
+                        </View>
+                    </Pressable>
+                    
+                    )}
+                )} 
 
-                </View>
+            </View>
         )
     }
 
@@ -119,14 +124,14 @@ const TransactionList = ({transactions, navigation}) => {
         
         <View>
             {/* Top View containing Details */}
-            <View style={styles.overviewContainer}> 
+            <View style={[styles.overviewContainer, {backgroundColor: activeColors.inputBackground}]}> 
                 <View style={styles.flows}>
-                    <Text style={styles.flowText}>Inflow</Text>
-                    <Text style={styles.inflowText}>{totalInflow}</Text>
+                    <Text style={[styles.flowText, {color: activeColors.text}]}>Inflow</Text>
+                    <Text style={[styles.inflowText, {color: activeColors.blue}]}>{totalInflow}</Text>
                 </View>
                 <View style={styles.flows}>
-                    <Text style={styles.flowText}>Outflow</Text>
-                    <Text style={styles.outflowText}>{totalOutflow}</Text>
+                    <Text style={[styles.flowText, {color: activeColors.text}]}>Outflow</Text>
+                    <Text style={[styles.outflowText, {color: activeColors.red}]}>{totalOutflow}</Text>
                 </View>
 
                 <View style={styles.divider} />
@@ -135,11 +140,10 @@ const TransactionList = ({transactions, navigation}) => {
                     <TouchableOpacity activeOpacity={0.6} onPress={onSpendingReport} style={styles.addComment}>
                             <Text style={styles.addCommentText}>See Spending Report</Text>
                     </TouchableOpacity>
-                    <Text style={styles.flowText}>{totalNet}</Text>
+                    <Text style={[styles.flowText, {color: activeColors.text}]}>{totalNet}</Text>
                 </View>
                 
             </View>
-
 
             <FlatList contentContainerStyle={{paddingBottom: 150}} data={(sortedTransactions)} showsVerticalScrollIndicator={false} 
                 keyExtractor={item => item[0].id} renderItem={renderTransactions}/>         

@@ -41,7 +41,6 @@ export const styles = StyleSheet.create({
     },
 
     report: {
-        color: '#65663D',
         alignSelf: 'flex-end',
         fontSize: 14,
         fontWeight: 'bold',

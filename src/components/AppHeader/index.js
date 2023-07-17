@@ -77,7 +77,7 @@ const AppHeader = ({  style,
 
                 { showDelete ? (
                     <TouchableOpacity onPress={onDelete} style={styles.deleteContainer}> 
-                        <Icon name='trash' type='ionicon' size={26}/> 
+                        <Icon name='trash' type='ionicon' color={activeColors.red} size={26}/> 
                     </TouchableOpacity>
                 ) : null }
 

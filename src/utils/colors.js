@@ -20,9 +20,6 @@ export const colors = {
     red: '#EB7777',
     green: '#43B05C',
 
-    textBlue: '#0066FF',
-    textRed: '#FF0000',
-
     offWhite: "#E2e0e0",
 
     darkTextBlue: '#7fb2ff',

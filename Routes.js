@@ -94,22 +94,36 @@ const Tabs = () => {
 
   const TabScreenOptions = ({ route }) => ({
     headerShown: false, 
-    tabBarShowLabel: false, //set to false for aesthetics after finalizing
+    tabBarShowLabel: true, //set to false for aesthetics after finalizing
     tabBarHideOnKeyboard: true,   
     tabBarStyle: {
       backgroundColor: activeColors.inputBackground,
     },
 
     // To add Text Label of Tab 
-    // tabBarLabel: ({ focused }) => {
-    //   return <Text style={{fontSize: 8, fontWeight: '400', color: colors.black}}>{focused ? route.name : ""}</Text>
-    // },
+    tabBarLabel: ({ focused }) => {
+      let label;
+      if (route.name === 'Home') {
+        label = "Home";
+      } else if (route.name === 'TransactionHistory') {
+        label = "Transaction History";
+      } else if (route.name === 'Forum') {
+        label = "Community";
+      } else if (route.name === 'ProfileSettings') {
+        label = "Profile";
+      } else if (route.name === 'AddTransaction') {
+        label = "Add Transaction";
+        // return <Text></Text>
+      }
+      return <Text style={{fontSize: 8, fontWeight: '400', color: activeColors.text}}>{focused ? label : ""}</Text>
+    },
 
+    tabBarLabelStyle: {zIndex: -1},
     tabBarIcon: ({ focused, color, size}) => {
-    let iconColor = focused
-    ? activeColors.blue
-    : activeColors.iconColor
-    let name;
+      let iconColor = focused
+      ? activeColors.blue
+      : activeColors.iconColor
+      let name;
 
       if (route.name === 'Home') {
         name = "home";
@@ -121,9 +135,11 @@ const Tabs = () => {
       } else if (route.name === 'ProfileSettings') {
         name = "user-alt";
       } else if (route.name === 'AddTransaction') {
-        return <Icon name="plus-circle" size={40} style={{}} type='font-awesome-5' color={activeColors.green}/> 
+        name = "plus-circle";
+        iconColor = activeColors.green;
+        return <Icon name="plus-circle" size={34} type='font-awesome-5' color={activeColors.green}/> 
       }
-      return <Icon name={name} size={24} type='font-awesome-5' color={iconColor}/>    
+      return <Icon name={name} style={{}} size={24} type='font-awesome-5' color={iconColor}/>    
     }
     
   });

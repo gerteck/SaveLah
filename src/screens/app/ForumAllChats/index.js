@@ -66,6 +66,9 @@ const ForumAllChats = ({ navigation }) => {
         navigation.navigate('ForumChat', {profile: otherProfile});
     };
 
+    const { theme } = useContext(ThemeContext);
+    let activeColors = themeColors[theme.mode];
+
     const renderChats = ({item: chatProfile}) => {
         // console.log(chatProfile);
         date = chatProfile.chat.timestamp.toDate();
@@ -81,29 +84,27 @@ const ForumAllChats = ({ navigation }) => {
                     <Image style={styles.icon} source={{uri: chatProfile.profile.url}} />
                 </View>
                 <View style={styles.textContainer}>
-                    <Text style={styles.name}>{chatProfile.profile.username}</Text>
-                    <Text style={styles.message}>{chatProfile.chat.lastMessage}</Text>
+                    <Text style={[styles.name, {color: activeColors.blue}]}>{chatProfile.profile.username}</Text>
+                    <Text style={[styles.message, {color: activeColors.text}]}>{chatProfile.chat.lastMessage}</Text>
                 </View>
                 <View style={{flex: 1}} />
-                <Text style={styles.time}>{dateString}</Text>
+                <Text style={[styles.time, {color: activeColors.text}]}>{dateString}</Text>
 
             </Pressable>
 
-            <View style={styles.divider} />
+            <View style={[styles.divider, {backgroundColor: activeColors.divider}]} />
             </>
         )
     };
-
-    const { theme } = useContext(ThemeContext);
-    let activeColors = themeColors[theme.mode];
 
     return (
         <SafeAreaView style={styles.mainContainer}>
             <AppHeader style={[styles.appHeader, {backgroundColor: activeColors.containerBackground}]} title="All Chats" showBack onBack={onBack}/>
             
-            <View style={styles.whiteView}>
+            <View style={[styles.mainView, {backgroundColor: activeColors.containerBackground}]}>
 
-                {chatsProfilesArray && <FlatList contentContainerStyle={styles.flatList} data={chatsProfilesArray} keyExtractor={chatProfile => chatProfile.chat.chatUid} renderItem={renderChats} 
+                {chatsProfilesArray && <FlatList contentContainerStyle={styles.flatList} data={chatsProfilesArray} 
+                        keyExtractor={chatProfile => chatProfile.chat.chatUid} renderItem={renderChats} 
                         showsVerticalScrollIndicator={false}/> }
                     
             </View>

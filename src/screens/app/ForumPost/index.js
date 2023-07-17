@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import {Text, View, Image, TouchableOpacityBase, Alert } from "react-native";
+import {Text, View, Image, TouchableOpacityBase, Alert, ToastAndroid } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles }  from './styles';
 import AppHeader from "../../../components/AppHeader";
@@ -115,7 +115,7 @@ const ForumPost = ( {navigation, route} ) => {
     const postComment = () => {
         let commentId;
         if (!commentText) { 
-            Alert.alert('Comment can\'t be empty!');
+            ToastAndroid.showWithGravity('Comment can\'t be empty!', ToastAndroid.LONG, ToastAndroid.BOTTOM);
             return;
         }
         const uploadComment = async () => {

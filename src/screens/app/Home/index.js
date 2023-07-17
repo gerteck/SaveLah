@@ -403,7 +403,7 @@ const Home = ( { navigation } ) => {
         <View style={styles.transactionContainer} key={item.id}>
             <View style={[styles.categoryBox, {backgroundColor: activeColors.containerBackground}]}>
                 {getCategoryIcon(item.index, styles.icon)}
-                <View style={styles.categoryContaineer}> 
+                <View style={styles.categoryContainer}> 
                     <View>
                         <Text style={[styles.transactionCaption, {color: activeColors.text}]}>{item.category}</Text>
                         <Text style={[styles.transactionCaption, {color: activeColors.text}]}>${item.value}</Text>  

@@ -14,8 +14,7 @@ export const styles = StyleSheet.create({
         borderRadius: 16,
     },  
 
-    whiteView: {
-        backgroundColor: colors.white,
+    mainView: {
         minHeight: 0.8* windowHeight,
         borderRadius: 10,
         padding: 11,
@@ -56,7 +55,6 @@ export const styles = StyleSheet.create({
 
     name: {
         fontSize: 16,
-        color: colors.blue,
         fontWeight: 500,
     },
 
@@ -72,7 +70,6 @@ export const styles = StyleSheet.create({
 
     divider: {
         height: 2,
-        backgroundColor: colors.backgroundGrey,
     },
 
 })

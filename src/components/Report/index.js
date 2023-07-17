@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Text, View, FlatList, Image} from "react-native";
 import { styles } from './styles';
 import { useState } from "react";
@@ -6,10 +6,16 @@ import { colors } from "../../utils/colors";
 import Box from "../Box";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { ThemeContext } from "../../context/ThemeContext";
+import themeColors from "../../utils/themeColors";
+
 const Report = ({ transactions }) => {
     let expense = 0;
     let categories = [];
     let dict = {};
+
+    const { theme } = useContext(ThemeContext); 
+    let activeColors = themeColors[theme.mode];
 
     if (transactions.length > 0) {
         transactions.forEach(doc => {
@@ -48,8 +54,8 @@ const Report = ({ transactions }) => {
     const getHeader = () => {
         return (<>
             <View>
-                <Text style={styles.caption}>Expenses this month</Text>
-                <Text style={styles.money}>${expense = parseFloat(expense.toFixed(2)).toLocaleString('en-US')}</Text>
+                <Text style={[styles.caption, {color: activeColors.text}]}>Expenses this month</Text>
+                <Text style={[styles.money, {color: activeColors.text}]}>${expense = parseFloat(expense.toFixed(2)).toLocaleString('en-US')}</Text>
             </View>
         </>)
     }

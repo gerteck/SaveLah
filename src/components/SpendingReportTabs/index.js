@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Text, View } from "react-native";
 import { styles } from './styles';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import TransactionList from "../TransactionList";
 import Box from "../Box";
 import Report from "../Report";
+
+import { ThemeContext } from "../../context/ThemeContext";
+import themeColors from "../../utils/themeColors";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -41,9 +44,21 @@ const SpendingReportTabs = ({ documents }) => {
         names[i] = currName;
     }
 
+    const { theme } = useContext(ThemeContext); 
+    let activeColors = themeColors[theme.mode];
+
+    const tabScreenOptions = ({ route }) => ({ 
+        tabBarScrollEnabled: true, 
+        tabBarItemStyle: { width: 100 }, 
+        tabBarLabelStyle: { fontSize: 12 }, 
+        tabBarBounces: true,
+        tabBarStyle: {
+            backgroundColor: activeColors.inputBackground,
+        },
+    })
 
     return (
-        <Tab.Navigator initialRouteName={"This Month"} screenOptions={{ tabBarScrollEnabled: true, tabBarItemStyle: { width: 100 }, tabBarLabelStyle: { fontSize: 12 }, tabBarBounces: true }} >
+        <Tab.Navigator initialRouteName={"This Month"} screenOptions={tabScreenOptions} >
             <Tab.Screen name={names[2]} children={() => <Report transactions={monthDocs[4]}/>} />
             <Tab.Screen name={names[1]}  children={() => <Report transactions={monthDocs[3]}/>} />
             <Tab.Screen name={names[0]} children={() => <Report transactions={monthDocs[2]}/>} />

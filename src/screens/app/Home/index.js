@@ -27,6 +27,10 @@ const Home = ( { navigation } ) => {
     const [ userProfile, setUserProfile ] = useContext(UserProfileContext);
     const { user } = useAuthContext();
 
+    const { theme } = useContext(ThemeContext);
+    let activeColors = themeColors[theme.mode];
+    const barColor = theme.mode == 'light' ? 'dark-content' : 'light-content';
+
     // logout quickfix can fix later
 
     const [ expense, setExpense ] = useState(0);
@@ -324,37 +328,49 @@ const Home = ( { navigation } ) => {
     }
 
     const Welcome = (<> 
-        <Text style={styles.welcome}>Welcome Back,</Text>
-        <Text style={styles.name}>{userProfile.username}</Text>
+        <Text style={[styles.welcome, {color: activeColors.text}]}>Welcome Back,</Text>
+        <Text style={[styles.name, {color: activeColors.text}]}>{userProfile.username}</Text>
         <View style={styles.budgetOverview}>
             <View> 
-                {!weekSelected && <Text style={styles.money}>{changeInSpending}%</Text>}
-                {weekSelected && <Text style={styles.money}>{changeInSpendingWeek}%</Text>}
-                <Text style={styles.caption}>Change in spending</Text>
+                {!weekSelected && <Text style={[styles.money, {color: activeColors.text}]}>{changeInSpending}%</Text>}
+                {weekSelected && <Text style={[styles.money, {color: activeColors.text}]}>{changeInSpendingWeek}%</Text>}
+                <Text style={[styles.caption, {color: activeColors.text}]}>Change in spending</Text>
             </View>
             <View> 
-                {!weekSelected && <Text style={styles.money} >${parseFloat(expense.toFixed(2)).toLocaleString('en-US')}</Text>}
-                {weekSelected && <Text style={styles.money} >${parseFloat(expenseWeek.toFixed(2)).toLocaleString('en-US')}</Text>}
-                <Text style={styles.caption} >Amount Spent</Text>
+                {!weekSelected && <Text style={[styles.money, {color: activeColors.text}]} >${parseFloat(expense.toFixed(2)).toLocaleString('en-US')}</Text>}
+                {weekSelected && <Text style={[styles.money, {color: activeColors.text}]} >${parseFloat(expenseWeek.toFixed(2)).toLocaleString('en-US')}</Text>}
+                <Text style={[styles.caption, {color: activeColors.text}]} >Amount Spent</Text>
             </View>
         </View>
     </>);
 
-    const PieChart = (<View style={{alignItems: "center",}}>
-        <View style={styles.weekMonthBar}>
+    const barChart = (
+    <View style={{alignItems: "center",}}>
+        <View style={[styles.weekMonthBar, {backgroundColor: activeColors.secondaryContainerBackground}]}>
             <TouchableOpacity disabled={weekSelected} onPress={() => setWeekSelected(true)} 
-                style={[styles.weekMonth, weekSelected ? styles.selected : {}]}><Text>week</Text></TouchableOpacity>
+                style={[styles.weekMonth, weekSelected ? {backgroundColor: activeColors.containerBackground} : {}]}>
+                    <Text style={{color: activeColors.text}}>Week</Text>
+            </TouchableOpacity>
 
             <TouchableOpacity disabled={!weekSelected} onPress={() => setWeekSelected(false)} 
-                style={[styles.weekMonth, !weekSelected ? styles.selected : {}]}><Text>month</Text></TouchableOpacity>
+                style={[styles.weekMonth, !weekSelected ?{backgroundColor: activeColors.containerBackground} : {}]}>
+                    <Text style={{color: activeColors.text}}>Month</Text>
+            </TouchableOpacity>
         </View>
+
         <View style={{marginTop: 16}}>
-            {/* <Image source={require('../../../assets/DummyChart.png')} style={{height: 200, width: 232, alignSelf: 'center'}}/> */}
-            { weekSelected && <BarChart data={weekData} height={220} width={300} chartConfig={chartConfig} showValuesOnTopOfBars={true} fromZero={true}  withCustomBarColorFromData={true} 
-            flatColor={true} />}
+            { weekSelected && <BarChart data={weekData} height={220} width={300} 
+                chartConfig={chartConfig} showValuesOnTopOfBars={true} fromZero={true}  
+                withCustomBarColorFromData={true}
+                flatColor={true} 
+            />}
             
-            { !weekSelected && <BarChart data={monthData} height={220} width={300} chartConfig={chartConfig} showValuesOnTopOfBars={true} fromZero={true} withCustomBarColorFromData={true} 
-            flatColor={true} />}
+            { !weekSelected && <BarChart data={monthData} height={220} width={300} 
+                chartConfig={chartConfig} showValuesOnTopOfBars={true} fromZero={true} 
+                withCustomBarColorFromData={true} 
+                flatColor={true}
+            />}
+
         </View>
 
     </View>);
@@ -364,27 +380,11 @@ const Home = ( { navigation } ) => {
         <Text>No transactions yet</Text>
     </>);
 
-    // To render category boxes for top spending categories
-    const renderTransactions = ({item}) => {
-        return (<View style={styles.transactionContainer} key={item.id}>
-            <View style={styles.categoryBox}>
-                {getCategoryIcon(item.index, styles.icon)}
-                <View style={styles.categoryContaineer}> 
-                    <View>
-                        <Text style={styles.transactionCaption}>{item.category}</Text>
-                        <Text style={styles.transactionCaption}>${item.value}</Text>  
-                    </View>     
-                    <Text>{item.percentage}%</Text> 
-                </View>
-            </View>
-        </View>)
-    }
-
     const getHeader = () => {
         return (<>
-            <Box content={Welcome}/>
+            <Box style={{backgroundColor: activeColors.containerBackground}} content={Welcome}/>
             <TouchableOpacity onPress={onReport}><Text style={[styles.report, {color: activeColors.green}]}>See full report</Text></TouchableOpacity>
-            <Box content={PieChart}/>
+            <Box style={{backgroundColor: activeColors.containerBackground, zIndex: -1}} content={barChart}/>
             { !weekSelected && <Text style={[styles.transactionTitle, {color: activeColors.text}]}>Top Categories for the month</Text> }
             { weekSelected && <Text style={[styles.transactionTitle, {color: activeColors.text}]}>Top Categories for the week</Text> }
         </>)
@@ -397,6 +397,23 @@ const Home = ( { navigation } ) => {
         </>)
     }
 
+    // To render category boxes for top spending categories
+    const renderTransactions = ({item}) => {
+        return (
+        <View style={styles.transactionContainer} key={item.id}>
+            <View style={[styles.categoryBox, {backgroundColor: activeColors.containerBackground}]}>
+                {getCategoryIcon(item.index, styles.icon)}
+                <View style={styles.categoryContaineer}> 
+                    <View>
+                        <Text style={[styles.transactionCaption, {color: activeColors.text}]}>{item.category}</Text>
+                        <Text style={[styles.transactionCaption, {color: activeColors.text}]}>${item.value}</Text>  
+                    </View>     
+                    <Text style={{color: activeColors.text}}>{item.percentage}%</Text> 
+                </View>
+            </View>
+        </View>)
+    }
+
     const renderRecentTransactions = ({item}) => {
         const goEditTransaction = () => {
             navigation.navigate('EditTransaction', {transaction: item});
@@ -404,17 +421,18 @@ const Home = ( { navigation } ) => {
         return (
         <Pressable onPress={goEditTransaction}>
             <View style={styles.transactionContainer}>
-                <View style={styles.categoryBox}>
+                <View style={[styles.categoryBox, {backgroundColor: activeColors.containerBackground}]}>
                     {getCategoryIcon(item.index, styles.icon)}
-                    <View style={styles.categoryContaineer}> 
+                    <View style={styles.categoryContainer}> 
                         <View>
-                            <Text style={styles.transactionCaption}>{item.category}</Text>
-                            <Text style={styles.transactionMinorCaption}>{item.date.toDate().toLocaleDateString('en-GB', {
+                            <Text style={[styles.transactionCaption, {color: activeColors.text}]}>{item.category}</Text>
+                            <Text style={[styles.transactionMinorCaption, {color: activeColors.text}]}>
+                                {item.date.toDate().toLocaleDateString('en-GB', {
                                 day: 'numeric', month: 'short', year: 'numeric'
                                 }).replace(/-/g, ' ')}
                             </Text>  
                         </View>     
-                        <Text>${item.amount}</Text> 
+                        <Text style={{color: activeColors.text}}>${item.amount}</Text> 
                     </View>
                 </View>
             </View>
@@ -427,10 +445,6 @@ const Home = ( { navigation } ) => {
             ListHeaderComponent={getRecentHeader}/>}
         </>)
     }
-
-    const { theme } = useContext(ThemeContext);
-    let activeColors = themeColors[theme.mode];
-    const barColor = theme.mode == 'light' ? 'dark-content' : 'light-content';
 
     return (
         <SafeAreaView style={styles.mainContainer}>

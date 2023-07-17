@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { ScrollView, TextInput, Text, View, Image, TouchableOpacity, Alert } from "react-native";
+import { ScrollView, TextInput, Text, View, Image, TouchableOpacity} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles }  from './styles';
 import AppHeader from "../../../components/AppHeader";
@@ -14,6 +14,7 @@ import { getApp } from "@firebase/app";
 import { Icon } from '@rneui/themed';
 import { ThemeContext } from "../../../context/ThemeContext";
 import themeColors from "../../../utils/themeColors";
+import { ToastAndroid } from "react-native";
 
 const app = getApp;
 const db = getFirestore(app);
@@ -68,7 +69,7 @@ const NewPost = ( { navigation } ) => {
     const onSend = async () => {
         try {
             if (!post?.title || !post?.body || !post?.category) {
-                Alert.alert('Please fill up all fields!');
+                ToastAndroid.showWithGravity('Please fill up all fields!', ToastAndroid.LONG, ToastAndroid.BOTTOM);
                 return;
             } 
 

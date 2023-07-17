@@ -250,6 +250,7 @@ const Settings = ( { navigation } ) => {
                     labelStyle={{ color: activeColors.inputLabel }} 
                     inputContainerStyle={{ backgroundColor: activeColors.inputBackground, borderColor: activeColors.inputBorder }} 
                     inputStyle={{ color: activeColors.text }}
+                    placeholderColor={activeColors.text}
                     label="Current Password" placeholder="*******" isPassword/> ) : null }
                 {editingEmail ? ( <Button style={styles.button} onPress={onSaveEmail} title="Update Email"/> ) : null }
 
@@ -265,12 +266,14 @@ const Settings = ( { navigation } ) => {
                     labelStyle={{ color: activeColors.inputLabel }} 
                     inputContainerStyle={{ backgroundColor: activeColors.inputBackground, borderColor: activeColors.inputBorder }} 
                     inputStyle={{ color: activeColors.text }}
+                    placeholderColor={activeColors.text}
                     label="New Password" placeholder="*******" isPassword/>) : null }
                 {editingPassword ? 
                     ( <Input value={tempSettings.password} onChangeText={(v) => onChangeTempSettings('password', v)} 
                     labelStyle={{ color: activeColors.inputLabel }} 
                     inputContainerStyle={{ backgroundColor: activeColors.inputBackground, borderColor: activeColors.inputBorder }} 
                     inputStyle={{ color: activeColors.text }}
+                    placeholderColor={activeColors.text}
                     label="Current Password" placeholder="*******" isPassword/> ) : null }
                 {editingPassword ? ( <Button style={styles.button} onPress={onSavePassword} title="Update Password"/> ) : null }
                 

@@ -46,7 +46,7 @@ import { NotificationNumberContext } from './src/context/NotificationNumberConte
 // Theme Color Related
 import themeColors from './src/utils/themeColors';
 import { ThemeContext } from './src/context/ThemeContext';
-
+import { Icon } from '@rneui/themed';
 
 const AuthStack = createStackNavigator();
 const HomeStack = createStackNavigator();
@@ -87,41 +87,45 @@ const ProfileSettings = () => {
   )
 }
 
+// Bottom Tab Navigator
 const Tabs = () => {
+  const { theme }  = useContext(ThemeContext);
+  let activeColors = themeColors[theme.mode];
+
   const TabScreenOptions = ({ route }) => ({
     headerShown: false, 
     tabBarShowLabel: false, //set to false for aesthetics after finalizing
+    tabBarHideOnKeyboard: true,   
+    tabBarStyle: {
+      backgroundColor: activeColors.inputBackground,
+    },
+
+    // To add Text Label of Tab 
     // tabBarLabel: ({ focused }) => {
     //   return <Text style={{fontSize: 8, fontWeight: '400', color: colors.black}}>{focused ? route.name : ""}</Text>
     // },
-    tabBarHideOnKeyboard: true,
-    
-    tabBarIcon: ({ focused, color, size}) => {
-      let icon;
 
-        if (route.name === 'Home') {
-          icon = focused //if it is active
-            ? require('./src/assets/tabBar/home_active.png')
-            : require('./src/assets/tabBar/home.png')
-        } else if (route.name === 'TransactionHistory') {
-          icon = focused //if it is active
-            ? require('./src/assets/tabBar/wallet_active.png')
-            : require('./src/assets/tabBar/wallet.png')
-        } else if (route.name === 'Forum') {
-          icon = focused //if it is active
-            ? require('./src/assets/tabBar/forum_active.png')
-            : require('./src/assets/tabBar/forum.png')
-        } else if (route.name === 'ProfileSettings') {
-          icon = focused //if it is active
-            ? require('./src/assets/tabBar/profile_active.png')
-            : require('./src/assets/tabBar/profile.png')
-        } else if (route.name === 'AddTransaction') {
-          return <Image source={require('./src/assets/tabBar/addButton.png')}
-                        style={{width: 32, height: 32,}} />;
-        }
-        // You can return any component that you like here!
-        return <Image style={{width: 24, height:24}} source={icon}/>
+    tabBarIcon: ({ focused, color, size}) => {
+    let iconColor = focused
+    ? activeColors.blue
+    : activeColors.iconColor
+    let name;
+
+      if (route.name === 'Home') {
+        name = "home";
+         //if it is active
+      } else if (route.name === 'TransactionHistory') {
+        name = "wallet";
+      } else if (route.name === 'Forum') {
+        name = "users";
+      } else if (route.name === 'ProfileSettings') {
+        name = "user-alt";
+      } else if (route.name === 'AddTransaction') {
+        return <Icon name="plus-circle" size={40} style={{}} type='font-awesome-5' color={activeColors.green}/> 
       }
+      return <Icon name={name} size={24} type='font-awesome-5' color={iconColor}/>    
+    }
+    
   });
 
   return (
@@ -129,7 +133,7 @@ const Tabs = () => {
       <Tab.Screen name="Home" component={HomeTabs} listeners={({ navigation }) => ({
         tabPress: (e) => {
           e.preventDefault();
-          navigation.navigate('HomeMain');
+          navigation.navigate('Home', {screen: 'HomeMain'});
         }
       })}/>
       <Tab.Screen name="TransactionHistory" component={TransactionHistory}/>

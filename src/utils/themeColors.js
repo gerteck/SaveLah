@@ -18,6 +18,7 @@ const themeColors = {
 
         blue: colors.blue,
         red: colors.red,
+        green: colors.green,
         appBackground: colors.backgroundGrey,
         iconColor: colors.darkGrey,
         containerBackground: colors.white,
@@ -44,6 +45,7 @@ const themeColors = {
         
         blue: colors.darkTextBlue,
         red: colors.red,
+        green: colors.green,
         appBackground: colors.backgroundDarkGrey,
         iconColor: colors.white,
         containerBackground: colors.darkGrey,

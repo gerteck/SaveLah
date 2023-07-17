@@ -164,7 +164,7 @@ const AddTransaction = ( {navigation} ) => {
                     style={[styles.input, {color: activeColors.text,
                         backgroundColor: activeColors.inputBackground, 
                         borderColor: activeColors.inputBorder}]} 
-                    placeholderTextColor={activeColors.text}
+                    placeholderTextColor={activeColors.secondaryText}
                     keyboardType='numeric' value={values.amount} 
                     onChangeText={(v) => onChangeValue('amount', v)} />
 
@@ -195,8 +195,7 @@ const AddTransaction = ( {navigation} ) => {
                         borderColor: activeColors.inputBorder,},
                         {minHeight: 70, textAlignVertical: 'top'}
                     ]}
-
-                    placeholderTextColor={activeColors.text}
+                    placeholderTextColor={activeColors.secondaryText}
                     multiline
                     value={values.description} 
                     onChangeText={(v) => onChangeValue('description', v)} />

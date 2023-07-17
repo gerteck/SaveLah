@@ -13,6 +13,11 @@ import { doc, getFirestore, setDoc, getDoc } from "firebase/firestore";
 import { getApp } from "firebase/app";
 import { UserProfileContext } from "../../../context/UserProfileContext";
 import { defaultCategories } from "../../../utils/defaultCategories";
+
+import { Icon } from '@rneui/themed';
+import { ThemeContext } from "../../../context/ThemeContext";
+import themeColors from "../../../utils/themeColors";
+
 const app = getApp;
 const db = getFirestore(app);
 let customImageUploaded = false;
@@ -115,6 +120,8 @@ const RegisterProfile = ( { navigation } ) => {
         
     }
 
+    const { theme } = useContext(ThemeContext); 
+    let activeColors = themeColors[theme.mode]; 
 
     return (
         <SafeAreaView style={styles.mainContainer}>
@@ -169,8 +176,9 @@ const RegisterProfile = ( { navigation } ) => {
                 :   <View> 
                         <Text style={styles.label}>Or Add your own Profile Picture</Text>
                         <TouchableOpacity activeOpacity={0.6} onPress={pickImage} style={styles.addImage}>
-                            <Text style={styles.addImageText}>Add Image</Text>
-                            <Image style={styles.deleteIcon} source={require('../../../assets/icons/addImage.png')}/>
+                            <Text style={styles.addImageText}>Add Image</Text> 
+                            <Icon name='image' style={styles.deleteIcon} size={22} type='font-awesome' color={activeColors.iconColor}/>
+                            {/* <Image style={styles.deleteIcon} source={require('../../../assets/icons/addImage.png')}/> */}
                         </TouchableOpacity> 
                     </View>
                 }

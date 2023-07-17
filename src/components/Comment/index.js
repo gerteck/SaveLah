@@ -6,6 +6,11 @@ import { getApp } from "@firebase/app";
 import { doc, getDoc, setDoc, getFirestore, deleteDoc } from "@firebase/firestore";
 import { UserProfileContext } from "../../context/UserProfileContext";
 
+import { Icon } from '@rneui/themed';
+import { ThemeContext } from "../../context/ThemeContext";
+import themeColors from "../../utils/themeColors";
+
+
 const app = getApp;
 const db = getFirestore(app); 
 
@@ -129,8 +134,12 @@ const Comment = ({commentDetails, postDetails, navigation}) => {
     if (commentDate.getMinutes() < 10) {
         min = "0" + commentDate.getMinutes()
     } 
+
     const commentTimestamp = commentDate.getDate() + " " + monthNames[commentDate.getMonth()] + " " 
         + commentDate.getHours() + ":" + min;
+
+    const { theme } = useContext(ThemeContext); 
+    let activeColors = themeColors[theme.mode];
 
     return ( <>
         <View style={styles.commentContainer}>
@@ -145,40 +154,42 @@ const Comment = ({commentDetails, postDetails, navigation}) => {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.posterDetails}>
-                        <Text style={styles.username}>@{posterProfile?.username ? posterProfile?.username.replace(/\s/g, "") : ""}</Text>
-                        <Text style={styles.time}>{commentTimestamp}</Text>
+                        <Text style={[styles.username, {color: activeColors.text}]}>@{posterProfile?.username ? posterProfile?.username.replace(/\s/g, "") : ""}</Text>
+                        <Text style={[styles.time, {color: activeColors.text}]}>{commentTimestamp}</Text>
                     </View>
                 </View>
 
                 <View style={styles.textRow}>
-                    <Text style={styles.commentText}>{commentDetails.text}</Text>
+                    <Text style={[styles.commentText, {color: activeColors.secondaryText}]}>{commentDetails.text}</Text>
                 </View>
             </View>
 
             {/* Vote Container and Delete */}
             <View style={styles.voteDeleteRow}>
-                {userIsAuthor ?
-                <TouchableOpacity onPress={onDeleteComment} style={styles.commentDeleteContainer}>
-                    <Image source={require('../../assets/icons/redDelete.png')} style={styles.deleteImage}/>
-                </TouchableOpacity>
-                    :
-                <View/>
+                {userIsAuthor &&
+                    <TouchableOpacity onPress={onDeleteComment} style={styles.commentDeleteContainer}>
+                        <Icon name='trash-alt' size={15} type='font-awesome-5' color={activeColors.red}/>
+                    </TouchableOpacity>
                 } 
                 <View style={styles.voteContainer}>
                     <TouchableOpacity disabled={commentVote == UPVOTE} onPress={() => onVote(UPVOTE)}>
-                        <Image source={commentVote == UPVOTE ? require('../../assets/appIcons/upFilled.png') 
-                            : require('../../assets/appIcons/up.png')} style={styles.arrowIcon}/>
+                        { commentVote == UPVOTE 
+                            ? <Icon name='chevron-up' size={10} type='font-awesome' color={activeColors.blue}/>
+                            : <Icon name='chevron-up' size={10} type='font-awesome' color={activeColors.voteContainer}/>
+                        }
                     </TouchableOpacity>
-                    <Text style={styles.votes}>{commentDetails.votes}</Text>
+                    <Text style={[styles.votes, {color: activeColors.text}]}>{commentDetails.votes}</Text>
                     <TouchableOpacity disabled={commentVote == DOWNVOTE}  onPress={() => onVote(DOWNVOTE)}>
-                        <Image source={commentVote == DOWNVOTE ? require('../../assets/appIcons/downFilled.png') 
-                            : require('../../assets/appIcons/down.png')} style={styles.arrowIcon}/>
+                        { commentVote == DOWNVOTE 
+                            ? <Icon name='chevron-down' size={10} type='font-awesome' color={activeColors.red}/>
+                            : <Icon name='chevron-down' size={10} type='font-awesome' color={activeColors.voteContainer}/>
+                        }
                     </TouchableOpacity>
                 </View>
             </View>
 
         </View>
-        <View style={styles.divider} />
+        <View style={[styles.divider, {backgroundColor: activeColors.divider}]} />
     </>)
 
 }

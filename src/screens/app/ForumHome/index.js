@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {Text, View, TextInput, Image, FlatList, TouchableOpacity } from "react-native";
 import { styles }  from './styles';
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -110,24 +110,32 @@ const ForumHome = ({ navigation, routes }) => {
         }
     }
 
+    const { theme } = useContext(ThemeContext); 
+    let activeColors = themeColors[theme.mode];
+    let themeMode = theme.mode == "dark" ? "DARK" : "LIGHT";
+
     return (
         <SafeAreaView style={styles.mainContainer}>
             <AppHeader title="Forum" showChat showBell onBell={onBell} onChat={onChat}/>
 
             {/* Search Bar */}
-            <View style={styles.inputContainer}>
-                <TextInput placeholder="Search post by title..." style={styles.input}
+            <View style={[styles.inputContainer, , { backgroundColor: activeColors.containerBackground}]}>
+                <TextInput placeholder="Search post by title..." style={[styles.input, { backgroundColor: activeColors.containerBackground, color: activeColors.text}]}
+                    placeholderTextColor={activeColors.text}
                     value={keyword} onChangeText={setKeyword} />
-                <Image style={styles.searchIcon} source={require('../../../assets/icons/search.png')}/>
+                <Icon name='search' size={18} style={styles.searchIcon} type='font-awesome' color={activeColors.iconColor}/> 
             </View>
             
             {/* SortBar */}
             <View style={styles.sortContainer}>
-                <Image style={styles.sortIcon} source={sort == 'recent' ? require('../../../assets/icons/recent.png') 
-                    : require('../../../assets/icons/team.png')}/>
+                { sort == 'recent' 
+                    ? <Icon name='history' style={styles.sortIcon} type='font-awesome' color={activeColors.iconColor}/> 
+                    : <Icon name='users' style={styles.sortIcon} type='font-awesome' color={activeColors.iconColor}/> 
+                }
                 <View style={styles.dropDownPickerContainer}>
                     <DropDownPicker open={open} value={sort} items={items} listMode="SCROLLVIEW"
-                            style={styles.pickerContainer}
+                            style={[styles.pickerContainer, {backgroundColor: activeColors.appBackground}]}
+                            theme={themeMode}
                             setOpen={setOpen} onSelectItem={(v) => setSort(v.value)} setItems={setItems}/>
                 </View>
             </View>
@@ -135,8 +143,8 @@ const ForumHome = ({ navigation, routes }) => {
             {filteredPosts.length == 0 && <PostList onRefresh={getPosts} refreshing={refreshing} posts={allPosts} navigation={navigation} />}
             {filteredPosts.length > 0 && <PostList posts={filteredPosts} navigation={navigation} />}
 
-            <TouchableOpacity style={styles.newPost} onPress={onNewPost}>
-                <Image style={styles.postIcon} source={require('../../../assets/icons/post.png')}/>
+            <TouchableOpacity style={[styles.newPost, {backgroundColor: activeColors.inputBorder}]} onPress={onNewPost}>
+                <Icon name='edit' size={28} type='font-awesome' color={activeColors.iconColor}/> 
             </TouchableOpacity>
 
         </SafeAreaView>

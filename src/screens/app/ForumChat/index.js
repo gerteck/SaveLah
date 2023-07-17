@@ -13,6 +13,9 @@ import { getApp } from "firebase/app";
 import { getFirestore, getDoc, setDoc, doc, onSnapshot } from 'firebase/firestore';
 import { UserProfileContext } from "../../../context/UserProfileContext";
 
+import { ThemeContext } from "../../../context/ThemeContext";
+import themeColors from "../../../utils/themeColors";
+
 const app = getApp; 
 const db = getFirestore(app);
 
@@ -134,10 +137,14 @@ const ForumChat = ( {navigation, route} ) => {
         const item = otherProfile;
         navigation.navigate('ProfileOtherUser', { item });
     };
+    
+    const { theme } = useContext(ThemeContext); 
+    let activeColors = themeColors[theme.mode];
   
     return (
         <SafeAreaView style={styles.mainContainer}>
-            <AppHeader style={styles.appHeader} title={otherProfile?.username} showBack onBack={onBack} userPictureURL={otherProfile.url} onUserPicture={onUserPress}/>
+            <AppHeader style={[styles.appHeader, {backgroundColor: activeColors.containerBackground}]} 
+                title={otherProfile?.username} showBack onBack={onBack} userPictureURL={otherProfile.url} onUserPicture={onUserPress}/>
             
             <View style={styles.chatContainer}>
                 <GiftedChat messages={messages} onSend={newMessage => updateMessages(newMessage)} 

@@ -23,5 +23,7 @@ export const colors = {
     textBlue: '#0066FF',
     textRed: '#FF0000',
 
+    offWhite: "#E2e0e0",
+
     darkTextBlue: '#7fb2ff',
 }

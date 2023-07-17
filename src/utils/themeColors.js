@@ -17,13 +17,16 @@ const themeColors = {
         title: colors.blue,
 
         blue: colors.blue,
+        red: colors.red,
         appBackground: colors.backgroundGrey,
-        iconColor: colors.dark,
+        iconColor: colors.darkGrey,
         containerBackground: colors.white,
         secondaryContainerBackground: colors.backgroundGrey,
 
         editableBoxBackground: colors.white,
-        divider: colors.backgroundGrey,
+        divider: colors.grey,
+        secondaryText: colors.darkGrey,
+        voteContainer: colors.middleGrey,
 
     }, 
 
@@ -40,13 +43,16 @@ const themeColors = {
         title: colors.darkTextBlue,
         
         blue: colors.darkTextBlue,
+        red: colors.red,
         appBackground: colors.backgroundDarkGrey,
         iconColor: colors.white,
         containerBackground: colors.darkGrey,
         secondaryContainerBackground: colors.darkBackgroundGrey,
 
         editableBoxBackground: colors.darkBackgroundGrey,
-        divider: colors.backgroundDarkGrey
+        divider: colors.backgroundDarkGrey, 
+        secondaryText: colors.offWhite,
+        voteContainer: colors.white,
         
 
         

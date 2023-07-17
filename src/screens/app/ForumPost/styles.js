@@ -13,8 +13,7 @@ export const styles = StyleSheet.create({
         borderRadius: 16,
     },  
 
-    whiteView: {
-        backgroundColor: colors.white,
+    mainView: {
         minHeight: 0.9* windowHeight,
         borderRadius: 10,
         paddingVertical: 12,
@@ -63,7 +62,6 @@ export const styles = StyleSheet.create({
     body: {
         fontSize: 12,
         marginBottom: 8,
-        color: colors.darkGrey,
     },
 
     imageContainer: {
@@ -89,16 +87,6 @@ export const styles = StyleSheet.create({
 
     voteContainer: {
         flexDirection: 'row',
-    },
-
-    deleteImage: {
-        height: 18,
-        width: 18,
-    },
-
-    arrowIcon: {
-        height: 20,
-        width: 20,
     },
 
     votes: {
@@ -146,19 +134,10 @@ export const styles = StyleSheet.create({
         borderWidth: 0.5,
     },
 
-    
-    inputContainer: {
-        backgroundColor: colors.white,
-        borderColor: colors.backgroundBlue,
-        borderWidth: 1,
-        borderRadius: 14,
-        marginTop: 16,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-    },
-
     input: {
+        marginTop: 16,
+        borderRadius: 14,
+        borderWidth: 1,
         paddingHorizontal: 16,
         paddingVertical: 8,
         flex: 1,
@@ -172,13 +151,14 @@ export const styles = StyleSheet.create({
         paddingVertical: 8,
         paddingHorizontal: 24,
         borderRadius: 8,
+        borderWidth: 0.8,
+        borderColor: colors.black,
     },
 
     postCommentText: {
         textAlign: 'center',
-        color: colors.black,
         fontSize: 16,
-        fontWeight: '900',
+        fontWeight: '800',
     },
 
     commentsList:{

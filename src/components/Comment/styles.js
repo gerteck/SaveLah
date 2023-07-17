@@ -22,13 +22,11 @@ export const styles = StyleSheet.create({
     },
 
     username: {
-        color: colors.black,
         fontWeight: '800',
         fontSize: 11,
     },
 
     time: {
-        color: colors.black,
         fontWeight: '400',
         fontSize: 10,
     },
@@ -66,7 +64,6 @@ export const styles = StyleSheet.create({
     commentText: {
         fontSize: 12,
         marginLeft: 4,
-        color: colors.black,
     },
 
     deleteImage: {
@@ -99,6 +96,5 @@ export const styles = StyleSheet.create({
 
     divider: {
         height: 1,
-        backgroundColor: colors.darkGrey,
     },
 })

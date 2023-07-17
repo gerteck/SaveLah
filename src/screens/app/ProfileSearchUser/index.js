@@ -11,6 +11,10 @@ import { useIsFocused } from "@react-navigation/native";
 import { getApp } from "firebase/app";
 import { UserProfileContext } from "../../../context/UserProfileContext";
 
+import { Icon } from '@rneui/themed';
+import { ThemeContext } from "../../../context/ThemeContext";
+import themeColors from "../../../utils/themeColors";
+
 const app = getApp;
 const db = getFirestore(app);
 
@@ -51,12 +55,15 @@ const ProfileSearchUser = ( { navigation } ) => {
         }
     }, [keyword]);
 
+    const { theme } = useContext(ThemeContext); 
+    let activeColors = themeColors[theme.mode];
+
     const SearchBar = () => {
         return (
             <View style={styles.inputContainer}>
                 <TextInput placeholder="Search users..." style={styles.input}
                     value={keyword} onChangeText={setKeyword} />
-                <Image style={styles.searchIcon} source={require('../../../assets/icons/search.png')}/>
+                <Icon name='search' size={18} style={styles.searchIcon} type='font-awesome' color={activeColors.iconColor}/> 
             </View>
         )
     }

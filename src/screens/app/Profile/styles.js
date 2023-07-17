@@ -134,7 +134,6 @@ export const styles = StyleSheet.create({
     },
 
     emptyPostBox: {
-        backgroundColor: colors.white,
         minHeight: 300,
         borderRadius: 10,
         padding: 11,

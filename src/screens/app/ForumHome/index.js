@@ -119,8 +119,9 @@ const ForumHome = ({ navigation, routes }) => {
             <AppHeader title="Forum" showChat showBell onBell={onBell} onChat={onChat}/>
 
             {/* Search Bar */}
-            <View style={[styles.inputContainer, , { backgroundColor: activeColors.containerBackground}]}>
-                <TextInput placeholder="Search post by title..." style={[styles.input, { backgroundColor: activeColors.containerBackground, color: activeColors.text}]}
+            <View style={[styles.inputContainer, { backgroundColor: activeColors.containerBackground}]}>
+                <TextInput placeholder="Search post by title..." 
+                    style={[styles.input, { backgroundColor: activeColors.containerBackground, color: activeColors.text}]}
                     placeholderTextColor={activeColors.text}
                     value={keyword} onChangeText={setKeyword} />
                 <Icon name='search' size={18} style={styles.searchIcon} type='font-awesome' color={activeColors.iconColor}/> 

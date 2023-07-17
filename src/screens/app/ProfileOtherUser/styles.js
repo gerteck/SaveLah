@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
         flex: 1,
     },
 
-    whiteBox: {
+    containerBox: {
         backgroundColor: colors.white,
         paddingBottom: 16,
         marginTop: 8,
@@ -122,13 +122,6 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
     },
 
-    icon: {
-        marginLeft: 8,
-        height: 24,
-        width: 24,
-        alignSelf: 'center',
-    },
-
     postTitle: {
         marginVertical: 8,
         fontSize: 16, 
@@ -136,7 +129,6 @@ export const styles = StyleSheet.create({
     },
 
     emptyPostBox: {
-        backgroundColor: colors.white,
         minHeight: 300,
         borderRadius: 10,
         padding: 11,

@@ -132,7 +132,7 @@ const Profile = ( {navigation} ) => {
                 <Text style={[styles.postTitle, {color: activeColors.text}]}> Top posts </Text>
                 { userPosts && <PostList posts={userPosts} navigation={navigation} mapList />}
                 { userPosts.length == 0 && 
-                    <View style={styles.emptyPostBox}>
+                    <View style={[styles.emptyPostBox, {backgroundColor: activeColors.containerBackground}]}>
                         <Text style={styles.emoticon}>٩(⌯꒦ິ̆ᵔ꒦ິ)۶ ᵒᵐᵍᵎᵎᵎ</Text>
                         <Text style={styles.noPostText}>Start a new post, {userProfile.username}!</Text>
                     </View>

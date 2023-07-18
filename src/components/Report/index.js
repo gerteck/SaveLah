@@ -8,14 +8,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { ThemeContext } from "../../context/ThemeContext";
 import themeColors from "../../utils/themeColors";
+import { getCategoryIcon } from "../../utils/getCategoryIcon";
 
 const Report = ({ transactions }) => {
     let expense = 0;
     let categories = [];
     let dict = {};
-
-    const { theme } = useContext(ThemeContext); 
-    let activeColors = themeColors[theme.mode];
+    let iconIndexDict = {};
 
     if (transactions.length > 0) {
         transactions.forEach(doc => {
@@ -27,6 +26,7 @@ const Report = ({ transactions }) => {
                 dict[cat] = dict[cat] + doc.amount;
             } else {
                 dict[cat] = doc.amount;
+                iconIndexDict[cat] = doc.index;
             }
         });
     
@@ -35,11 +35,15 @@ const Report = ({ transactions }) => {
             map(([k, v, p]) => ({ category: k, value: v, percentage: p })).sort((a,b) => b.percentage - a.percentage);
         
     }
+
+    const { theme } = useContext(ThemeContext); 
+    let activeColors = themeColors[theme.mode];
     
     const renderTransactions = ({item}) => {
         return (<View style={styles.transactionContainer}>
             <View style={styles.categoryBox}>
-                <Image style={styles.icon} source={require('../../assets/DummyIcon.png')}/>
+                {getCategoryIcon(iconIndexDict[item.category], styles.icon)} 
+                {/* <Image style={styles.icon} source={require('../../assets/DummyIcon.png')}/> */}
                 <View style={styles.categoryContaineer}> 
                     <View>
                         <Text style={styles.transactionCaption}>{item.category}</Text>
@@ -54,7 +58,7 @@ const Report = ({ transactions }) => {
     const getHeader = () => {
         return (<>
             <View>
-                <Text style={[styles.caption, {color: activeColors.text}]}>Expenses this month</Text>
+                <Text style={[styles.caption, {color: activeColors.text}]}>Categories by Percentage</Text>
                 <Text style={[styles.money, {color: activeColors.text}]}>${expense = parseFloat(expense.toFixed(2)).toLocaleString('en-US')}</Text>
             </View>
         </>)

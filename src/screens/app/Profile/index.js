@@ -33,9 +33,11 @@ const Profile = ( {navigation} ) => {
 
     // Get Posts:
     const [userPosts, setUserPosts] = useState([]);
+    const [postUnsub, setPostUnsub] = useState(() => () => {console.log("Default")});
 
     useEffect(()=> {
         if (user) {
+            console.log("Subscribe to Posts");
             const postsRef = collection(db, "posts")
             const q = query(postsRef, where("uid", '==', user?.uid), orderBy("votes", "desc"));
             const unsubscribePosts = onSnapshot(q, (querySnapshot) => {
@@ -45,7 +47,9 @@ const Profile = ( {navigation} ) => {
                 });
                 setUserPosts(posts);
             });
+            setPostUnsub(() => unsubscribePosts);
         }
+        // postUnsub();
     }, [user]); 
 
     // Refresh page on navigation
@@ -144,7 +148,7 @@ const Profile = ( {navigation} ) => {
                 </View>
 
                 <View style={styles.postsRow}>
-                    <Text style={[styles.postTitle, {color: activeColors.text}]}> Top Posts </Text>
+                    <Text style={[styles.postTitle, {color: activeColors.text}]}> Top 3 Posts </Text>
                     <TouchableOpacity style={styles.viewPostsTouchable} onPress={() => setModalVisible(!modalVisible)}>
                         <Text style={[styles.viewAllPosts, {color: activeColors.secondaryText}]}> View all posts</Text>
                     </TouchableOpacity>

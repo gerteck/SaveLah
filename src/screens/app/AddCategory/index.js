@@ -1,5 +1,5 @@
 import React, { createRef, useContext, useState } from "react";
-import { Text, View, Alert, TouchableOpacity, TextInput, Keyboard, Image, Modal, Pressable } from "react-native";
+import { Text, View, TouchableOpacity, TextInput, Keyboard, Image, Modal, Pressable } from "react-native";
 
 import { styles }  from './styles';
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -22,6 +22,7 @@ import { categoryGroupsAddCategory } from "../../../utils/categoryGroupsAddCateg
 import { Icon } from '@rneui/themed';
 import { ThemeContext } from "../../../context/ThemeContext";
 import themeColors from "../../../utils/themeColors";
+import { ToastAndroid } from "react-native";
 
 
 const AddCategory = ( {navigation} ) => {
@@ -65,12 +66,12 @@ const AddCategory = ( {navigation} ) => {
         try {
 
             if (!values?.name || !values?.parent ) {
-                Alert.alert('Please pick a name and group!');
+                ToastAndroid.showWithGravity('Please pick a name and group!', ToastAndroid.LONG, ToastAndroid.BOTTOM);
                 return;
             }
 
             if (values.index == 129) {
-                Alert.alert('Please pick an icon!');
+                ToastAndroid.showWithGravity('Please pick an icon!', ToastAndroid.LONG, ToastAndroid.BOTTOM);
                 return;
             }
 

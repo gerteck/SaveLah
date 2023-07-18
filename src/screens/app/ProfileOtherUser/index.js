@@ -189,7 +189,7 @@ const ProfileOtherUser = ( {navigation, route} ) => {
 
                 </View>
 
-                <Text style={styles.postTitle}> Top posts </Text>
+                <Text style={[styles.postTitle, {color: activeColors.text}]}> Top posts </Text>
                 {otherUserPost && <PostList posts={otherUserPost} navigation={navigation} mapList />} 
                 { otherUserPost.length == 0 && 
                     <View style={[styles.emptyPostBox, {backgroundColor: activeColors.containerBackground}]}>

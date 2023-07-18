@@ -127,6 +127,22 @@ export const styles = StyleSheet.create({
         alignSelf: 'center',
     },
 
+    postsRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginRight: 4,
+    },
+
+    viewPostsTouchable: {
+        flex: 1,
+        justifyContent: 'center',
+    },
+
+    viewAllPosts: {
+        fontSize: 13, 
+        fontWeight: 500,
+    },
+
     postTitle: {
         marginVertical: 8,
         fontSize: 16, 
@@ -153,6 +169,39 @@ export const styles = StyleSheet.create({
         marginTop: 32,
         fontSize: 13,
         color: colors.grey,
+    },
+
+
+
+    crossContainer: {
+        justifyContent: 'flex-start', 
+        marginLeft: '2%',
+        height: 40, 
+        width: 40,
+    },
+
+    modalTitle: {
+        fontSize: 24,
+        fontWeight: '600',
+    },
+
+    titleContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        flex: 1,
+        paddingLeft: '20%',
+    },
+
+    iconList: {
+        paddingBottom: 150, 
+        paddingHorizontal: 24,
+        paddingTop: 10,
+
+    },
+
+    flatlistContainer: {
+        paddingHorizontal: 18,
+        flex: 1,
     },
 
 

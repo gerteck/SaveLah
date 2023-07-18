@@ -159,7 +159,7 @@ const AddTransaction = ( {navigation} ) => {
             <TouchableOpacity onPress={Keyboard.dismiss} activeOpacity={1}>
                 <AppHeader title="Add Transaction" showCross onBack={goBack} />
             
-                <Text style={[styles.label, {color: activeColors.blue}]}>Price</Text>
+                <Text style={[styles.label, {color: activeColors.blue}]}>Price / Amount</Text>
                 <TextInput placeholder="$0.00" 
                     style={[styles.input, {color: activeColors.text,
                         backgroundColor: activeColors.inputBackground, 
@@ -189,7 +189,7 @@ const AddTransaction = ( {navigation} ) => {
                 />
 
                 <Text style={[styles.label, {color: activeColors.blue}]}>Transaction Description</Text>
-                <TextInput placeholder="Meal at YIH... (Optional)" 
+                <TextInput placeholder="Meal at Food Court... (Optional)" 
                     style={[styles.input, {color: activeColors.text,
                         backgroundColor: activeColors.inputBackground, 
                         borderColor: activeColors.inputBorder,},

@@ -15,6 +15,7 @@ import PostList from "../../../components/PostList";
 import { Icon } from '@rneui/themed';
 import { ThemeContext } from "../../../context/ThemeContext";
 import themeColors from "../../../utils/themeColors";
+import { Modal } from "react-native";
 
 const app = getApp;
 const db = getFirestore(app);
@@ -32,20 +33,23 @@ const Profile = ( {navigation} ) => {
 
     // Get Posts:
     const [userPosts, setUserPosts] = useState([]);
+    const [postUnsub, setPostUnsub] = useState(() => () => {console.log("Default")});
 
     useEffect(()=> {
         if (user) {
+            console.log("Subscribe to Posts");
             const postsRef = collection(db, "posts")
-            const q = query(postsRef, where("uid", '==', user?.uid), orderBy("votes", "desc"), limit(3));
+            const q = query(postsRef, where("uid", '==', user?.uid), orderBy("votes", "desc"));
             const unsubscribePosts = onSnapshot(q, (querySnapshot) => {
                 const posts = [];
                 querySnapshot.forEach((doc) => {
                     posts.push(doc.data());
                 });
                 setUserPosts(posts);
-                console.log("Loaded User Posts")
             });
+            setPostUnsub(() => unsubscribePosts);
         }
+        // postUnsub();
     }, [user]); 
 
     // Refresh page on navigation
@@ -53,8 +57,6 @@ const Profile = ( {navigation} ) => {
     useEffect(() => {
       if (user) {
         getUserProfile().then(data => setUserProfile(data))
-        //console.log("Refresh Profile Page");
-        //console.log(userProfile);
       }
     },[isFocused]);
 
@@ -78,10 +80,26 @@ const Profile = ( {navigation} ) => {
     
     const { theme } = useContext(ThemeContext);
     let activeColors = themeColors[theme.mode];
+    const [modalVisible, setModalVisible] = useState(false);
 
     return (
         <SafeAreaView style={styles.mainContainer}>
             <AppHeader title="Profile" showBell onBell={onBell} />
+
+            {/* View all user posts: in Modal */}
+            <Modal visible={modalVisible} 
+                    animationType="slide" 
+                    transparent={false} 
+                    onRequestClose={() => {
+                    setModalVisible(!modalVisible);}}>
+
+                <View style={{backgroundColor: activeColors.appBackground}}>
+                    <AppHeader title="All your Posts" showCross onBack={() => setModalVisible(!modalVisible)} />
+                </View>
+                <View style={[styles.flatlistContainer, {backgroundColor: activeColors.appBackground}]}>
+                    <PostList posts={userPosts} navigation={navigation}/>
+                </View>
+            </Modal>
 
             <ScrollView showsVerticalScrollIndicator={false}> 
 
@@ -129,8 +147,15 @@ const Profile = ( {navigation} ) => {
 
                 </View>
 
-                <Text style={[styles.postTitle, {color: activeColors.text}]}> Top posts </Text>
-                { userPosts && <PostList posts={userPosts} navigation={navigation} mapList />}
+                <View style={styles.postsRow}>
+                    <Text style={[styles.postTitle, {color: activeColors.text}]}> Top 3 Posts </Text>
+                    <TouchableOpacity style={styles.viewPostsTouchable} onPress={() => setModalVisible(!modalVisible)}>
+                        <Text style={[styles.viewAllPosts, {color: activeColors.secondaryText}]}> View all posts</Text>
+                    </TouchableOpacity>
+                </View>
+
+
+                { userPosts && <PostList posts={userPosts.slice(0,3)} navigation={navigation} mapList />}
                 { userPosts.length == 0 && 
                     <View style={[styles.emptyPostBox, {backgroundColor: activeColors.containerBackground}]}>
                         <Text style={styles.emoticon}>٩(⌯꒦ິ̆ᵔ꒦ິ)۶ ᵒᵐᵍᵎᵎᵎ</Text>

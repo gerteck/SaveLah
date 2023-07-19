@@ -20,6 +20,7 @@ import { getCategoryIcon } from "../../../utils/getCategoryIcon";
 
 import themeColors from "../../../utils/themeColors";
 import { ThemeContext } from "../../../context/ThemeContext";
+import { act } from "react-test-renderer";
 
 const Home = ( { navigation } ) => {
     
@@ -98,19 +99,21 @@ const Home = ( { navigation } ) => {
                 const dict = {};
                 let result = 0;
                 snapshot.forEach(doc => {
-                    result = result + doc.data().amount;
-                    let cat = doc.data().category;
-
-                    // separating amounts based on category
-                    if(Object.hasOwn(dict, cat)) {
-                        dict[cat].amount = dict[cat].amount + doc.data().amount;
-                    } else {
-                        dict[cat] = {
-                            category: cat,
-                            index: doc.data().index,
-                            amount: doc.data().amount,
-                        };
-                    }
+                    if (!doc.data().inflow){
+                        result = result + doc.data().amount;
+                        let cat = doc.data().category;
+    
+                        // separating amounts based on category
+                        if(Object.hasOwn(dict, cat)) {
+                            dict[cat].amount = dict[cat].amount + doc.data().amount;
+                        } else {
+                            dict[cat] = {
+                                category: cat,
+                                index: doc.data().index,
+                                amount: doc.data().amount,
+                            };
+                        }
+                    }                   
                 })
                 
                 // Set percentages
@@ -137,7 +140,9 @@ const Home = ( { navigation } ) => {
         const unsubscribe = onSnapshot(qLastMonth, (snapshot) => {
                 let result = 0;
                 snapshot.forEach(doc => {
-                    result = result + doc.data().amount;
+                    if (!doc.data().inflow){
+                        result = result + doc.data().amount;
+                    }
                 })
 
                 // update state
@@ -159,18 +164,20 @@ const Home = ( { navigation } ) => {
                 const dict = {};
                 let result = 0;
                 snapshot.forEach(doc => {
-                    result = result + doc.data().amount;
-                    let cat = doc.data().category;
-
-                    // separating amounts based on category
-                    if(Object.hasOwn(dict, cat)) {
-                        dict[cat]["amount"] = dict[cat]["amount"] + doc.data().amount;
-                    } else {
-                        dict[cat] = {
-                            category: cat,
-                            index: doc.data().index,
-                            amount: doc.data().amount,
-                        };
+                    if (!doc.data().inflow){
+                        result = result + doc.data().amount;
+                        let cat = doc.data().category;
+    
+                        // separating amounts based on category
+                        if(Object.hasOwn(dict, cat)) {
+                            dict[cat]["amount"] = dict[cat]["amount"] + doc.data().amount;
+                        } else {
+                            dict[cat] = {
+                                category: cat,
+                                index: doc.data().index,
+                                amount: doc.data().amount,
+                            };
+                        }
                     }
                 })
 
@@ -198,7 +205,9 @@ const Home = ( { navigation } ) => {
         const unsubscribe = onSnapshot(qLastWeek, (snapshot) => {
                 let result = 0;
                 snapshot.forEach(doc => {
-                    result = result + doc.data().amount;
+                    if (!doc.data().inflow) {
+                        result = result + doc.data().amount;
+                    }
                 })
 
                 // update state
@@ -391,7 +400,7 @@ const Home = ( { navigation } ) => {
 
     const getRecentHeader = () => {
         return (<>
-            <TouchableOpacity onPress={onTransactions}><Text style={styles.report}>See all transactions</Text></TouchableOpacity>
+            <TouchableOpacity onPress={onTransactions}><Text style={[styles.report, {color: activeColors.green}]}>See all transactions</Text></TouchableOpacity>
             <Text style={[styles.transactionTitle, {color: activeColors.text}]}>Recent Transactions</Text>
         </>)
     }
@@ -431,7 +440,7 @@ const Home = ( { navigation } ) => {
                                 }).replace(/-/g, ' ')}
                             </Text>  
                         </View>     
-                        <Text style={{color: activeColors.text}}>${item.amount}</Text> 
+                        <Text style={item.inflow ? {color: activeColors.blue}: {color: activeColors.red}}>${item.amount}</Text> 
                     </View>
                 </View>
             </View>

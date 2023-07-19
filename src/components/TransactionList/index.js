@@ -11,8 +11,8 @@ import themeColors from "../../utils/themeColors";
 
 const TransactionList = ({transactions, navigation}) => {
 
-    const totalInflow = 0;
-    const totalOutflow = transactions.reduce((total, currentDoc) => total + currentDoc.amount, 0);
+    const totalInflow = transactions.filter(doc => doc.inflow).reduce((total, currentDoc) => total + currentDoc.amount, 0);
+    const totalOutflow = transactions.filter((doc) => !doc.inflow).reduce((total, currentDoc) => total + currentDoc.amount, 0);
     const totalNet = totalInflow - totalOutflow;
 
     const { theme } = useContext(ThemeContext); 
@@ -70,7 +70,15 @@ const TransactionList = ({transactions, navigation}) => {
             year: dateObj.getFullYear(),
         }
 
-        const total = item.reduce((acc, cur) => acc + cur.amount, 0).toLocaleString('en-US');
+        const totalIn = item.filter(doc => doc.inflow).reduce((acc, cur) => acc + cur.amount, 0);
+        const totalOut = item.filter(doc => !doc.inflow).reduce((acc, cur) => acc + cur.amount, 0);
+        let total = totalIn - totalOut;
+
+        if (total < 0) {
+            total = '-$' + Math.abs(total).toLocaleString('en-US');
+        } else {
+            total = '$' + total.toLocaleString('en-US');
+        }
 
         return (
             <View style={[styles.transactionViewBox, {backgroundColor: activeColors.inputBackground}]}>
@@ -84,7 +92,7 @@ const TransactionList = ({transactions, navigation}) => {
                             <Text style={[styles.month, {color: activeColors.text}]}>{transDate.month} {transDate.year}</Text>
                         </View>
                     </View>
-                    <Text style={[styles.transAmount, {color: activeColors.text}]}>-${total}</Text>
+                    <Text style={[styles.transAmount, {color: activeColors.text}]}>{total}</Text>
                 </View>       
 
                 <View style={styles.divider} />
@@ -103,7 +111,7 @@ const TransactionList = ({transactions, navigation}) => {
                                 <View style={styles.transactionTextContainer}>
                                     <View style={styles.row1}>
                                         <Text style={{color: activeColors.text}}>{doc.category}</Text>
-                                        <Text style={{color: activeColors.red}}>${doc.amount}</Text>
+                                        <Text style={doc.inflow ? {color: activeColors.blue} : {color: activeColors.red}}>${doc.amount}</Text>
                                     </View>
                                     <View style={styles.descriptionTextContainer}>
                                         <Text style={{color: activeColors.secondaryText}} numberOfLines={1}>{doc.description}</Text>

@@ -97,6 +97,7 @@ const AddTransaction = ( {navigation} ) => {
                     description: '',
                     category: values.category,
                     index: values.index,
+                    inflow: values.inflow,
                 });
 
                 await setDoc(transactionDoc, {
@@ -110,6 +111,7 @@ const AddTransaction = ( {navigation} ) => {
                     description: values.description,
                     category: values.category,
                     index: values.index,
+                    inflow: values.inflow,
                 });
 
                 await setDoc(transactionDoc, {
@@ -183,6 +185,7 @@ const AddTransaction = ( {navigation} ) => {
                         else {
                             onChangeValue('category', v.value)
                             onChangeValue('index', v.index)
+                            onChangeValue('inflow', v.parent == 'Income')
                         }     
                     }} setItems={setItems} zIndex={1000}
                     categorySelectable={false}

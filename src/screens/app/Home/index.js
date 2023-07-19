@@ -21,7 +21,6 @@ import { getCategoryIcon } from "../../../utils/getCategoryIcon";
 import themeColors from "../../../utils/themeColors";
 import { ThemeContext } from "../../../context/ThemeContext";
 
-
 const Home = ( { navigation } ) => {
     
     const [ userProfile, setUserProfile ] = useContext(UserProfileContext);
@@ -303,28 +302,28 @@ const Home = ( { navigation } ) => {
                 colors: [
                     (opacity = 1) => `#c9c9c9`,
                     (opacity = 1) => `#78A9FF`,
-                ]
+                ],
             }
         ]    
     }
 
     const chartConfig = {
-        backgroundGradientFrom: '#fff',
+        backgroundGradientFrom: activeColors.containerBackground,
         backgroundGradientFromOpacity: 0,
-        backgroundGradientTo: '#fff',
+        backgroundGradientTo: activeColors.containerBackground,
         backgroundGradientToOpacity: 0.5,
 
-        color: (opacity = 1) => `#023047`,
-        labelColor: (opacity = 1) => `#333`,
+        color: (opacity = 1) => activeColors.text,
+        labelColor: (opacity = 1) => activeColors.text,
 
         barPercentage: 2,
-        decimalPlaces: 2,
+        decimalPlaces: 0,
         strokeWidth: 2,
 
         propsForBackgroundLines: {
             strokeDasharray: "",
             strokeWidth: 0,
-          },
+        },
     }
 
     const Welcome = (<> 
@@ -362,13 +361,13 @@ const Home = ( { navigation } ) => {
             { weekSelected && <BarChart data={weekData} height={220} width={300} 
                 chartConfig={chartConfig} showValuesOnTopOfBars={true} fromZero={true}  
                 withCustomBarColorFromData={true}
-                flatColor={true} 
+                flatColor={true} segments={2}
             />}
             
             { !weekSelected && <BarChart data={monthData} height={220} width={300} 
                 chartConfig={chartConfig} showValuesOnTopOfBars={true} fromZero={true} 
                 withCustomBarColorFromData={true} 
-                flatColor={true}
+                flatColor={true} segments={2}
             />}
 
         </View>

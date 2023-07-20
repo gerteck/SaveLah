@@ -49,7 +49,6 @@ export const styles = StyleSheet.create({
     },
 
     appHeader: {
-        marginTop: 16,
         borderRadius: 0,
         height: 50,
     }, 

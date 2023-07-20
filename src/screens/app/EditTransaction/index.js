@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { TextInput, Text, View, TouchableOpacity, Alert, Keyboard } from "react-native";
+import { TextInput, Text, View, TouchableOpacity, Alert, Keyboard, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles }  from './styles';
 import AppHeader from "../../../components/AppHeader";
@@ -138,6 +138,7 @@ const EditTransaction = ( { navigation, route } ) => {
     
     return (
         <SafeAreaView style={styles.mainContainer}>
+            <ScrollView showsVerticalScrollIndicator={false}>
             <AppHeader style={[styles.appHeader, {backgroundColor: activeColors.containerBackground}]} 
                 title={"Edit Transaction"} showCross onBack={onBack} showSave onSave={onSave} showDelete onDelete={onDelete}/>
             <TouchableOpacity onPress={Keyboard.dismiss} activeOpacity={1} style={styles.container}>
@@ -175,8 +176,11 @@ const EditTransaction = ( { navigation, route } ) => {
                 <TextInput placeholder="Meal at YIH..." 
                     style={[styles.input, {color: activeColors.text,
                         backgroundColor: activeColors.inputBackground, 
-                        borderColor: activeColors.inputBorder}]} 
-                    placeholderTextColor={activeColors.secondaryText} 
+                        borderColor: activeColors.inputBorder,},
+                        {minHeight: 70, textAlignVertical: 'top'}
+                    ]}
+                    placeholderTextColor={activeColors.secondaryText}
+                    multiline
                     value={transactionDetails.description} 
                     onChangeText={(v) => onChange('description', v)} />
 
@@ -187,6 +191,7 @@ const EditTransaction = ( { navigation, route } ) => {
                 <Button style={styles.SaveTransactionButton} onPress={onSave} title="Save changes"  />
 
             </TouchableOpacity>
+            </ScrollView>
         </SafeAreaView>
     )
 }

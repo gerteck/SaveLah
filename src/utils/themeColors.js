@@ -16,9 +16,12 @@ const themeColors = {
         inputBorder: colors.grey,
         title: colors.blue,
 
+        white: colors.white,
         blue: colors.blue,
         red: colors.red,
         green: colors.green,
+
+
         appBackground: colors.backgroundGrey,
         iconColor: colors.darkGrey,
         containerBackground: colors.white,
@@ -43,9 +46,12 @@ const themeColors = {
         inputBorder: colors.inputMiddleGrey,
         title: colors.darkTextBlue,
         
+        white: colors.white,
         blue: colors.darkTextBlue,
         red: colors.red,
         green: colors.green,
+
+
         appBackground: colors.backgroundDarkGrey,
         iconColor: colors.white,
         containerBackground: colors.darkGrey,

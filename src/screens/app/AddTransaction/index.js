@@ -1,6 +1,6 @@
 
 import React, { createRef, useContext, useState } from "react";
-import {Text, View, TouchableOpacity, TextInput, Keyboard, Image} from "react-native";
+import {Text, View, TouchableOpacity, TextInput, Keyboard, Image, ScrollView, ActivityIndicator} from "react-native";
 
 import { styles }  from './styles';
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -24,6 +24,8 @@ import { Icon } from '@rneui/themed';
 import { ThemeContext } from "../../../context/ThemeContext";
 import themeColors from "../../../utils/themeColors";
 import { ToastAndroid } from "react-native";
+import { receiptScanner } from "../../../utils/receiptScanner";
+
 
 const AddTransaction = ( {navigation} ) => {
     const app = getApp;
@@ -81,8 +83,12 @@ const AddTransaction = ( {navigation} ) => {
 
     const onSend = async () => {
         try {
-            if (!values?.category || !values?.amount ) {
-                ToastAndroid.showWithGravity('Please fill up the amount and category!', ToastAndroid.LONG, ToastAndroid.BOTTOM);
+            if (!values?.amount ) {
+                ToastAndroid.showWithGravity('Please fill up the amount!', ToastAndroid.LONG, ToastAndroid.BOTTOM);
+                return;
+            }
+            if (!values?.category) {
+                ToastAndroid.showWithGravity('Please fill up the category!', ToastAndroid.LONG, ToastAndroid.BOTTOM);
                 return;
             }
 
@@ -152,12 +158,40 @@ const AddTransaction = ( {navigation} ) => {
         showMode('date');
     };
 
+    const [OCRLoading, setOCRLoading] = useState(false);
+
+    const detectText = async (launchCamera) => {
+        setOCRLoading(true);
+        // launchCamera is a boolean value
+        const details = await receiptScanner(launchCamera);
+        // console.log(details);
+        if (details) {
+            if (details.total) {
+                onChangeValue('amount', details.total);
+            }
+            let description = "";
+
+            if (details.store) {
+                description = description + details.store + "\n"
+            }
+            if (details.date) {
+                description = description + details.date + "\n"
+            }
+            if (details.transactionDescription) {
+                description = description + details.transactionDescription + "\n"
+            }
+            onChangeValue('description', description);
+        }
+        setOCRLoading(false);
+    };
+
     const { theme } = useContext(ThemeContext); 
     let activeColors = themeColors[theme.mode];
     let themeMode = theme.mode == "dark" ? "DARK" : "LIGHT";
 
     return (
         <SafeAreaView style={styles.mainContainer}>
+            <ScrollView showsVerticalScrollIndicator={false}>
             <TouchableOpacity onPress={Keyboard.dismiss} activeOpacity={1}>
                 <AppHeader title="Add Transaction" showCross onBack={goBack} />
             
@@ -206,10 +240,24 @@ const AddTransaction = ( {navigation} ) => {
                 <View>
                     <Button style={styles.DatePickerButton} onPress={showDatepicker} title={`Date: ${date.toLocaleDateString()}`} />
                 </View>
+                
+                <Text style={[styles.scanLabel, {color: activeColors.blue}]}>Receipt Scanner:</Text>
+                <View style={styles.receiptRow}>
+                    <TouchableOpacity activeOpacity={0.6} onPress={() => detectText(true)} style={styles.receiptButton}>
+                        {/* Will need to make the camera launch work */}
+                        <Text style={styles.receiptButtonText}>Take Picture</Text>
+                        <Icon name='camera' size={22} type='font-awesome' color={activeColors.white}/> 
+                    </TouchableOpacity>
+                    <TouchableOpacity activeOpacity={0.6} onPress={() => detectText(false)} style={styles.receiptButton}>
+                        <Text style={styles.receiptButtonText}>Upload Receipt</Text>
+                        <Icon name='file-upload' size={22} type='font-awesome-5' color={activeColors.white}/> 
+                    </TouchableOpacity>
+                </View>
+                { OCRLoading && <ActivityIndicator style={styles.indicator} size="large"/> }
 
                 <Button style={styles.AddTransactionButton} onPress={onSend} title="Add transaction"  />
             </TouchableOpacity>
-
+            </ScrollView>
         </SafeAreaView> );
 
 

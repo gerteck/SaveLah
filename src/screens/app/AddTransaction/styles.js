@@ -37,6 +37,41 @@ export const styles = StyleSheet.create({
         zIndex: -1,
     },
 
+    scanLabel: {
+        marginTop: 16,
+        fontSize: 14,
+        fontWeight: '500',
+        zIndex: -1
+    },
+
+    receiptRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+    },
+
+    receiptButton: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        
+        backgroundColor: colors.darkGrey,
+        width: '45%',
+        alignSelf: 'center',
+        textAlign: 'center',
+        paddingVertical: 12,
+        borderRadius: 8,
+
+        marginTop: 12,
+        zIndex: -1,
+    },
+
+    receiptButtonText: {
+        textAlign: 'center',
+        color: colors.white,
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+
+
     modalContainer: {
         // backgroundColor: '#fff',
         padding:  4, 

@@ -21,6 +21,7 @@ export const colors = {
     green: '#43B05C',
 
     offWhite: "#E2e0e0",
+    darkWhite: "#E1D9D1",
 
     darkTextBlue: '#7fb2ff',
 }

@@ -32,7 +32,7 @@ const PostList = ({posts, navigation, onRefresh, refreshing, mapList}) => {
 
         return (
 
-            <Pressable key={item.id} style={[styles.mainContainer, {backgroundColor: activeColors.containerBackground}]} onPress={goPost}>
+            <Pressable key={item.id} style={[styles.mainContainer, {backgroundColor: activeColors.inputBackground}]} onPress={goPost}>
 
                 {/* Category and Date Time */}
                 <View style={styles.header}>

@@ -144,7 +144,7 @@ const ForumHome = ({ navigation, routes }) => {
             {filteredPosts.length == 0 && <PostList onRefresh={getPosts} refreshing={refreshing} posts={allPosts} navigation={navigation} />}
             {filteredPosts.length > 0 && <PostList posts={filteredPosts} navigation={navigation} />}
 
-            <TouchableOpacity style={[styles.newPost, {backgroundColor: activeColors.inputBorder}]} onPress={onNewPost}>
+            <TouchableOpacity style={[styles.newPost, {backgroundColor: activeColors.containerBackground}]} onPress={onNewPost}>
                 <Icon name='edit' size={28} type='font-awesome' color={activeColors.iconColor}/> 
             </TouchableOpacity>
 

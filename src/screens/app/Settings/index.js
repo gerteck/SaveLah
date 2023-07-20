@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import {Linking, ScrollView, Text, View, TouchableOpacity, Image, Alert, ToastAndroid } from "react-native";
+import {Linking, ScrollView, Text, View, TouchableOpacity, Image, ToastAndroid } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles }  from './styles';
 import AppHeader from "../../../components/AppHeader";
@@ -98,12 +98,12 @@ const Settings = ( { navigation } ) => {
 
     const onSavePublicInformation = async () => {
         try {
-            if (!tempProfile?.username) {
-                Alert.alert('Please input a username!');
+            if (!tempProfile?.username) { 
+                ToastAndroid.showWithGravity('Please input a username!', ToastAndroid.LONG, ToastAndroid.BOTTOM);
                 return;
             }
             if (!tempProfile?.bio) {
-                Alert.alert('Please input a bio!');
+                ToastAndroid.showWithGravity('Please input a bio!', ToastAndroid.LONG, ToastAndroid.BOTTOM);
                 return;
             } 
 
@@ -125,11 +125,11 @@ const Settings = ( { navigation } ) => {
         const auth = getAuth();
         const user = auth.currentUser;
         if (!tempSettings?.email) {
-            Alert.alert('Please input an email!');
+            ToastAndroid.showWithGravity('Please input an email!', ToastAndroid.LONG, ToastAndroid.BOTTOM);
             return;
         };
         if (!tempSettings?.password) {
-            Alert.alert('Please input your password!');
+            ToastAndroid.showWithGravity('Please input your password!', ToastAndroid.LONG, ToastAndroid.BOTTOM);
             return;
         };
         await signInWithEmailAndPassword(projectAuth, user.email, tempSettings.password)
@@ -153,11 +153,11 @@ const Settings = ( { navigation } ) => {
         const auth = getAuth();
         const user = auth.currentUser;
         if (!tempSettings?.newPassword) {
-            Alert.alert('Please input a new Password!');
+            ToastAndroid.showWithGravity('Please input a new Password!', ToastAndroid.LONG, ToastAndroid.BOTTOM);
             return;
         };
         if (!tempSettings?.password) {
-            Alert.alert('Please input your password!');
+            ToastAndroid.showWithGravity('Please input your current Password!', ToastAndroid.LONG, ToastAndroid.BOTTOM);
             return;
         };
         await signInWithEmailAndPassword(projectAuth, user.email, tempSettings.password)

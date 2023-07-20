@@ -24,7 +24,8 @@ export const styles = StyleSheet.create({
     },
 
     AddTransactionButton: {
-        marginVertical: 35,
+        marginTop: 18,
+        marginBottom: 35,
         backgroundColor: colors.green,
         zIndex: -1,
     },
@@ -52,7 +53,7 @@ export const styles = StyleSheet.create({
     receiptButton: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        
+
         backgroundColor: colors.darkGrey,
         width: '45%',
         alignSelf: 'center',
@@ -71,11 +72,11 @@ export const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 
+    indicator: {
+        paddingTop: 12,
+    },
 
     modalContainer: {
-        // backgroundColor: '#fff',
         padding:  4, 
     },
-    
-
 })

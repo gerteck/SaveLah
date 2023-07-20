@@ -103,12 +103,10 @@ export async function receiptScanner(launchCamera) {
         totalIndex = receiptContent.findIndex(v => {
             return !v.includes("sub") && v.includes("total");
         });
-        console.log("totalIndex: ", totalIndex);
         if (totalIndex != -1) {
             total = receiptContent[totalIndex].replace(/[^0-9.]/g, '');
         }
         
-    
         function containsNumbers(str) {
             return /\d/.test(str);
         }
@@ -127,7 +125,6 @@ export async function receiptScanner(launchCamera) {
             transactionDescription: transactionDescription,
         };
 
-        // console.log(details);
         return details;
     }
 

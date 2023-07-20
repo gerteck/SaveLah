@@ -51,7 +51,8 @@ export async function receiptScanner(launchCamera) {
 
     // Send to API
     var myHeaders = new Headers();
-    myHeaders.append("apikey", "helloworld");
+    myHeaders.append("apikey", "K87435773488957");
+    // can use "helloworld" as key as well (default);
 
     var formdata = new FormData();
     formdata.append("language", "eng");

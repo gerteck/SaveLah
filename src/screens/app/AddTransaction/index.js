@@ -233,7 +233,7 @@ const AddTransaction = ( {navigation} ) => {
                 <View style={styles.receiptRow}>
                     <TouchableOpacity activeOpacity={0.6} onPress={() => detectText(true)} style={styles.receiptButton}>
                         {/* Will need to make the camera launch work */}
-                        <Text style={styles.receiptButtonText}>Upload Receipt</Text>
+                        <Text style={styles.receiptButtonText}>Take Picture</Text>
                         <Icon name='camera' size={22} type='font-awesome' color={activeColors.white}/> 
                     </TouchableOpacity>
                     <TouchableOpacity activeOpacity={0.6} onPress={() => detectText(false)} style={styles.receiptButton}>

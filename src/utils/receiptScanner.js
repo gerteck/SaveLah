@@ -1,55 +1,53 @@
-import { useEffect } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
-import { Alert } from 'react-native';
-
+import { ToastAndroid } from 'react-native';
 
 export async function receiptScanner(launchCamera) {
     let base64;
-    // Launch Camera Does not work??
 
-    // if (launchCamera) {
-    //     // const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
-    //     await ImagePicker.requestCameraPermissionsAsync();
-    //     let permissionResult = await ImagePicker.getCameraPermissionsAsync();
-    //     if (permissionResult.granted === false) {
-    //       Alert.alert("You've refused to allow this app to access your camera!");
-    //       return;
-    //     } else {
-    //         console.log("Granted");
-    //         await ImagePicker.launchCameraAsync({
-    //         allowsEditing: true,
-    //         base64: true,
-    //         // mediaTypes: ImagePicker.MediaTypeOptions,
-    //         // quality: 1,
-    //         }).catch((error) => console.log(error));
-    //         return;
-    //         // .then((response) => {
-    //         //     // if (!response.cancelled) {
-    //         //     // }
-    //         //     console.log(response);
-    //         //     return response;
-    //         // })
-    //     } 
-        
-    // } 
-
+    if (launchCamera) {
+        // const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+        await ImagePicker.requestCameraPermissionsAsync();
+        let permissionResult = await ImagePicker.getCameraPermissionsAsync();
+        if (permissionResult.granted === false) {
+            ToastAndroid.showWithGravity("Application does not have permission to access your camera", ToastAndroid.LONG, ToastAndroid.BOTTOM);
+            return;
+        } else {
+            const response = await ImagePicker.launchCameraAsync({
+            allowsEditing: true,
+            base64: true,
+            quality: 0.7,
+            })
+            .then((response) => {
+                if (!response.canceled) {
+                    base64 = response.assets[0].base64;
+                }
+                // console.log(response);
+                return response;})
+            .catch((error) => console.log(error));
+            if (response.canceled) {
+                return;
+            }
+        } 
+    } 
+    
     // Launch Image Library
-    let uri
-    const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
-        allowsEditing: true,
-        //aspect: [1, 1],
-        quality: 0.2,
-        });
+    else { 
+        let uri
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            //aspect: [1, 1],
+            quality: 0.2,
+            });
 
-    if (result.assets) {
-        uri = result.assets[0].uri;
-    } else {
-        return;
+        if (result.assets) {
+            uri = result.assets[0].uri;
+        } else {
+            return;
+        }
+        base64 = await FileSystem.readAsStringAsync(uri, { encoding: 'base64' });   
     }
-    base64 = await FileSystem.readAsStringAsync(uri, { encoding: 'base64' });   
-
 
     // Send to API
     var myHeaders = new Headers();
@@ -102,7 +100,9 @@ export async function receiptScanner(launchCamera) {
         // Assuming first thing is Shop name:
         store = receiptContent[0];
         date = receiptContent[receiptContent.findIndex(v => v.includes("date"))];
-        totalIndex = receiptContent.findIndex(v => v.includes("total"));
+        totalIndex = receiptContent.findIndex(v => {
+            return !v.includes("sub") && v.includes("total");
+        });
         total = receiptContent[totalIndex].replace(/[^0-9.]/g, '');
         
     
@@ -111,7 +111,7 @@ export async function receiptScanner(launchCamera) {
         }
 
         // Assuming the stuff has a price next to it: We add line with numbers to the description
-        for (i = 0; i < totalIndex; i++) {
+        for (i = 1; i < totalIndex; i++) {
             if (containsNumbers(receiptContent[i])) {
                 transactionDescription = transactionDescription + "\n" + receiptContent[i];
             }

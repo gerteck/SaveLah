@@ -69,4 +69,27 @@ export const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
     },
+
+    pointBox: {
+        flexDirection: 'row',
+        marginBottom: 20,
+        marginTop: 8,
+        gap: 16,
+
+    },
+
+    pointValue: {
+        flex: 1,
+    },
+
+    pointCaption: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 8,
+    },
+
+    pointMoney: {
+        paddingLeft: 4,
+        fontSize: 20,
+    },
 })

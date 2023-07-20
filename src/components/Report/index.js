@@ -10,7 +10,7 @@ import { ThemeContext } from "../../context/ThemeContext";
 import themeColors from "../../utils/themeColors";
 import { getCategoryIcon } from "../../utils/getCategoryIcon";
 
-const Report = ({ transactions }) => {
+const Report = ({ transactions, averagePoint, point }) => {
     let expense = 0;
     let categories = [];
     let dict = {};
@@ -55,20 +55,36 @@ const Report = ({ transactions }) => {
         </View>)
     }
 
+    let avg = parseFloat(averagePoint?.toFixed(2)).toLocaleString('en-US');
+    let pt = parseFloat(point?.toFixed(2)).toLocaleString('en-US');
+    let exp = parseFloat(expense?.toFixed(2)).toLocaleString('en-US')
+
     const getHeader = () => {
-        return (<>
+        return (
             <View>
-                <Text style={[styles.caption, {color: activeColors.text}]}>Categories by Percentage</Text>
-                <Text style={[styles.money, {color: activeColors.text}]}>${expense = parseFloat(expense.toFixed(2)).toLocaleString('en-US')}</Text>
+                <View style={styles.pointBox}>
+                    <View style={styles.pointValue}>
+                        <Text style={[styles.pointCaption, {color: activeColors.text}]}>Avg. spending up to this point</Text>
+                        <Text style={[styles.pointMoney, {color: activeColors.text}]}>${parseFloat(averagePoint?.toFixed(2)).toLocaleString('en-US')}</Text>
+                    </View>
+                    <View style={styles.pointValue}>
+                        <Text style={[styles.pointCaption, {color: activeColors.text}]}>Month spending up to this point</Text>
+                        <Text style={[styles.pointMoney, {color: activeColors.text}]}>${pt}</Text>
+                    </View> 
+                </View>
+                <View>
+                    <Text style={[styles.caption, {color: activeColors.text}]}>Categories by Percentage</Text>
+                    <Text style={[styles.money, {color: activeColors.text}]}>${exp}</Text>
+                </View>
             </View>
-        </>)
+            )
     }
           
 
     return (
         <SafeAreaView style={{marginHorizontal: 16, marginTop: 8}}>
-            <FlatList data={categories} keyExtractor={item => item.category} renderItem={renderTransactions} 
-            ListHeaderComponent={getHeader}/>
+                <FlatList data={categories} keyExtractor={item => item.category} renderItem={renderTransactions} 
+                ListHeaderComponent={getHeader}/>
         </SafeAreaView>
     )
 }

@@ -8,6 +8,7 @@ import Report from "../Report";
 
 import { ThemeContext } from "../../context/ThemeContext";
 import themeColors from "../../utils/themeColors";
+import { filter } from "underscore";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -20,18 +21,33 @@ const SpendingReportTabs = ({ documents }) => {
     var curr = new Date();
     var y = curr.getFullYear();
     var m = curr.getMonth();
+    var d = curr.getDate();
 
     var firstDay = new Date(y, m, 1);
-    var lastDay = new Date(y, m + 1, 0);
+    var lastDay = new Date(y, m + 1, 0, 23, 59, 59);
+    var pointDay = new Date(y, m, d, 23, 59, 59);
 
     let monthDocs = [];
+    let monthSpendingToThisPoint = [];
 
     for (let i = 0; i < 6; i++) {
         monthDocs[i] = documents.filter(({ date }) => date.toDate() >= firstDay && date.toDate() <= lastDay);
+        monthSpendingToThisPoint[i] = documents.filter(({ date }) => date.toDate() >= firstDay && date.toDate() <= pointDay).reduce((acc, curr) => acc + curr.amount, 0);
         m--;
         firstDay = new Date(y, m, 1);
-        lastDay = new Date(y, m + 1, 0);
+        lastDay = new Date(y, m + 1, 0, 23, 59, 59);
+        pointDay = new Date(y, m, d, 23, 59, 59);
+
+        // If month ends before say the 31st
+        if (pointDay.getMonth() != lastDay.getMonth()) {
+            pointDay = lastDay;
+        }
     }
+
+    // Calculating average amount spent up to this point in the month
+    let filteredValues = monthSpendingToThisPoint.filter(amt => amt != 0);
+    let sum = filteredValues.reduce((acc, curr) => acc + curr, 0);
+    let average = sum / filteredValues.length; 
 
     let names = [];
     var currN = new Date();
@@ -58,15 +74,19 @@ const SpendingReportTabs = ({ documents }) => {
     })
 
     return (
-        <Tab.Navigator initialRouteName={"This Month"} screenOptions={tabScreenOptions} >
-            <Tab.Screen name={names[2]} children={() => <Report transactions={monthDocs[4]}/>} />
-            <Tab.Screen name={names[1]}  children={() => <Report transactions={monthDocs[3]}/>} />
-            <Tab.Screen name={names[0]} children={() => <Report transactions={monthDocs[2]}/>} />
-            <Tab.Screen name="Last Month" children={() => <Report transactions={monthDocs[1]}/>} />
-            <Tab.Screen name="This Month"  children={() => <Report transactions={monthDocs[0]}/>} />
-        </Tab.Navigator>
+        <>
+            {average && monthDocs && monthSpendingToThisPoint &&
+                <Tab.Navigator initialRouteName={"This Month"} screenOptions={tabScreenOptions} >
+                    <Tab.Screen name={names[2]} children={() => <Report transactions={monthDocs[4]} averagePoint={average} point={monthSpendingToThisPoint[4]}/>} />
+                    <Tab.Screen name={names[1]}  children={() => <Report transactions={monthDocs[3]} averagePoint={average} point={monthSpendingToThisPoint[3]}/>} />
+                    <Tab.Screen name={names[0]} children={() => <Report transactions={monthDocs[2]} averagePoint={average} point={monthSpendingToThisPoint[2]}/>} />
+                    <Tab.Screen name="Last Month" children={() => <Report transactions={monthDocs[1]} averagePoint={average} point={monthSpendingToThisPoint[1]}/>} />
+                    <Tab.Screen name="This Month"  children={() => <Report transactions={monthDocs[0]} averagePoint={average} point={monthSpendingToThisPoint[0]}/>} />
+                </Tab.Navigator>
+            }
+        </>
     )
-            
+ 
 }
 
 export default React.memo(SpendingReportTabs);

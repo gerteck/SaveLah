@@ -98,6 +98,7 @@ const Tabs = () => {
     tabBarHideOnKeyboard: true,   
     tabBarStyle: {
       backgroundColor: activeColors.inputBackground,
+      height: 50,
     },
 
     // To add Text Label of Tab 
@@ -115,7 +116,7 @@ const Tabs = () => {
         label = "Add Transaction";
         // return <Text></Text>
       }
-      return <Text style={{fontSize: 8, fontWeight: '400', color: activeColors.text}}>{focused ? label : ""}</Text>
+      return <Text style={{fontSize: 10, fontWeight: '400', color: activeColors.text}}>{focused ? label : ""}</Text>
     },
 
     tabBarLabelStyle: {zIndex: -1},

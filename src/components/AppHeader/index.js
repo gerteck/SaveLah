@@ -58,7 +58,7 @@ const AppHeader = ({  style,
 
                 { showChat ? (
                     <TouchableOpacity onPress={onChat}> 
-                        <Icon name='comments' type='font-awesome' style={styles.icon} color={activeColors.iconColor}/>
+                        <Icon name='comments' type='font-awesome' color={activeColors.iconColor}/>
                     </TouchableOpacity>
                 ) : null }
                 

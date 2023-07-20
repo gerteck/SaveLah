@@ -80,16 +80,20 @@ export const styles = StyleSheet.create({
 
     pointValue: {
         flex: 1,
+        flexDirection: 'column',
+        alignItems: 'center',
     },
 
     pointCaption: {
-        fontSize: 20,
-        fontWeight: 'bold',
+        fontSize: 18,
         marginBottom: 8,
+        textAlign: 'center',
     },
 
     pointMoney: {
         paddingLeft: 4,
-        fontSize: 20,
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 4,
     },
 })

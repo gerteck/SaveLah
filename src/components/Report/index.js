@@ -58,18 +58,19 @@ const Report = ({ transactions, averagePoint, point }) => {
     let avg = parseFloat(averagePoint?.toFixed(2)).toLocaleString('en-US');
     let pt = parseFloat(point?.toFixed(2)).toLocaleString('en-US');
     let exp = parseFloat(expense?.toFixed(2)).toLocaleString('en-US')
+    let ptColor = point > averagePoint ? activeColors.red : activeColors.blue;
 
     const getHeader = () => {
         return (
             <View>
                 <View style={styles.pointBox}>
                     <View style={styles.pointValue}>
-                        <Text style={[styles.pointCaption, {color: activeColors.text}]}>Avg. spending up to this point</Text>
                         <Text style={[styles.pointMoney, {color: activeColors.text}]}>${parseFloat(averagePoint?.toFixed(2)).toLocaleString('en-US')}</Text>
+                        <Text style={[styles.pointCaption, {color: activeColors.text}]}>Avg. spending up to this point</Text>
                     </View>
                     <View style={styles.pointValue}>
+                        <Text style={[styles.pointMoney, {color: ptColor}]}>${pt}</Text>
                         <Text style={[styles.pointCaption, {color: activeColors.text}]}>Month spending up to this point</Text>
-                        <Text style={[styles.pointMoney, {color: activeColors.text}]}>${pt}</Text>
                     </View> 
                 </View>
                 <View>

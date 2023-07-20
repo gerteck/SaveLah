@@ -104,7 +104,7 @@ const Profile = ( {navigation} ) => {
             <ScrollView showsVerticalScrollIndicator={false}> 
 
                 {/* Profile, Bio, following and setting Buttons */}
-                <View style={[styles.containerBox, {backgroundColor: activeColors.containerBackground}]}>
+                <View style={[styles.containerBox, {backgroundColor: activeColors.inputBackground}]}>
                     <View style={styles.profile}>
                         <View style={styles.displayPictureWrapper}>
                             <Image style={styles.displayPicture} source={{uri: userProfile.url}}/>
@@ -157,7 +157,7 @@ const Profile = ( {navigation} ) => {
 
                 { userPosts && <PostList posts={userPosts.slice(0,3)} navigation={navigation} mapList />}
                 { userPosts.length == 0 && 
-                    <View style={[styles.emptyPostBox, {backgroundColor: activeColors.containerBackground}]}>
+                    <View style={[styles.emptyPostBox, {backgroundColor: activeColors.inputBackground}]}>
                         <Text style={styles.emoticon}>٩(⌯꒦ິ̆ᵔ꒦ິ)۶ ᵒᵐᵍᵎᵎᵎ</Text>
                         <Text style={styles.noPostText}>Start a new post, {userProfile.username}!</Text>
                     </View>

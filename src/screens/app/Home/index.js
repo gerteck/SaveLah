@@ -317,9 +317,9 @@ const Home = ( { navigation } ) => {
     }
 
     const chartConfig = {
-        backgroundGradientFrom: activeColors.containerBackground,
+        backgroundGradientFrom: activeColors.inputBackground,
         backgroundGradientFromOpacity: 0,
-        backgroundGradientTo: activeColors.containerBackground,
+        backgroundGradientTo: activeColors.inputBackground,
         backgroundGradientToOpacity: 0.5,
 
         color: (opacity = 1) => activeColors.text,
@@ -390,9 +390,9 @@ const Home = ( { navigation } ) => {
 
     const getHeader = () => {
         return (<>
-            <Box style={{backgroundColor: activeColors.containerBackground}} content={Welcome}/>
+            <Box style={{backgroundColor: activeColors.inputBackground}} content={Welcome}/>
             <TouchableOpacity onPress={onReport}><Text style={[styles.report, {color: activeColors.green}]}>See full report</Text></TouchableOpacity>
-            <Box style={{backgroundColor: activeColors.containerBackground, zIndex: -1}} content={barChart}/>
+            <Box style={{backgroundColor: activeColors.inputBackground, zIndex: -1}} content={barChart}/>
             { !weekSelected && <Text style={[styles.transactionTitle, {color: activeColors.text}]}>Top Categories for the month</Text> }
             { weekSelected && <Text style={[styles.transactionTitle, {color: activeColors.text}]}>Top Categories for the week</Text> }
         </>)
@@ -409,7 +409,7 @@ const Home = ( { navigation } ) => {
     const renderTransactions = ({item}) => {
         return (
         <View style={styles.transactionContainer} key={item.id}>
-            <View style={[styles.categoryBox, {backgroundColor: activeColors.containerBackground}]}>
+            <View style={[styles.categoryBox, {backgroundColor: activeColors.inputBackground}]}>
                 {getCategoryIcon(item.index, styles.icon)}
                 <View style={styles.categoryContainer}> 
                     <View>
@@ -429,7 +429,7 @@ const Home = ( { navigation } ) => {
         return (
         <Pressable onPress={goEditTransaction}>
             <View style={styles.transactionContainer}>
-                <View style={[styles.categoryBox, {backgroundColor: activeColors.containerBackground}]}>
+                <View style={[styles.categoryBox, {backgroundColor: activeColors.inputBackground}]}>
                     {getCategoryIcon(item.index, styles.icon)}
                     <View style={styles.categoryContainer}> 
                         <View>

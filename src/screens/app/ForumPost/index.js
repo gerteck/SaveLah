@@ -281,9 +281,9 @@ const ForumPost = ( {navigation, route} ) => {
         <ScrollView>
             <AppHeader showBack onBack={onBack} style={[styles.appHeader, {backgroundColor: activeColors.containerBackground}]}  
                 userPictureURL={posterURL} title={headerTitle} onUserPicture={onUserPress}/>
-            <View style={[styles.mainView, {backgroundColor: activeColors.containerBackground}]}>
+            <View style={[styles.mainView, {backgroundColor: activeColors.inputBackground}]}>
                 
-                <View style={[styles.postContainer, {backgroundColor: activeColors.secondaryContainerBackground}]}>
+                <View style={[styles.postContainer, {backgroundColor: activeColors.containerBackground}]}>
                     
                     {/* Category and Date Time */}
                     <View style={styles.header}>

@@ -25,10 +25,8 @@ let customImageUploaded = false;
 
 const RegisterProfile = ( { navigation } ) => {
 
+    // Screen only loads if userProfile.registered = false.
     const [ userProfile, setUserProfile ] = useContext(UserProfileContext);
-    useEffect(() => {
-        setUserProfile(v => ({...v, ["registered"]: false}))
-    }, []);
    
     //Get Array of Default Profile Pictures
     const [defaultProfilePictures, setDefaultProfilePictures] = useState({});

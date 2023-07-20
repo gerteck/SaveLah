@@ -58,8 +58,8 @@ export async function receiptScanner(launchCamera) {
     formdata.append("isOverlayRequired", "false");
     formdata.append("iscreatesearchablepdf", "false");
     formdata.append("issearchablepdfhidetextlayer", "false");
-    formdata.append("OCREngine", "2");
-
+    formdata.append("OCREngine", "1");
+    // Can choose to use OCREngine 1, 2 or 3
 
     formdata.append("base64image", 'data:image/jpeg;base64,' + base64);
     formdata.append("filetype", "jpg");

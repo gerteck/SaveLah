@@ -103,7 +103,10 @@ export async function receiptScanner(launchCamera) {
         totalIndex = receiptContent.findIndex(v => {
             return !v.includes("sub") && v.includes("total");
         });
-        total = receiptContent[totalIndex].replace(/[^0-9.]/g, '');
+        console.log("totalIndex: ", totalIndex);
+        if (totalIndex != -1) {
+            total = receiptContent[totalIndex].replace(/[^0-9.]/g, '');
+        }
         
     
         function containsNumbers(str) {
@@ -134,14 +137,3 @@ export async function receiptScanner(launchCamera) {
     .catch(error => console.log('error', error));
 
 };
-
-
-
-    // const VAT = receiptContent[20].replace(/\D/g, '');
-    // const receipt = {
-    //     store: receiptContent[0].split('\t')[1],
-    //     date: receiptContent[6].split(" ")[0],
-    //     subtotal: subTotal.substring(0, subTotal.length - 2) + "." + subTotal.substring(subTotal.length - 2),
-    //     total: receiptTotal.substring(0, receiptTotal.length - 2) + "." + receiptTotal.substring(receiptTotal.length - 2),
-    //     vat: VAT.substring(0, VAT.length - 2) + "." + VAT.substring(VAT.length - 2),
-    // }

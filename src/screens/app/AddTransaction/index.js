@@ -158,7 +158,9 @@ const AddTransaction = ( {navigation} ) => {
         console.log(details);
 
         if (details) {
-            onChangeValue('amount', details.total);
+            if (details.total) {
+                onChangeValue('amount', details.total);
+            }
             let description = "";
 
             if (details.store) {

@@ -39,25 +39,28 @@ export const styles = StyleSheet.create({
         fontSize: 10,
     },
 
-    imageContainer: {
-        height: 150,
-        alignItems: 'center',
-        margin: 16,
-        borderWidth: 0,
-        zIndex: -1,
-    },
-
     title: {
         fontSize: 14,
         fontWeight: 500,
         marginVertical: 6,
     },
 
+    imageContainer: {
+        height: 150,
+        alignItems: 'center',
+        margin: 16,
+        zIndex: -1,
+    },
+
     postImage: {
         flex: 1,
         width: '100%',
         height: '100%',
-        resizeMode: 'contain',
+        resizeMode: 'contain',       
+        // max-width: '100%',
+        // max-height: '100%',
+        // borderRadius: 20,
+        // borderWidth: 1,
     },
 
     body: {

@@ -276,6 +276,13 @@ const ForumPost = ( {navigation, route} ) => {
     let activeColors = themeColors[theme.mode];
     let themeMode = theme.mode == "dark" ? "DARK" : "LIGHT";
 
+    let categoryColor = {};
+    if (postDetails.category == 'Life') {
+        categoryColor = {backgroundColor: '#FFCD92'}
+    } else if (postDetails.category == 'MoneySavingTips') {
+        categoryColor = {backgroundColor: '#92A3FF'}
+    }
+
     return (
         <SafeAreaView style={styles.safeContainer}>
         <ScrollView>
@@ -287,7 +294,7 @@ const ForumPost = ( {navigation, route} ) => {
                     
                     {/* Category and Date Time */}
                     <View style={styles.header}>
-                        <View style={styles.categoryContainer}>
+                        <View style={[styles.categoryContainer, categoryColor]}>
                             <Text style={styles.categoryText}>{postDetails.category}</Text>
                         </View>
                         <Text style={[styles.time, {color: activeColors.text}]}>{postDetails.createdAt.toDate().toDateString()}</Text>

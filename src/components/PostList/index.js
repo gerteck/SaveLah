@@ -45,7 +45,9 @@ const PostList = ({posts, navigation, onRefresh, refreshing, mapList}) => {
                 <Text style={[styles.title, {color: activeColors.text}]} numberOfLines={1} ellipsizeMode="tail" >{item.title}</Text>
                 
                 {/* Image if there is */}
-                {item.url && <View style={styles.imageContainer}><Image source={{uri: item.url}} style={styles.postImage}/></View> }
+                {item.url && <View style={styles.imageContainer}>
+                    <Image source={{uri: item.url}} style={styles.postImage}/>
+                </View> }
 
                 <Text style={[styles.body, {color: activeColors.secondaryText}]} numberOfLines={3} ellipsizeMode="tail" >{item.body}</Text>
 

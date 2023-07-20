@@ -47,6 +47,7 @@ import { NotificationNumberContext } from './src/context/NotificationNumberConte
 import themeColors from './src/utils/themeColors';
 import { ThemeContext } from './src/context/ThemeContext';
 import { Icon } from '@rneui/themed';
+import LoadingScreen from './src/screens/app/LoadingScreen';
 
 const AuthStack = createStackNavigator();
 const HomeStack = createStackNavigator();
@@ -174,6 +175,8 @@ const Routes = () => {
       const docSnap = await getDoc(userProfileRef);
       setUserProfile(docSnap.data());
   }
+  
+  // console.log(userProfile);
 
   // Get User Profile to determine if Registered
   useEffect(() => { user && getSetUserProfile() }, []);
@@ -226,7 +229,7 @@ const Routes = () => {
     <NavigationContainer theme={MyTheme}>
         {authIsReady && (
             <AuthStack.Navigator>
-                {user && userProfile?.registered && (
+                {user && userProfile?.registered == true && (
                       <>
                           <AuthStack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
                           <AuthStack.Screen name="ForumChat" component={ForumChat} options={{ headerShown: false }} />
@@ -237,7 +240,12 @@ const Routes = () => {
                           <AuthStack.Screen name="AddCategory" component={AddCategory} options={{ headerShown: false }} />
                       </>
                 )}
-                {user && !userProfile?.registered && (
+                {user && Object.keys(userProfile).length == 0 && ( 
+                    <>
+                        <AuthStack.Screen name="LoadingScreen" component={LoadingScreen} options={{ headerShown: false }} />
+                    </>
+                )}
+                {user && userProfile?.registered == false && (
                     <>
                         <AuthStack.Screen name="RegisterProfile" component={RegisterProfile} options={{ headerShown: false }} />
                     </>

@@ -1,24 +1,32 @@
-import React, { useContext } from 'react';
-import { Text, Image, View, Pressable } from 'react-native';
-
+import React, { useContext, useEffect } from 'react';
+import { Text, Image, View } from 'react-native';
 import { colors } from "../../../utils/colors";
 import { styles } from './styles';
-
-import Button from '../../../components/Button';
 import { StatusBar } from 'react-native';
 
 import themeColors from "../../../utils/themeColors";
 import { ThemeContext } from '../../../context/ThemeContext';
+import { getApp } from '@firebase/app';
+import { doc, getDoc, getFirestore } from '@firebase/firestore';
+import { useAuthContext } from '../../../hooks/useAuthContext';
+import { UserProfileContext } from '../../../context/UserProfileContext';
 
-const Splash = ({ navigation }) => {
+const app = getApp;
+const db = getFirestore(app);
 
-    const onSignup = () => {
-        navigation.navigate('Signup');
-    };
+const LoadingScreen = ({ navigation }) => {
 
-    const onSignin = () => {
-        navigation.navigate('Signin');
-    };
+    const { user, authIsReady } = useAuthContext();
+    const [ userProfile, setUserProfile ] = useContext(UserProfileContext);
+    
+    // Get User Profile aka Loading to check if registered or not.
+    async function getSetUserProfile() {
+        const userProfileRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(userProfileRef);
+        setUserProfile(docSnap.data());
+    }
+    
+    useEffect(() => { user && getSetUserProfile() }, []);
 
     const { theme } = useContext(ThemeContext);
     let activeColors = themeColors[theme.mode];
@@ -36,16 +44,10 @@ const Splash = ({ navigation }) => {
                 <Text style={[styles.title, styles.innerTitle, {color: activeColors.specialTitle }]}>Budgeting Needs,</Text>
                 <Text style={[styles.title, { color: activeColors.text }]}>Here.</Text>
             </View>
-
-            <Button onPress={onSignup} title="Sign Up" />
-
-            <Pressable style={styles.footerContainer} hitSlop={2} onPress={onSignin}> 
-                <Text style={[styles.footerText, { color: activeColors.footer }]}>Sign In</Text>
-            </Pressable>
         </View>
     )
     
 }
 
 
-export default React.memo(Splash);
+export default React.memo(LoadingScreen);

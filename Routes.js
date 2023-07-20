@@ -174,6 +174,8 @@ const Routes = () => {
       const docSnap = await getDoc(userProfileRef);
       setUserProfile(docSnap.data());
   }
+  
+  console.log(userProfile);
 
   // Get User Profile to determine if Registered
   useEffect(() => { user && getSetUserProfile() }, []);

@@ -22,11 +22,14 @@ const Splash = ({ navigation }) => {
 
     const { theme } = useContext(ThemeContext);
     let activeColors = themeColors[theme.mode];
+    let splash = theme.mode == "dark" 
+        ? require('../../../assets/authPages/splash_image_dark.png')
+        : require('../../../assets/authPages/splash_image.png');
 
     return (
         <View style={[styles.container, { backgroundColor: activeColors.background }] }>
             <StatusBar hidden={true} backgroundColor={colors.white} barStyle={"dark-content"}/> 
-            <Image resizeMode='contain' style={styles.image} source={require('../../../assets/authPages/splash_image.jpg')} />
+            <Image resizeMode='contain' style={styles.image} source={splash} />
 
             <View style={styles.titleContainer}>
                 <Text style={[styles.title, { color: activeColors.text }]}>All your</Text>

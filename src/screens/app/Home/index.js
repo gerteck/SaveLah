@@ -385,7 +385,7 @@ const Home = ( { navigation } ) => {
 
     // When there have not been any expeneses 
     const noTransactionsYet = (<> 
-        <Text>No transactions yet</Text>
+        <Text style={{color: activeColors.text}}>No transactions yet</Text>
     </>);
 
     const getHeader = () => {
@@ -464,7 +464,7 @@ const Home = ( { navigation } ) => {
                 <FlatList showsVerticalScrollIndicator={false} data={categories} 
                 keyExtractor={item => item.category} renderItem={renderTransactions} 
                 ListHeaderComponent={getHeader} ListFooterComponent={getFooter} 
-                ListEmptyComponent={<Box content={noTransactionsYet} />} />}
+                ListEmptyComponent={<Box style={{backgroundColor: activeColors.containerBackground}} content={noTransactionsYet} />} />}
 
             {weekSelected && 
             
@@ -472,7 +472,7 @@ const Home = ( { navigation } ) => {
                 renderItem={renderTransactions} ListHeaderComponent={getHeader} 
                 ListFooterComponent={getFooter}
                 showsVerticalScrollIndicator={false} 
-                ListEmptyComponent={<Box content={noTransactionsYet} />} />}
+                ListEmptyComponent={<Box style={{backgroundColor: activeColors.containerBackground}} content={noTransactionsYet} />} />}
             
         </SafeAreaView>
     )

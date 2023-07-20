@@ -27,7 +27,7 @@ const SpendingReport = ({ navigation }) => {
 
     const { documents, error } = useCollection(
         'transactions/' + user?.uid + '/userTransactions',
-        ["uid", "==", user?.uid],
+        ["inflow", "==", false],
         ["date", "desc"]   
     );
     

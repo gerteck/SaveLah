@@ -146,7 +146,7 @@ const ForumChat = ( {navigation, route} ) => {
             <AppHeader style={[styles.appHeader, {backgroundColor: activeColors.containerBackground}]} 
                 title={otherProfile?.username} showBack onBack={onBack} userPictureURL={otherProfile.url} onUserPicture={onUserPress}/>
             
-            <View style={styles.chatContainer}>
+            <View style={[styles.chatContainer, {backgroundColor: activeColors.inputBackground}]}>
                 <GiftedChat messages={messages} onSend={newMessage => updateMessages(newMessage)} 
                 user={{_id: userProfile?.uid, avatar: userProfile.url}}
                 renderBubble={renderBubble} 

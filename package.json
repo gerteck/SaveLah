@@ -53,7 +53,8 @@
     "react-native-svg": "13.4.0",
     "react-native-tab-view": "^3.5.1",
     "react-native-web": "~0.18.10",
-    "underscore": "^1.13.6"
+    "underscore": "^1.13.6",
+    "victory-native": "^36.6.11"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { colors } from '../../utils/colors';
+import { clockRunning } from 'react-native-reanimated';
 
 export const styles = StyleSheet.create({
     container: {
@@ -42,6 +43,7 @@ export const styles = StyleSheet.create({
     transactionCaption: {
         fontSize: 15,
         fontWeight: '400',
+        paddingLeft: 8,
     },
 
     categoryContaineer: {
@@ -95,5 +97,40 @@ export const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 4,
+    },
+
+    icon: {
+        height: 40,
+        width: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    scrollBox: {
+        flexDirection: 'row',
+        alignSelf: 'center',
+        width: '60%',
+        justifyContent: 'space-between',
+        marginBottom: 8,
+    },
+
+    left: {
+        alignSelf: 'flex-start',
+
+    },
+
+    right: {
+        alignSelf: 'flex-end',      
+    },
+
+    scrollCaption: {
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+
+    totalSpent: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        borderWidth: 1,
     },
 })

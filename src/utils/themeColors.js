@@ -31,6 +31,7 @@ const themeColors = {
         divider: colors.grey,
         secondaryText: colors.darkGrey,
         voteContainer: colors.middleGrey,
+        pieChartBackground: colors.grey,
 
     }, 
 
@@ -51,7 +52,6 @@ const themeColors = {
         red: colors.red,
         green: colors.green,
 
-
         appBackground: colors.backgroundDarkGrey,
         iconColor: colors.white,
         containerBackground: colors.darkGrey,
@@ -61,8 +61,8 @@ const themeColors = {
         divider: colors.backgroundDarkGrey, 
         secondaryText: colors.offWhite,
         voteContainer: colors.white,
+        pieChartBackground: colors.darkBackgroundGrey,
         
-
         
     }
 }

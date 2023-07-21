@@ -5,6 +5,7 @@ import { UserProfileContext } from './src/context/UserProfileContext';
 import { NotificationNumberContext } from './src/context/NotificationNumberContext';
 import { ThemeContext } from './src/context/ThemeContext';
 import { Appearance } from "react-native";
+import 'react-native-gesture-handler';
 
 const App = () => {
   const [userProfile, setUserProfile] = useState({});

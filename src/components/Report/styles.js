@@ -29,7 +29,7 @@ export const styles = StyleSheet.create({
 
     transactionContainer:{
         flexDirection: 'row',
-        padding: 7,
+        padding: 4,
     },
 
     icon: {
@@ -42,9 +42,16 @@ export const styles = StyleSheet.create({
     transactionCaption: {
         fontSize: 15,
         fontWeight: '400',
+        paddingLeft: 8,
     },
 
-    categoryContaineer: {
+    transactionDate: {
+        fontSize: 16,
+        fontWeight: '500',
+        paddingLeft: 8,
+    },
+
+    categoryContainer: {
         justifyContent: "space-between", 
         flexDirection: "row", 
         flex: 1, 
@@ -95,5 +102,44 @@ export const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 4,
+    },
+
+    icon: {
+        height: 40,
+        width: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    scrollBox: {
+        flexDirection: 'row',
+        alignSelf: 'center',
+        width: '60%',
+        justifyContent: 'space-between',
+        marginBottom: 8,
+    },
+
+    left: {
+        alignSelf: 'flex-start',
+
+    },
+
+    right: {
+        alignSelf: 'flex-end',      
+    },
+
+    scrollCaption: {
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+
+    totalSpent: {
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+
+    transactionMoney: {
+        fontWeight: '500',
+        fontSize: 18,
     },
 })

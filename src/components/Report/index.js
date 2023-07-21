@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Text, View, FlatList, Image} from "react-native";
+import React, { useContext, useEffect } from "react";
+import { Text, View, FlatList, Image, Pressable, Dimensions} from "react-native";
 import { styles } from './styles';
 import { useState } from "react";
 import { colors } from "../../utils/colors";
@@ -9,10 +9,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ThemeContext } from "../../context/ThemeContext";
 import themeColors from "../../utils/themeColors";
 import { getCategoryIcon } from "../../utils/getCategoryIcon";
+import { VictoryChart, VictoryPie, VictoryTheme } from "victory-native";
+import { Icon } from '@rneui/themed';
 
-
-
-const Report = ({ transactions, averagePoint, point }) => {
+const Report = ({ transactions, averagePoint, point, monthName, navigation }) => {
     const { theme } = useContext(ThemeContext); 
     let activeColors = themeColors[theme.mode];
 
@@ -20,6 +20,7 @@ const Report = ({ transactions, averagePoint, point }) => {
     let categories = [];
     let dict = {};
     let iconIndexDict = {};
+    let catDocs = {};
     
     // Placed these here for the case of no transactions
     let avg = parseFloat(averagePoint?.toFixed(2)).toLocaleString('en-US');
@@ -41,7 +42,7 @@ const Report = ({ transactions, averagePoint, point }) => {
                     </View>
                     <View style={styles.pointValue}>
                         <Text style={[styles.pointMoney, {color: ptColor}]}>${pt}</Text>
-                        <Text style={[styles.pointCaption, {color: activeColors.text}]}>Month spending up to this point</Text>
+                        <Text style={[styles.pointCaption, {color: activeColors.text}]}>{monthName} spending up to this point</Text>
                     </View> 
             </View>
             <Box style={{backgroundColor: activeColors.inputBackground}} content={noTransactionsYet} />
@@ -61,33 +62,77 @@ const Report = ({ transactions, averagePoint, point }) => {
                 dict[cat] = doc.amount;
                 iconIndexDict[cat] = doc.index;
             }
+
+            if(Object.hasOwn(catDocs, cat)) {
+                catDocs[cat] = [...catDocs[cat], doc];
+            } else {
+                catDocs[cat] = [doc];
+            }
         });
     
         // format the expense to 2 decimal places and have commas for thousand places
         categories = Object.entries(dict).map(([k, v]) => [k, parseFloat(v.toFixed(2)).toLocaleString('en-US'), (parseFloat((v / expense).toFixed(2)) * 100).toLocaleString('en-US')]).
-            map(([k, v, p]) => ({ category: k, value: v, percentage: p })).sort((a,b) => b.percentage - a.percentage);
-        
+            map(([k, v, p]) => ({ category: k, value: v, percentage: p })).sort((a,b) => b.percentage - a.percentage);    
     }   
 
     // To do formatting outside of the getHeader as it can cause getHeader to be undefined
     let exp = parseFloat(expense?.toFixed(2)).toLocaleString('en-US')
-    
+
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const renderTransactions = ({item}) => {
-        return (<View style={styles.transactionContainer}>
-            <View style={styles.categoryBox}>
-                {getCategoryIcon(iconIndexDict[item.category], styles.icon)} 
-                {/* <Image style={styles.icon} source={require('../../assets/DummyIcon.png')}/> */}
-                <View style={styles.categoryContaineer}> 
-                    <View>
-                        <Text style={styles.transactionCaption}>{item.category}</Text>
-                        <Text style={styles.transactionCaption}>${item.value}</Text>  
-                    </View>     
-                    <Text>{item.percentage}%</Text> 
+        
+        const dateObj = item.date.toDate();
+        const transDate = {
+            date: dateObj.getDate(),
+            month: monthNames[dateObj.getMonth()],
+            year: dateObj.getFullYear(),
+        }
+
+        const goEditTransaction = () => {
+            navigation.navigate('EditTransaction', {transaction: item});
+        }
+
+        return (
+            <Pressable key={item.id} onPress={goEditTransaction}>
+                <View style={styles.transactionContainer}>
+                    <View style={styles.categoryBox}>
+                        {getCategoryIcon(iconIndexDict[item.category], styles.icon)} 
+                        {/* <Image style={styles.icon} source={require('../../assets/DummyIcon.png')}/> */}
+                        <View style={styles.categoryContainer}> 
+                            <View>
+                                <Text style={styles.transactionDate}>{transDate.date} {transDate.month}</Text>
+                                <Text style={styles.transactionCaption}>{item.description}</Text>  
+                            </View>     
+                            <Text style={styles.transactionMoney}>${item.amount}</Text> 
+                        </View>
+                    </View>
                 </View>
-            </View>
-        </View>)
+            </Pressable>)
     }
 
+    const [pieSelect, setPieSelect] = useState(categories[0].category)
+    const [counter, setCounter] = useState(0);
+    let catLength = categories.length;
+
+    // Our own mod function because of JS buggy modulo
+    function mod(n, m) {
+        return (n % m) < 0 ? (n % m) + m : n % m;
+    }
+
+    const onRight = () => {
+        setCounter(mod(counter + 1, catLength));
+    }
+
+    const onLeft = () => {
+        setCounter(mod(counter - 1, catLength));
+    }
+
+    useEffect(() => {
+        setPieSelect(categories[counter].category);
+        catDocs[pieSelect].sort((a,b) => b.date - a.date)
+    }, [counter]);
+
+    const windowWidth = Dimensions.get('window').width;
 
     const getHeader = () => {
         return (
@@ -99,13 +144,34 @@ const Report = ({ transactions, averagePoint, point }) => {
                     </View>
                     <View style={styles.pointValue}>
                         <Text style={[styles.pointMoney, {color: ptColor}]}>${pt}</Text>
-                        <Text style={[styles.pointCaption, {color: activeColors.text}]}>Month spending up to this point</Text>
+                        <Text style={[styles.pointCaption, {color: activeColors.text}]}>{monthName} spending up to this point</Text>
                     </View> 
                 </View>
-                <View>
-                    <Text style={[styles.caption, {color: activeColors.text}]}>Categories by Percentage</Text>
+                <View style={styles.totalSpent}>
+                    <Text style={[styles.caption, {color: activeColors.text}]}>Total spent</Text>
                     <Text style={[styles.money, {color: activeColors.text}]}>${exp}</Text>
                 </View>
+
+                <VictoryPie data={categories} width={windowWidth - 30} theme={VictoryTheme.grayscale} height={240}
+                    style={{ labels: { fill: activeColors.text, fontSize: ({datum}) => datum.category == pieSelect ? 12 : 0}, 
+                        data: { fill: ({ datum }) => datum.category == pieSelect ? activeColors.blue : activeColors.pieChartBackground},
+                        parent: {}}} 
+                    x='category' y='value' innerRadius={50} radius={({ datum }) => 70 + (datum.category == pieSelect) * 10}
+                    labelRadius={({datum}) => 100 } padding={{ top: 0, bottom: 0 }}/>
+
+                <View style={styles.scrollBox}>
+                    <Pressable onPress={onLeft} style={styles.left}> 
+                        <Icon name='angle-left' type='font-awesome' style={styles.icon} color={activeColors.iconColor}/> 
+                    </Pressable>
+                    <View style={styles.scrollCaption}>
+                        <Text style={{color: activeColors.text, fontWeight: '400', fontSize: 16}}>{pieSelect}</Text>
+                        <Text style={{color: activeColors.text, fontSize: 20, fontWeight: 'bold'}}>${categories[counter].value}</Text>
+                    </View>
+                    <Pressable onPress={onRight} style={styles.right}> 
+                        <Icon name='angle-right' type='font-awesome' style={styles.icon} color={activeColors.iconColor}/> 
+                    </Pressable>
+                </View>
+
             </View>
             )
     }
@@ -113,8 +179,8 @@ const Report = ({ transactions, averagePoint, point }) => {
 
     return (
         <SafeAreaView style={{marginHorizontal: 16, marginTop: 8}}>
-                <FlatList data={categories} keyExtractor={item => item.category} renderItem={renderTransactions} 
-                ListHeaderComponent={getHeader}/>
+                <FlatList data={catDocs[pieSelect]} keyExtractor={item => item.id} renderItem={renderTransactions} 
+                ListHeaderComponent={getHeader} contentContainerStyle={{paddingBottom: 32}}/>
         </SafeAreaView>
     )
 }

@@ -146,7 +146,7 @@ const ProfileOtherUser = ( {navigation, route} ) => {
             <ScrollView showsVerticalScrollIndicator={false}> 
 
                 {/* Profile, Bio, following and setting Buttons */}
-                <View style={[styles.containerBox, {backgroundColor: activeColors.containerBackground}]}>
+                <View style={[styles.containerBox, {backgroundColor: activeColors.inputBackground}]}>
                     <View style={styles.profile}>
                         <View style={styles.displayPictureWrapper}>
                             <Image style={styles.displayPicture} source={{uri: otherProfile.url}}/>

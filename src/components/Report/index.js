@@ -71,7 +71,7 @@ const Report = ({ transactions, averagePoint, point, monthName, navigation }) =>
         });
     
         // format the expense to 2 decimal places and have commas for thousand places
-        categories = Object.entries(dict).map(([k, v]) => [k, parseFloat(v.toFixed(2)).toLocaleString('en-US'), (parseFloat((v / expense).toFixed(2)) * 100).toLocaleString('en-US')]).
+        categories = Object.entries(dict).map(([k, v]) => [k, parseFloat(v.toFixed(2)), (parseFloat((v / expense).toFixed(2)) * 100).toLocaleString('en-US')]).
             map(([k, v, p]) => ({ category: k, value: v, percentage: p })).sort((a,b) => b.percentage - a.percentage);    
     }   
 
@@ -165,7 +165,7 @@ const Report = ({ transactions, averagePoint, point, monthName, navigation }) =>
                     </Pressable>
                     <View style={styles.scrollCaption}>
                         <Text style={{color: activeColors.text, fontWeight: '400', fontSize: 16}}>{pieSelect}</Text>
-                        <Text style={{color: activeColors.text, fontSize: 20, fontWeight: 'bold'}}>${categories[counter].value}</Text>
+                        <Text style={{color: activeColors.text, fontSize: 20, fontWeight: 'bold'}}>${categories[counter].value.toLocaleString('en-US')}</Text>
                     </View>
                     <Pressable onPress={onRight} style={styles.right}> 
                         <Icon name='angle-right' type='font-awesome' style={styles.icon} color={activeColors.iconColor}/> 

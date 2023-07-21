@@ -35,8 +35,14 @@ const NewPost = ( { navigation } ) => {
 
     //Drop Down Picker:
     const [open, setOpen] = useState(false);
-    const [items, setItems] = useState([{label: 'Money Saving Tips', value: 'MoneySavingTips'}, 
-                                        {label: 'Life', value: 'Life'}]);
+    const [items, setItems] = useState([ 
+                                        {label: 'Budgeting Tips', value: 'BudgetingTips'},
+                                        {label: 'Money Saving Deals', value: 'MoneySavingDeals'}, 
+                                        {label: 'Savings Strategies', value: 'SavingsStrategies'}, 
+                                        {label: 'Personal Finance Education', value: 'PersonalFinanceEducation'},
+                                        {label: 'Q&A and Help', value: 'Q&AandHelp'},
+                                        {label: 'Life', value: 'Life'},
+                                    ]);
 
     //Image Picker:
     const [imageURI, setImageURI] = useState(null);

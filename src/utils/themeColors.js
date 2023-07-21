@@ -32,6 +32,8 @@ const themeColors = {
         secondaryText: colors.darkGrey,
         voteContainer: colors.middleGrey,
         pieChartBackground: colors.grey,
+        pieChartStroke: colors.white,
+        spendingTransactionContainer: colors.lightGrey,
 
     }, 
 
@@ -62,6 +64,8 @@ const themeColors = {
         secondaryText: colors.offWhite,
         voteContainer: colors.white,
         pieChartBackground: colors.darkBackgroundGrey,
+        pieChartStroke: colors.black,
+        spendingTransactionContainer: colors.darkGrey,
         
         
     }

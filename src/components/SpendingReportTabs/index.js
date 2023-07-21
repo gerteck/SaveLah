@@ -16,7 +16,7 @@ const noTransactionsYet = (<>
     <Text >No transactions yet</Text>
 </>);
 
-const SpendingReportTabs = ({ documents }) => {
+const SpendingReportTabs = ({ documents, navigation }) => {
 
     var curr = new Date();
     var y = curr.getFullYear();
@@ -85,11 +85,16 @@ const SpendingReportTabs = ({ documents }) => {
     return (
         <>
             <Tab.Navigator initialRouteName={"This Month"} screenOptions={tabScreenOptions} >
-                <Tab.Screen name={names[2]} children={() => <Report transactions={monthDocs[4]} averagePoint={average} point={monthSpendingToThisPoint[4]} monthName={monthNames[4]}/>} />
-                <Tab.Screen name={names[1]}  children={() => <Report transactions={monthDocs[3]} averagePoint={average} point={monthSpendingToThisPoint[3]} monthName={monthNames[3]}/>} />
-                <Tab.Screen name={names[0]} children={() => <Report transactions={monthDocs[2]} averagePoint={average} point={monthSpendingToThisPoint[2]} monthName={monthNames[2]}/>} />
-                <Tab.Screen name="Last Month" children={() => <Report transactions={monthDocs[1]} averagePoint={average} point={monthSpendingToThisPoint[1]} monthName={monthNames[1]}/>} />
-                <Tab.Screen name="This Month"  children={() => <Report transactions={monthDocs[0]} averagePoint={average} point={monthSpendingToThisPoint[0]} monthName={monthNames[0]}/>} />
+                <Tab.Screen name={names[2]} children={() => <Report transactions={monthDocs[4]} averagePoint={average} point={monthSpendingToThisPoint[4]} monthName={monthNames[4]}
+                                                                navigation={navigation} />} />
+                <Tab.Screen name={names[1]}  children={() => <Report transactions={monthDocs[3]} averagePoint={average} point={monthSpendingToThisPoint[3]} monthName={monthNames[3]}
+                                                                navigation={navigation}/>} />
+                <Tab.Screen name={names[0]} children={() => <Report transactions={monthDocs[2]} averagePoint={average} point={monthSpendingToThisPoint[2]} monthName={monthNames[2]}
+                                                                navigation={navigation}/>} />
+                <Tab.Screen name="Last Month" children={() => <Report transactions={monthDocs[1]} averagePoint={average} point={monthSpendingToThisPoint[1]} monthName={monthNames[1]}
+                                                                navigation={navigation}/>} />
+                <Tab.Screen name="This Month"  children={() => <Report transactions={monthDocs[0]} averagePoint={average} point={monthSpendingToThisPoint[0]} monthName={monthNames[0]}
+                                                                    navigation={navigation}/>} />
             </Tab.Navigator>
         </>
     )

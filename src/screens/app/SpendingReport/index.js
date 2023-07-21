@@ -44,7 +44,7 @@ const SpendingReport = ({ navigation }) => {
                 showBack onBack={onBack} title="Spending Report"
             /> 
 
-            {documents && <SpendingReportTabs documents={documents} />}
+            {documents && <SpendingReportTabs documents={documents} navigation={navigation}/>}
         </SafeAreaView>
     )
 }

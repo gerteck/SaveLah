@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
 import { colors } from '../../utils/colors';
-import { clockRunning } from 'react-native-reanimated';
 
 export const styles = StyleSheet.create({
     container: {
@@ -30,7 +29,7 @@ export const styles = StyleSheet.create({
 
     transactionContainer:{
         flexDirection: 'row',
-        padding: 7,
+        padding: 4,
     },
 
     icon: {
@@ -46,7 +45,13 @@ export const styles = StyleSheet.create({
         paddingLeft: 8,
     },
 
-    categoryContaineer: {
+    transactionDate: {
+        fontSize: 16,
+        fontWeight: '500',
+        paddingLeft: 8,
+    },
+
+    categoryContainer: {
         justifyContent: "space-between", 
         flexDirection: "row", 
         flex: 1, 
@@ -131,6 +136,10 @@ export const styles = StyleSheet.create({
     totalSpent: {
         flexDirection: 'column',
         alignItems: 'center',
-        borderWidth: 1,
+    },
+
+    transactionMoney: {
+        fontWeight: '500',
+        fontSize: 18,
     },
 })

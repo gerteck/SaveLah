@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { Text, View, FlatList, Image, Pressable} from "react-native";
+import { Text, View, FlatList, Image, Pressable, Dimensions} from "react-native";
 import { styles } from './styles';
 import { useState } from "react";
 import { colors } from "../../utils/colors";
@@ -12,7 +12,7 @@ import { getCategoryIcon } from "../../utils/getCategoryIcon";
 import { VictoryChart, VictoryPie, VictoryTheme } from "victory-native";
 import { Icon } from '@rneui/themed';
 
-const Report = ({ transactions, averagePoint, point, monthName }) => {
+const Report = ({ transactions, averagePoint, point, monthName, navigation }) => {
     const { theme } = useContext(ThemeContext); 
     let activeColors = themeColors[theme.mode];
 
@@ -88,26 +88,27 @@ const Report = ({ transactions, averagePoint, point, monthName }) => {
             year: dateObj.getFullYear(),
         }
 
-        return (<View style={styles.transactionContainer}>
-            <View style={styles.categoryBox}>
-                {getCategoryIcon(iconIndexDict[item.category], styles.icon)} 
-                {/* <Image style={styles.icon} source={require('../../assets/DummyIcon.png')}/> */}
-                <View style={styles.categoryContaineer}> 
-                    <View>
-                        <Text style={styles.transactionCaption}>{transDate.date} {transDate.month}</Text>
-                        <Text style={styles.transactionCaption}>{item.description}</Text>  
-                    </View>     
-                    <Text>${item.amount}</Text> 
-                </View>
-            </View>
-        </View>)
-    }
+        const goEditTransaction = () => {
+            navigation.navigate('EditTransaction', {transaction: item});
+        }
 
-    const data = [
-        {category: 'food', expense: 100},
-        {category: 'gift', expense: 30},
-        {category: 'education', expense: 30},
-    ]
+        return (
+            <Pressable key={item.id} onPress={goEditTransaction}>
+                <View style={styles.transactionContainer}>
+                    <View style={styles.categoryBox}>
+                        {getCategoryIcon(iconIndexDict[item.category], styles.icon)} 
+                        {/* <Image style={styles.icon} source={require('../../assets/DummyIcon.png')}/> */}
+                        <View style={styles.categoryContainer}> 
+                            <View>
+                                <Text style={styles.transactionDate}>{transDate.date} {transDate.month}</Text>
+                                <Text style={styles.transactionCaption}>{item.description}</Text>  
+                            </View>     
+                            <Text style={styles.transactionMoney}>${item.amount}</Text> 
+                        </View>
+                    </View>
+                </View>
+            </Pressable>)
+    }
 
     const [pieSelect, setPieSelect] = useState(categories[0].category)
     const [counter, setCounter] = useState(0);
@@ -131,6 +132,8 @@ const Report = ({ transactions, averagePoint, point, monthName }) => {
         catDocs[pieSelect].sort((a,b) => b.date - a.date)
     }, [counter]);
 
+    const windowWidth = Dimensions.get('window').width;
+
     const getHeader = () => {
         return (
             <View>
@@ -149,9 +152,10 @@ const Report = ({ transactions, averagePoint, point, monthName }) => {
                     <Text style={[styles.money, {color: activeColors.text}]}>${exp}</Text>
                 </View>
 
-                <VictoryPie data={categories} width={350} theme={VictoryTheme.grayscale} height={240}
+                <VictoryPie data={categories} width={windowWidth - 30} theme={VictoryTheme.grayscale} height={240}
                     style={{ labels: { fill: activeColors.text, fontSize: ({datum}) => datum.category == pieSelect ? 12 : 0}, 
-                        data: { fill: ({ datum }) => datum.category == pieSelect ? activeColors.blue : activeColors.pieChartBackground}}} 
+                        data: { fill: ({ datum }) => datum.category == pieSelect ? activeColors.blue : activeColors.pieChartBackground},
+                        parent: {}}} 
                     x='category' y='value' innerRadius={50} radius={({ datum }) => 70 + (datum.category == pieSelect) * 10}
                     labelRadius={({datum}) => 100 } padding={{ top: 0, bottom: 0 }}/>
 
@@ -176,7 +180,7 @@ const Report = ({ transactions, averagePoint, point, monthName }) => {
     return (
         <SafeAreaView style={{marginHorizontal: 16, marginTop: 8}}>
                 <FlatList data={catDocs[pieSelect]} keyExtractor={item => item.id} renderItem={renderTransactions} 
-                ListHeaderComponent={getHeader}/>
+                ListHeaderComponent={getHeader} contentContainerStyle={{paddingBottom: 32}}/>
         </SafeAreaView>
     )
 }

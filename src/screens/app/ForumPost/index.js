@@ -278,9 +278,17 @@ const ForumPost = ( {navigation, route} ) => {
 
     let categoryColor = {};
     if (postDetails.category == 'Life') {
-        categoryColor = {backgroundColor: '#FFCD92'}
-    } else if (postDetails.category == 'MoneySavingTips') {
-        categoryColor = {backgroundColor: '#92A3FF'}
+        categoryColor = {backgroundColor: '#FF8000'}
+    } else if (postDetails.category == 'MoneySavingDeals') {
+        categoryColor = {backgroundColor: '#668CFF'}
+    } else if (postDetails.category == 'BudgetingTips') {
+        categoryColor = {backgroundColor: '#80b3ff'}
+    } else if (postDetails.category == 'SavingsStrategies') {
+        categoryColor = {backgroundColor: '#ff80aa'}
+    } else if (postDetails.category == 'PersonalFinanceEducation') {
+        categoryColor = {backgroundColor: '#8cd98c'}
+    } else if (postDetails.category == 'Q&AandHelp') {
+        categoryColor = {backgroundColor: '#c2c2a3'}
     }
 
     return (

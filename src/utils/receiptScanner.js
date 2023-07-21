@@ -105,7 +105,10 @@ export async function receiptScanner(launchCamera) {
             return !v.includes("sub") && v.includes("total");
         });
         if (totalIndex != -1) {
-            total = receiptContent[totalIndex].replace(/[^0-9.]/g, '');
+            //remove all characters before "Total:"
+            total = receiptContent[totalIndex].slice(receiptContent[totalIndex].indexOf("total"));
+            // remove all characters:
+            total = total.replace(/[^0-9.]/g, '');
         }
         
         function containsNumbers(str) {

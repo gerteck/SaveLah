@@ -140,7 +140,8 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
         paddingHorizontal: 16,
         paddingVertical: 8,
-        flex: 1,
+        minHeight: 70,
+        textAlignVertical: 'top',
     },
 
     postComment: {

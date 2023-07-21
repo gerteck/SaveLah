@@ -9,7 +9,7 @@ import { getCategoryIcon } from "../../utils/getCategoryIcon";
 import { ThemeContext } from "../../context/ThemeContext";
 import themeColors from "../../utils/themeColors";
 
-const TransactionList = ({transactions, navigation}) => {
+const TransactionList = ({transactions, navigation, screenName}) => {
 
     const totalInflow = transactions.filter(doc => doc.inflow).reduce((total, currentDoc) => total + currentDoc.amount, 0);
     const totalOutflow = transactions.filter((doc) => !doc.inflow).reduce((total, currentDoc) => total + currentDoc.amount, 0);
@@ -27,7 +27,7 @@ const TransactionList = ({transactions, navigation}) => {
     );
 
     const onSpendingReport = () => {
-        navigation.navigate('Home', {screen: 'SpendingReport'});
+        navigation.navigate('Home', {screen: 'SpendingReport', params: {screen: screenName}});
     }
 
     const numOfTransactions = transactions.length;

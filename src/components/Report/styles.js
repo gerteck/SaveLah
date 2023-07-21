@@ -49,6 +49,7 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '500',
         paddingLeft: 8,
+        paddingBottom: 4,
     },
 
     categoryContainer: {
@@ -73,7 +74,7 @@ export const styles = StyleSheet.create({
 
     money: {
         paddingLeft: 4,
-        fontSize: 20,
+        fontSize: 24,
         fontWeight: 'bold',
     },
 
@@ -92,7 +93,7 @@ export const styles = StyleSheet.create({
     },
 
     pointCaption: {
-        fontSize: 18,
+        fontSize: 16,
         marginBottom: 8,
         textAlign: 'center',
     },
@@ -136,6 +137,7 @@ export const styles = StyleSheet.create({
     totalSpent: {
         flexDirection: 'column',
         alignItems: 'center',
+        paddingBottom: 8,
     },
 
     transactionMoney: {

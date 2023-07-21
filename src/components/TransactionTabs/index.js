@@ -57,12 +57,12 @@ const TransactionTabs = ({ docs, navigation }) => {
 
     return (
         <Tab.Navigator initialRouteName={"This Month"} screenOptions={tabScreenOptions} >
-            <Tab.Screen name={names[2]} children={() => <TransactionList transactions={monthDocs[4]} navigation={navigation}/>} />
-            <Tab.Screen name={names[1]}  children={() => <TransactionList transactions={monthDocs[3]} navigation={navigation}/>} />
-            <Tab.Screen name={names[0]} children={() => <TransactionList transactions={monthDocs[2]} navigation={navigation}/>} />
-            <Tab.Screen name="Last Month" children={() => <TransactionList transactions={monthDocs[1]} navigation={navigation}/>} />
-            <Tab.Screen name="This Month"  children={() => <TransactionList transactions={monthDocs[0]} navigation={navigation}/>} />
-            <Tab.Screen name="Future"  children={() => <TransactionList transactions={future}/>} />
+            <Tab.Screen name={names[2]} children={() => <TransactionList transactions={monthDocs[4]} navigation={navigation} screenName={names[2]}/>} />
+            <Tab.Screen name={names[1]}  children={() => <TransactionList transactions={monthDocs[3]} navigation={navigation} screenName={names[1]}/>} />
+            <Tab.Screen name={names[0]} children={() => <TransactionList transactions={monthDocs[2]} navigation={navigation} screenName={names[0]}/>} />
+            <Tab.Screen name="Last Month" children={() => <TransactionList transactions={monthDocs[1]} navigation={navigation} screenName={"Last Month"}/>} />
+            <Tab.Screen name="This Month"  children={() => <TransactionList transactions={monthDocs[0]} navigation={navigation} screenName={"This Month"}/>} />
+            <Tab.Screen name="Future"  children={() => <TransactionList transactions={future} screenName={"This Month"}/>} />
         </Tab.Navigator>
       );
 }

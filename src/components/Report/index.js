@@ -95,15 +95,15 @@ const Report = ({ transactions, averagePoint, point, monthName, navigation }) =>
         return (
             <Pressable key={item.id} onPress={goEditTransaction}>
                 <View style={styles.transactionContainer}>
-                    <View style={styles.categoryBox}>
+                    <View style={[styles.categoryBox, {backgroundColor: activeColors.spendingTransactionContainer}]}>
                         {getCategoryIcon(iconIndexDict[item.category], styles.icon)} 
                         {/* <Image style={styles.icon} source={require('../../assets/DummyIcon.png')}/> */}
                         <View style={styles.categoryContainer}> 
                             <View>
-                                <Text style={styles.transactionDate}>{transDate.date} {transDate.month}</Text>
-                                <Text style={styles.transactionCaption}>{item.description}</Text>  
+                                <Text style={[styles.transactionDate, {color: activeColors.text}]}>{transDate.date} {transDate.month}</Text>
+                                <Text style={[styles.transactionCaption, {color: activeColors.text}]}>{item.description}</Text>  
                             </View>     
-                            <Text style={styles.transactionMoney}>${item.amount}</Text> 
+                            <Text style={[styles.transactionMoney, {color: activeColors.text}]}>${item.amount}</Text> 
                         </View>
                     </View>
                 </View>
@@ -137,6 +137,11 @@ const Report = ({ transactions, averagePoint, point, monthName, navigation }) =>
     const getHeader = () => {
         return (
             <View>
+                <View style={styles.totalSpent}>
+                    <Text style={[styles.caption, {color: activeColors.text}]}>Total spent</Text>
+                    <Text style={[styles.money, {color: activeColors.text}]}>${exp}</Text>
+                </View>
+
                 <View style={styles.pointBox}>
                     <View style={styles.pointValue}>
                         <Text style={[styles.pointMoney, {color: activeColors.text}]}>${avg}</Text>
@@ -147,14 +152,11 @@ const Report = ({ transactions, averagePoint, point, monthName, navigation }) =>
                         <Text style={[styles.pointCaption, {color: activeColors.text}]}>{monthName} spending up to this point</Text>
                     </View> 
                 </View>
-                <View style={styles.totalSpent}>
-                    <Text style={[styles.caption, {color: activeColors.text}]}>Total spent</Text>
-                    <Text style={[styles.money, {color: activeColors.text}]}>${exp}</Text>
-                </View>
 
                 <VictoryPie data={categories} width={windowWidth - 30} theme={VictoryTheme.grayscale} height={240}
-                    style={{ labels: { fill: activeColors.text, fontSize: ({datum}) => datum.category == pieSelect ? 12 : 0}, 
-                        data: { fill: ({ datum }) => datum.category == pieSelect ? activeColors.blue : activeColors.pieChartBackground},
+                    style={{ labels: { fill: activeColors.text, fontSize: ({datum}) => datum.category == pieSelect ? 12 : 10}, 
+                        data: { fill: ({ datum }) => datum.category == pieSelect ? activeColors.blue : activeColors.pieChartBackground, 
+                        stroke: activeColors.pieChartStroke, strokeWidth: 1},
                         parent: {}}} 
                     x='category' y='value' innerRadius={50} radius={({ datum }) => 70 + (datum.category == pieSelect) * 10}
                     labelRadius={({datum}) => 100 } padding={{ top: 0, bottom: 0 }}/>

@@ -35,17 +35,22 @@ const Signup = ({ navigation }) => {
 
     const onSubmit = async () => {
         try {
-            if (!values?.name || !values?.email || !values?.password ) {
-                Alert.alert('All fields are required');
+            if (!values?.confirmPassword || !values?.email || !values?.password ) {
+                ToastAndroid.showWithGravity('All fields are required', ToastAndroid.LONG, ToastAndroid.BOTTOM);
                 return;
             }
 
             if (!checked) {
-                Alert.alert('Please read and agree to the Terms & Privacy');
+                ToastAndroid.showWithGravity('Please read and agree to the Terms & Privacy', ToastAndroid.LONG, ToastAndroid.BOTTOM);
                 return;
             }
 
-            signup(values.name, values.email, values.password);
+            if (values.password != values.confirmPassword) {
+                ToastAndroid.showWithGravity('Passwords do not match', ToastAndroid.LONG, ToastAndroid.BOTTOM);
+                return;
+            }
+
+            signup(values.email, values.password);
             
         } catch(error) {
             console.log('Signup error :>> ', error);
@@ -71,12 +76,6 @@ const Signup = ({ navigation }) => {
             <StatusBar hidden={false} backgroundColor={activeColors.background} barStyle={barColor}/>
             <AuthHeader title="Sign Up" onBackPress={onBack} titleColorStyle={{ color: activeColors.title }}/>
 
-            <Input value={values.name} onChangeText={(v) => onChange('name', v)} label="Name"  placeholder="John Doe"
-                labelStyle={{ color: activeColors.inputLabel }} 
-                inputContainerStyle={{ backgroundColor: activeColors.inputBackground, borderColor: activeColors.inputBorder }} 
-                inputStyle={{ color: activeColors.text }}
-                placeholderColor={activeColors.inputPlaceholder} />
-
             <Input value={values.email}  onChangeText={(v) => onChange('email', v)} label="E-mail" placeholder="example@gmail.com" 
                 labelStyle={{ color: activeColors.inputLabel }} 
                 inputContainerStyle={{ backgroundColor: activeColors.inputBackground, borderColor: activeColors.inputBorder }} 
@@ -84,6 +83,12 @@ const Signup = ({ navigation }) => {
                 placeholderColor={activeColors.inputPlaceholder} keyboardType={'email-address'}/>
 
             <Input isPassword value={values.password} onChangeText={(v) => onChange('password', v)} label="Password" placeholder="*******" 
+                labelStyle={{ color: activeColors.inputLabel }} 
+                inputContainerStyle={{ backgroundColor: activeColors.inputBackground, borderColor: activeColors.inputBorder }} 
+                inputStyle={{ color: activeColors.text }}
+                placeholderColor={activeColors.inputPlaceholder}/>
+
+            <Input isPassword value={values.confirmPassword} onChangeText={(v) => onChange('confirmPassword', v)} label="Confirm password" placeholder="*******" 
                 labelStyle={{ color: activeColors.inputLabel }} 
                 inputContainerStyle={{ backgroundColor: activeColors.inputBackground, borderColor: activeColors.inputBorder }} 
                 inputStyle={{ color: activeColors.text }}

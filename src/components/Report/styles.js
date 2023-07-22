@@ -121,12 +121,12 @@ export const styles = StyleSheet.create({
     },
 
     left: {
-        alignSelf: 'flex-start',
+        alignSelf: 'center',
 
     },
 
     right: {
-        alignSelf: 'flex-end',      
+        alignSelf: 'center',      
     },
 
     scrollCaption: {

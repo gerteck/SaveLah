@@ -22,7 +22,7 @@ const PostList = ({posts, navigation, onRefresh, refreshing, mapList}) => {
         };
         
         let categoryColor = {};
-        if (item.category == 'Life') {
+        if (item.category == 'Lifestyle') {
             categoryColor = {backgroundColor: '#FF8000'}
         } else if (item.category == 'MoneySavingDeals') {
             categoryColor = {backgroundColor: '#668CFF'}

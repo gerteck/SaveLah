@@ -41,7 +41,7 @@ const NewPost = ( { navigation } ) => {
                                         {label: 'Savings Strategies', value: 'SavingsStrategies'}, 
                                         {label: 'Personal Finance Education', value: 'PersonalFinanceEducation'},
                                         {label: 'Q&A and Help', value: 'Q&AandHelp'},
-                                        {label: 'Life', value: 'Life'},
+                                        {label: 'Lifestyle', value: 'Lifestyle'},
                                     ]);
 
     //Image Picker:
@@ -117,13 +117,29 @@ const NewPost = ( { navigation } ) => {
         <SafeAreaView style={styles.mainContainer}>
             <AppHeader style={[styles.appHeader, {backgroundColor: activeColors.containerBackground}]}
                 title={"Create Post"} showCross onBack={onBack}/>
-            <ScrollView style={styles.container}> 
+            <ScrollView style={styles.container} nestedScrollEnabled={true}> 
+
+            <Text style={[styles.label, {color: activeColors.blue}]}>Category</Text>
+            <DropDownPicker open={open} value={post.category} items={items} 
+                listMode='SCROLLVIEW'
+                dropDownContainerStyle={{
+                        position: 'absolute', // to fix scroll issue can put relative but it pushes stuff down.
+                        maxHeight: 500,
+                        // top: 0, //to fix gap between label box and container
+                    }}
+                scrollEnabled={true}
+                style={[styles.pickerContainer, {backgroundColor: activeColors.containerBackground}]}
+                theme={themeMode} zIndex={1000} 
+                placeholder="Select a Category"
+                setOpen={setOpen} onSelectItem={(v) => onChange('category', v.value)} setItems={setItems}
+            />
 
             <Text style={[styles.label, {color: activeColors.blue}]}>Title</Text>
             <TextInput placeholder="Title" 
                 style={[styles.input, {color: activeColors.text,
                     backgroundColor: activeColors.inputBackground, 
                     borderColor: activeColors.inputBorder}]} 
+                
                 placeholderTextColor={activeColors.text}
                 value={post.title} multiline
                 onChangeText={(v) => onChange('title', v)} 
@@ -138,14 +154,6 @@ const NewPost = ( { navigation } ) => {
                 placeholderTextColor={activeColors.text}
                 value={post.body} multiline
                 onChangeText={(v) => onChange('body', v)} 
-            />
-
-            <Text style={[styles.label, {color: activeColors.blue}]}>Category</Text>
-            <DropDownPicker open={open} value={post.category} items={items} listMode="SCROLLVIEW"
-                style={[styles.pickerContainer, {backgroundColor: activeColors.containerBackground}]}
-                theme={themeMode}
-                placeholder="Select a Category"
-                setOpen={setOpen} onSelectItem={(v) => onChange('category', v.value)} setItems={setItems}
             />
 
             {imageURI && 

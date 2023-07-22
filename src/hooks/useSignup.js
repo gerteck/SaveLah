@@ -21,7 +21,7 @@ export const useSignup = () => {
 
     const [ userProfile, setUserProfile ] = useContext(UserProfileContext);
 
-    const signup = async (displayName, email, password) => {
+    const signup = async (email, password) => {
         setError(null);
         setIsPending(true);
 
@@ -34,12 +34,12 @@ export const useSignup = () => {
                 setDoc( doc(db, 'users', user.uid), {registered: false, uid: user.uid}, { merge: true });
                 setUserProfile({registered: false, uid: user.uid});
 
-                // add display name to user
-                updateProfile(user, {displayName: displayName,}).catch((err) => {
-                    console.log(err.message);
-                    setError(err.message);
-                    setIsPending(false);
-                });
+                // // add display name to user
+                // updateProfile(user, {displayName: displayName,}).catch((err) => {
+                //     console.log(err.message);
+                //     setError(err.message);
+                //     setIsPending(false);
+                // });
 
                 // dispatch login action
                 dispatch({type: 'LOGIN', payload: user});

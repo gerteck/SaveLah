@@ -277,7 +277,7 @@ const ForumPost = ( {navigation, route} ) => {
     let themeMode = theme.mode == "dark" ? "DARK" : "LIGHT";
 
     let categoryColor = {};
-    if (postDetails.category == 'Life') {
+    if (postDetails.category == 'Lifestyle') {
         categoryColor = {backgroundColor: '#FF8000'}
     } else if (postDetails.category == 'MoneySavingDeals') {
         categoryColor = {backgroundColor: '#668CFF'}

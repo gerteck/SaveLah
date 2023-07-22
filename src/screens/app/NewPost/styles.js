@@ -24,6 +24,7 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: '500',
         paddingVertical: 16,
+        zIndex: -1,
     },
     
     inputContainer: {
@@ -34,6 +35,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+        zIndex: -1,
     },
 
     input: {
@@ -42,6 +44,7 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
         paddingVertical: 8,
         flex: 1,
+        zIndex: -1,
     },
 
     bodyInputContainer: {
@@ -51,6 +54,9 @@ export const styles = StyleSheet.create({
 
     pickerContainer: {
         borderColor: colors.backgroundBlue,
+        zIndex: 9,
+        flex: 1,
+        position: 'relative',
     },
 
     buttonsRow: {

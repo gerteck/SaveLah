@@ -7,21 +7,44 @@ import { ThemeContext } from './src/context/ThemeContext';
 import { Appearance } from "react-native";
 import 'react-native-gesture-handler';
 
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+
+// To wait for font to load.
+SplashScreen.preventAutoHideAsync();
+
 const App = () => {
   const [userProfile, setUserProfile] = useState({});
   const [notificationNumber, setNotificationNumber] = useState(0);
   const [theme, setTheme] = useState({ mode: Appearance.getColorScheme() });
 
   useEffect(() => {
-    //if the theme of the device changes then
-    //updateTheme function will be called using
-    //Appearance.addChangeListener method
+    //updateTheme called via Appearance.addChangeListener method upon theme change
     Appearance.addChangeListener(({ colorScheme }) => {
       setTheme({ mode: colorScheme });
     });
   }, []);
 
-  console.log('current theme:', theme.mode);
+  // Load Fonts CHANGE FONT HERE
+  const [fontsLoaded] = useFonts({
+    'customFont': require('./src/assets/fonts/Inter-Bold.otf'),
+  }); 
+
+  // console.log('current theme:', theme.mode);
+  // console.log(fontsLoaded);
+
+  // Display Splash Screen till fonts are loaded, then hide splash
+  useEffect(() => {
+    const hide = async () => {
+      if (fontsLoaded) {
+        await SplashScreen.hideAsync();
+      }}
+    hide();
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
       <AuthContextProvider>

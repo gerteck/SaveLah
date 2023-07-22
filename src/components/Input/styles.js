@@ -13,6 +13,7 @@ export const styles = StyleSheet.create({
         fontWeight: '500',
         color: colors.blue,
         paddingVertical: 8,
+        fontFamily: "customFont",
     },
 
     inputContainer: {

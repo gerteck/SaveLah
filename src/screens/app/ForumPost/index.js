@@ -15,6 +15,8 @@ import Comment from "../../../components/Comment";
 import { Icon } from '@rneui/themed';
 import { ThemeContext } from "../../../context/ThemeContext";
 import themeColors from "../../../utils/themeColors";
+import ImageModal from "react-native-image-modal";
+
 
 const app = getApp;
 const db = getFirestore(app);
@@ -311,9 +313,12 @@ const ForumPost = ( {navigation, route} ) => {
                     <Text style={[styles.title, {color: activeColors.text}]} >{postDetails.title}</Text>
 
                     {postDetails?.url && 
-                        <View style={styles.imageContainer}>
-                            <Image source={{uri: postDetails.url}} style={styles.postImage} />
-                        </View>
+                        <ImageModal
+                        resizeMode="contain"
+                        imageBackgroundColor={activeColors.containerBackground}
+                        style={styles.modalImage}
+                        source={{uri: postDetails.url,}}
+                        />
                     }
 
                     <Text style={[styles.body, {color: activeColors.secondaryText}]} >{postDetails.body}</Text>

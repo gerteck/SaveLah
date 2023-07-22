@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 import { colors } from '../../../utils/colors';
 import { Dimensions } from 'react-native';
 const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get('window').width;
 
 export const styles = StyleSheet.create({
     safeContainer: {
@@ -64,19 +65,11 @@ export const styles = StyleSheet.create({
         marginBottom: 8,
     },
 
-    imageContainer: {
-        height: 200,
-        alignItems: 'center',
-        margin: 16,
-        borderWidth: 0,
-        zIndex: -1,
-    },
-
-    postImage: {
-        flex: 1,
-        width: '100%',
-        height: '100%',
-        resizeMode: 'contain',
+    modalImage: {
+        alignSelf: 'center',
+        height: windowHeight*0.3,
+        width: windowWidth - 10*2 -20*2 - 14*2 - 1,
+        margin: 10,
     },
 
     footer: {

@@ -55,7 +55,9 @@
     "react-native-tab-view": "^3.5.1",
     "react-native-web": "~0.18.10",
     "underscore": "^1.13.6",
-    "victory-native": "^36.6.11"
+    "victory-native": "^36.6.11",
+    "expo-font": "~11.1.1",
+    "expo-splash-screen": "~0.18.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

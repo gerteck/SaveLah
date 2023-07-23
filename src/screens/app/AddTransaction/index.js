@@ -91,6 +91,10 @@ const AddTransaction = ( {navigation} ) => {
                 ToastAndroid.showWithGravity('Please fill up the category!', ToastAndroid.LONG, ToastAndroid.BOTTOM);
                 return;
             }
+            if (isNaN(values.amount) || values.amount < 0) {
+                ToastAndroid.showWithGravity('Please input a valid amount', ToastAndroid.LONG, ToastAndroid.BOTTOM);
+                return;
+            }
 
             let transactionDoc;
             

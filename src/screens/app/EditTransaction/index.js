@@ -78,6 +78,10 @@ const EditTransaction = ( { navigation, route } ) => {
                 ToastAndroid.showWithGravity('Please fill up the amount and category!', ToastAndroid.LONG, ToastAndroid.BOTTOM);
                 return;
             } 
+            if (isNaN(transactionDetails.amount) || transactionDetails.amount < 0) {
+                ToastAndroid.showWithGravity('Please input a valid amount', ToastAndroid.LONG, ToastAndroid.BOTTOM);
+                return;
+            }
 
             await updateDoc(transactionRef, {
                 amount: parseFloat(parseFloat(transactionDetails.amount).toFixed(2)), // to limit to 2 decimal places

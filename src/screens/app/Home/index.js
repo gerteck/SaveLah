@@ -122,7 +122,7 @@ const Home = ( { navigation } ) => {
                     .map(([k, v, p, i]) => ({ category: k, value: v, percentage: p, index: i })).sort((a,b) => b.percentage - a.percentage).slice(0, 3);
 
                 // update state
-                setExpense(result);
+                setExpense(parseFloat(result.toFixed(2)));
                 setCategories(cats);
         }, (error) => {
                 console.log(error);
@@ -146,7 +146,7 @@ const Home = ( { navigation } ) => {
                 })
 
                 // update state
-                setExpenseLastMonth(result);
+                setExpenseLastMonth(parseFloat(result.toFixed(2)));
         }, (error) => {
                 console.log(error);
                 setError('could not fetch data');
@@ -187,7 +187,7 @@ const Home = ( { navigation } ) => {
                     map(([k, v, p, i]) => ({ category: k, value: v, percentage: p, index: i })).sort((a,b) => b.percentage - a.percentage).slice(0, 3);
                 
                 // update state
-                setExpenseWeek(result);
+                setExpenseWeek(parseFloat(result.toFixed(2)));
                 setCategoriesWeek(cats);
         }, (error) => {
                 console.log(error);
@@ -211,7 +211,7 @@ const Home = ( { navigation } ) => {
                 })
 
                 // update state
-                setExpenseLastWeek(result);
+                setExpenseLastWeek(parseFloat(result.toFixed(2)));
         }, (error) => {
                 console.log(error);
                 setError('could not fetch data');

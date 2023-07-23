@@ -56,7 +56,7 @@ const TransactionTabs = ({ docs, navigation }) => {
 
 
     return (
-        <Tab.Navigator initialRouteName={"This Month"} screenOptions={tabScreenOptions} >
+        <Tab.Navigator initialRouteName={"This Month"} screenOptions={tabScreenOptions} backBehavior="history">
             <Tab.Screen name={names[2]} children={() => <TransactionList transactions={monthDocs[4]} navigation={navigation} screenName={names[2]}/>} />
             <Tab.Screen name={names[1]}  children={() => <TransactionList transactions={monthDocs[3]} navigation={navigation} screenName={names[1]}/>} />
             <Tab.Screen name={names[0]} children={() => <TransactionList transactions={monthDocs[2]} navigation={navigation} screenName={names[0]}/>} />

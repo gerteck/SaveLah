@@ -59,7 +59,7 @@ export async function receiptScanner(launchCamera) {
     formdata.append("isOverlayRequired", "false");
     formdata.append("iscreatesearchablepdf", "false");
     formdata.append("issearchablepdfhidetextlayer", "false");
-    formdata.append("OCREngine", "1");
+    formdata.append("OCREngine", "2");
     // Can choose to use OCREngine 1, 2 or 3
 
     formdata.append("base64image", 'data:image/jpeg;base64,' + base64);
@@ -80,7 +80,7 @@ export async function receiptScanner(launchCamera) {
     function parseReceipt(receiptObject) {
         if (typeof (receiptObject) === 'object') {
             const parsedResults = receiptObject.ParsedResults[0];
-            // console.log("Parsed Results: ", parsedResults);
+            console.log("Parsed Results: ", parsedResults);
             return parseReceiptText(parsedResults.ParsedText);
         }
         else if (typeof (receiptObject) == 'string') {

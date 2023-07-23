@@ -60,7 +60,6 @@ const HomeTabs = () => {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen name='HomeMain' component={Home} options={{ headerShown: false }} />
-      <HomeStack.Screen name='SpendingReport' component={SpendingReport} options={{ headerShown: false }}/>
     </HomeStack.Navigator>
   )
 }
@@ -99,7 +98,7 @@ const Tabs = () => {
     tabBarHideOnKeyboard: true,   
     tabBarStyle: {
       backgroundColor: activeColors.inputBackground,
-      height: 50,
+      height: 60,
     },
 
     // To add Text Label of Tab 
@@ -108,16 +107,16 @@ const Tabs = () => {
       if (route.name === 'Home') {
         label = "Home";
       } else if (route.name === 'TransactionHistory') {
-        label = "Transaction History";
+        label = "History";
       } else if (route.name === 'Forum') {
-        label = "Community";
+        label = "Forum";
       } else if (route.name === 'ProfileSettings') {
         label = "Profile";
       } else if (route.name === 'AddTransaction') {
-        label = "Add Transaction";
+        label = "";
         // return <Text></Text>
       }
-      return <Text style={{fontSize: 10, fontWeight: '400', color: activeColors.text}}>{focused ? label : ""}</Text>
+      return <Text style={{fontSize: 12, fontWeight: '400', color: activeColors.text, marginBottom: 4, marginTop: -8, fontFamily: "customFont"}}>{focused ? label : ""}</Text>
     },
 
     tabBarLabelStyle: {zIndex: -1},
@@ -238,6 +237,7 @@ const Routes = () => {
                           <AuthStack.Screen name="ForumPost" component={ForumPost} options={{ headerShown: false }} />
                           <AuthStack.Screen name="EditTransaction" component={EditTransaction} options={{ headerShown: false }} />
                           <AuthStack.Screen name="AddCategory" component={AddCategory} options={{ headerShown: false }} />
+                          <AuthStack.Screen name="SpendingReport" component={SpendingReport} options={{ headerShown: false }} />
                       </>
                 )}
                 {user && Object.keys(userProfile).length == 0 && ( 

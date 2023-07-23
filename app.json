@@ -19,7 +19,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/appIcons/SaveLahAdaptiveIcon.png",
+        "foregroundImage": "./src/assets/appIcons/SaveLahJustIcon.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.gerteck.SaveLah"

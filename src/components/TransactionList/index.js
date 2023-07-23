@@ -27,7 +27,7 @@ const TransactionList = ({transactions, navigation, screenName}) => {
     );
 
     const onSpendingReport = () => {
-        navigation.navigate('Home', {screen: 'SpendingReport', params: {screen: screenName}});
+        navigation.navigate('SpendingReport', {screen: screenName});
     }
 
     const numOfTransactions = transactions.length;

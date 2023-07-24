@@ -35,9 +35,9 @@ export const styles = StyleSheet.create({
     },
 
     caption: {
-        paddingLeft: 4,
         fontSize: 11,
         fontWeight: 'bold',
+        alignSelf: "center",
     },
 
     report: {
@@ -107,5 +107,10 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         padding: 10,
         borderRadius: 10,
-    }
+    },
+
+    headerBox: {
+        flexDirection: "column",
+        alignItems: "center",
+    },
 })

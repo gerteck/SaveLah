@@ -339,15 +339,19 @@ const Home = ( { navigation } ) => {
         <Text style={[styles.welcome, {color: activeColors.text}]}>Welcome Back,</Text>
         <Text style={[styles.name, {color: activeColors.text}]}>{userProfile.username}</Text>
         <View style={styles.budgetOverview}>
-            <View> 
+            <View style={styles.headerBox}> 
                 {!weekSelected && <Text style={[styles.money, {color: activeColors.text}]}>{changeInSpending}%</Text>}
                 {weekSelected && <Text style={[styles.money, {color: activeColors.text}]}>{changeInSpendingWeek}%</Text>}
                 <Text style={[styles.caption, {color: activeColors.text}]}>Change in spending</Text>
             </View>
-            <View> 
+            <View style={styles.headerBox}> 
                 {!weekSelected && <Text style={[styles.money, {color: activeColors.text}]} >${parseFloat(expense.toFixed(2)).toLocaleString('en-US')}</Text>}
                 {weekSelected && <Text style={[styles.money, {color: activeColors.text}]} >${parseFloat(expenseWeek.toFixed(2)).toLocaleString('en-US')}</Text>}
-                <Text style={[styles.caption, {color: activeColors.text}]} >Amount Spent</Text>
+                <View>
+                    <Text style={[styles.caption, {color: activeColors.text}]} >Amount spent</Text>
+                    {!weekSelected && <Text style={[styles.caption, {color: activeColors.text}]} >this month</Text>}
+                    {weekSelected && <Text style={[styles.caption, {color: activeColors.text}]} >this week</Text>}
+                </View>
             </View>
         </View>
     </>);

@@ -11,9 +11,9 @@ import themeColors from "../../utils/themeColors";
 
 const TransactionList = ({transactions, navigation, screenName}) => {
 
-    const totalInflow = transactions.filter(doc => doc.inflow).reduce((total, currentDoc) => total + currentDoc.amount, 0);
-    const totalOutflow = transactions.filter((doc) => !doc.inflow).reduce((total, currentDoc) => total + currentDoc.amount, 0);
-    const totalNet = totalInflow - totalOutflow;
+    const totalInflow = parseFloat(transactions.filter(doc => doc.inflow).reduce((total, currentDoc) => total + currentDoc.amount, 0).toFixed(2));
+    const totalOutflow = parseFloat(transactions.filter((doc) => !doc.inflow).reduce((total, currentDoc) => total + currentDoc.amount, 0).toFixed(2));
+    const totalNet = parseFloat((totalInflow - totalOutflow).toFixed(2));
 
     const { theme } = useContext(ThemeContext); 
     let activeColors = themeColors[theme.mode]; 
@@ -110,7 +110,7 @@ const TransactionList = ({transactions, navigation, screenName}) => {
                                 </View>
                                 <View style={styles.transactionTextContainer}>
                                     <View style={styles.row1}>
-                                        <Text style={{color: activeColors.text}}>{doc.category}</Text>
+                                        <Text style={[styles.categoryText, {color: activeColors.text}]}>{doc.category}</Text>
                                         <Text style={doc.inflow ? {color: activeColors.blue} : {color: activeColors.red}}>${doc.amount}</Text>
                                     </View>
                                     <View style={styles.descriptionTextContainer}>

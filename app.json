@@ -4,7 +4,7 @@
     "slug": "SaveLah",
     "version": "3.2.0",
     "orientation": "portrait",
-    "icon": "./src/assets/appIcons/SaveLahIconSmall1.png",
+    "icon": "./src/assets/appIcons/SaveLahIcon.png",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./src/assets/appIcons/SaveLahSplash.png",
@@ -19,13 +19,13 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/appIcons/SaveLahJustIcon.png",
+        "foregroundImage": "./src/assets/appIcons/SaveLahIcon2.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.gerteck.SaveLah"
     },
     "web": {
-      "favicon": "./src/assets/appIcons/SaveLahIconSmall1.png"
+      "favicon": "./src/assets/appIcons/SaveLahIcon.png"
     },
     "extra": {
       "eas": {

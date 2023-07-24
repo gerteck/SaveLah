@@ -18,6 +18,7 @@ import { Icon } from '@rneui/themed';
 import { ThemeContext } from "../../../context/ThemeContext";
 import themeColors from "../../../utils/themeColors";
 import { ToastAndroid } from "react-native";
+import { StatusBar } from "react-native";
 
 const app = getApp;
 const db = getFirestore(app);
@@ -121,9 +122,11 @@ const RegisterProfile = ( { navigation } ) => {
 
     const { theme } = useContext(ThemeContext); 
     let activeColors = themeColors[theme.mode]; 
+    const barColor = theme.mode == 'light' ? 'dark-content' : 'light-content';
 
     return (
         <SafeAreaView style={styles.mainContainer}>
+            <StatusBar hidden={false} backgroundColor={activeColors.appBackground} barStyle={barColor}/>  
             <AppHeader style={[styles.appHeader, {backgroundColor: activeColors.containerBackground}]} title={"Register Profile"} />
             <ScrollView contentContainerStyle={styles.scrollContainer}> 
 

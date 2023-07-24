@@ -27,7 +27,7 @@ const TopSpendingTabs = ({transactions}) => {
 
     const renderTransactions = ({item}) => {
         return (<View style={styles.transactionContainer}>
-            <Image style={styles.icon} source={require('../../assets/DummyIcon.png')}/>
+            <Image style={styles.icon} source={require('../../assets/icons/DummyIcon.png')}/>
             <View> 
                 <Text style={styles.transactionCaption}>{item.category}</Text>
                 <Text style={styles.transactionCaption}>{item.value}</Text>

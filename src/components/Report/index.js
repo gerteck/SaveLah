@@ -159,7 +159,7 @@ const Report = ({ transactions, averagePoint, point, monthName, navigation }) =>
                         stroke: activeColors.pieChartStroke, strokeWidth: 1},
                         parent: {}}} 
                     x='category' y='value' innerRadius={50} radius={({ datum }) => 70 + (datum.category == pieSelect) * 10}
-                    labelRadius={({datum}) => 100 } padding={{ top: 0, bottom: 0 }}/>
+                    labelRadius={({datum}) => 100 + (datum.category == pieSelect) * 10} padding={{ top: 0, bottom: 0 }}/>
 
                 <View style={styles.scrollBox}>
                     <Pressable onPress={onLeft} style={styles.left}> 

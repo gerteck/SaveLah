@@ -263,6 +263,6 @@ export function getCategoryIcon(index, styles) {
         case 129:
             return (<Image source={require('../assets/DefaultIcons/129.png')} style={styles}/>)
         default: 
-            return (<Image source={require('../assets/icon/DummyIcon.png')} style={styles}/>)
+            return (<Image source={require('../assets/DefaultIcons/129.png')} style={styles}/>)
     }
 }

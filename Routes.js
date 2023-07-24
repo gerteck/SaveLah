@@ -48,6 +48,7 @@ import themeColors from './src/utils/themeColors';
 import { ThemeContext } from './src/context/ThemeContext';
 import { Icon } from '@rneui/themed';
 import LoadingScreen from './src/screens/app/LoadingScreen';
+import FadeInView from './src/components/FadeInView';
 
 const AuthStack = createStackNavigator();
 const HomeStack = createStackNavigator();
@@ -64,6 +65,26 @@ const HomeTabs = () => {
   )
 }
 
+const FadeHomeTabs = (props, { navigation }) => (
+  <FadeInView>
+    <HomeStack.Navigator {...props}>
+      <HomeStack.Screen name='HomeMain' component={Home} options={{ headerShown: false }} />
+    </HomeStack.Navigator>
+  </FadeInView>
+);
+
+const FadeTransactionHistory = (props, { navigation }) => (
+  <FadeInView>
+    <TransactionHistory {...props}/>
+  </FadeInView>
+);
+
+const FadeAddTransaction = (props, { navigation }) => (
+  <FadeInView>
+    <AddTransaction {...props}/>
+  </FadeInView>
+);
+
 //Forum Stack
 const Forum = () => {
   return (
@@ -74,6 +95,16 @@ const Forum = () => {
     </ForumStack.Navigator>
   )
 }
+
+const FadeForum = (props, { navigation }) => (
+  <FadeInView> 
+    <ForumStack.Navigator {...props}>
+      <ForumStack.Screen name="ForumHome" component={ForumHome} options={{ headerShown: false }} />
+      <ForumStack.Screen name="ForumAllChats" component={ForumAllChats} options={{ headerShown: false }} />
+      <ForumStack.Screen name="NewPost" component={NewPost} options={{ headerShown: false }} />
+    </ForumStack.Navigator>
+  </FadeInView>
+);
 
 // Profile Settings Stack
 const ProfileSettings = () => {
@@ -86,6 +117,17 @@ const ProfileSettings = () => {
     </ProfileStack.Navigator>
   )
 }
+
+const FadeProfileSettings = (props, { navigation }) => (
+  <FadeInView> 
+    <ProfileStack.Navigator {...props}>
+      <ProfileStack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
+      <ProfileStack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
+      <ProfileStack.Screen name="ProfileSearchUser" component={ProfileSearchUser} options={{ headerShown: false }} /> 
+      <ProfileStack.Screen name="ProfileFollowInfo" component={ProfileFollowInfo} options={{ headerShown: false }} />
+    </ProfileStack.Navigator>
+  </FadeInView>
+);
 
 // Bottom Tab Navigator
 const Tabs = () => {
@@ -147,16 +189,16 @@ const Tabs = () => {
 
   return (
     <Tab.Navigator screenOptions={TabScreenOptions} backBehavior={"history"} >
-      <Tab.Screen name="Home" component={HomeTabs} listeners={({ navigation }) => ({
+      <Tab.Screen name="Home" component={FadeHomeTabs} listeners={({ navigation }) => ({
         tabPress: (e) => {
           e.preventDefault();
           navigation.navigate('Home', {screen: 'HomeMain'});
         }
       })}/>
-      <Tab.Screen name="TransactionHistory" component={TransactionHistory}/>
-      <Tab.Screen name="AddTransaction" component={AddTransaction} />
-      <Tab.Screen name="Forum" component={Forum} />
-      <Tab.Screen name="ProfileSettings" component={ProfileSettings} />
+      <Tab.Screen name="TransactionHistory" component={FadeTransactionHistory}/>
+      <Tab.Screen name="AddTransaction" component={FadeAddTransaction} />
+      <Tab.Screen name="Forum" component={FadeForum} />
+      <Tab.Screen name="ProfileSettings" component={FadeProfileSettings} />
     </Tab.Navigator>
   )
 };

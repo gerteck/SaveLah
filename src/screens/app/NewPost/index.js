@@ -15,6 +15,7 @@ import { Icon } from '@rneui/themed';
 import { ThemeContext } from "../../../context/ThemeContext";
 import themeColors from "../../../utils/themeColors";
 import { ToastAndroid } from "react-native";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const app = getApp;
 const db = getFirestore(app);
@@ -32,6 +33,9 @@ const NewPost = ( { navigation } ) => {
     const onChange = (key, value) => {
         setPost(v => ({...v, [key]: value}))
     } 
+
+    // Loading spinner
+    const [loading, setLoading] = useState(false);
 
     //Drop Down Picker:
     const [open, setOpen] = useState(false);
@@ -79,6 +83,15 @@ const NewPost = ( { navigation } ) => {
                 return;
             } 
 
+            setLoading(true);
+            setTimeout(() => {
+                if (loading) {
+                    ToastAndroid.showWithGravity('Something went wrong', ToastAndroid.LONG, ToastAndroid.BOTTOM);
+                    setLoading(false);
+                    return;
+                }     
+            }, 1000);
+
             const postDoc = await addDocument({
                 uid: user.uid,
                 title: post.title,
@@ -98,7 +111,7 @@ const NewPost = ( { navigation } ) => {
             await setDoc(doc(db, 'posts', postDoc.id), {
                 id: postDoc.id,
                 url: url,
-            }, { merge: true });
+            }, { merge: true }).then(() => { setLoading(false) });
             
             console.log("Uploaded Post");
             
@@ -115,6 +128,11 @@ const NewPost = ( { navigation } ) => {
 
     return (
         <SafeAreaView style={styles.mainContainer}>
+
+            <Spinner visible={loading}
+                textContent={'Posting...'}
+                textStyle={{ color: activeColors.loadingText }} overlayColor={activeColors.loadingOverlay}/>
+
             <AppHeader style={[styles.appHeader, {backgroundColor: activeColors.containerBackground}]}
                 title={"Create Post"} showCross onBack={onBack}/>
             <ScrollView style={styles.container} nestedScrollEnabled={true}> 

@@ -62,7 +62,7 @@ const TransactionTabs = ({ docs, navigation }) => {
             <Tab.Screen name={names[0]} children={() => <TransactionList transactions={monthDocs[2]} navigation={navigation} screenName={names[0]}/>} />
             <Tab.Screen name="Last Month" children={() => <TransactionList transactions={monthDocs[1]} navigation={navigation} screenName={"Last Month"}/>} />
             <Tab.Screen name="This Month"  children={() => <TransactionList transactions={monthDocs[0]} navigation={navigation} screenName={"This Month"}/>} />
-            <Tab.Screen name="Future"  children={() => <TransactionList transactions={future} screenName={"This Month"}/>} />
+            <Tab.Screen name="Future"  children={() => <TransactionList transactions={future} navigation={navigation} screenName={"This Month"}/>} />
         </Tab.Navigator>
       );
 }

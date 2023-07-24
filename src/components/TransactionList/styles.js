@@ -151,7 +151,10 @@ export const styles = StyleSheet.create({
     icon: {
         height: 24,
         width: 24,
-    }
+    },
 
+    categoryText: {
+        fontWeight: '700',
+    }
 
 })

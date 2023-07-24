@@ -110,7 +110,7 @@ const TransactionList = ({transactions, navigation, screenName}) => {
                                 </View>
                                 <View style={styles.transactionTextContainer}>
                                     <View style={styles.row1}>
-                                        <Text style={{color: activeColors.text}}>{doc.category}</Text>
+                                        <Text style={[styles.categoryText, {color: activeColors.text}]}>{doc.category}</Text>
                                         <Text style={doc.inflow ? {color: activeColors.blue} : {color: activeColors.red}}>${doc.amount}</Text>
                                     </View>
                                     <View style={styles.descriptionTextContainer}>

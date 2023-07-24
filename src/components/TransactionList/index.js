@@ -11,9 +11,9 @@ import themeColors from "../../utils/themeColors";
 
 const TransactionList = ({transactions, navigation, screenName}) => {
 
-    const totalInflow = transactions.filter(doc => doc.inflow).reduce((total, currentDoc) => total + currentDoc.amount, 0);
-    const totalOutflow = transactions.filter((doc) => !doc.inflow).reduce((total, currentDoc) => total + currentDoc.amount, 0);
-    const totalNet = totalInflow - totalOutflow;
+    const totalInflow = parseFloat(transactions.filter(doc => doc.inflow).reduce((total, currentDoc) => total + currentDoc.amount, 0).toFixed(2));
+    const totalOutflow = parseFloat(transactions.filter((doc) => !doc.inflow).reduce((total, currentDoc) => total + currentDoc.amount, 0).toFixed(2));
+    const totalNet = parseFloat((totalInflow - totalOutflow).toFixed(2));
 
     const { theme } = useContext(ThemeContext); 
     let activeColors = themeColors[theme.mode]; 

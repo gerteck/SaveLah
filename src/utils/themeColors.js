@@ -34,6 +34,8 @@ const themeColors = {
         pieChartBackground: colors.grey,
         pieChartStroke: colors.white,
         spendingTransactionContainer: colors.lightGrey,
+        loadingText: colors.white,
+        loadingOverlay: colors.overlay,
 
     }, 
 
@@ -66,7 +68,8 @@ const themeColors = {
         pieChartBackground: colors.darkBackgroundGrey,
         pieChartStroke: colors.black,
         spendingTransactionContainer: colors.darkGrey,
-        
+        loadingText: colors.white,
+        loadingOverlay: colors.darkOverlay,
         
     }
 }

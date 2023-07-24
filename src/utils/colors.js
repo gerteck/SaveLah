@@ -24,4 +24,6 @@ export const colors = {
     darkWhite: "#E1D9D1",
 
     darkTextBlue: '#7fb2ff',
+    overlay: 'rgba(0, 0, 0, 0.25)',
+    darkOverlay: 'rgba(0, 0, 0, 0.5)',
 }

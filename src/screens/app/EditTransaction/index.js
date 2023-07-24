@@ -16,6 +16,7 @@ import { categoryGroups } from "../../../utils/categoryGroups";
 import { ThemeContext } from "../../../context/ThemeContext";
 import themeColors from "../../../utils/themeColors";
 import { ToastAndroid } from "react-native";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const app = getApp;
 const db = getFirestore(app);
@@ -44,6 +45,9 @@ const EditTransaction = ( { navigation, route } ) => {
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState([]);
 
+    // Loading Spinner
+    const [loading, setLoading] = useState(false);
+    const [deleting, setDeleting] = useState(false);
 
     //FireStore Linking:
     const { user } = useAuthContext();
@@ -83,13 +87,22 @@ const EditTransaction = ( { navigation, route } ) => {
                 return;
             }
 
+            setLoading(true);
+            setTimeout(() => {
+                if (loading) {
+                    ToastAndroid.showWithGravity('Something went wrong', ToastAndroid.LONG, ToastAndroid.BOTTOM);
+                    setLoading(false);
+                    return;
+                }     
+            }, 1000);
+
             await updateDoc(transactionRef, {
                 amount: parseFloat(parseFloat(transactionDetails.amount).toFixed(2)), // to limit to 2 decimal places
                 date: date,
                 description: transactionDetails.description,
                 category: transactionDetails.category,
                 index: transactionDetails.index,
-            }); 
+            }).then(() => { setLoading(false) }); 
 
             console.log("Edited Transaction");
             navigation.goBack();
@@ -115,7 +128,16 @@ const EditTransaction = ( { navigation, route } ) => {
 
     const onConfirmDelete = async () => {
         try {
-            await deleteDoc(transactionRef);
+            setDeleting(true);
+            setTimeout(() => {
+                if (deleting) {
+                    ToastAndroid.showWithGravity('Something went wrong', ToastAndroid.LONG, ToastAndroid.BOTTOM);
+                    setDeleting(false);
+                    return;
+                }     
+            }, 1000);
+
+            await deleteDoc(transactionRef).then(() => { setDeleting(false) });
             console.log('Transaction deleted');
             navigation.goBack();
         } catch (error) {
@@ -143,58 +165,66 @@ const EditTransaction = ( { navigation, route } ) => {
     return (
         <SafeAreaView style={styles.mainContainer}>
             <ScrollView showsVerticalScrollIndicator={false}>
-            <AppHeader style={[styles.appHeader, {backgroundColor: activeColors.containerBackground}]} 
-                title={"Edit Transaction"} showCross onBack={onBack} showSave onSave={onSave} showDelete onDelete={onDelete}/>
-            <TouchableOpacity onPress={Keyboard.dismiss} activeOpacity={1} style={styles.container}>
-            
-                <Text style={[styles.label, {color: activeColors.blue}]}>Price</Text>
-                <TextInput placeholder="$0.00" 
-                    style={[styles.input, {color: activeColors.text,
-                        backgroundColor: activeColors.inputBackground, 
-                        borderColor: activeColors.inputBorder}]} 
-                    placeholderTextColor={activeColors.secondaryText}
-                    keyboardType='numeric' value={transactionDetails.amount.toString()} 
-                    onChangeText={(v) => onChange('amount', v)} />
 
-                <Text style={[styles.label, {color: activeColors.blue}]}>Category</Text>
+                <Spinner visible={loading}
+                    textContent={'Saving changes...'}
+                    textStyle={{ color: activeColors.loadingText }} overlayColor={activeColors.loadingOverlay} />
+                <Spinner visible={deleting}
+                    textContent={'Deleting...'}
+                    textStyle={{ color: activeColors.loadingText }} overlayColor={activeColors.loadingOverlay} />
+                    
+                <AppHeader style={[styles.appHeader, {backgroundColor: activeColors.containerBackground}]} 
+                    title={"Edit Transaction"} showCross onBack={onBack} showSave onSave={onSave} showDelete onDelete={onDelete}/>
+                <TouchableOpacity onPress={Keyboard.dismiss} activeOpacity={1} style={styles.container}>
                 
-                <DropDownPicker open={open} value={transactionDetails.category} items={items} listMode="MODAL" 
-                    modalProps={{ animationType: 'slide'}} searchable={true}
-                    modalContentContainerStyle={[styles.modalContainer, {backgroundColor: activeColors.containerBackground}]}
-                    style={[styles.pickerContainer, {backgroundColor: activeColors.containerBackground}]}
-                    theme={themeMode}
-                    placeholder="Select a Category"
-                    setOpen={setOpen} onSelectItem={(v) => {
-                        if (v.value == 'Add') {
-                            navigation.navigate('AddCategory')
-                        }
+                    <Text style={[styles.label, {color: activeColors.blue}]}>Price</Text>
+                    <TextInput placeholder="$0.00" 
+                        style={[styles.input, {color: activeColors.text,
+                            backgroundColor: activeColors.inputBackground, 
+                            borderColor: activeColors.inputBorder}]} 
+                        placeholderTextColor={activeColors.secondaryText}
+                        keyboardType='numeric' value={transactionDetails.amount.toString()} 
+                        onChangeText={(v) => onChange('amount', v)} />
 
-                        else {
-                            onChange('category', v.value)
-                            onChange('index', v.index)
-                        }     
-                    }} setItems={setItems} zIndex={1000}
-                />
+                    <Text style={[styles.label, {color: activeColors.blue}]}>Category</Text>
+                    
+                    <DropDownPicker open={open} value={transactionDetails.category} items={items} listMode="MODAL" 
+                        modalProps={{ animationType: 'slide'}} searchable={true}
+                        modalContentContainerStyle={[styles.modalContainer, {backgroundColor: activeColors.containerBackground}]}
+                        style={[styles.pickerContainer, {backgroundColor: activeColors.containerBackground}]}
+                        theme={themeMode}
+                        placeholder="Select a Category"
+                        setOpen={setOpen} onSelectItem={(v) => {
+                            if (v.value == 'Add') {
+                                navigation.navigate('AddCategory')
+                            }
 
-                <Text style={[styles.label, {color: activeColors.blue}]}>Transaction Description</Text>
-                <TextInput placeholder="Meal at YIH..." 
-                    style={[styles.input, {color: activeColors.text,
-                        backgroundColor: activeColors.inputBackground, 
-                        borderColor: activeColors.inputBorder,},
-                        {minHeight: 70, textAlignVertical: 'top'}
-                    ]}
-                    placeholderTextColor={activeColors.secondaryText}
-                    multiline
-                    value={transactionDetails.description} 
-                    onChangeText={(v) => onChange('description', v)} />
+                            else {
+                                onChange('category', v.value)
+                                onChange('index', v.index)
+                            }     
+                        }} setItems={setItems} zIndex={1000}
+                    />
 
-                <View>
-                    <Button style={styles.DatePickerButton} onPress={showDatepicker} title={`Date: ${date.toLocaleDateString()}`} />
-                </View>
+                    <Text style={[styles.label, {color: activeColors.blue}]}>Transaction Description</Text>
+                    <TextInput placeholder="Meal at YIH..." 
+                        style={[styles.input, {color: activeColors.text,
+                            backgroundColor: activeColors.inputBackground, 
+                            borderColor: activeColors.inputBorder,},
+                            {minHeight: 70, textAlignVertical: 'top'}
+                        ]}
+                        placeholderTextColor={activeColors.secondaryText}
+                        multiline
+                        value={transactionDetails.description} 
+                        onChangeText={(v) => onChange('description', v)} />
 
-                <Button style={styles.SaveTransactionButton} onPress={onSave} title="Save changes"  />
+                    <View>
+                        <Button style={styles.DatePickerButton} onPress={showDatepicker} title={`Date: ${date.toLocaleDateString()}`} />
+                    </View>
 
-            </TouchableOpacity>
+                    <Button style={styles.SaveTransactionButton} onPress={onSave} title="Save changes"  />
+
+                </TouchableOpacity>
             </ScrollView>
         </SafeAreaView>
     )

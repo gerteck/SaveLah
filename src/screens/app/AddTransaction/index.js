@@ -25,7 +25,7 @@ import { ThemeContext } from "../../../context/ThemeContext";
 import themeColors from "../../../utils/themeColors";
 import { ToastAndroid } from "react-native";
 import { receiptScanner } from "../../../utils/receiptScanner";
-
+import Spinner from "react-native-loading-spinner-overlay";
 
 const AddTransaction = ( {navigation} ) => {
     const app = getApp;
@@ -44,6 +44,9 @@ const AddTransaction = ( {navigation} ) => {
     const goBack = () => {
         navigation.goBack();
     }
+
+    // For loading spinner
+    const [loading, setLoading] = useState(false);
 
     const onChangeValue = (key, value) => {
         setValues(v => ({...v, [key]: value}))
@@ -97,9 +100,19 @@ const AddTransaction = ( {navigation} ) => {
             }
 
             let transactionDoc;
+            setLoading(true);
+            setTimeout(() => {
+                if (loading) {
+                    ToastAndroid.showWithGravity('Something went wrong', ToastAndroid.LONG, ToastAndroid.BOTTOM);
+                    setLoading(false);
+                    return;
+                }     
+            }, 1000);
             
             // To fix problem with adding transaction with no description
             if (!values.description) {
+
+
                 transactionDoc = await addDocument({
                     uid: user.uid,
                     amount: parseFloat(parseFloat(values.amount).toFixed(2)), // to limit to 2 decimal places
@@ -112,7 +125,7 @@ const AddTransaction = ( {navigation} ) => {
 
                 await setDoc(transactionDoc, {
                     id: transactionDoc.id,
-                }, { merge: true });
+                }, { merge: true }).then(() => {setLoading(false)});
             } else {
                 transactionDoc = await addDocument({
                     uid: user.uid,
@@ -126,7 +139,7 @@ const AddTransaction = ( {navigation} ) => {
 
                 await setDoc(transactionDoc, {
                     id: transactionDoc.id,
-                }, { merge: true });
+                }, { merge: true }).then(() => {setLoading(false)});
             }
 
             // console.log(response);
@@ -196,71 +209,76 @@ const AddTransaction = ( {navigation} ) => {
     return (
         <SafeAreaView style={styles.mainContainer}>
             <ScrollView showsVerticalScrollIndicator={false}>
-            <TouchableOpacity onPress={Keyboard.dismiss} activeOpacity={1}>
-                <AppHeader title="Add Transaction" showCross onBack={goBack} />
-            
-                <Text style={[styles.label, {color: activeColors.blue}]}>Price / Amount</Text>
-                <TextInput placeholder="$0.00" 
-                    style={[styles.input, {color: activeColors.text,
-                        backgroundColor: activeColors.inputBackground, 
-                        borderColor: activeColors.inputBorder}]} 
-                    placeholderTextColor={activeColors.secondaryText}
-                    keyboardType='numeric' value={values.amount} 
-                    onChangeText={(v) => onChangeValue('amount', v)} />
-
-                <Text style={[styles.label, {color: activeColors.blue}]}>Category</Text>
                 
-                <DropDownPicker open={open} value={values.category} items={items} listMode="MODAL" modalProps={{ animationType: 'slide'}} searchable={true}
-                    modalContentContainerStyle={[styles.modalContainer, {backgroundColor: activeColors.containerBackground}]}
-                    style={[styles.pickerContainer, {backgroundColor: activeColors.containerBackground}]}
-                    theme={themeMode}
-                    placeholder="Select a Category"
-                    setOpen={setOpen} onSelectItem={(v) => {
-                        if (v.value == 'Add') {
-                            navigation.navigate('AddCategory')
-                        }
+                <Spinner visible={loading}
+                    textContent={'Adding...'}
+                    textStyle={{ color: activeColors.loadingText }} overlayColor={activeColors.loadingOverlay} />
 
-                        else {
-                            onChangeValue('category', v.value)
-                            onChangeValue('index', v.index)
-                            onChangeValue('inflow', v.parent == 'Income')
-                        }     
-                    }} setItems={setItems} zIndex={1000}
-                    categorySelectable={false}
-                />
-
-                <Text style={[styles.label, {color: activeColors.blue}]}>Transaction Description</Text>
-                <TextInput placeholder="Meal at Food Court... (Optional)" 
-                    style={[styles.input, {color: activeColors.text,
-                        backgroundColor: activeColors.inputBackground, 
-                        borderColor: activeColors.inputBorder,},
-                        {minHeight: 70, textAlignVertical: 'top'}
-                    ]}
-                    placeholderTextColor={activeColors.secondaryText}
-                    multiline
-                    value={values.description} 
-                    onChangeText={(v) => onChangeValue('description', v)} />
-
-                <View>
-                    <Button style={styles.DatePickerButton} onPress={showDatepicker} title={`Date: ${date.toLocaleDateString()}`} />
-                </View>
+                <TouchableOpacity onPress={Keyboard.dismiss} activeOpacity={1}>
+                    <AppHeader title="Add Transaction" showCross onBack={goBack} />
                 
-                <Text style={[styles.scanLabel, {color: activeColors.blue}]}>Receipt Scanner:</Text>
-                <View style={styles.receiptRow}>
-                    <TouchableOpacity activeOpacity={0.6} onPress={() => detectText(true)} style={styles.receiptButton}>
-                        {/* Will need to make the camera launch work */}
-                        <Text style={styles.receiptButtonText}>Take Picture</Text>
-                        <Icon name='camera' size={22} type='font-awesome' color={activeColors.white}/> 
-                    </TouchableOpacity>
-                    <TouchableOpacity activeOpacity={0.6} onPress={() => detectText(false)} style={styles.receiptButton}>
-                        <Text style={styles.receiptButtonText}>Upload Receipt</Text>
-                        <Icon name='file-upload' size={22} type='font-awesome-5' color={activeColors.white}/> 
-                    </TouchableOpacity>
-                </View>
-                { OCRLoading && <ActivityIndicator style={styles.indicator} size="large"/> }
+                    <Text style={[styles.label, {color: activeColors.blue}]}>Price / Amount</Text>
+                    <TextInput placeholder="$0.00" 
+                        style={[styles.input, {color: activeColors.text,
+                            backgroundColor: activeColors.inputBackground, 
+                            borderColor: activeColors.inputBorder}]} 
+                        placeholderTextColor={activeColors.secondaryText}
+                        keyboardType='numeric' value={values.amount} 
+                        onChangeText={(v) => onChangeValue('amount', v)} />
 
-                <Button style={styles.AddTransactionButton} onPress={onSend} title="Add transaction"  />
-            </TouchableOpacity>
+                    <Text style={[styles.label, {color: activeColors.blue}]}>Category</Text>
+                    
+                    <DropDownPicker open={open} value={values.category} items={items} listMode="MODAL" modalProps={{ animationType: 'slide'}} searchable={true}
+                        modalContentContainerStyle={[styles.modalContainer, {backgroundColor: activeColors.containerBackground}]}
+                        style={[styles.pickerContainer, {backgroundColor: activeColors.containerBackground}]}
+                        theme={themeMode}
+                        placeholder="Select a Category"
+                        setOpen={setOpen} onSelectItem={(v) => {
+                            if (v.value == 'Add') {
+                                navigation.navigate('AddCategory')
+                            }
+
+                            else {
+                                onChangeValue('category', v.value)
+                                onChangeValue('index', v.index)
+                                onChangeValue('inflow', v.parent == 'Income')
+                            }     
+                        }} setItems={setItems} zIndex={1000}
+                        categorySelectable={false}
+                    />
+
+                    <Text style={[styles.label, {color: activeColors.blue}]}>Transaction Description</Text>
+                    <TextInput placeholder="Meal at Food Court... (Optional)" 
+                        style={[styles.input, {color: activeColors.text,
+                            backgroundColor: activeColors.inputBackground, 
+                            borderColor: activeColors.inputBorder,},
+                            {minHeight: 70, textAlignVertical: 'top'}
+                        ]}
+                        placeholderTextColor={activeColors.secondaryText}
+                        multiline
+                        value={values.description} 
+                        onChangeText={(v) => onChangeValue('description', v)} />
+
+                    <View>
+                        <Button style={styles.DatePickerButton} onPress={showDatepicker} title={`Date: ${date.toLocaleDateString()}`} />
+                    </View>
+                    
+                    <Text style={[styles.scanLabel, {color: activeColors.blue}]}>Receipt Scanner:</Text>
+                    <View style={styles.receiptRow}>
+                        <TouchableOpacity activeOpacity={0.6} onPress={() => detectText(true)} style={styles.receiptButton}>
+                            {/* Will need to make the camera launch work */}
+                            <Text style={styles.receiptButtonText}>Take Picture</Text>
+                            <Icon name='camera' size={22} type='font-awesome' color={activeColors.white}/> 
+                        </TouchableOpacity>
+                        <TouchableOpacity activeOpacity={0.6} onPress={() => detectText(false)} style={styles.receiptButton}>
+                            <Text style={styles.receiptButtonText}>Upload Receipt</Text>
+                            <Icon name='file-upload' size={22} type='font-awesome-5' color={activeColors.white}/> 
+                        </TouchableOpacity>
+                    </View>
+                    { OCRLoading && <ActivityIndicator style={styles.indicator} size="large"/> }
+
+                    <Button style={styles.AddTransactionButton} onPress={onSend} title="Add transaction"  />
+                </TouchableOpacity>
             </ScrollView>
         </SafeAreaView> );
 

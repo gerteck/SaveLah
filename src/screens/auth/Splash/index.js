@@ -27,7 +27,7 @@ const Splash = ({ navigation }) => {
         : require('../../../assets/authPages/splash_image.png');
 
     return (
-        <View style={[styles.container, { backgroundColor: activeColors.background }] }>
+        <View testID='View' style={[styles.container, { backgroundColor: activeColors.background }] }>
             <StatusBar hidden={true} backgroundColor={colors.white} barStyle={"dark-content"}/> 
             <Image resizeMode='contain' style={styles.image} source={splash} />
 
@@ -37,9 +37,9 @@ const Splash = ({ navigation }) => {
                 <Text style={[styles.title, { color: activeColors.text }]}>Here.</Text>
             </View>
 
-            <Button onPress={onSignup} title="Sign Up" />
+            <Button testID={"SignupButton"} onPress={onSignup} title="Sign Up" />
 
-            <Pressable style={styles.footerContainer} hitSlop={2} onPress={onSignin}> 
+            <Pressable testID='SigninButton' style={styles.footerContainer} hitSlop={2} onPress={onSignin}> 
                 <Text style={[styles.footerText, { color: activeColors.footer }]}>Sign In</Text>
             </Pressable>
         </View>

@@ -20,7 +20,6 @@ import { getCategoryIcon } from "../../../utils/getCategoryIcon";
 
 import themeColors from "../../../utils/themeColors";
 import { ThemeContext } from "../../../context/ThemeContext";
-import { act } from "react-test-renderer";
 
 const Home = ( { navigation } ) => {
     

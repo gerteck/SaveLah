@@ -5,20 +5,10 @@ import { fireEvent, render } from '@testing-library/react-native';
 import { ThemeContext } from '../../src/context/ThemeContext';
 import themeColors from '../../src/utils/themeColors';
 
-function renderPageWithContext(navigation) {
-
-    const theme = {mode: "light"};
-    return render(
-        <ThemeContext.Provider value={{ theme }}>
-            <Splash navigation={navigation}/>
-        </ThemeContext.Provider>
-    );
-}
-
 describe("Splash Screen", () => {
     it('should reflect device light theme correctly', () => {
         const lightTheme = {mode: "light"};
-        activeColors = themeColors[lightTheme.mode];
+        let activeColors = themeColors[lightTheme.mode];
         const page = render(
             <ThemeContext.Provider value={{ theme: lightTheme }}>
                 <Splash/>
@@ -31,7 +21,7 @@ describe("Splash Screen", () => {
 
     it('should reflect device dark theme correctly', () => {
         const darkTheme = {mode: "dark"};
-        activeColors = themeColors[darkTheme.mode];
+        let activeColors = themeColors[darkTheme.mode];
         const page = render(
             <ThemeContext.Provider value={{ theme: darkTheme }}>
                 <Splash/>
@@ -48,7 +38,12 @@ describe("Splash Screen", () => {
         const navigation = {navigate: () => {}}
         jest.spyOn(navigation, 'navigate');
         
-        const page = renderPageWithContext(navigation);
+        const theme = {mode: "light"};
+        const page = render(
+            <ThemeContext.Provider value={{ theme }}>
+                <Splash navigation={navigation}/>
+            </ThemeContext.Provider>
+        );
         const signupButton = page.getByTestId('SignupButton');
 
         fireEvent.press(signupButton);
@@ -60,7 +55,12 @@ describe("Splash Screen", () => {
         const navigation = {navigate: () => {}}
         jest.spyOn(navigation, 'navigate');
         
-        const page = renderPageWithContext(navigation);
+        const theme = {mode: "light"};
+        const page = render(
+            <ThemeContext.Provider value={{ theme }}>
+                <Splash navigation={navigation}/>
+            </ThemeContext.Provider>
+        );
         const SigninButton = page.getByTestId('SigninButton');
 
         fireEvent.press(SigninButton);

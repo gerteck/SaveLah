@@ -1,7 +1,11 @@
-# SaveLah
-Orbital 22/23
-by jr & gt
+# SaveLah Application
+by Jer Rong and Ger Teck.
+[Jer Rong](https://github.com/CJerrong)
+[Ger Teck](https://github.com/gerteck)
+Built using React Native.
 
-Savelah! A Personal Finance Manager that connects like-minded individuals. 
+Savelah! is a Personal Finance Manager that connects like-minded individuals. 
 
-SaveLah! will be a budgeting app that makes the expense tracking process easy and fun while returning relevant insights about users’ spending habits. At the same time, SaveLah! creates a new network where users can embark on their savings journey with friends and other users by sharing money saving tips and the latest money deals you find around NUS.
+SaveLah! simplifies the expense tracking process and makes it easy and fun, all while returning relevant insights about users’ spending habits. At the same time, SaveLah! cultivates a community of like-minded, financially conscious users. Embark on your savings journey with friends and other users, share personal finance tips, money saving deals, and encourage each other to start saving better today.
+
+Just Save Lah!

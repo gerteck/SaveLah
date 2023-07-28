@@ -2,6 +2,7 @@
   "expo": {
     "name": "SaveLah",
     "slug": "SaveLah",
+    "plugins": ["@react-native-google-signin/google-signin"],
     "version": "3.2.0",
     "orientation": "portrait",
     "icon": "./src/assets/appIcons/SaveLahIcon.png",
@@ -22,6 +23,7 @@
         "foregroundImage": "./src/assets/appIcons/SaveLahIcon2.png",
         "backgroundColor": "#ffffff"
       },
+      "googleServicesFile": "./google-services.json",
       "package": "com.gerteck.SaveLah"
     },
     "web": {

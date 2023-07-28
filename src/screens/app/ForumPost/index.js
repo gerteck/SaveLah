@@ -356,7 +356,8 @@ const ForumPost = ( {navigation, route} ) => {
                 
                 <View style={styles.addCommentRow}>
                     <TouchableOpacity activeOpacity={0.6} onPress={() => setAddingComment(b => !b)} style={styles.addComment}>
-                            <Text style={styles.addCommentText}>Add Comment</Text>
+                            {!addingComment && <Text style={styles.addCommentText}>Add Comment</Text>}
+                            {addingComment && <Text style={styles.addCommentText}>Close Comment</Text>}
                     </TouchableOpacity> 
 
                     <View style={styles.dropDownPickerContainer}>

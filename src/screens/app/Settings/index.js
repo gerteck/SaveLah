@@ -198,7 +198,7 @@ const Settings = ( { navigation } ) => {
 
     const onContactUs = () => {
         // or link to orbital page idk
-        Linking.openURL('https://github.com/gerteck');
+        Linking.openURL('mailto:changerteck@gmail.com?subject=ContactSaveLah');
     };
 
     const onPrivacy = () => {

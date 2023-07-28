@@ -67,6 +67,10 @@ const Signup = ({ navigation }) => {
         Linking.openURL('https://www.youtube.com/watch?v=dQw4w9WgXcQ'); 
     }
 
+    const onPrivacy = () => {
+        Linking.openURL('https://github.com/gerteck/SaveLah/blob/main/documentation/PrivacyAndTerms.md'); 
+    }
+
     const { theme } = useContext(ThemeContext);
     let activeColors = themeColors[theme.mode];
     const barColor = theme.mode == 'light' ? 'dark-content' : 'light-content';
@@ -98,16 +102,16 @@ const Signup = ({ navigation }) => {
                 <Checkbox checked={checked} onCheck={setChecked} />
                 <Text style={[styles.agreeText, { color: activeColors.footer }]}>
                     I agree with 
-                    <Text style={styles.agreeTextBold} onPress={RickRoll}> Terms </Text> 
+                    <Text style={styles.agreeTextBold} onPress={onPrivacy}> Terms </Text> 
                     & 
-                    <Text style={styles.agreeTextBold} onPress={RickRoll}> Privacy </Text>
+                    <Text style={styles.agreeTextBold} onPress={onPrivacy}> Privacy </Text>
                 </Text>
             </View>
 
             {!isPending && <Button onPress={onSubmit} style={styles.button} title="Sign Up"  />}
             {isPending && <Button style={styles.button} disabled={true} title="loading" />}
 
-            <Separator title="Aesthetic Purposes" textStyle={{ color: activeColors.footer }}/>
+            <Separator title="OR" textStyle={{ color: activeColors.footer }}/>
 
             <Text style={[styles.footerText, { color: activeColors.footer }]}>
                 Already have an account?

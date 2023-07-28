@@ -192,13 +192,19 @@ const Settings = ( { navigation } ) => {
 
     const onFAQ = () => {
         // will link to poster or github readme.
-        Linking.openURL('https://google.com');
+        Linking.openURL('https://github.com/gerteck/SaveLah/blob/main/documentation/FAQ.md');
         //getServices();
     };
 
     const onContactUs = () => {
         // or link to orbital page idk
         Linking.openURL('https://github.com/gerteck');
+    };
+
+    const onPrivacy = () => {
+        // will link to poster or github readme.
+        Linking.openURL('https://github.com/gerteck/SaveLah/blob/main/documentation/PrivacyAndTerms.md');
+        //getServices();
     };
 
     const RickRoll = () => {
@@ -282,7 +288,7 @@ const Settings = ( { navigation } ) => {
                 <Text style={[styles.sectionTitle, {color: activeColors.text}]}>Help Center</Text>
                 <ListItem onPress={onFAQ} style={styles.item} title="FAQ"/>
                 <ListItem onPress={onContactUs} style={styles.item} title="Contact us"/>
-                <ListItem onPress={RickRoll} style={styles.item} title="Privacy & Terms"/>
+                <ListItem onPress={onPrivacy} style={styles.item} title="Privacy & Terms"/>
 
                 {!isPending && <Button onPress={onLogout} style={styles.logoutButton} title="Log out"  />}
                 {isPending && <Button onPress={onLogout} style={styles.logoutButton} disabled={true} title="loading"  />}

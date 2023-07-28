@@ -80,7 +80,7 @@ const Signin = ({ navigation }) => {
             {!isPending && <Button onPress={onLogin} style={styles.button} title="Sign In"  />}
             {isPending && <Button style={styles.button} disabled={true} title="loading" />}
 
-            <Separator style={styles.separator} title="For Aesthetics" textStyle={{ color: activeColors.footer }}/>
+            <Separator style={styles.separator} title="OR" textStyle={{ color: activeColors.footer }}/>
 
             <Text style={[styles.footerText, { color: activeColors.footer }]}>
                 Don't have an account?

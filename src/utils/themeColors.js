@@ -36,6 +36,7 @@ const themeColors = {
         spendingTransactionContainer: colors.lightGrey,
         loadingText: colors.white,
         loadingOverlay: colors.overlay,
+        googleBackground: colors.blue,
 
     }, 
 
@@ -70,6 +71,7 @@ const themeColors = {
         spendingTransactionContainer: colors.darkGrey,
         loadingText: colors.white,
         loadingOverlay: colors.darkOverlay,
+        googleBackground: colors.blue,
         
     }
 }

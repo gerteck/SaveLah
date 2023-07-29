@@ -31,7 +31,19 @@ export const styles = StyleSheet.create({
     },
 
     gButton: {
-        marginTop: 4,
+        width: 32,
+        height: 32,
+        alignSelf: "center",
+    },
+    
+    gButtonContainer: {
+        width: 100,
+        height: 50,
+        marginTop: 0,
         marginBottom: 20,
+        alignSelf: "center",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 8,
     },
 })

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, Alert, ToastAndroid, StatusBar } from 'react-native';
+import { View, Text, Alert, ToastAndroid, StatusBar, TouchableOpacity, Image } from 'react-native';
 import AuthHeader from '../../../components/AuthHeader';
 import Button from '../../../components/Button';
 import Input from '../../../components/Input';
@@ -12,6 +12,7 @@ import { useLogin } from '../../../hooks/useLogin';
 import { ThemeContext } from '../../../context/ThemeContext';
 import themeColors from '../../../utils/themeColors';
 import { useGoogleSignIn } from '../../../hooks/useGoogleSignIn';
+import { Icon } from '@rneui/themed';
 
 const Signin = ({ navigation }) => {
     // const {user, setUser} = useContext(UserContext);
@@ -94,10 +95,14 @@ const Signin = ({ navigation }) => {
             {!isPending && <Button onPress={onLogin} style={styles.button} title="Sign In"  />}
             {isPending && <Button style={styles.button} disabled={true} title="loading" />}
 
-            <Separator style={styles.separator} title="For Aesthetics" textStyle={{ color: activeColors.footer }}/>
+            <Separator style={styles.separator} title="Or sign in with" textStyle={{ color: activeColors.footer }}/>
 
-            {!isPendingG && <Button onPress={onGoogle} style={styles.gButton} title="Sign in with google"  />}
-            {isPendingG && <Button style={styles.gButton} disabled={true} title="loading" />}
+            {!isPendingG && 
+                <TouchableOpacity onPress={onGoogle} style={[{ backgroundColor: activeColors.googleBackground }, styles.gButtonContainer]}>
+                        <Icon name='google' type='font-awesome' size={28} color={activeColors.white}/>
+                </TouchableOpacity>}
+            {isPendingG && <Button style={styles.gButtonContainer} disabled={true} title="loading..." />}
+
 
             <Text style={[styles.footerText, { color: activeColors.footer }]}>
                 Don't have an account?

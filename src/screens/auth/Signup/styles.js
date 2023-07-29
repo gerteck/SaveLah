@@ -42,17 +42,15 @@ export const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     
-    gButton: {
-        width: 32,
-        height: 32,
-        alignSelf: "center",
-    },
-
     gButtonContainer: {
-        width: 40,
-        height: 40,
+        width: 100,
+        height: 50,
         marginTop: 4,
         marginBottom: 12,
         alignSelf: "center",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 8,
     },
+
 })

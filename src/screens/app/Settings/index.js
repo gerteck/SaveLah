@@ -23,6 +23,7 @@ import { useUploadProfileImage } from "../../../hooks/useUploadImage";
 import { Icon } from '@rneui/themed';
 import { ThemeContext } from "../../../context/ThemeContext";
 import themeColors from "../../../utils/themeColors";
+import { useAuthContext } from "../../../hooks/useAuthContext";
 const app = getApp;
 const db = getFirestore(app);
 
@@ -31,10 +32,12 @@ const db = getFirestore(app);
 // Settings refers to private information, aka email (And password maybe)
 
 const Settings = ( { navigation } ) => {
-    const auth = getAuth();
-    const user = auth.currentUser;
+    // const auth = getAuth();
+    // const user = auth.currentUser;
     // getting user through auth seems to update better.
     // const { user, authIsReady } = useAuthContext();
+
+    const { user } = useAuthContext();
 
     const { logout, error, isPending } = useLogout();
     

@@ -10,15 +10,18 @@ import Separator from '../../../components/Separator';
 import { useSignup } from '../../../hooks/useSignup';
 import { colors } from "../../../utils/colors";
 import { styles } from './styles';
-import { Linking } from 'react-native';
+import { Linking, Image } from 'react-native';
 import themeColors from '../../../utils/themeColors';
 import { ThemeContext } from '../../../context/ThemeContext';
+import { useGoogleSignIn } from '../../../hooks/useGoogleSignIn';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Signup = ({ navigation }) => {
     const [checked, setChecked] = useState(false);
     const [values, setValues] = useState({});
 
     const { signup, isPending, error} = useSignup();
+    const { googleSignIn, isPendingG, errorG } = useGoogleSignIn();
 
     const onSignIn = () => {
         navigation.navigate("Signin");
@@ -62,6 +65,21 @@ const Signup = ({ navigation }) => {
             ToastAndroid.showWithGravity(error, ToastAndroid.LONG, ToastAndroid.BOTTOM);
         }
     },[error])
+
+    // Google sign in
+    const onGoogle = async () => {
+        try {
+            googleSignIn();
+        } catch(error) {
+            console.log('Google sign in :>> ', error);
+        }
+    } 
+
+    useEffect(() => {
+        if (errorG) {
+            ToastAndroid.showWithGravity(error, ToastAndroid.LONG, ToastAndroid.BOTTOM);
+        }
+    },[errorG])
 
     const RickRoll = () => {
         Linking.openURL('https://www.youtube.com/watch?v=dQw4w9WgXcQ'); 
@@ -108,6 +126,13 @@ const Signup = ({ navigation }) => {
             {isPending && <Button style={styles.button} disabled={true} title="loading" />}
 
             <Separator title="Aesthetic Purposes" textStyle={{ color: activeColors.footer }}/>
+
+            {!isPendingG && <TouchableOpacity onPress={onGoogle}>
+                <View style={[{backgroundColor: activeColors.inputBackground}, styles.gButtonContainer]}>
+                    <Image source={require('../../../assets/googleIcon/GoogleLogo.png')} style={styles.gButton}/>
+                </View>
+            </TouchableOpacity>}
+            {isPendingG && <Button style={styles.gButton} disabled={true} title="loading" />}
 
             <Text style={[styles.footerText, { color: activeColors.footer }]}>
                 Already have an account?

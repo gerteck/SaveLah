@@ -11,6 +11,7 @@ import { styles } from './styles';
 import { useLogin } from '../../../hooks/useLogin';
 import { ThemeContext } from '../../../context/ThemeContext';
 import themeColors from '../../../utils/themeColors';
+import { useGoogleSignIn } from '../../../hooks/useGoogleSignIn';
 
 const Signin = ({ navigation }) => {
     // const {user, setUser} = useContext(UserContext);
@@ -18,7 +19,7 @@ const Signin = ({ navigation }) => {
 
     //const [loading, setLoading] = useState(false); used in past
     const { login, error, isPending } = useLogin();
-
+    const { googleSignIn, isPendingG, errorG } = useGoogleSignIn();
 
     const onSignUp = () => {
         navigation.navigate("Signup");
@@ -48,13 +49,26 @@ const Signin = ({ navigation }) => {
         }
     }
 
-
-
     useEffect(() => {
         if (error) {
             ToastAndroid.showWithGravity(error, ToastAndroid.LONG, ToastAndroid.BOTTOM);
         }
     },[error])
+
+    // Google sign in
+    const onGoogle = async () => {
+        try {
+            googleSignIn();
+        } catch(error) {
+            console.log('Google sign in :>> ', error);
+        }
+    } 
+
+    useEffect(() => {
+        if (errorG) {
+            ToastAndroid.showWithGravity(error, ToastAndroid.LONG, ToastAndroid.BOTTOM);
+        }
+    },[errorG])
 
     const { theme } = useContext(ThemeContext);
     let activeColors = themeColors[theme.mode];
@@ -81,6 +95,9 @@ const Signin = ({ navigation }) => {
             {isPending && <Button style={styles.button} disabled={true} title="loading" />}
 
             <Separator style={styles.separator} title="For Aesthetics" textStyle={{ color: activeColors.footer }}/>
+
+            {!isPendingG && <Button onPress={onGoogle} style={styles.gButton} title="Sign in with google"  />}
+            {isPendingG && <Button style={styles.gButton} disabled={true} title="loading" />}
 
             <Text style={[styles.footerText, { color: activeColors.footer }]}>
                 Don't have an account?

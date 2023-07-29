@@ -29,4 +29,9 @@ export const styles = StyleSheet.create({
     footerLink: {
         fontWeight: 'bold',
     },
+
+    gButton: {
+        marginTop: 4,
+        marginBottom: 20,
+    },
 })

@@ -1,8 +1,10 @@
 {
   "expo": {
     "name": "SaveLah",
-    "slug": "SaveLah",
-    "plugins": ["@react-native-google-signin/google-signin"],
+    "slug": "savelah",
+    "plugins": [
+      "@react-native-google-signin/google-signin"
+    ],
     "version": "3.2.0",
     "orientation": "portrait",
     "icon": "./src/assets/appIcons/SaveLahIcon.png",
@@ -31,8 +33,9 @@
     },
     "extra": {
       "eas": {
-        "projectId": "04db7c41-12a4-4bea-8e77-af1c141db706"
+        "projectId": "172b5e63-7a74-42e2-b46e-94ba934bbb7a"
       }
-    }
+    },
+    "owner": "orbital-savelah"
   }
 }

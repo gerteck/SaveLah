@@ -31,4 +31,5 @@ Watch our promotional video: link
 <br />
 Read our documentation in detail: link 
 <br />
-![Milestone 3 Poster](https://drive.google.com/file/d/104GlOipCD5fOzsMzVZ_Q46QeIyolYcMV/view?usp=drive_link)
+
+![SaveLah Milestone 3 A1 Poster](https://github.com/gerteck/SaveLah/assets/111064611/e093673f-cd94-4084-9f07-d234a6939906)

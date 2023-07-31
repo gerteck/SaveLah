@@ -21,7 +21,7 @@ Just Save Lah! :moneybag: :moneybag: :moneybag:
 
 ## Try the App!
 1. Download our APK file from the link and install the app on an Android emulator or physical Android phone.
-[APK File](https://drive.google.com/file/d/1f5oXBhrBJBclMu0oGJ95iLS1-LIp0Oy8/view?usp=drive_link)
+[APK File](https://drive.google.com/file/d/1co2FlNIO5MZAfDZOg4oOiIzifGTHbbiP/view?usp=sharing)
 2. Register for an account with your Google account, or your own email.
 3. Register your profile upon sign in.
 4. Start exploring SaveLah! 

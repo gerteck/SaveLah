@@ -31,7 +31,8 @@ export const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     button: {
-        marginVertical: 20,
+        marginTop: 15,
+        marginBottom: 20,
     },
     footerText: {
         color: colors.blue,

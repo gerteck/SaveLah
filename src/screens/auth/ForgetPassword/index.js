@@ -32,7 +32,7 @@ const ForgetPassword = ({ navigation }) => {
         setIsPending(true);
         return sendPasswordResetEmail(projectAuth, email)
             .then((a) => {
-                alert("Password reset email sent");
+                ToastAndroid.showWithGravity("Password reset email sent", ToastAndroid.LONG, ToastAndroid.BOTTOM);
                 setSentEmail(true);
                 setIsPending(false);
             })

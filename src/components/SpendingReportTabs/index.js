@@ -84,7 +84,7 @@ const SpendingReportTabs = ({ documents, navigation }) => {
 
     return (
         <>
-            <Tab.Navigator initialRouteName={"This Month"} screenOptions={tabScreenOptions} backBehavior="history">
+            <Tab.Navigator initialRouteName={"This Month"} screenOptions={tabScreenOptions} backBehavior="initial route">
                 <Tab.Screen name={names[2]} children={() => <Report transactions={monthDocs[4]} averagePoint={average} point={monthSpendingToThisPoint[4]} monthName={monthNames[4]}
                                                                 navigation={navigation} />} />
 

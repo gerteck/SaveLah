@@ -34,6 +34,15 @@ const AppHeader = ({  style,
             return <BadgedNotification type="ionicon" name="notifications" style={styles.notificationIcon} color={activeColors.iconColor}/>
         }
     }
+
+    const maxLength = 23;
+    const cutTitle = (title) => {
+        if (title.length <= maxLength) {
+            return title;
+        } else {
+            return title.slice(0,20) + "...";
+        }
+    }
     
     return (
         <View style={[styles.mainContainer, style]}>
@@ -51,7 +60,7 @@ const AppHeader = ({  style,
             </View> 
             
             {/*Title:*/}
-            <Text style={[styles.title, {color: activeColors.text} ]}>{title}</Text>   
+            <Text style={[styles.title, {color: activeColors.text} ]}>{cutTitle(title)}</Text>   
             
             {/*Right Icons go Here*/}
             <View style={styles.rightIcons}> 

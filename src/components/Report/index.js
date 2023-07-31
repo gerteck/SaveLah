@@ -154,12 +154,12 @@ const Report = ({ transactions, averagePoint, point, monthName, navigation }) =>
                 </View>
 
                 <VictoryPie data={categories} width={windowWidth - 30} theme={VictoryTheme.grayscale} height={240}
-                    style={{ labels: { fill: activeColors.text, fontSize: ({datum}) => datum.category == pieSelect ? 12 : 10}, 
+                    style={{ labels: { fill: activeColors.text, fontSize: ({datum}) => datum.category == pieSelect ? 12 : 0}, 
                         data: { fill: ({ datum }) => datum.category == pieSelect ? activeColors.blue : activeColors.pieChartBackground, 
                         stroke: activeColors.pieChartStroke, strokeWidth: 1},
                         parent: {}}} 
                     x='category' y='value' innerRadius={50} radius={({ datum }) => 70 + (datum.category == pieSelect) * 10}
-                    labelRadius={({datum}) => 100 + (datum.category == pieSelect) * 10} padding={{ top: 0, bottom: 0 }}/>
+                    labelRadius={({datum}) => 90 + (datum.category == pieSelect) * 10} padding={{ top: 0, bottom: 0 }}/>
 
                 <View style={styles.scrollBox}>
                     <Pressable onPress={onLeft} style={styles.left}> 

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1064804271474",
+    "project_id": "savelah-storage",
+    "storage_bucket": "savelah-storage.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1064804271474:android:1bb6889acf43d72efa89eb",
+        "android_client_info": {
+          "package_name": "com.gerteck.SaveLah"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1064804271474-ah04p0tra4vbheo7f97o1tj5c64468p5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gerteck.SaveLah",
+            "certificate_hash": "7b543256946721478876f35dd4fd85c1ddb0e35f"
+          }
+        },
+        {
+          "client_id": "1064804271474-us9srho6ogvds6fpk3ehqrtec3gpt9av.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gerteck.SaveLah",
+            "certificate_hash": "a109bcf854469691dbdb3dac6dfc5404b80a1e04"
+          }
+        },
+        {
+          "client_id": "1064804271474-e321mmkgvf9ali5rur8dv21cghmmvcho.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBX266FyYfWERzXqhtblNPMmtMfkqCsYXg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1064804271474-e321mmkgvf9ali5rur8dv21cghmmvcho.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -10,15 +10,19 @@ import Separator from '../../../components/Separator';
 import { useSignup } from '../../../hooks/useSignup';
 import { colors } from "../../../utils/colors";
 import { styles } from './styles';
-import { Linking } from 'react-native';
+import { Linking, Image } from 'react-native';
 import themeColors from '../../../utils/themeColors';
 import { ThemeContext } from '../../../context/ThemeContext';
+import { useGoogleSignIn } from '../../../hooks/useGoogleSignIn';
+import { TouchableOpacity } from 'react-native';
+import { Icon } from '@rneui/themed';
 
 const Signup = ({ navigation }) => {
     const [checked, setChecked] = useState(false);
     const [values, setValues] = useState({});
 
     const { signup, isPending, error} = useSignup();
+    const { googleSignIn, isPendingG, errorG } = useGoogleSignIn();
 
     const onSignIn = () => {
         navigation.navigate("Signin");
@@ -62,6 +66,21 @@ const Signup = ({ navigation }) => {
             ToastAndroid.showWithGravity(error, ToastAndroid.LONG, ToastAndroid.BOTTOM);
         }
     },[error])
+
+    // Google sign in
+    const onGoogle = async () => {
+        try {
+            googleSignIn();
+        } catch(error) {
+            console.log('Google sign in :>> ', error);
+        }
+    } 
+
+    useEffect(() => {
+        if (errorG) {
+            ToastAndroid.showWithGravity(errorG, ToastAndroid.LONG, ToastAndroid.BOTTOM);
+        }
+    },[errorG])
 
     const RickRoll = () => {
         Linking.openURL('https://www.youtube.com/watch?v=dQw4w9WgXcQ'); 
@@ -109,9 +128,15 @@ const Signup = ({ navigation }) => {
             </View>
 
             {!isPending && <Button onPress={onSubmit} style={styles.button} title="Sign Up"  />}
-            {isPending && <Button style={styles.button} disabled={true} title="loading" />}
+            {isPending && <Button style={styles.button} disabled={true} title="loading..." />}
 
-            <Separator title="OR" textStyle={{ color: activeColors.footer }}/>
+            <Separator title="Or sign up with" textStyle={{ color: activeColors.footer }}/>
+
+            {!isPendingG && 
+                <TouchableOpacity onPress={onGoogle} style={[{ backgroundColor: activeColors.googleBackground }, styles.gButtonContainer]}>
+                        <Icon name='google' type='font-awesome' size={28} color={activeColors.white}/>
+                </TouchableOpacity>}
+            {isPendingG && <Button style={styles.gButtonContainer} disabled={true} title="loading..." />}
 
             <Text style={[styles.footerText, { color: activeColors.footer }]}>
                 Already have an account?

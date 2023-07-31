@@ -49,6 +49,7 @@ import { ThemeContext } from './src/context/ThemeContext';
 import { Icon } from '@rneui/themed';
 import LoadingScreen from './src/screens/app/LoadingScreen';
 import FadeInView from './src/components/FadeInView';
+import ForgetPassword from './src/screens/auth/ForgetPassword';
 
 const AuthStack = createStackNavigator();
 const HomeStack = createStackNavigator();
@@ -297,6 +298,7 @@ const Routes = () => {
                         <AuthStack.Screen name="Splash" component={Splash} options={{ headerShown: false }} />
                         <AuthStack.Screen name="Signin" component={Signin} options={{ headerShown: false }} />
                         <AuthStack.Screen name="Signup" component={Signup} options={{ headerShown: false }} />
+                        <AuthStack.Screen name="ForgetPassword" component={ForgetPassword} options={{ headerShown: false }} />
                     </>
                 )}
             </AuthStack.Navigator>

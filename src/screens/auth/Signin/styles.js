@@ -22,11 +22,28 @@ export const styles = StyleSheet.create({
 
     footerText: {
         color: colors.blue,
-        marginBottom: 56,
+        marginBottom: 24,
         textAlign: 'center'
     },
 
     footerLink: {
         fontWeight: 'bold',
+    },
+
+    gButton: {
+        width: 32,
+        height: 32,
+        alignSelf: "center",
+    },
+    
+    gButtonContainer: {
+        width: 100,
+        height: 50,
+        marginTop: 0,
+        marginBottom: 20,
+        alignSelf: "center",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 8,
     },
 })

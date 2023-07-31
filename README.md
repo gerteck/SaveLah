@@ -20,7 +20,7 @@ Just Save Lah! :moneybag: :moneybag: :moneybag:
 - Personalise your profile with your username, bio and top posts! :thought_balloon:
 
 ## Try the App!
-1. Download our APK file from the link below (To be added) and install the app on an Android emulator or physical Android phone.
+1. Download our APK file from the link and install the app on an Android emulator or physical Android phone.
 [APK File](https://drive.google.com/file/d/1f5oXBhrBJBclMu0oGJ95iLS1-LIp0Oy8/view?usp=drive_link)
 2. Register for an account with your Google account, or your own email.
 3. Register your profile upon sign in.

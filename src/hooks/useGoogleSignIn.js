@@ -63,10 +63,10 @@ export const useGoogleSignIn = () => {
                     //Initialize Profile Document
                     setDoc(
                         doc(db, "users", user.uid),
-                        { registered: false, uid: user.uid },
+                        { registered: false, uid: user.uid, googleAccount: true },
                         { merge: true }
                     );
-                    setUserProfile({ registered: false, uid: user.uid });
+                    setUserProfile({ registered: false, uid: user.uid, googleAccount: true });
 
                     // dispatch login action
                     dispatch({ type: "LOGIN", payload: user });

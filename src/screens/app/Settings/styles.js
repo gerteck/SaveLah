@@ -74,6 +74,14 @@ export const styles = StyleSheet.create({
         marginTop: 4,
     },
 
+    infoBox: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingVertical: 16,
+        marginBottom: 16,
+        marginTop: 4,
+    },
+
     logoutButton: {
         paddingVertical: 16,
         marginBottom: 24,

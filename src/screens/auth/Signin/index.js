@@ -26,6 +26,10 @@ const Signin = ({ navigation }) => {
         navigation.navigate("Signup");
     }
 
+    const onForget = () => {
+        navigation.navigate("ForgetPassword");
+    }
+
     function onBack() {
         navigation.goBack();
     }
@@ -103,6 +107,10 @@ const Signin = ({ navigation }) => {
                 </TouchableOpacity>}
             {isPendingG && <Button style={styles.gButtonContainer} disabled={true} title="loading..." />}
 
+            {/* <Text style={[styles.footerText, { color: activeColors.footer }]}>
+                Forgotten Password?
+                <Text onPress={onForget} style={styles.footerLink}> Reset Password</Text>
+            </Text> */}
 
             <Text style={[styles.footerText, { color: activeColors.footer }]}>
                 Don't have an account?

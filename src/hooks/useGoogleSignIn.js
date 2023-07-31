@@ -37,6 +37,7 @@ export const useGoogleSignIn = () => {
             await GoogleSignin.hasPlayServices({
                 showPlayServicesUpdateDialog: true,
             });
+
             // Get the users ID token
             const { idToken } = await GoogleSignin.signIn();
 
@@ -64,10 +65,10 @@ export const useGoogleSignIn = () => {
                         //Initialize Profile Document
                         setDoc(
                             doc(db, "users", user.uid),
-                            { registered: false, uid: user.uid },
+                            { registered: false, uid: user.uid, googleAccount: true },
                             { merge: true }
                         );
-                        setUserProfile({ registered: false, uid: user.uid });
+                        setUserProfile({ registered: false, uid: user.uid, googleAccount: true });
 
                         // dispatch login action
                         dispatch({ type: "LOGIN", payload: user });
@@ -75,14 +76,15 @@ export const useGoogleSignIn = () => {
                 }).catch((err) => {
                     console.log(err.message);
                     console.log(err.code);
+                    console.log(err.code);
 
                     if (!isCancelled) {
                         setErrorG(err.code);
                         setIsPendingG(false);
                     }
                 });
+                console.log("Signup Complete");
 
-            console.log("Signup Complete");
         } catch(err) {
             if (err.code === statusCodes.SIGN_IN_CANCELLED) {
                 // user cancelled the login flow

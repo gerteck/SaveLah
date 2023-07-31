@@ -50,6 +50,8 @@ const Settings = ( { navigation } ) => {
     const [tempSettings, setTempSettings] = useState({});
     //console.log(userProfile);
 
+    const isGoogleAccount = userProfile?.googleAccount;
+
     //Image Picker:
     const [imageURI, setImageURI] = useState(null);
     const pickImage = async () => {
@@ -248,14 +250,18 @@ const Settings = ( { navigation } ) => {
                 </View>
                 <EditableBox label="Email" value={tempSettings.email} onChangeText={(v) => onChangeTempSettings('email', v)} editable={editingEmail} style={styles.EditableBox} />
                 
-                {editingEmail ? 
+                {!isGoogleAccount && editingEmail ? 
                 ( <Input value={tempSettings.password} onChangeText={(v) => onChangeTempSettings('password', v)} 
                     labelStyle={{ color: activeColors.inputLabel }} 
                     inputContainerStyle={{ backgroundColor: activeColors.inputBackground, borderColor: activeColors.inputBorder }} 
                     inputStyle={{ color: activeColors.text }}
                     placeholderColor={activeColors.text}
                     label="Current Password" placeholder="*******" isPassword/> ) : null }
-                {editingEmail ? ( <Button style={styles.button} onPress={onSaveEmail} title="Update Email"/> ) : null }
+                {!isGoogleAccount && editingEmail ? ( <Button style={styles.button} onPress={onSaveEmail} title="Update Email"/> ) : null }
+                {isGoogleAccount && editingEmail &&
+                    <View style={[styles.infoBox, {backgroundColor: activeColors.editableBoxBackground}]}>
+                        <Text style={{color: activeColors.text}}> Google Account Email is fixed. </Text>
+                    </View> }
 
                 {/* Private Information: Password */}
                 <View style={[styles.sectionHeader, {paddingBottom: 12}]}> 
@@ -264,22 +270,26 @@ const Settings = ( { navigation } ) => {
                         <Icon name='edit' style={styles.icon} type='font-awesome' color={activeColors.iconColor}/> 
                     </TouchableOpacity>
                 </View>
-                {editingPassword ?   
+                {!isGoogleAccount && editingPassword ?   
                     (<Input value={tempSettings.newPassword} onChangeText={(v) => onChangeTempSettings('newPassword', v)} 
                     labelStyle={{ color: activeColors.inputLabel }} 
                     inputContainerStyle={{ backgroundColor: activeColors.inputBackground, borderColor: activeColors.inputBorder }} 
                     inputStyle={{ color: activeColors.text }}
                     placeholderColor={activeColors.text}
                     label="New Password" placeholder="*******" isPassword/>) : null }
-                {editingPassword ? 
+                {!isGoogleAccount && editingPassword ? 
                     ( <Input value={tempSettings.password} onChangeText={(v) => onChangeTempSettings('password', v)} 
                     labelStyle={{ color: activeColors.inputLabel }} 
                     inputContainerStyle={{ backgroundColor: activeColors.inputBackground, borderColor: activeColors.inputBorder }} 
                     inputStyle={{ color: activeColors.text }}
                     placeholderColor={activeColors.text}
                     label="Current Password" placeholder="*******" isPassword/> ) : null }
-                {editingPassword ? ( <Button style={styles.button} onPress={onSavePassword} title="Update Password"/> ) : null }
-                
+                {!isGoogleAccount && editingPassword ? ( <Button style={styles.button} onPress={onSavePassword} title="Update Password"/> ) : null }
+                {isGoogleAccount && editingPassword &&
+                    <View style={[styles.infoBox, {backgroundColor: activeColors.editableBoxBackground}]}>
+                        <Text style={{color: activeColors.text}}> Update password through your Google Account. </Text>
+                    </View> }
+
 
                 {/* Help Centre */}
                 <Text style={[styles.sectionTitle, {color: activeColors.text}]}>Help Center</Text>

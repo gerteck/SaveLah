@@ -16,7 +16,7 @@ Just Save Lah! :moneybag: :moneybag: :moneybag:
 - View your transaction history categorised by month, presented in an aesthetically pleasing style. :bookmark_tabs:
 - Analyse insights on your spending weekly and monthly. :bar_chart:
 - Access the in-app Forum to view and contribute community posts related to budgeting, saving and personal finance. :loudspeaker:
-- Follow and chat with other students. :speech_balloon:
+- Follow and chat with other users. :speech_balloon:
 - Personalise your profile with your username, bio and top posts! :thought_balloon:
 
 ## Try the App!
@@ -27,9 +27,10 @@ Just Save Lah! :moneybag: :moneybag: :moneybag:
 4. Start exploring SaveLah! 
 
 ## Other Information (to be updated)
-Watch our promotional video: https://drive.google.com/file/d/1sad867k072C7WaCMGeb60Enm0mEsbtcc/view?usp=drive_link 
+Watch our promotional video: https://drive.google.com/file/d/1uv97pInD0-f-RQ-OtyPfKFRAzURajQdL/view?usp=sharing 
 <br />
 Read our documentation in detail: https://docs.google.com/document/d/1M6acplAft1aOv2tQc5pRiU9MjVpKyBP2lJKfbwE3XwQ/edit
 <br />
 
-![SaveLah Milestone 3 A1 Poster](https://github.com/gerteck/SaveLah/assets/111064611/e093673f-cd94-4084-9f07-d234a6939906)
+![SaveLah A1 size poster](https://github.com/gerteck/SaveLah/assets/111064611/fb2cc2be-0c87-4e20-91d5-e6c9acceb50d)
+

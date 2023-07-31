@@ -78,7 +78,7 @@ const Signup = ({ navigation }) => {
 
     useEffect(() => {
         if (errorG) {
-            ToastAndroid.showWithGravity(error, ToastAndroid.LONG, ToastAndroid.BOTTOM);
+            ToastAndroid.showWithGravity(errorG, ToastAndroid.LONG, ToastAndroid.BOTTOM);
         }
     },[errorG])
 

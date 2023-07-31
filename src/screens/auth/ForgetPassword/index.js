@@ -3,54 +3,56 @@ import { Alert, Text, ToastAndroid, View, StatusBar } from 'react-native';
 
 import AuthHeader from '../../../components/AuthHeader';
 import Button from '../../../components/Button';
-import Checkbox from '../../../components/Checkbox';
 import Input from '../../../components/Input';
-import Separator from '../../../components/Separator';
 
 import { useSignup } from '../../../hooks/useSignup';
 import { colors } from "../../../utils/colors";
 import { styles } from './styles';
-import { Linking, Image } from 'react-native';
 import themeColors from '../../../utils/themeColors';
 import { ThemeContext } from '../../../context/ThemeContext';
-import { useGoogleSignIn } from '../../../hooks/useGoogleSignIn';
 import { TouchableOpacity } from 'react-native';
 import { Icon } from '@rneui/themed';
 
-const ForgetPassword = ({ navigation }) => {
-    const [checked, setChecked] = useState(false);
-    const [values, setValues] = useState({});
-    const [email, setEmail] = useState("");
+import { sendPasswordResetEmail } from '@firebase/auth';
+import { projectAuth } from '../../../firebase/firebase';
 
-    const { signup, isPending, error} = useSignup();
+const ForgetPassword = ({ navigation }) => {
+
+    
+    const [email, setEmail] = useState("");
+    const [error, setError] = useState("");
+    const [isPending, setIsPending] = useState(false);
+    const [sentEmail, setSentEmail] = useState(false);
 
     const onBack = () => {
         navigation.goBack();
+    }
+
+    const sendPasswordReset = async () => {
+        setIsPending(true);
+        return sendPasswordResetEmail(projectAuth, email)
+            .then((a) => {
+                alert("Password reset email sent");
+                setSentEmail(true);
+                setIsPending(false);
+            })
+            .catch((err) => {
+                setError(err.code);
+                setIsPending(false);
+            })
     }
 
     // Adds to the object
 
     const onSubmit = async () => {
         try {
-            if (!values?.confirmPassword || !values?.email || !values?.password ) {
-                ToastAndroid.showWithGravity('All fields are required', ToastAndroid.LONG, ToastAndroid.BOTTOM);
+            if (!email ) {
+                ToastAndroid.showWithGravity('Fill in your Email!', ToastAndroid.LONG, ToastAndroid.BOTTOM);
                 return;
             }
-
-            if (!checked) {
-                ToastAndroid.showWithGravity('Please read and agree to the Terms & Privacy', ToastAndroid.LONG, ToastAndroid.BOTTOM);
-                return;
-            }
-
-            if (values.password != values.confirmPassword) {
-                ToastAndroid.showWithGravity('Passwords do not match', ToastAndroid.LONG, ToastAndroid.BOTTOM);
-                return;
-            }
-
-            signup(values.email, values.password);
-            
+            sendPasswordReset();
         } catch(error) {
-            console.log('Signup error :>> ', error);
+            console.log('Reset Password error :>> ', error);
         }
     } 
 
@@ -77,12 +79,13 @@ const ForgetPassword = ({ navigation }) => {
                 placeholderColor={activeColors.inputPlaceholder} keyboardType={'email-address'}/>
 
 
-            {!isPending && <Button onPress={onSubmit} style={styles.button} title="Sign Up"  />}
+            {!isPending && <Button onPress={onSubmit} style={styles.button} title="Reset Password"  />}
             {isPending && <Button style={styles.button} disabled={true} title="loading..." />}
 
-            <Separator title="Or sign up with" textStyle={{ color: activeColors.footer }}/>
-
+            { sentEmail && <Text style={[ styles.infoText, {color: activeColors.text}]}>Email to reset your password has been sent, follow 
+                the link in your email to reset your password. Check your spam folder if email does not appear in inbox.</Text>}
             {/* {error && <Text>{error}</Text>} */}
+
         </View>
     )
 }

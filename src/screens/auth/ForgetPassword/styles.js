@@ -19,19 +19,9 @@ export const styles = StyleSheet.create({
         paddingVertical: 20,
     },
 
-    agreeRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    agreeText: {
-        color: colors.blue,
-        marginHorizontal: 13,
-    },
-    agreeTextBold: {
-        fontWeight: 'bold',
-    },
     button: {
-        marginVertical: 20,
+        marginTop: 0,
+        marginBottom: 20,
     },
     footerText: {
         color: colors.blue,
@@ -42,15 +32,10 @@ export const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     
-    gButtonContainer: {
-        width: 100,
-        height: 50,
-        marginTop: 4,
-        marginBottom: 12,
-        alignSelf: "center",
-        justifyContent: "center",
-        alignItems: "center",
-        borderRadius: 8,
+    infoText: {
+        paddingHorizontal: 16,
     },
+
+
 
 })

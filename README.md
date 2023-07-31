@@ -29,7 +29,7 @@ Just Save Lah! :moneybag: :moneybag: :moneybag:
 ## Other Information (to be updated)
 Watch our promotional video: https://drive.google.com/file/d/1sad867k072C7WaCMGeb60Enm0mEsbtcc/view?usp=drive_link 
 <br />
-Read our documentation in detail: https://docs.google.com/document/d/1YXT8gUdZ7Pj9Dv2UeB7lrD8B4a0nueUIQi3Ho5YFlKo/edit#heading=h.acskfjr15um7
+Read our documentation in detail: https://docs.google.com/document/d/1M6acplAft1aOv2tQc5pRiU9MjVpKyBP2lJKfbwE3XwQ/edit
 <br />
 
 ![SaveLah Milestone 3 A1 Poster](https://github.com/gerteck/SaveLah/assets/111064611/e093673f-cd94-4084-9f07-d234a6939906)

@@ -21,15 +21,15 @@ Just Save Lah! :moneybag: :moneybag: :moneybag:
 
 ## Try the App!
 1. Download our APK file from the link below (To be added) and install the app on an Android emulator or physical Android phone.
-link
+[APK File](https://drive.google.com/file/d/1CgoEmGOv4p2iXyz5bgpiJEb9dR-ybCBt/view?usp=drive_link)
 2. Register for an account with your Google account, or your own email.
 3. Register your profile upon sign in.
 4. Start exploring SaveLah! 
 
-## Other Information
-Watch our promotional video: link
+## Other Information (to be updated)
+Watch our promotional video: https://drive.google.com/file/d/1sad867k072C7WaCMGeb60Enm0mEsbtcc/view?usp=drive_link 
 <br />
-Read our documentation in detail: link 
+Read our documentation in detail: https://docs.google.com/document/d/1YXT8gUdZ7Pj9Dv2UeB7lrD8B4a0nueUIQi3Ho5YFlKo/edit#heading=h.acskfjr15um7
 <br />
 
 ![SaveLah Milestone 3 A1 Poster](https://github.com/gerteck/SaveLah/assets/111064611/e093673f-cd94-4084-9f07-d234a6939906)

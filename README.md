@@ -26,11 +26,19 @@ Just Save Lah! :moneybag: :moneybag: :moneybag:
 3. Register your profile upon sign in.
 4. Start exploring SaveLah! 
 
-## Other Information (to be updated)
+## Other Information 
 Watch our promotional video: https://drive.google.com/file/d/1uv97pInD0-f-RQ-OtyPfKFRAzURajQdL/view?usp=sharing 
 <br />
 Read our documentation in detail: https://docs.google.com/document/d/1M6acplAft1aOv2tQc5pRiU9MjVpKyBP2lJKfbwE3XwQ/edit
 <br />
 
+## Video Excerpts
+![e1](https://github.com/gerteck/SaveLah/assets/111064611/6f1a3e88-b748-42e9-8399-17480e676e9d)
+![e2](https://github.com/gerteck/SaveLah/assets/111064611/5f9a1772-4207-4ce0-9cb1-5aa04f16b3d2)
+![e3](https://github.com/gerteck/SaveLah/assets/111064611/9f4c55e5-fa71-48f4-9f76-6423a41fe2b6)
+![e4](https://github.com/gerteck/SaveLah/assets/111064611/0053cb5b-31d3-4b7a-ada1-0163cfd3b0fb)
+
+
+## Our Project Poster
 ![SaveLah A1 size poster](https://github.com/gerteck/SaveLah/assets/111064611/fb2cc2be-0c87-4e20-91d5-e6c9acceb50d)
 
